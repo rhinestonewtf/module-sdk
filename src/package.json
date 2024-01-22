@@ -1,0 +1,29 @@
+{
+  "name": "modulekit-sdk",
+  "description": "tbd",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "typescript": ">=5.0.4"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "dependencies": {},
+  "license": "MIT",
+  "homepage": "https://docs.rhinestone.wtf",
+  "repository": "rhinestonewtf/modulekit-sdk",
+  "authors": [
+    "kopy-kat"
+  ],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "wallet",
+    "web3",
+    "account abstraction",
+    "modulekit"
+  ]
+}
