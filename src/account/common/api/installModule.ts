@@ -1,93 +1,87 @@
-import { Account } from "../Account";
-import { Address, Hex, PublicClient, encodeFunctionData } from "viem";
-import AccountInterface from "@/src/constants/abis/Account.json";
-import { ExecuteAction } from "../../UserOperation/UserOperation";
-import ExtensibleFallbackHandler from "@/src/constants/abis/ExtensibleFallbackHandler.json";
+import { Account, Action } from '../Account'
+import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
+import AccountInterface from '../constants/abis/ERC7579Interface.json'
 import {
   isExecutorInstalled,
   isFallbackInstalled,
   isHookInstalled,
   isValidatorInstalled,
-} from "./isModuleInstalled";
-import { Module } from "../../../module/common/Module";
+} from './isModuleInstalled'
+import { Module } from '../../../module/common/Module'
 
 export const installModule = (
   client: PublicClient,
   account: Account,
-  module: Module
+  module: Module,
 ) => {
   switch (module.type) {
-    case "validator":
-      return installValidator(client, account, module.address, module.initData);
-    case "executor":
-      return installExecutor(client, account, module.address, module.initData);
-    case "fallback":
+    case 'validator':
+      return installValidator(client, account, module.address, module.initData)
+    case 'executor':
+      return installExecutor(client, account, module.address, module.initData)
+    case 'fallback':
       return installFallback(
         client,
         account,
         module.initData,
-        module.isStatic,
-        module.address
-      );
-    case "hook":
-      return installHook(client, account, module.address, module.initData);
+        false,
+        module.address,
+      )
+    case 'hook':
+      return installHook(client, account, module.address, module.initData)
     default:
-      throw new Error(`Unknown module type ${module.type}`);
+      throw new Error(`Unknown module type ${module.type}`)
   }
-};
+}
 
 async function installValidator(
   client: PublicClient,
   account: Account,
   validator: Address,
-  initData: Hex
-): Promise<ExecuteAction[]> {
-  const actions: ExecuteAction[] = [];
+  initData: Hex,
+): Promise<Action[]> {
+  const actions: Action[] = []
   const isModuleInstalled = await isValidatorInstalled(
     client,
     account,
-    validator
-  );
+    validator,
+  )
 
   if (!isModuleInstalled) {
     actions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
-        functionName: "installValidator",
+        functionName: 'installValidator',
         abi: AccountInterface.abi,
         args: [validator, initData],
       }),
-    });
+    })
   }
-  return actions;
+  return actions
 }
 
 async function installExecutor(
   client: PublicClient,
   account: Account,
   executor: Address,
-  initData: Hex
-): Promise<ExecuteAction[]> {
-  const actions: ExecuteAction[] = [];
-  const isModuleInstalled = await isExecutorInstalled(
-    client,
-    account,
-    executor
-  );
+  initData: Hex,
+): Promise<Action[]> {
+  const actions: Action[] = []
+  const isModuleInstalled = await isExecutorInstalled(client, account, executor)
 
   if (!isModuleInstalled) {
     actions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
-        functionName: "installExecutor",
+        functionName: 'installExecutor',
         abi: AccountInterface.abi,
         args: [executor, initData],
       }),
-    });
+    })
   }
-  return actions;
+  return actions
 }
 
 async function installFallback(
@@ -95,9 +89,9 @@ async function installFallback(
   account: Account,
   functionSelector: Hex,
   isStatic: boolean,
-  subHandler: Address
-): Promise<ExecuteAction[]> {
-  const actions: ExecuteAction[] = [];
+  subHandler: Address,
+): Promise<Action[]> {
+  const actions: Action[] = []
   // TODO: this only checks if the queried handler is installed, but the account will also revert if any other handler is installed
 
   // TODO
@@ -138,29 +132,29 @@ async function installFallback(
   //     ],
   //   }),
   // });
-  return actions;
+  return actions
 }
 
 async function installHook(
   client: PublicClient,
   account: Account,
   hook: Address,
-  initData: Hex
-): Promise<ExecuteAction[]> {
-  const actions: ExecuteAction[] = [];
+  initData: Hex,
+): Promise<Action[]> {
+  const actions: Action[] = []
   // TODO: this only checks if the queried hook is installed, but the account will also revert if any other hook is installed
-  const isModuleInstalled = await isHookInstalled(client, account, hook);
+  const isModuleInstalled = await isHookInstalled(client, account, hook)
 
   if (!isModuleInstalled) {
     actions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
-        functionName: "installHook",
+        functionName: 'installHook',
         abi: AccountInterface.abi,
         args: [hook, initData],
       }),
-    });
+    })
   }
-  return actions;
+  return actions
 }

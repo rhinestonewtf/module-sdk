@@ -1,11 +1,11 @@
-import { PublicClient } from "viem";
-import { Account } from "../Account";
-import { Module } from "../../../module/common/Module";
+import { PublicClient } from 'viem'
+import { Account } from '../Account'
+import { Module } from '../../../module/common/Module'
 
 export const uninstallModule = (
   client: PublicClient,
   account: Account,
-  module: Module
+  module: Module,
 ) => {
   // TODO
   //   switch (module.type) {
@@ -26,4 +26,4 @@ export const uninstallModule = (
   //     default:
   //       throw new Error(`Unknown module type ${module.type}`);
   //   }
-};
+}

@@ -4,6 +4,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.5",
     "jest": "^29.7.0",
