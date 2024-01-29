@@ -8,11 +8,15 @@ function getInitializationDataFromInitcode(initCode: Address): any {
   throw new Error('Function not implemented.')
 }
 
-export const isModuleInstalled = (
-  client: PublicClient,
-  account: Account,
-  module: Module,
-) => {
+export const isModuleInstalled = ({
+  client,
+  account,
+  module,
+}: {
+  client: PublicClient
+  account: Account
+  module: Module
+}): Promise<boolean> => {
   switch (module.type) {
     case 'validator':
       return isValidatorInstalled(client, account, module.address)

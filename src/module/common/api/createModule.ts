@@ -1,14 +1,18 @@
-import { Address, Hex } from "viem";
-import { ModuleType } from "../Module";
+import { Address, Hex } from 'viem'
+import { Module, ModuleType } from '../Module'
 
-export const createModule = (
-  address: Address,
-  initCode: Hex,
+export const createModule = ({
+  address,
+  initData,
+  type,
+}: {
+  address: Address
+  initData: Hex
   type: ModuleType
-) => {
+}): Module => {
   return {
     address,
-    initCode,
+    initData,
     type,
-  };
-};
+  }
+}

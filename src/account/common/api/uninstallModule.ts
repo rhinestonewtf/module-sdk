@@ -1,12 +1,16 @@
 import { PublicClient } from 'viem'
-import { Account } from '../Account'
+import { Account, Action } from '../Account'
 import { Module } from '../../../module/common/Module'
 
-export const uninstallModule = (
-  client: PublicClient,
-  account: Account,
-  module: Module,
-) => {
+export const uninstallModule = ({
+  client,
+  account,
+  module,
+}: {
+  client: PublicClient
+  account: Account
+  module: Module
+}): Promise<Action[]> => {
   // TODO
   //   switch (module.type) {
   //     case "validator":

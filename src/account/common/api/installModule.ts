@@ -9,11 +9,15 @@ import {
 } from './isModuleInstalled'
 import { Module } from '../../../module/common/Module'
 
-export const installModule = (
-  client: PublicClient,
-  account: Account,
-  module: Module,
-) => {
+export const installModule = ({
+  client,
+  account,
+  module,
+}: {
+  client: PublicClient
+  account: Account
+  module: Module
+}): Promise<Action[]> => {
   switch (module.type) {
     case 'validator':
       return installValidator(client, account, module.address, module.initData)
