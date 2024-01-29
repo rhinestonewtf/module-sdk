@@ -1,5 +1,5 @@
 import { Address, PublicClient } from 'viem'
-import { Account } from '../Account'
+import { Account, Action } from '../Account'
 
 export const getInstalledModules = async ({
   client,
@@ -8,5 +8,7 @@ export const getInstalledModules = async ({
   client: PublicClient
   account: Account
 }): Promise<Address[]> => {
+  const modules: Address[] = []
   // todo
+  return modules
 }

@@ -1,7 +1,7 @@
 import { keccak256, slice, toHex, zeroAddress } from 'viem'
-import { createAccount } from '../../../../src/account/common/api'
+import { getAccount } from '../../../../src/account/common/api'
 
-describe('Create Account implementation', () => {
+describe('Get Account implementation', () => {
   // Setup
   const address = slice(keccak256(toHex('address')), 0, 20)
   const initCode = keccak256(toHex('initCode'))
@@ -9,7 +9,7 @@ describe('Create Account implementation', () => {
   const deployedOnChains = [1, 2, 3]
 
   it('should create and return an object with the passed arguments', async () => {
-    const account = createAccount({ address, initCode, type, deployedOnChains })
+    const account = getAccount({ address, initCode, type, deployedOnChains })
 
     expect(account.address).toEqual(address)
     expect(account.initCode).toEqual(initCode)

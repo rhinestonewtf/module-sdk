@@ -1,7 +1,7 @@
 import { Address, Hex } from 'viem'
 import { Account, AccountType } from '../Account'
 
-export const createAccount = ({
+export const getAccount = ({
   address,
   initCode,
   type,

@@ -1,18 +1,18 @@
 import {
-  createAccount,
+  getAccount,
   isModuleInstalled,
 } from '../../../../src/account/common/api'
-import { createModule } from '../../../../src/module/common/api/createModule'
-import { createClient } from '../../../../src/common/createClient'
+import { getModule } from '../../../../src/module/common/api/getModule'
+import { getClient } from '../../../../src/common/getClient'
 import { MockAccount } from '../../../utils/mocks/account'
 import { MockClient } from '../../../utils/mocks/client'
 import { MockModule } from '../../../utils/mocks/module'
 
 describe('Get installation status of module', () => {
   // Setup
-  const client = createClient(MockClient)
-  const account = createAccount(MockAccount)
-  const module = createModule(MockModule)
+  const client = getClient(MockClient)
+  const account = getAccount(MockAccount)
+  const module = getModule(MockModule)
 
   it('Should return whether a validator is installed', async () => {
     const isInstalled = await isModuleInstalled({ client, account, module })
