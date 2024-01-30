@@ -1,14 +1,21 @@
 import { Address, PublicClient } from 'viem'
-import { Account, Action } from '../Account'
+import { Account } from '../Account'
+import { ModuleType } from '../../../module/common/Module'
+import { getAccountImplementation } from './getAccountImplementation'
 
 export const getInstalledModules = async ({
   client,
   account,
+  moduleTypes,
 }: {
   client: PublicClient
   account: Account
+  moduleTypes?: ModuleType[]
 }): Promise<Address[]> => {
-  const modules: Address[] = []
-  // todo
-  return modules
+  const accountImplementation = getAccountImplementation({ account })
+  return accountImplementation.getInstalledModules({
+    client,
+    account,
+    moduleTypes,
+  })
 }

@@ -4,7 +4,7 @@ export type ModuleType = 'validator' | 'executor' | 'fallback' | 'hook'
 
 export type Module = {
   address: Address
-  initData: Hex
+  data?: Hex
   additionalContext?: Hex
   type: ModuleType
 }

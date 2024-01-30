@@ -1,8 +1,14 @@
-import { Address, PublicClient } from "viem";
+import { Address, PublicClient } from 'viem'
 
-export const isContract = async (client: PublicClient, address: Address) => {
+export const isContract = async ({
+  client,
+  address,
+}: {
+  client: PublicClient
+  address: Address
+}) => {
   const bytecode = await client.getBytecode({
     address: address,
-  });
-  return bytecode !== "0x";
-};
+  })
+  return bytecode !== '0x'
+}

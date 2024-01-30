@@ -3,18 +3,18 @@ import { Module, ModuleType } from '../Module'
 
 export const getModule = ({
   address,
-  initData,
+  data,
   type,
   additionalContext,
 }: {
   address: Address
-  initData: Hex
+  data?: Hex
   type: ModuleType
   additionalContext?: Hex
 }): Module => {
   return {
     address,
-    initData,
+    data,
     type,
     additionalContext,
   }

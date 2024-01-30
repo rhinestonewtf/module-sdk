@@ -8,7 +8,7 @@ export const getAccount = ({
   deployedOnChains = [],
 }: {
   address: Address
-  initCode: Hex
+  initCode?: Hex
   type: AccountType
   deployedOnChains?: Number[]
 }): Account => {
