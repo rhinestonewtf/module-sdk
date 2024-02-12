@@ -1,9 +1,9 @@
-import { PublicClient, encodeFunctionData } from 'viem'
 import { Account, Action } from '../Account'
-import { Module } from '../../../module/common/Module'
+import { PublicClient } from 'viem'
+import { Module } from '../../Module/Module'
 import { getAccountImplementation } from './getAccountImplementation'
 
-export const uninstallModule = ({
+export const installModule = ({
   client,
   account,
   module,
@@ -13,5 +13,5 @@ export const uninstallModule = ({
   module: Module
 }): Promise<Action[]> => {
   const accountImplementation = getAccountImplementation({ account })
-  return accountImplementation.uninstallModule({ client, account, module })
+  return accountImplementation.installModule({ client, account, module })
 }

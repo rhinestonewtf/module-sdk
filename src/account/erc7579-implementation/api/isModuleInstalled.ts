@@ -1,12 +1,12 @@
-import { Address, Hex, PublicClient } from 'viem'
-import { Account } from '../../common/Account'
+import { PublicClient } from 'viem'
+import { Account } from '../../Account'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
-import { Module, moduleTypeIds } from '../../../module/common/Module'
+import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isContract } from '../../../common/utils'
 import { FALLBACK_HANDLER } from '../constants/contracts'
 import { getInitData } from './getInitData'
 
-export const isModuleInstalled = ({
+export const isModuleInstalled = async ({
   client,
   account,
   module,
@@ -19,7 +19,7 @@ export const isModuleInstalled = ({
     case 'validator':
     case 'executor':
     case 'hook':
-      return _isModuleInstalled({ client, account, module })
+      return await _isModuleInstalled({ client, account, module })
     case 'fallback':
       return _isFallbackInstalled({
         client,

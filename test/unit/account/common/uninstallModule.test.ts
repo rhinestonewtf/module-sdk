@@ -1,5 +1,5 @@
-import { getAccount, uninstallModule } from '../../../../src/account/common/api'
-import { getModule } from '../../../../src/module/common/api/getModule'
+import { getAccount, uninstallModule } from '../../../../src/Account/api'
+import { getModule } from '../../../../src/Module/api/getModule'
 import { getClient } from '../../../../src/common/getClient'
 import { MockAccount } from '../../../utils/mocks/account'
 import { MockClient } from '../../../utils/mocks/client'

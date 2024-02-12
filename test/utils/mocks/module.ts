@@ -1,4 +1,4 @@
-import { Module } from '../../../src/module/common/Module'
+import { Module } from '../../../src/Module/Module'
 
 export const MockModule: Module = {
   address: '0x8749313f626b100b822d573c71dfffdaca383032',

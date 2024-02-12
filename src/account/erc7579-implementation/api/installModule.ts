@@ -1,9 +1,9 @@
-import { Account, Action } from '../../common/Account'
+import { Account, Action } from '../../Account'
 import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import ExtensibleFallbackHandler from '../constants/abis/ExtensibleFallbackHandler.json'
 import { isModuleInstalled } from './isModuleInstalled'
-import { Module, moduleTypeIds } from '../../../module/common/Module'
+import { Module, moduleTypeIds } from '../../../Module/Module'
 import { FALLBACK_HANDLER } from '../constants/contracts'
 
 export const installModule = ({

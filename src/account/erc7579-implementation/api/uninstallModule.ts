@@ -1,6 +1,6 @@
 import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
-import { Account, Action } from '../../common/Account'
-import { Module, moduleTypeIds } from '../../../module/common/Module'
+import { Account, Action } from '../../Account'
+import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isModuleInstalled } from './isModuleInstalled'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { FALLBACK_HANDLER } from '../constants/contracts'
