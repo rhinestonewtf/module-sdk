@@ -1,6 +1,7 @@
 {
   "name": "modulekit-sdk",
-  "version": "1.0.0",
+  "description": "tbd",
+  "version": "0.0.1",
   "scripts": {
     "test": "jest",
     "typecheck": "tsc --noEmit"
