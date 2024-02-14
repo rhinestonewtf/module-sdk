@@ -1,12 +1,12 @@
-import { Address, Hex, PublicClient } from 'viem'
-import { Account } from '../../common/Account'
+import { PublicClient } from 'viem'
+import { Account } from '../../Account'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
-import { Module, moduleTypeIds } from '../../../module/common/Module'
+import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isContract } from '../../../common/utils'
 import { FALLBACK_HANDLER } from '../constants/contracts'
 import { getInitData } from './getInitData'
 
-export const isModuleInstalled = ({
+export const isModuleInstalled = async ({
   client,
   account,
   module,
@@ -19,7 +19,7 @@ export const isModuleInstalled = ({
     case 'validator':
     case 'executor':
     case 'hook':
-      return _isModuleInstalled({ client, account, module })
+      return await _isModuleInstalled({ client, account, module })
     case 'fallback':
       return _isFallbackInstalled({
         client,
@@ -49,7 +49,7 @@ const _isModuleInstalled = async ({
       functionName: 'isModuleInstalled',
       args: [
         moduleTypeIds[module.type],
-        module.address,
+        module.module,
         module.additionalContext,
       ],
     })) as boolean
@@ -59,17 +59,17 @@ const _isModuleInstalled = async ({
       case 'validator':
         isModuleInstalled = initialModules.validators.some(
           (_module: Module) =>
-            _module.address.toLowerCase() == module.address.toLowerCase(),
+            _module.module.toLowerCase() == module.module.toLowerCase(),
         )
       case 'executor':
         isModuleInstalled = initialModules.executors.some(
           (_module: Module) =>
-            _module.address.toLowerCase() == module.address.toLowerCase(),
+            _module.module.toLowerCase() == module.module.toLowerCase(),
         )
       case 'hook':
         isModuleInstalled = initialModules.hooks.some(
           (_module: Module) =>
-            _module.address.toLowerCase() == module.address.toLowerCase(),
+            _module.module.toLowerCase() == module.module.toLowerCase(),
         )
     }
   } else {
@@ -104,7 +104,7 @@ const _isFallbackInstalled = async ({
     const { fallbacks } = getInitData({ initCode: account.initCode })
     isModuleInstalled = fallbacks.some(
       (fallback: Module) =>
-        fallback.address.toLowerCase() == module.address.toLowerCase(),
+        fallback.module.toLowerCase() == module.module.toLowerCase(),
     )
   } else {
     throw new Error('Account has no init code and is not deployed')

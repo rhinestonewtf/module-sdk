@@ -1,6 +1,6 @@
 import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
-import { Account, Action } from '../../common/Account'
-import { Module, moduleTypeIds } from '../../../module/common/Module'
+import { Account, Action } from '../../Account'
+import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isModuleInstalled } from './isModuleInstalled'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { FALLBACK_HANDLER } from '../constants/contracts'
@@ -45,7 +45,7 @@ const _uninstallModule = async ({
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
         abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.address, module.data || '0x'],
+        args: [moduleTypeIds[module.type], module.module, module.data || '0x'],
       }),
     })
   }
@@ -68,7 +68,7 @@ const _uninstallFallback = async ({
     account,
     module: {
       type: 'fallback',
-      address: FALLBACK_HANDLER,
+      module: FALLBACK_HANDLER,
     },
   })
 

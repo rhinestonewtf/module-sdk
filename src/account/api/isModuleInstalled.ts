@@ -1,9 +1,9 @@
-import { Account, Action } from '../Account'
 import { PublicClient } from 'viem'
-import { Module } from '../../../module/common/Module'
+import { Account } from '../Account'
+import { Module } from '../../Module/Module'
 import { getAccountImplementation } from './getAccountImplementation'
 
-export const installModule = ({
+export const isModuleInstalled = ({
   client,
   account,
   module,
@@ -11,7 +11,7 @@ export const installModule = ({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> => {
+}): Promise<boolean> => {
   const accountImplementation = getAccountImplementation({ account })
-  return accountImplementation.installModule({ client, account, module })
+  return accountImplementation.isModuleInstalled({ client, account, module })
 }

@@ -10,5 +10,5 @@ export const isContract = async ({
   const bytecode = await client.getBytecode({
     address: address,
   })
-  return bytecode !== '0x'
+  return bytecode && bytecode !== '0x'
 }

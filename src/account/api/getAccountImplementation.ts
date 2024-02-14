@@ -1,4 +1,4 @@
-import { ERC7579Implementation } from '../../erc7579-implementation'
+import { ERC7579Implementation } from '../erc7579-implementation'
 import { Account } from '../Account'
 
 export const getAccountImplementation = ({ account }: { account: Account }) => {

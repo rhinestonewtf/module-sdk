@@ -1,8 +1,8 @@
 import { Hex, decodeAbiParameters, decodeFunctionData, slice } from 'viem'
-import { InitialModules } from '../../common/Account'
+import { InitialModules } from '../../Account'
 import AccountFactory from '../constants/abis/AccountFactory.json'
 import Bootstrap from '../constants/abis/Bootstrap.json'
-import { Module } from '../../../module/common/Module'
+import { Module } from '../../../Module/Module'
 
 export const getInitData = ({
   initCode,

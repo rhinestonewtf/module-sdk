@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
-import { Account, Action } from '../../common/Account'
-import { ModuleType } from '../../../module/common/Module'
+import { Account, Action } from '../../Account'
+import { ModuleType } from '../../../Module/Module'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 import { isContract } from '../../../common/utils'
