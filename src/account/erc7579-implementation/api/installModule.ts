@@ -46,7 +46,7 @@ const _installModule = async ({
       callData: encodeFunctionData({
         functionName: 'installModule',
         abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.address, module.data || '0x'],
+        args: [moduleTypeIds[module.type], module.module, module.data || '0x'],
       }),
     })
   }
@@ -69,7 +69,7 @@ async function installFallback({
     account,
     module: {
       type: 'fallback',
-      address: FALLBACK_HANDLER,
+      module: FALLBACK_HANDLER,
     },
   })
 

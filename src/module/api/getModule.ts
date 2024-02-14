@@ -2,20 +2,20 @@ import { Address, Hex } from 'viem'
 import { Module, ModuleType } from '../Module'
 
 export const getModule = ({
-  address,
+  module,
   data,
   type,
   additionalContext,
 }: {
-  address: Address
+  module: Address
   data?: Hex
   type: ModuleType
   additionalContext?: Hex
 }): Module => {
   return {
-    address,
+    module,
     data,
     type,
-    additionalContext,
+    additionalContext: additionalContext || '0x',
   }
 }

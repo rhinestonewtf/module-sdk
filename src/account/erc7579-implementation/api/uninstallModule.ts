@@ -45,7 +45,7 @@ const _uninstallModule = async ({
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
         abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.address, module.data || '0x'],
+        args: [moduleTypeIds[module.type], module.module, module.data || '0x'],
       }),
     })
   }
@@ -68,7 +68,7 @@ const _uninstallFallback = async ({
     account,
     module: {
       type: 'fallback',
-      address: FALLBACK_HANDLER,
+      module: FALLBACK_HANDLER,
     },
   })
 
