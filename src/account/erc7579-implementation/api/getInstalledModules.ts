@@ -45,19 +45,19 @@ export const getInstalledModules = async ({
       switch (moduleType) {
         case 'validator':
           for (const validator of initialModules.validators) {
-            modules.push(validator.address)
+            modules.push(validator.module)
           }
         case 'executor':
           for (const executor of initialModules.executors) {
-            modules.push(executor.address)
+            modules.push(executor.module)
           }
         case 'hook':
           for (const hook of initialModules.hooks) {
-            modules.push(hook.address)
+            modules.push(hook.module)
           }
         case 'fallback':
           for (const fallback of initialModules.fallbacks) {
-            modules.push(fallback.address)
+            modules.push(fallback.module)
           }
       }
     }
@@ -81,6 +81,6 @@ const getModulesPaginated = async ({
     abi: AccountInterface.abi,
     functionName: functionName,
     args: [SENTINEL_ADDRESS, 100],
-  })) as { array: Address[]; next: Address }
-  return data.array
+  })) as [Address[], Address]
+  return data[0]
 }
