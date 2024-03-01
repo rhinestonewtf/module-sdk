@@ -1,5 +1,14 @@
 import { Account, Action } from '../../Account'
-import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
+import {
+  Address,
+  Hex,
+  PublicClient,
+  decodeAbiParameters,
+  encodeAbiParameters,
+  encodeFunctionData,
+  encodePacked,
+  slice,
+} from 'viem'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import ExtensibleFallbackHandler from '../constants/abis/ExtensibleFallbackHandler.json'
 import { isModuleInstalled } from './isModuleInstalled'
@@ -64,42 +73,56 @@ async function installFallback({
 }): Promise<Action[]> {
   const actions: Action[] = []
 
-  const isHandlerInstalled = await isModuleInstalled({
-    client,
-    account,
-    module: {
-      type: 'fallback',
-      module: FALLBACK_HANDLER,
-    },
-  })
+  const _params = decodeAbiParameters(
+    [
+      { name: 'functionSigs', type: 'bytes32' },
+      { name: 'calltype', type: 'bytes1' },
+      { name: 'initData', type: 'bytes' },
+    ],
+    module.data!,
+  ) as [Hex, Hex, Hex]
 
-  if (!isHandlerInstalled) {
+  const selectors: Hex[] = []
+
+  for (let i = 0; i < _params[0].length; i += 4) {
+    const functionSelector = slice(_params[0], i, i + 4)
+    const selector = encodeAbiParameters(
+      [{ name: 'functionSignature', type: 'bytes4' }],
+      [functionSelector],
+    )
+    const isInstalled = await isModuleInstalled({
+      client,
+      account,
+      module: { ...module, additionalContext: selector },
+    })
+    if (!isInstalled) {
+      selectors.push(selector)
+    }
+  }
+
+  if (selectors.length > 0) {
+    const encodedSelectors = encodePacked(
+      ['bytes4'.repeat(selectors.length)],
+      // @ts-ignore
+      selectors,
+    )
+    const params = encodeAbiParameters(
+      [
+        { name: 'functionSigs', type: 'bytes32' },
+        { name: 'calltype', type: 'bytes1' },
+        { name: 'initData', type: 'bytes' },
+      ],
+      [encodedSelectors, _params[1], _params[2]],
+    )
     actions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
         abi: AccountInterface.abi,
-        args: [moduleTypeIds['fallback'], FALLBACK_HANDLER, '0x'],
+        args: [moduleTypeIds[module.type], module.module, params],
       }),
     })
   }
-
-  // todo: finalise fallback handler
-  // actions.push({
-  //   target: FALLBACK_HANDLER,
-  //   value: BigInt(0),
-  //   callData: encodeFunctionData({
-  //     functionName: 'setFunctionSig',
-  //     abi: ExtensibleFallbackHandler.abi,
-  //     args: [
-  //       {
-  //         selector: functionSelector,
-  //         fallbackType: BigInt(isStatic ? 0 : 1),
-  //         handler: module.address,
-  //       },
-  //     ],
-  //   }),
-  // })
   return actions
 }
