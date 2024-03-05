@@ -4,6 +4,7 @@ import {
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
+  slice,
 } from 'viem'
 import { Account, Action } from '../../Account'
 import { Module, moduleTypeIds } from '../../../Module/Module'
@@ -82,26 +83,29 @@ const _uninstallFallback = async ({
 }) => {
   const actions: Action[] = []
 
-  const isHandlerInstalled = await isModuleInstalled({
+  const selector = slice(module.data!, 0, 4)
+  const isInstalled = await isModuleInstalled({
     client,
     account,
     module: {
-      type: 'fallback',
-      module: FALLBACK_HANDLER,
+      ...module,
+      additionalContext: encodeAbiParameters(
+        [{ name: 'functionSignature', type: 'bytes4' }],
+        [selector],
+      ),
     },
   })
 
-  if (isHandlerInstalled) {
-    // todo: finalise fallback handler
-    // actions.push({
-    //   target: account.address,
-    //   value: BigInt(0),
-    //   callData: encodeFunctionData({
-    //     functionName: 'installModule',
-    //     abi: AccountInterface.abi,
-    //     args: [moduleTypeIds['fallback'], FALLBACK_HANDLER, '0x'],
-    //   }),
-    // })
+  if (isInstalled) {
+    actions.push({
+      target: account.address,
+      value: BigInt(0),
+      callData: encodeFunctionData({
+        functionName: 'uninstallModule',
+        abi: AccountInterface.abi,
+        args: [moduleTypeIds[module.type], module.module, module.data],
+      }),
+    })
   }
 
   return actions

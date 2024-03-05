@@ -1,10 +1,18 @@
 import { Account, Action } from '../../Account'
-import { Address, Hex, PublicClient, encodeFunctionData } from 'viem'
+import {
+  Address,
+  Hex,
+  PublicClient,
+  decodeAbiParameters,
+  encodeAbiParameters,
+  encodeFunctionData,
+  encodePacked,
+  slice,
+} from 'viem'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import ExtensibleFallbackHandler from '../constants/abis/ExtensibleFallbackHandler.json'
 import { isModuleInstalled } from './isModuleInstalled'
 import { Module, moduleTypeIds } from '../../../Module/Module'
-import { FALLBACK_HANDLER } from '../constants/contracts'
 
 export const installModule = ({
   client,
@@ -64,42 +72,30 @@ async function installFallback({
 }): Promise<Action[]> {
   const actions: Action[] = []
 
-  const isHandlerInstalled = await isModuleInstalled({
+  const selector = slice(module.data!, 0, 4)
+  const isInstalled = await isModuleInstalled({
     client,
     account,
     module: {
-      type: 'fallback',
-      module: FALLBACK_HANDLER,
+      ...module,
+      additionalContext: encodeAbiParameters(
+        [{ name: 'functionSignature', type: 'bytes4' }],
+        [selector],
+      ),
     },
   })
 
-  if (!isHandlerInstalled) {
+  if (!isInstalled) {
     actions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
         abi: AccountInterface.abi,
-        args: [moduleTypeIds['fallback'], FALLBACK_HANDLER, '0x'],
+        args: [moduleTypeIds[module.type], module.module, module.data],
       }),
     })
   }
 
-  // todo: finalise fallback handler
-  // actions.push({
-  //   target: FALLBACK_HANDLER,
-  //   value: BigInt(0),
-  //   callData: encodeFunctionData({
-  //     functionName: 'setFunctionSig',
-  //     abi: ExtensibleFallbackHandler.abi,
-  //     args: [
-  //       {
-  //         selector: functionSelector,
-  //         fallbackType: BigInt(isStatic ? 0 : 1),
-  //         handler: module.address,
-  //       },
-  //     ],
-  //   }),
-  // })
   return actions
 }
