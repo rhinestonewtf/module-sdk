@@ -3,7 +3,6 @@ import { Account } from '../../Account'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isContract } from '../../../common/utils'
-import { FALLBACK_HANDLER } from '../constants/contracts'
 import { getInitData } from './getInitData'
 
 export const isModuleInstalled = async ({
