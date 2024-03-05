@@ -39,6 +39,6 @@ export const getInitData = ({
     validators: initCallDataArgs[0] as Module[],
     executors: initCallDataArgs[1] as Module[],
     hooks: [initCallDataArgs[2]] as Module[],
-    fallbacks: [initCallDataArgs[3]] as Module[],
+    fallbacks: initCallDataArgs[3] as Module[],
   }
 }
