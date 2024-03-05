@@ -10,7 +10,6 @@ import { Account, Action } from '../../Account'
 import { Module, moduleTypeIds } from '../../../Module/Module'
 import { isModuleInstalled } from './isModuleInstalled'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
-import { FALLBACK_HANDLER } from '../constants/contracts'
 import { getInstalledModules } from './getInstalledModules'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 
