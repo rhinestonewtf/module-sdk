@@ -1,10 +1,10 @@
 import {
   Address,
-  Hex,
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
   slice,
+  getAddress,
 } from 'viem'
 import { Account, Action } from '../../Account'
 import { Module, moduleTypeIds } from '../../../Module/Module'
@@ -125,7 +125,7 @@ const getPreviousModule = async ({
     account,
     moduleTypes: [module.type],
   })
-  const index = insalledModules.indexOf(module.module)
+  const index = insalledModules.indexOf(getAddress(module.module))
   if (index === 0) {
     return SENTINEL_ADDRESS
   } else if (index > 0) {
