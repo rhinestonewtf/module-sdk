@@ -1,6 +1,6 @@
 import { Account, Action } from '../Account'
 import { PublicClient } from 'viem'
-import { Module } from '../../Module/Module'
+import { Module } from '../../module/Module'
 import { getAccountImplementation } from './getAccountImplementation'
 
 export const installModule = ({

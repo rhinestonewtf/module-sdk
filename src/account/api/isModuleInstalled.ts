@@ -1,6 +1,6 @@
 import { PublicClient } from 'viem'
 import { Account } from '../Account'
-import { Module } from '../../Module/Module'
+import { Module } from '../../module/Module'
 import { getAccountImplementation } from './getAccountImplementation'
 
 export const isModuleInstalled = ({

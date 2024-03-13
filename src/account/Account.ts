@@ -1,5 +1,5 @@
 import { Address, Hex } from 'viem'
-import { Module } from '../Module/Module'
+import { Module } from '../module/Module'
 
 export type AccountType = 'erc7579-implementation'
 

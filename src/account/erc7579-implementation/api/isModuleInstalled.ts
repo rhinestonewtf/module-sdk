@@ -1,7 +1,7 @@
 import { PublicClient } from 'viem'
 import { Account } from '../../Account'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
-import { Module, moduleTypeIds } from '../../../Module/Module'
+import { Module, moduleTypeIds } from '../../../module/Module'
 import { isContract } from '../../../common/utils'
 import { getInitData } from './getInitData'
 

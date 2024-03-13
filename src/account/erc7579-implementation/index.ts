@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
 import { Account, Action } from '../Account'
-import { Module, ModuleType } from '../../Module/Module'
+import { Module, ModuleType } from '../../module/Module'
 import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'

@@ -12,7 +12,7 @@ import {
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import ExtensibleFallbackHandler from '../constants/abis/ExtensibleFallbackHandler.json'
 import { isModuleInstalled } from './isModuleInstalled'
-import { Module, moduleTypeIds } from '../../../Module/Module'
+import { Module, moduleTypeIds } from '../../../module/Module'
 
 export const installModule = ({
   client,
