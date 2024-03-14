@@ -1,13 +1,32 @@
 {
-  "name": "modulekit-sdk",
-  "description": "tbd",
+  "name": "@rhinestone/module-sdk",
+  "description": "Application SDK for using Smart Account Modules",
   "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "rhinestone",
+    "url": "https://rhinestone.wtf"
+  },
+  "bugs": {
+    "url": "https://github.com/rhinestonewtf/module-sdk/issues"
+  },
+  "repository": "github.com/rhinestonewtf/module-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prettier:check": "prettier --check \"**/*.{json,md,svg,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{json,md,svg,yml}\"",
+    "changeset": "changeset",
+    "changeset:release": "pnpm build && changeset publish",
+    "changeset:version": "changeset version && pnpm install --lockfile-only"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.1",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.5",
