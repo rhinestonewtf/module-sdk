@@ -8,9 +8,9 @@ describe('Get Module implementation', () => {
   const type = 'validator'
 
   it('should get and return an object with the passed arguments', async () => {
-    const module = getModule({ address, data, type })
+    const module = getModule({ module: address, data, type })
 
-    expect(module.address).toEqual(address)
+    expect(module.module).toEqual(address)
     expect(module.data).toEqual(data)
     expect(module.type).toEqual(type)
   })
