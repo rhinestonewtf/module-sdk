@@ -1,5 +1,5 @@
 import { Address, Hex } from 'viem'
-import { Module, ModuleType } from '../Module'
+import { Module, ModuleType } from '../types'
 
 export const getModule = ({
   module,

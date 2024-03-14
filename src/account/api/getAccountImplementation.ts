@@ -1,5 +1,5 @@
 import { ERC7579Implementation } from '../erc7579-implementation'
-import { Account } from '../Account'
+import { Account } from '../types'
 
 export const getAccountImplementation = ({ account }: { account: Account }) => {
   let accountImplementation

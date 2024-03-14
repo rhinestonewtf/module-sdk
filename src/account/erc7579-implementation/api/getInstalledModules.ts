@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
-import { Account, Action } from '../../Account'
-import { ModuleType } from '../../../module/Module'
+import { Account, Action } from '../../types'
+import { ModuleType } from '../../../module/types'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 import { isContract } from '../../../common/utils'
@@ -34,9 +34,14 @@ export const getInstalledModules = async ({
           })
           executors && modules.push(...executors)
         case 'hook':
-        // todo: implement on account
+          const activeHook = (await client.readContract({
+            address: account.address,
+            abi: AccountInterface.abi,
+            functionName: 'getActiveHook',
+          })) as Address
+          modules.push(activeHook)
         case 'fallback':
-        // todo: implement on account
+        // todo: implement on account or use events
       }
     }
   } else if (account.initCode) {

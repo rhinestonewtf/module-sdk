@@ -1,4 +1,4 @@
-import { getAccount, getInstalledModules } from '../../../../src/Account/api'
+import { getAccount, getInstalledModules } from '../../../../src/account/api'
 import { getClient } from '../../../../src/common/getClient'
 import { MockAccount } from '../../../utils/mocks/account'
 import { MockClient } from '../../../utils/mocks/client'

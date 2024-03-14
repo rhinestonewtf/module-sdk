@@ -1,5 +1,5 @@
 import { Address, Hex, encodeAbiParameters } from 'viem'
-import { Module } from '../Module'
+import { Module } from '../types'
 import { SCHEDULED_ORDERS_VALIDATOR_ADDRESS } from './constants'
 
 export type WebauthnCredential = {

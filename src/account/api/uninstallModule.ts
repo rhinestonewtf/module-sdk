@@ -1,6 +1,6 @@
 import { PublicClient, encodeFunctionData } from 'viem'
-import { Account, Action } from '../Account'
-import { Module } from '../../module/Module'
+import { Account, Action } from '../types'
+import { Module } from '../../module/types'
 import { getAccountImplementation } from './getAccountImplementation'
 
 export const uninstallModule = ({

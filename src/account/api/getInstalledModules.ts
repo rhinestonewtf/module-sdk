@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
-import { Account } from '../Account'
-import { ModuleType } from '../../module/Module'
+import { Account } from '../types'
+import { ModuleType } from '../../module/types'
 import { getAccountImplementation } from './getAccountImplementation'
 
 export const getInstalledModules = async ({

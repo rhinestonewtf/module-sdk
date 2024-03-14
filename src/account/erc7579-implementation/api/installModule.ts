@@ -1,4 +1,4 @@
-import { Account, Action } from '../../Account'
+import { Account, Action } from '../../types'
 import {
   Address,
   Hex,
@@ -12,7 +12,7 @@ import {
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import ExtensibleFallbackHandler from '../constants/abis/ExtensibleFallbackHandler.json'
 import { isModuleInstalled } from './isModuleInstalled'
-import { Module, moduleTypeIds } from '../../../module/Module'
+import { Module, moduleTypeIds } from '../../../module/types'
 
 export const installModule = ({
   client,

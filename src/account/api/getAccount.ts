@@ -1,5 +1,5 @@
 import { Address, Hex } from 'viem'
-import { Account, AccountType } from '../Account'
+import { Account, AccountType } from '../types'
 
 export const getAccount = ({
   address,

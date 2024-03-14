@@ -6,8 +6,8 @@ import {
   slice,
   getAddress,
 } from 'viem'
-import { Account, Action } from '../../Account'
-import { Module, moduleTypeIds } from '../../../module/Module'
+import { Account, Action } from '../../types'
+import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { getInstalledModules } from './getInstalledModules'
