@@ -39,5 +39,8 @@
     "utf-8-validate": "^6.0.3",
     "viem": "^2.4.1",
     "ws": "^8.16.0"
+  },
+  "dependencies": {
+    "moment": "^2.30.1"
   }
 }

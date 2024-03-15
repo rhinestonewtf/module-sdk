@@ -1,38 +1,36 @@
-import { Address, Hex, encodeAbiParameters } from 'viem'
+import { Hex, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
-import { SCHEDULED_TRANSFERS_VALIDATOR_ADDRESS } from './constants'
+import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
 
 export type WebauthnCredential = {
   id: string
   publicKey: [Hex, Hex]
 }
 
-export const getScheduledTranfsersExecutor = ({
-  validators,
-  threshold,
-}: {
-  validators: Module[]
-  threshold: number
-}): Module => {
-  const deInitDatas: Hex[] = [...Array(validators.length).fill('0x')]
+type Params = {
+  executeInterval: number
+  numberOfExecutions: number
+  startDate: number
+  executionData: Hex
+}
 
-  const subValidators: Address[] = validators.map(
-    (validator) => validator.module,
-  )
-  const initDatas: Hex[] = validators.map((validator) => validator.data ?? '0x')
-
+export const getScheduledTransfersExecutor = ({
+  executeInterval,
+  numberOfExecutions,
+  startDate,
+  executionData,
+}: Params): Module => {
   return {
-    module: SCHEDULED_TRANSFERS_VALIDATOR_ADDRESS,
+    module: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    type: 'executor',
     data: encodeAbiParameters(
       [
-        { name: 'subValidators', type: 'address[]' },
-        { name: 'deInitDatas', type: 'bytes[]' },
-        { name: 'initDatas', type: 'bytes[]' },
-        { name: 'threshold', type: 'uint8' },
+        { name: 'executeInterval', type: 'uint48' },
+        { name: 'numberOfExecutions', type: 'uint16' },
+        { name: 'startDate', type: 'uint48' },
+        { name: 'executionData', type: 'bytes' },
       ],
-      [subValidators, deInitDatas, initDatas, threshold],
+      [executeInterval, numberOfExecutions, startDate, executionData],
     ),
-    additionalContext: '0x',
-    type: 'validator',
   }
 }

@@ -1,3 +1,3 @@
-export { SCHEDULED_TRANSFERS_VALIDATOR_ADDRESS } from './constants'
-export { getScheduledTranfsersExecutor } from './installation'
-export {} from './usage'
+export { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
+export { getScheduledTransfersExecutor } from './installation'
+export { getCreateScheduledTransferAction } from './usage'
