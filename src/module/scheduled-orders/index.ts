@@ -1,3 +1,3 @@
-export { SCHEDULED_ORDERS_VALIDATOR_ADDRESS } from './constants'
+export { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
 export { getScheduledOrdersExecutor } from './installation'
-export {} from './usage'
+export { getCreateRecurringOrderAction, getSwapOrderData } from './usage'
