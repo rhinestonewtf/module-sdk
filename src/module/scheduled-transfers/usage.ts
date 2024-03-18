@@ -16,7 +16,7 @@ type Params = {
   isNativeToken: boolean
 }
 
-const getScheduledTransactionData = ({
+export const getScheduledTransactionData = ({
   isNativeToken,
   scheduledTransaction,
 }: Params): Hex => {

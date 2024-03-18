@@ -1,3 +1,5 @@
+import { Hex } from 'viem'
+
 export type RecurringOrder = Order & Schedule
 
 export type Order = {
@@ -20,7 +22,7 @@ export type Schedule = {
 export type ERC20Token = {
   name: string
   symbol: string
-  token_address: string
+  token_address: Hex
   decimals: number
   chainId: number
   balance?: string

@@ -2,7 +2,7 @@ import { Address, Hex, encodeAbiParameters, encodeFunctionData } from 'viem'
 import ScheduledOrdersInterface from './abis/ScheduledOrdersInterface.json'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
 import { RecurringOrder } from './types'
-import { Action } from '../../Account/types'
+import { Action } from '../../account/types'
 import moment from 'moment'
 
 type Params = {
