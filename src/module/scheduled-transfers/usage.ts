@@ -13,11 +13,9 @@ import ScheduledTransfersInterface from './abis/ScheduledTransfersInterface.json
 
 type Params = {
   scheduledTransaction: ScheduledTransaction
-  isNativeToken: boolean
 }
 
 export const getScheduledTransactionData = ({
-  isNativeToken,
   scheduledTransaction,
 }: Params): Hex => {
   const amount = BigInt(
@@ -32,30 +30,28 @@ export const getScheduledTransactionData = ({
       { name: 'callData', type: 'bytes' },
     ],
     [
-      isNativeToken
-        ? (scheduledTransaction.recipient as Address)
-        : (scheduledTransaction.token?.token_address as Address),
-      isNativeToken ? amount : BigInt(0),
-      isNativeToken
-        ? '0x'
-        : encodeFunctionData({
+      scheduledTransaction.token
+        ? (scheduledTransaction.token.token_address as Address)
+        : (scheduledTransaction.recipient as Address),
+      scheduledTransaction.token ? BigInt(0) : amount,
+      scheduledTransaction.token
+        ? encodeFunctionData({
             functionName: 'transfer',
             abi: parseAbi([
               'function transfer(address to, uint256 value) external',
             ]),
             args: [scheduledTransaction.recipient as Address, amount],
-          }),
+          })
+        : '0x',
     ],
   )
 }
 
 type CreateScheduledTransactionActionParams = {
-  isNativeToken: boolean
   scheduledTransaction: ScheduledTransaction
 }
 
 export const getCreateScheduledTransferAction = ({
-  isNativeToken,
   scheduledTransaction,
 }: CreateScheduledTransactionActionParams): Action => {
   return {
@@ -80,7 +76,6 @@ export const getCreateScheduledTransferAction = ({
           isEnabled: true,
           lastExecutionTime: BigInt(0),
           executionData: getScheduledTransactionData({
-            isNativeToken,
             scheduledTransaction,
           }),
         },
