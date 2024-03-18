@@ -1,4 +1,4 @@
-import { Address, Hex, encodeAbiParameters } from 'viem'
+import { Hex, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
 import { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
 

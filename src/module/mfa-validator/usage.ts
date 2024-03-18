@@ -1,6 +1,6 @@
 import { Hex, encodeAbiParameters } from 'viem'
 
-export const getMockSignature = ({
+export const getMFAValidatorMockSignature = ({
   mockSignatures,
 }: {
   mockSignatures: Hex[]
