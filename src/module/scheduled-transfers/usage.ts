@@ -22,7 +22,7 @@ export const getScheduledTransactionData = ({
 }: Params): Hex => {
   const amount = BigInt(
     Number(scheduledTransaction.amount) *
-      10 ** scheduledTransaction.token.decimals,
+      10 ** (scheduledTransaction.token?.decimals || 18),
   )
 
   return encodeAbiParameters(
@@ -34,7 +34,7 @@ export const getScheduledTransactionData = ({
     [
       isNativeToken
         ? (scheduledTransaction.recipient as Address)
-        : (scheduledTransaction.token.token_address as Address),
+        : (scheduledTransaction.token?.token_address as Address),
       isNativeToken ? amount : BigInt(0),
       isNativeToken
         ? '0x'
