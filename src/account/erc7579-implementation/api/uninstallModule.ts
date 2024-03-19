@@ -5,11 +5,11 @@ import {
   encodeFunctionData,
   slice,
   getAddress,
+  parseAbi,
 } from 'viem'
 import { Account, Action } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
-import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { getInstalledModules } from './getInstalledModules'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 
@@ -63,8 +63,10 @@ const _uninstallModule = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
-        abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.module, moduleData],
+        abi: parseAbi([
+          'function uninstallModule(uint256 moduleTypeId,address module,bytes calldata deInitData)',
+        ]),
+        args: [BigInt(moduleTypeIds[module.type]), module.module, moduleData],
       }),
     })
   }
@@ -101,8 +103,14 @@ const _uninstallFallback = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
-        abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.module, module.data],
+        abi: parseAbi([
+          'function uninstallModule(uint256 moduleTypeId,address module,bytes calldata deInitData)',
+        ]),
+        args: [
+          BigInt(moduleTypeIds[module.type]),
+          module.module,
+          module.data ?? '0x',
+        ],
       }),
     })
   }

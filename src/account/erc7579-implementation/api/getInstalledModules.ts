@@ -1,7 +1,6 @@
-import { Address, PublicClient, zeroAddress } from 'viem'
+import { Address, PublicClient, parseAbi, zeroAddress } from 'viem'
 import { Account } from '../../types'
 import { ModuleType } from '../../../module/types'
-import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 import { isContract } from '../../../common/utils'
 import { getInitData } from './getInitData'
@@ -38,7 +37,9 @@ export const getInstalledModules = async ({
         case 'hook':
           const activeHook = (await client.readContract({
             address: account.address,
-            abi: AccountInterface.abi,
+            abi: parseAbi([
+              'function getActiveHook() external view returns (address hook)',
+            ]),
             functionName: 'getActiveHook',
           })) as Address
           modules.push(activeHook)
@@ -98,7 +99,10 @@ const getModulesPaginated = async ({
 }) => {
   const data = (await client.readContract({
     address: accountAddress,
-    abi: AccountInterface.abi,
+    abi: parseAbi([
+      'function getValidatorPaginated(address cursor,uint256 size)',
+      'function getExecutorsPaginated(address cursor,uint256 size)',
+    ]),
     functionName: functionName,
     args: [SENTINEL_ADDRESS, 100],
   })) as [Address[], Address]

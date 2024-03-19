@@ -72,8 +72,8 @@ const mfaModule = getMFAValidator({
 
 // Create the account object
 const account = getAccount({
-  validators: validators,
-  threshold: 2,
+  address: '0x123...',
+  type: 'erc7579-implementation',
 })
 
 // Get the actions required to install the module

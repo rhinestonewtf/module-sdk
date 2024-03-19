@@ -3,9 +3,9 @@ import {
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
+  parseAbi,
   slice,
 } from 'viem'
-import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { isModuleInstalled } from './isModuleInstalled'
 import { Module, moduleTypeIds } from '../../../module/types'
 
@@ -48,8 +48,14 @@ const _installModule = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
-        abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.module, module.data || '0x'],
+        abi: parseAbi([
+          'function installModule(uint256 moduleTypeId,address module,bytes calldata initData)',
+        ]),
+        args: [
+          BigInt(moduleTypeIds[module.type]),
+          module.module,
+          module.data || '0x',
+        ],
       }),
     })
   }
@@ -86,8 +92,14 @@ async function installFallback({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
-        abi: AccountInterface.abi,
-        args: [moduleTypeIds[module.type], module.module, module.data],
+        abi: parseAbi([
+          'function installModule(uint256 moduleTypeId,address module,bytes calldata initData)',
+        ]),
+        args: [
+          BigInt(moduleTypeIds[module.type]),
+          module.module,
+          module.data ?? '0x',
+        ],
       }),
     })
   }

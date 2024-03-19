@@ -1,4 +1,4 @@
-import { keccak256, slice, toHex, zeroAddress } from 'viem'
+import { keccak256, slice, toHex } from 'viem'
 import { getAccount } from '../../../../src/account/api'
 
 describe('Get Account implementation', () => {

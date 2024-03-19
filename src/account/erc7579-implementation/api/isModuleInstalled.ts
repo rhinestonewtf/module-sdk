@@ -1,6 +1,5 @@
-import { PublicClient, getAddress } from 'viem'
+import { PublicClient, getAddress, parseAbi } from 'viem'
 import { Account } from '../../types'
-import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isContract } from '../../../common/utils'
 import { getInitData } from './getInitData'
@@ -39,7 +38,9 @@ const _isModuleInstalled = async ({
   if (await isContract({ client, address: account.address })) {
     isModuleInstalled = (await client.readContract({
       address: account.address,
-      abi: AccountInterface.abi,
+      abi: parseAbi([
+        'function isModuleInstalled(uint256 moduleTypeId,address module,bytes calldata additionalContext)',
+      ]),
       functionName: 'isModuleInstalled',
       args: [
         moduleTypeIds[module.type],

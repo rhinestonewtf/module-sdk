@@ -1,7 +1,11 @@
-import { Hex, decodeAbiParameters, decodeFunctionData, slice } from 'viem'
+import {
+  Hex,
+  decodeAbiParameters,
+  decodeFunctionData,
+  parseAbi,
+  slice,
+} from 'viem'
 import { InitialModules } from '../../types'
-import AccountFactory from '../constants/abis/AccountFactory.json'
-import Bootstrap from '../constants/abis/Bootstrap.json'
 import { Module } from '../../../module/types'
 
 export const getInitData = ({
@@ -10,7 +14,9 @@ export const getInitData = ({
   initCode: Hex
 }): InitialModules => {
   const { args: initCodeArgs } = decodeFunctionData({
-    abi: AccountFactory.abi,
+    abi: parseAbi([
+      'function createAccount(bytes32 salt,bytes calldata initCode)',
+    ]),
     data: slice(initCode, 20),
   })
 
@@ -27,7 +33,11 @@ export const getInitData = ({
   )
 
   const { args: initCallDataArgs } = decodeFunctionData({
-    abi: Bootstrap.abi,
+    abi: parseAbi([
+      'function singleInitMSA(address validator, bytes calldata data)',
+      'function initMSA(BootstrapConfig[] calldata $valdiators,BootstrapConfig[] calldata $executors,BootstrapConfig calldata _hook,BootstrapConfig[] calldata _fallbacks)',
+      'struct BootstrapConfig {address module;bytes data;}',
+    ]),
     data: initCallData[1],
   })
 
