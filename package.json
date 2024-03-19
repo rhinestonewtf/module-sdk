@@ -18,6 +18,7 @@
     "build": "tsc",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:badges": "jest --coverage && jest-coverage-badges output './badges'",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "prettier:check": "prettier --check \"**/*.{json,md,svg,yml}\"",
@@ -42,6 +43,7 @@
     "ws": "^8.16.0"
   },
   "dependencies": {
+    "jest-coverage-badges": "^1.1.2",
     "moment": "^2.30.1"
   }
 }

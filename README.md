@@ -1,5 +1,7 @@
 # Module SDK
 
+![Coverage badge](./badges/badge-functions.svg)
+
 **A TypeScript library for using Smart Account Modules in Applications**
 
 The Module SDK allows you to:
