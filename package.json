@@ -15,7 +15,11 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "pnpm clean && pnpm build:cjs && pnpm build:esm && pnpm build:types",
+    "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./src/_cjs --removeComments --verbatimModuleSyntax false && printf '{\"type\":\"commonjs\"}' > ./src/_cjs/package.json",
+    "build:esm": "tsc --project ./tsconfig.build.json --module es2015 --outDir ./src/_esm && printf '{\"type\": \"module\",\"sideEffects\":false}' > ./src/_esm/package.json",
+    "build:types": "tsc --project ./tsconfig.build.json --module esnext --declarationDir ./src/_types --emitDeclarationOnly --declaration --declarationMap",
+    "clean": "rimraf src/_esm src/_cjs src/_types",
     "test": "jest",
     "test:coverage": "jest --coverage",
     "test:badges": "jest --coverage && jest-coverage-badges output './badges'",
@@ -35,6 +39,7 @@
     "bufferutil": "^4.0.8",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
+    "rimraf": "^5.0.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
