@@ -1,6 +1,6 @@
-import { createPublicClient, http } from 'viem'
+import { PublicClient, createPublicClient, http } from 'viem'
 
-export const getClient = ({ rpcUrl }: { rpcUrl: string }) => {
+export const getClient = ({ rpcUrl }: { rpcUrl: string }): PublicClient => {
   return createPublicClient({
     transport: http(rpcUrl),
   })

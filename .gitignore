@@ -1,4 +1,8 @@
 node_modules
+_cjs
+_esm
+_types
+tsconfig*.tsbuildinfo
 
 # local env files
 .env

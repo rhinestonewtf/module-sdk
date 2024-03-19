@@ -1,5 +1,5 @@
 import { Address, PublicClient, zeroAddress } from 'viem'
-import { Account, Action } from '../../types'
+import { Account } from '../../types'
 import { ModuleType } from '../../../module/types'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { SENTINEL_ADDRESS } from '../../../common/constants'

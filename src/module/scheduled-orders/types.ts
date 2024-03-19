@@ -1,4 +1,4 @@
-import { Address, Hex } from 'viem'
+import { Address } from 'viem'
 
 export type RecurringOrder = Order & Schedule
 

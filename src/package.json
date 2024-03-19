@@ -1,0 +1,35 @@
+{
+  "name": "@rhinestone/module-sdk",
+  "description": "Application SDK for using Smart Account Modules",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "main": "./_cjs/index.js",
+  "module": "./_esm/index.js",
+  "types": "./_types/index.d.ts",
+  "typings": "./_types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./_types/index.d.ts",
+      "import": "./_esm/index.js",
+      "default": "./_cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "author": {
+    "name": "rhinestone",
+    "url": "https://rhinestone.wtf"
+  },
+  "bugs": {
+    "url": "https://github.com/rhinestonewtf/module-sdk/issues"
+  },
+  "repository": "github.com/rhinestonewtf/module-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "jest-coverage-badges": "^1.1.2",
+    "moment": "^2.30.1",
+    "tslib": "^2.6.2"
+  }
+}

@@ -1,19 +1,7 @@
 {
-  "name": "@rhinestone/module-sdk",
-  "description": "Application SDK for using Smart Account Modules",
+  "private": true,
+  "type": "module",
   "version": "0.0.1",
-  "license": "MIT",
-  "author": {
-    "name": "rhinestone",
-    "url": "https://rhinestone.wtf"
-  },
-  "bugs": {
-    "url": "https://github.com/rhinestonewtf/module-sdk/issues"
-  },
-  "repository": "github.com/rhinestonewtf/module-sdk",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "pnpm clean && pnpm build:cjs && pnpm build:esm && pnpm build:types",
     "build:cjs": "tsc --project ./tsconfig.build.json --module commonjs --outDir ./src/_cjs --removeComments --verbatimModuleSyntax false && printf '{\"type\":\"commonjs\"}' > ./src/_cjs/package.json",
@@ -45,10 +33,11 @@
     "typescript": "^5.3.3",
     "utf-8-validate": "^6.0.3",
     "viem": "^2.4.1",
-    "ws": "^8.16.0"
+    "ws": "^8.16.0",
+    "jest-coverage-badges": "^1.1.2"
   },
   "dependencies": {
-    "jest-coverage-badges": "^1.1.2",
-    "moment": "^2.30.1"
+    "moment": "^2.30.1",
+    "tslib": "^2.6.2"
   }
 }

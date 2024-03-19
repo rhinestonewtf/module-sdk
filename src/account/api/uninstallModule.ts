@@ -1,4 +1,4 @@
-import { PublicClient, encodeFunctionData } from 'viem'
+import { PublicClient } from 'viem'
 import { Account, Action } from '../types'
 import { Module } from '../../module/types'
 import { getAccountImplementation } from './getAccountImplementation'
