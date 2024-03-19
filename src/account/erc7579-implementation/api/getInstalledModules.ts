@@ -1,4 +1,4 @@
-import { Address, PublicClient } from 'viem'
+import { Address, PublicClient, zeroAddress } from 'viem'
 import { Account, Action } from '../../types'
 import { ModuleType } from '../../../module/types'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
@@ -26,6 +26,7 @@ export const getInstalledModules = async ({
             accountAddress: account.address,
           })
           validators && modules.push(...validators)
+          break
         case 'executor':
           const executors = await getModulesPaginated({
             client,
@@ -33,6 +34,7 @@ export const getInstalledModules = async ({
             accountAddress: account.address,
           })
           executors && modules.push(...executors)
+          break
         case 'hook':
           const activeHook = (await client.readContract({
             address: account.address,
@@ -40,6 +42,7 @@ export const getInstalledModules = async ({
             functionName: 'getActiveHook',
           })) as Address
           modules.push(activeHook)
+          break
         case 'fallback':
         // todo: implement on account or use events
       }
@@ -50,20 +53,32 @@ export const getInstalledModules = async ({
       switch (moduleType) {
         case 'validator':
           for (const validator of initialModules.validators) {
-            modules.push(validator.module)
+            if (validator.module !== zeroAddress) {
+              modules.push(validator.module)
+            }
           }
+          break
         case 'executor':
           for (const executor of initialModules.executors) {
-            modules.push(executor.module)
+            if (executor.module !== zeroAddress) {
+              modules.push(executor.module)
+            }
           }
+          break
         case 'hook':
           for (const hook of initialModules.hooks) {
-            modules.push(hook.module)
+            if (hook.module !== zeroAddress) {
+              modules.push(hook.module)
+            }
           }
+          break
         case 'fallback':
           for (const fallback of initialModules.fallbacks) {
-            modules.push(fallback.module)
+            if (fallback.module !== zeroAddress) {
+              modules.push(fallback.module)
+            }
           }
+          break
       }
     }
   } else {

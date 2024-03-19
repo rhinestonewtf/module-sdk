@@ -1,4 +1,4 @@
-import { PublicClient } from 'viem'
+import { PublicClient, getAddress } from 'viem'
 import { Account } from '../../types'
 import AccountInterface from '../constants/abis/ERC7579Implementation.json'
 import { Module, moduleTypeIds } from '../../../module/types'
@@ -53,23 +53,27 @@ const _isModuleInstalled = async ({
       case 'validator':
         isModuleInstalled = initialModules.validators.some(
           (_module: Module) =>
-            _module.module.toLowerCase() == module.module.toLowerCase(),
+            getAddress(_module.module) == getAddress(module.module),
         )
+        break
       case 'executor':
         isModuleInstalled = initialModules.executors.some(
           (_module: Module) =>
             _module.module.toLowerCase() == module.module.toLowerCase(),
         )
+        break
       case 'hook':
         isModuleInstalled = initialModules.hooks.some(
           (_module: Module) =>
             _module.module.toLowerCase() == module.module.toLowerCase(),
         )
+        break
       case 'fallback':
         isModuleInstalled = initialModules.fallbacks.some(
           (_module: Module) =>
             _module.module.toLowerCase() == module.module.toLowerCase(),
         )
+        break
     }
   } else {
     throw new Error('Account has no init code and is not deployed')

@@ -1,18 +1,28 @@
 import { getAccount, uninstallModule } from '../../../../src/account/api'
 import { getModule } from '../../../../src/module/api/getModule'
 import { getClient } from '../../../../src/common/getClient'
-import { MockAccount } from '../../../utils/mocks/account'
+import { MockAccountUndeployed } from '../../../utils/mocks/account'
 import { MockClient } from '../../../utils/mocks/client'
-import { MockModule } from '../../../utils/mocks/module'
-
+import {
+  MockExecutor,
+  MockFallback,
+  MockHook,
+  MockValidator,
+} from '../../../utils/mocks/module'
 describe('Get calldata to uninstall a module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockAccount)
-  const module = getModule(MockModule)
-
+  const account = getAccount(MockAccountUndeployed)
+  const validator = getModule(MockValidator)
+  const executor = getModule(MockExecutor)
+  const hook = getModule(MockHook)
+  const fallback = getModule(MockFallback)
   it('Should return the data to uninstall a validator', async () => {
-    const actions = await uninstallModule({ client, account, module })
+    const actions = await uninstallModule({
+      client,
+      account,
+      module: validator,
+    })
 
     expect(actions.length).toEqual(1)
     expect(actions[0].target).toEqual(account.address)
@@ -20,8 +30,7 @@ describe('Get calldata to uninstall a module', () => {
     // Todo: decode callData
   })
   it('Should return the data to uninstall an executor', async () => {
-    module.type = 'executor'
-    const actions = await uninstallModule({ client, account, module })
+    const actions = await uninstallModule({ client, account, module: executor })
 
     expect(actions.length).toEqual(1)
     expect(actions[0].target).toEqual(account.address)
@@ -29,17 +38,14 @@ describe('Get calldata to uninstall a module', () => {
     // Todo: decode callData
   })
   it('Should return the data to uninstall a fallback handler', async () => {
-    // Not implemented yet
-    // module.type = 'fallback'
-    // const actions = await uninstallModule({ client, account, module })
-    // expect(actions.length).toEqual(1)
-    // expect(actions[0].target).toEqual(account.address)
-    // expect(Number(actions[0].value)).toEqual(0)
+    const actions = await uninstallModule({ client, account, module: fallback })
+    expect(actions.length).toEqual(1)
+    expect(actions[0].target).toEqual(account.address)
+    expect(Number(actions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall a hook', async () => {
-    module.type = 'hook'
-    const actions = await uninstallModule({ client, account, module })
+    const actions = await uninstallModule({ client, account, module: hook })
 
     expect(actions.length).toEqual(1)
     expect(actions[0].target).toEqual(account.address)

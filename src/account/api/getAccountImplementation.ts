@@ -6,6 +6,7 @@ export const getAccountImplementation = ({ account }: { account: Account }) => {
   switch (account.type) {
     case 'erc7579-implementation':
       accountImplementation = new ERC7579Implementation()
+      break
   }
   return accountImplementation
 }
