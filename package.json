@@ -17,6 +17,7 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "prettier:check": "prettier --check \"**/*.{json,md,svg,yml}\"",
