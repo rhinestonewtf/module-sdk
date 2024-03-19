@@ -1,5 +1,4 @@
 {
-  "private": true,
   "type": "module",
   "scripts": {
     "prepare": "pnpm build",
