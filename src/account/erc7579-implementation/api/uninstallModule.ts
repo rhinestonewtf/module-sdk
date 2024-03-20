@@ -12,6 +12,7 @@ import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
 import { getInstalledModules } from './getInstalledModules'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
+import { accountAbi } from '../constants/abis'
 
 export const uninstallModule = ({
   client,
@@ -63,9 +64,7 @@ const _uninstallModule = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
-        abi: parseAbi([
-          'function uninstallModule(uint256 moduleTypeId,address module,bytes calldata deInitData)',
-        ]),
+        abi: parseAbi(accountAbi),
         args: [BigInt(moduleTypeIds[module.type]), module.module, moduleData],
       }),
     })
@@ -103,9 +102,7 @@ const _uninstallFallback = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
-        abi: parseAbi([
-          'function uninstallModule(uint256 moduleTypeId,address module,bytes calldata deInitData)',
-        ]),
+        abi: parseAbi(accountAbi),
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,

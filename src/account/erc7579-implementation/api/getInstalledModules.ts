@@ -4,6 +4,7 @@ import { ModuleType } from '../../../module/types'
 import { SENTINEL_ADDRESS } from '../../../common/constants'
 import { isContract } from '../../../common/utils'
 import { getInitData } from './getInitData'
+import { accountAbi } from '../constants/abis'
 
 export const getInstalledModules = async ({
   client,
@@ -37,9 +38,7 @@ export const getInstalledModules = async ({
         case 'hook':
           const activeHook = (await client.readContract({
             address: account.address,
-            abi: parseAbi([
-              'function getActiveHook() external view returns (address hook)',
-            ]),
+            abi: parseAbi(accountAbi),
             functionName: 'getActiveHook',
           })) as Address
           modules.push(activeHook)
@@ -54,30 +53,22 @@ export const getInstalledModules = async ({
       switch (moduleType) {
         case 'validator':
           for (const validator of initialModules.validators) {
-            if (validator.module !== zeroAddress) {
-              modules.push(validator.module)
-            }
+            modules.push(validator.module)
           }
           break
         case 'executor':
           for (const executor of initialModules.executors) {
-            if (executor.module !== zeroAddress) {
-              modules.push(executor.module)
-            }
+            modules.push(executor.module)
           }
           break
         case 'hook':
           for (const hook of initialModules.hooks) {
-            if (hook.module !== zeroAddress) {
-              modules.push(hook.module)
-            }
+            modules.push(hook.module)
           }
           break
         case 'fallback':
           for (const fallback of initialModules.fallbacks) {
-            if (fallback.module !== zeroAddress) {
-              modules.push(fallback.module)
-            }
+            modules.push(fallback.module)
           }
           break
       }
@@ -85,7 +76,9 @@ export const getInstalledModules = async ({
   } else {
     throw new Error('Account has no init code and is not deployed')
   }
-  return modules
+  const onlyModules = modules.filter((module) => module !== zeroAddress)
+  const uniqueModules = Array.from(new Set(onlyModules))
+  return uniqueModules
 }
 
 const getModulesPaginated = async ({
@@ -99,10 +92,7 @@ const getModulesPaginated = async ({
 }) => {
   const data = (await client.readContract({
     address: accountAddress,
-    abi: parseAbi([
-      'function getValidatorPaginated(address cursor,uint256 size)',
-      'function getExecutorsPaginated(address cursor,uint256 size)',
-    ]),
+    abi: parseAbi(accountAbi),
     functionName: functionName,
     args: [SENTINEL_ADDRESS, 100],
   })) as [Address[], Address]

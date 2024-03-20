@@ -8,6 +8,7 @@ import {
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { Module, moduleTypeIds } from '../../../module/types'
+import { accountAbi } from '../constants/abis'
 
 export const installModule = ({
   client,
@@ -48,9 +49,7 @@ const _installModule = async ({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
-        abi: parseAbi([
-          'function installModule(uint256 moduleTypeId,address module,bytes calldata initData)',
-        ]),
+        abi: parseAbi(accountAbi),
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,
@@ -92,9 +91,7 @@ async function installFallback({
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'installModule',
-        abi: parseAbi([
-          'function installModule(uint256 moduleTypeId,address module,bytes calldata initData)',
-        ]),
+        abi: parseAbi(accountAbi),
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,

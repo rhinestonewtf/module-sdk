@@ -3,6 +3,7 @@ import { Account } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isContract } from '../../../common/utils'
 import { getInitData } from './getInitData'
+import { accountAbi } from '../constants/abis'
 
 export const isModuleInstalled = async ({
   client,
@@ -38,9 +39,7 @@ const _isModuleInstalled = async ({
   if (await isContract({ client, address: account.address })) {
     isModuleInstalled = (await client.readContract({
       address: account.address,
-      abi: parseAbi([
-        'function isModuleInstalled(uint256 moduleTypeId,address module,bytes calldata additionalContext)',
-      ]),
+      abi: parseAbi(accountAbi),
       functionName: 'isModuleInstalled',
       args: [
         moduleTypeIds[module.type],
