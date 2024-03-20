@@ -1,1 +1,1 @@
-export * from './getModule'
+export { getModule } from './getModule'
