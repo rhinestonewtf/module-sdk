@@ -1,5 +1,5 @@
 import { PublicClient } from 'viem'
-import { Account, Action } from '../types'
+import { Account, Execution } from '../types'
 import { Module } from '../../module/types'
 import { getAccountImplementation } from './getAccountImplementation'
 
@@ -11,7 +11,7 @@ export const uninstallModule = ({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> => {
+}): Promise<Execution[]> => {
   const accountImplementation = getAccountImplementation({ account })
   return accountImplementation.uninstallModule({ client, account, module })
 }

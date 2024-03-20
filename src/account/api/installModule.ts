@@ -1,4 +1,4 @@
-import { Account, Action } from '../types'
+import { Account, Execution } from '../types'
 import { PublicClient } from 'viem'
 import { Module } from '../../module/types'
 import { getAccountImplementation } from './getAccountImplementation'
@@ -11,7 +11,7 @@ export const installModule = ({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> => {
+}): Promise<Execution[]> => {
   const accountImplementation = getAccountImplementation({ account })
   return accountImplementation.installModule({ client, account, module })
 }

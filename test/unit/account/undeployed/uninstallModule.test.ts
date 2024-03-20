@@ -18,38 +18,46 @@ describe('Get calldata to uninstall a module', () => {
   const hook = getModule(MockHook)
   const fallback = getModule(MockFallback)
   it('Should return the data to uninstall a validator', async () => {
-    const actions = await uninstallModule({
+    const executions = await uninstallModule({
       client,
       account,
       module: validator,
     })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall an executor', async () => {
-    const actions = await uninstallModule({ client, account, module: executor })
+    const executions = await uninstallModule({
+      client,
+      account,
+      module: executor,
+    })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall a fallback handler', async () => {
-    const actions = await uninstallModule({ client, account, module: fallback })
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    const executions = await uninstallModule({
+      client,
+      account,
+      module: fallback,
+    })
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall a hook', async () => {
-    const actions = await uninstallModule({ client, account, module: hook })
+    const executions = await uninstallModule({ client, account, module: hook })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
 })

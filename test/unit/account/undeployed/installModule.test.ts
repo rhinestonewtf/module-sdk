@@ -23,37 +23,49 @@ describe('Get calldata to install a module', () => {
 
   it('Should return the data to install a validator', async () => {
     validator.module = notInstalledModuleAddress
-    const actions = await installModule({ client, account, module: validator })
+    const executions = await installModule({
+      client,
+      account,
+      module: validator,
+    })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to install an executor', async () => {
     executor.module = notInstalledModuleAddress
-    const actions = await installModule({ client, account, module: executor })
+    const executions = await installModule({
+      client,
+      account,
+      module: executor,
+    })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to install a fallback handler', async () => {
     fallback.module = notInstalledModuleAddress
-    const actions = await installModule({ client, account, module: fallback })
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    const executions = await installModule({
+      client,
+      account,
+      module: fallback,
+    })
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to install a hook', async () => {
     hook.module = notInstalledModuleAddress
-    const actions = await installModule({ client, account, module: hook })
+    const executions = await installModule({ client, account, module: hook })
 
-    expect(actions.length).toEqual(1)
-    expect(actions[0].target).toEqual(account.address)
-    expect(Number(actions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(1)
+    expect(executions[0].target).toEqual(account.address)
+    expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
 })

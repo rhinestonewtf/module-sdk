@@ -1,5 +1,5 @@
 import { Address, PublicClient } from 'viem'
-import { Account, Action } from '../types'
+import { Account, Execution } from '../types'
 import { Module, ModuleType } from '../../module/types'
 import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
@@ -27,7 +27,7 @@ export class ERC7579Implementation {
     client: PublicClient
     account: Account
     module: Module
-  }): Promise<Action[]> => {
+  }): Promise<Execution[]> => {
     return installModule({ client, account, module })
   }
 
@@ -51,7 +51,7 @@ export class ERC7579Implementation {
     client: PublicClient
     account: Account
     module: Module
-  }): Promise<Action[]> => {
+  }): Promise<Execution[]> => {
     return uninstallModule({ client, account, module })
   }
 }

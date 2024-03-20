@@ -10,7 +10,7 @@ export type Account = {
   deployedOnChains: Number[]
 }
 
-export type Action = {
+export type Execution = {
   target: Address
   value: BigInt
   callData: Hex

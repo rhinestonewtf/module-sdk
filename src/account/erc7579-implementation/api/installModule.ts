@@ -1,4 +1,4 @@
-import { Account, Action } from '../../types'
+import { Account, Execution } from '../../types'
 import {
   PublicClient,
   encodeAbiParameters,
@@ -18,7 +18,7 @@ export const installModule = ({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> => {
+}): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
@@ -40,11 +40,11 @@ const _installModule = async ({
   account: Account
   module: Module
 }) => {
-  const actions: Action[] = []
+  const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (!isInstalled) {
-    actions.push({
+    executions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
@@ -58,7 +58,7 @@ const _installModule = async ({
       }),
     })
   }
-  return actions
+  return executions
 }
 
 async function installFallback({
@@ -69,8 +69,8 @@ async function installFallback({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> {
-  const actions: Action[] = []
+}): Promise<Execution[]> {
+  const executions: Execution[] = []
 
   const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
@@ -86,7 +86,7 @@ async function installFallback({
   })
 
   if (!isInstalled) {
-    actions.push({
+    executions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
@@ -101,5 +101,5 @@ async function installFallback({
     })
   }
 
-  return actions
+  return executions
 }

@@ -12,13 +12,13 @@ export {
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   getScheduledOrdersExecutor,
-  getCreateRecurringOrderAction,
+  getCreateRecurringOrderExecution,
   getSwapOrderData,
 } from './scheduled-orders'
 export {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
   getScheduledTransfersExecutor,
-  getCreateScheduledTransferAction,
+  getCreateScheduledTransferExecution,
   getScheduledTransactionData,
 } from './scheduled-transfers'
 export {

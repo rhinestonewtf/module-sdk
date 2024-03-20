@@ -6,7 +6,7 @@ export {
   isModuleInstalled,
   uninstallModule,
 } from './account'
-export type { Account, AccountType, Action, InitialModules } from './account'
+export type { Account, AccountType, Execution, InitialModules } from './account'
 
 // Module
 export {
@@ -19,11 +19,11 @@ export {
   getOwnableValidatorMockSignature,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   getScheduledOrdersExecutor,
-  getCreateRecurringOrderAction,
+  getCreateRecurringOrderExecution,
   getSwapOrderData,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
   getScheduledTransfersExecutor,
-  getCreateScheduledTransferAction,
+  getCreateScheduledTransferExecution,
   getScheduledTransactionData,
   WEBAUTHN_VALIDATOR_ADDRESS,
   getWebauthnValidator,

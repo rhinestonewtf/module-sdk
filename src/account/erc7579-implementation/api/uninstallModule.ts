@@ -7,7 +7,7 @@ import {
   getAddress,
   parseAbi,
 } from 'viem'
-import { Account, Action } from '../../types'
+import { Account, Execution } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
 import { getInstalledModules } from './getInstalledModules'
@@ -22,7 +22,7 @@ export const uninstallModule = ({
   client: PublicClient
   account: Account
   module: Module
-}): Promise<Action[]> => {
+}): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
@@ -44,7 +44,7 @@ const _uninstallModule = async ({
   account: Account
   module: Module
 }) => {
-  const actions: Action[] = []
+  const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (isInstalled) {
@@ -59,7 +59,7 @@ const _uninstallModule = async ({
         [prev, moduleData],
       )
     }
-    actions.push({
+    executions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
@@ -69,7 +69,7 @@ const _uninstallModule = async ({
       }),
     })
   }
-  return actions
+  return executions
 }
 
 const _uninstallFallback = async ({
@@ -81,7 +81,7 @@ const _uninstallFallback = async ({
   account: Account
   module: Module
 }) => {
-  const actions: Action[] = []
+  const executions: Execution[] = []
 
   const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
@@ -97,7 +97,7 @@ const _uninstallFallback = async ({
   })
 
   if (isInstalled) {
-    actions.push({
+    executions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
@@ -112,7 +112,7 @@ const _uninstallFallback = async ({
     })
   }
 
-  return actions
+  return executions
 }
 
 const getPreviousModule = async ({

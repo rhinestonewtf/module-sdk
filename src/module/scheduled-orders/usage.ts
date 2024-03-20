@@ -10,16 +10,16 @@ import {
   scheduledOrdersAbi,
 } from './constants'
 import { RecurringOrder } from './types'
-import { Action } from '../../account/types'
+import { Execution } from '../../account/types'
 import moment from 'moment'
 
 type Params = {
   recurringOrder: RecurringOrder
 }
 
-export const getCreateRecurringOrderAction = ({
+export const getCreateRecurringOrderExecution = ({
   recurringOrder,
-}: Params): Action => {
+}: Params): Execution => {
   return {
     target: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
     value: BigInt(0),

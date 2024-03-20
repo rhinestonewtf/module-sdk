@@ -6,4 +6,4 @@ export {
   uninstallModule,
 } from './api'
 
-export type { Account, AccountType, Action, InitialModules } from './types'
+export type { Account, AccountType, Execution, InitialModules } from './types'

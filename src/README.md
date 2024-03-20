@@ -76,15 +76,15 @@ const account = getAccount({
   type: 'erc7579-implementation',
 })
 
-// Get the actions required to install the module
-const actions = await installModule({
+// Get the executions required to install the module
+const executions = await installModule({
   client,
   account,
   module,
 })
 
 // Install the module on your account, using your existing account SDK
-accountSDK.execute(actions)
+accountSDK.execute(executions)
 ```
 
 ## Features

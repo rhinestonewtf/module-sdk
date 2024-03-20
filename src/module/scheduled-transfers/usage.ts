@@ -8,7 +8,7 @@ import {
 } from 'viem'
 import { ScheduledTransaction } from './types'
 import moment from 'moment'
-import { Action } from '../../account/types'
+import { Execution } from '../../account/types'
 import {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
   scheduledTransfersAbi,
@@ -48,13 +48,13 @@ export const getScheduledTransactionData = ({
   )
 }
 
-type CreateScheduledTransactionActionParams = {
+type CreateScheduledTransactionExecutionParams = {
   scheduledTransaction: ScheduledTransaction
 }
 
-export const getCreateScheduledTransferAction = ({
+export const getCreateScheduledTransferExecution = ({
   scheduledTransaction,
-}: CreateScheduledTransactionActionParams): Action => {
+}: CreateScheduledTransactionExecutionParams): Execution => {
   return {
     target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
     value: BigInt(0),
