@@ -3,13 +3,16 @@ import {
   Hex,
   encodeAbiParameters,
   encodeFunctionData,
+  erc20Abi,
   parseAbi,
 } from 'viem'
 import { ScheduledTransaction } from './types'
 import moment from 'moment'
 import { Action } from '../../account/types'
-import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
-import ScheduledTransfersInterface from './abis/ScheduledTransfersInterface.json'
+import {
+  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+  scheduledTransfersAbi,
+} from './constants'
 
 type Params = {
   scheduledTransaction: ScheduledTransaction
@@ -37,9 +40,7 @@ export const getScheduledTransactionData = ({
       scheduledTransaction.token
         ? encodeFunctionData({
             functionName: 'transfer',
-            abi: parseAbi([
-              'function transfer(address to, uint256 value) external',
-            ]),
+            abi: erc20Abi,
             args: [scheduledTransaction.recipient as Address, amount],
           })
         : '0x',
@@ -59,7 +60,7 @@ export const getCreateScheduledTransferAction = ({
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
-      abi: ScheduledTransfersInterface,
+      abi: parseAbi(scheduledTransfersAbi),
       args: [
         {
           executeInterval: BigInt(

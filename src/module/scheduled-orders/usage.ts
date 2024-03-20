@@ -1,6 +1,14 @@
-import { Address, Hex, encodeAbiParameters, encodeFunctionData } from 'viem'
-import ScheduledOrdersInterface from './abis/ScheduledOrdersInterface.json'
-import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
+import {
+  Address,
+  Hex,
+  encodeAbiParameters,
+  encodeFunctionData,
+  parseAbi,
+} from 'viem'
+import {
+  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+  scheduledOrdersAbi,
+} from './constants'
 import { RecurringOrder } from './types'
 import { Action } from '../../account/types'
 import moment from 'moment'
@@ -17,7 +25,7 @@ export const getCreateRecurringOrderAction = ({
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
-      abi: ScheduledOrdersInterface,
+      abi: parseAbi(scheduledOrdersAbi),
       args: [
         {
           executeInterval: BigInt(
