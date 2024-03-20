@@ -1,7 +1,7 @@
 # Module SDK
 
-![Coverage badge lines](./badges/badge-lines.svg)
-![Coverage badge functions](./badges/badge-functions.svg)
+![Coverage badge lines](https://raw.githubusercontent.com/rhinestonewtf/module-sdk/main/badges/badge-lines.svg)
+![Coverage badge functions](https://raw.githubusercontent.com/rhinestonewtf/module-sdk/main/badges/badge-functions.svg)
 
 **A TypeScript library for using Smart Account Modules in Applications**
 
