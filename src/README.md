@@ -9,7 +9,7 @@ The Module SDK allows you to:
 
 - **Easily install and uninstall** modules for any [ERC-7579](https://erc7579.com/) account
 - **Interact with** and **use** modules using a simple and consistent API
-- Can be used **alongside existing account SDKs** such as [permissionless](https://www.npmjs.com/package/permissionless), [Biconomy](https://www.npmjs.com/package/@biconomy/account), [Zerodev](https://www.npmjs.com/package/@zerodevapp/sdk) and many more
+- Can be used **alongside existing account SDKs** such as [permissionless.js](https://www.npmjs.com/package/permissionless), [Biconomy](https://www.npmjs.com/package/@biconomy/account), [Zerodev](https://www.npmjs.com/package/@zerodevapp/sdk) and many more
 - **Use existing modules**, such as:
   - **ECDSA Validator** - Use ECDSA signatures to control an account
   - **Webauthn Validator** - Use webauthn/passkeys to control an account
