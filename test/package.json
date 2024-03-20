@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "module-sdk-test",
   "private": true,
   "type": "module",
   "devDependencies": {
@@ -18,9 +18,5 @@
     "viem": "^2.4.1",
     "ws": "^8.16.0",
     "jest-coverage-badges": "^1.1.2"
-  },
-  "dependencies": {
-    "moment": "^2.30.1",
-    "tslib": "^2.6.2"
   }
 }
