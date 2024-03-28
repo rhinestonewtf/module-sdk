@@ -7,7 +7,6 @@ import {
   parseAbi,
 } from 'viem'
 import { ScheduledTransaction } from './types'
-import moment from 'moment'
 import { Execution } from '../../account/types'
 import {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
@@ -63,17 +62,10 @@ export const getCreateScheduledTransferExecution = ({
       abi: parseAbi(scheduledTransfersAbi),
       args: [
         {
-          executeInterval: BigInt(
-            moment
-              .duration(
-                scheduledTransaction.repeatEvery,
-                scheduledTransaction.repeatType,
-              )
-              .asSeconds(),
-          ),
+          executeInterval: BigInt(scheduledTransaction.repeatEvery),
           numberOfExecutions: BigInt(scheduledTransaction.numberOfRepeats),
           numberOfExecutionsCompleted: BigInt(0),
-          startDate: BigInt(moment(scheduledTransaction.startDate).valueOf()),
+          startDate: BigInt(scheduledTransaction.startDate),
           isEnabled: true,
           lastExecutionTime: BigInt(0),
           executionData: getScheduledTransactionData({

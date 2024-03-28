@@ -1,7 +1,7 @@
 {
   "name": "@rhinestone/module-sdk",
   "description": "Application SDK for using Smart Account Modules",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "homepage": "https://docs.rhinestone.wtf/module-sdk",
   "license": "MIT",
   "main": "./_cjs/index.js",
@@ -26,9 +26,6 @@
   "repository": "github:rhinestonewtf/module-sdk",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "moment": "^2.30.1"
   },
   "peerDependencies": {
     "viem": "^2.0.0"

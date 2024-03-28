@@ -13,9 +13,8 @@ export type Order = {
 }
 
 export type Schedule = {
-  startDate: string
-  repeatEvery: number
-  repeatType: 'day' | 'week' | 'month' | 'year'
+  startDate: number // Unix timestamp
+  repeatEvery: number // In seconds
   numberOfRepeats: number
 }
 

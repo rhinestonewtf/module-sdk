@@ -11,7 +11,6 @@ import {
 } from './constants'
 import { RecurringOrder } from './types'
 import { Execution } from '../../account/types'
-import moment from 'moment'
 
 type Params = {
   recurringOrder: RecurringOrder
@@ -29,13 +28,11 @@ export const getCreateRecurringOrderExecution = ({
       args: [
         {
           executeInterval: BigInt(
-            moment
-              .duration(recurringOrder.repeatEvery, recurringOrder.repeatType)
-              .asSeconds(),
+            recurringOrder.repeatEvery
           ),
           numberOfExecutions: BigInt(recurringOrder.numberOfRepeats),
           numberOfExecutionsCompleted: BigInt(0),
-          startDate: BigInt(moment(recurringOrder.startDate).valueOf()),
+          startDate: BigInt(recurringOrder.startDate),
           isEnabled: true,
           lastExecutionTime: BigInt(0),
           executionData: getSwapOrderData({
