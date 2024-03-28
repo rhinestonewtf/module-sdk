@@ -23,7 +23,7 @@
   "bugs": {
     "url": "https://github.com/rhinestonewtf/module-sdk/issues"
   },
-  "repository": "github.com/rhinestonewtf/module-sdk",
+  "repository": "github:rhinestonewtf/module-sdk",
   "publishConfig": {
     "access": "public"
   },
