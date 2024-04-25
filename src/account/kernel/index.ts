@@ -6,7 +6,7 @@ import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
 
-export class ERC7579Implementation {
+export class KernelImplementation {
   getInstalledModules = async ({
     account,
   }: {
