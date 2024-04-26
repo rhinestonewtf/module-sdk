@@ -6,7 +6,7 @@ describe('Get initData from initCode', () => {
   const initCode = MockAccountUndeployed.initCode!
 
   it('Should return initial modules', async () => {
-    const modules = await getInitData({ initCode })
+    const modules = getInitData({ initCode })
 
     expect(modules.validators.length).toEqual(1)
     expect(modules.executors.length).toEqual(1)

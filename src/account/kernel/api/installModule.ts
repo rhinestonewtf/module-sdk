@@ -7,8 +7,8 @@ import {
   slice,
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
-import { Module, moduleTypeIds } from '../../../module/types'
 import { accountAbi } from '../constants/abis'
+import { KernelModule, kernelModuleTypeIds } from '../types'
 
 export const installModule = ({
   client,
@@ -17,12 +17,14 @@ export const installModule = ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
     case 'hook':
+    case 'policy':
+    case 'signer':
       return _installModule({ client, account, module })
     case 'fallback':
       return installFallback({ client, account, module })
@@ -38,7 +40,7 @@ const _installModule = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
@@ -51,7 +53,7 @@ const _installModule = async ({
         functionName: 'installModule',
         abi: parseAbi(accountAbi),
         args: [
-          BigInt(moduleTypeIds[module.type]),
+          BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           module.data || '0x',
         ],
@@ -68,7 +70,7 @@ async function installFallback({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<Execution[]> {
   const executions: Execution[] = []
 
@@ -93,7 +95,7 @@ async function installFallback({
         functionName: 'installModule',
         abi: parseAbi(accountAbi),
         args: [
-          BigInt(moduleTypeIds[module.type]),
+          BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           module.data ?? '0x',
         ],

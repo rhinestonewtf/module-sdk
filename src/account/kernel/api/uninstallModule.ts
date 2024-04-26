@@ -6,9 +6,9 @@ import {
   parseAbi,
 } from 'viem'
 import { Account, Execution } from '../../types'
-import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
+import { KernelModule, kernelModuleTypeIds } from '../types'
 
 export const uninstallModule = ({
   client,
@@ -17,12 +17,14 @@ export const uninstallModule = ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
     case 'hook':
+    case 'policy':
+    case 'signer':
       return _uninstallModule({ client, account, module })
     case 'fallback':
       return _uninstallFallback({ client, account, module })
@@ -38,7 +40,7 @@ const _uninstallModule = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
@@ -51,7 +53,7 @@ const _uninstallModule = async ({
         functionName: 'uninstallModule',
         abi: parseAbi(accountAbi),
         args: [
-          BigInt(moduleTypeIds[module.type]),
+          BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           module.data || '0x',
         ],
@@ -68,7 +70,7 @@ const _uninstallFallback = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }) => {
   const executions: Execution[] = []
 
@@ -93,7 +95,7 @@ const _uninstallFallback = async ({
         functionName: 'uninstallModule',
         abi: parseAbi(accountAbi),
         args: [
-          BigInt(moduleTypeIds[module.type]),
+          BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           module.data ?? '0x',
         ],

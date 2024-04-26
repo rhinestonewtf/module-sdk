@@ -1,8 +1,7 @@
-import { PublicClient, getAddress, parseAbi } from 'viem'
+import { PublicClient, parseAbi } from 'viem'
 import { Account } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isContract } from '../../../common/utils'
-import { getInitData } from './getInitData'
 import { accountAbi } from '../constants/abis'
 
 export const isModuleInstalled = async ({
@@ -34,10 +33,8 @@ const _isModuleInstalled = async ({
   account: Account
   module: Module
 }): Promise<boolean> => {
-  let isModuleInstalled = false
-
   if (await isContract({ client, address: account.address })) {
-    isModuleInstalled = (await client.readContract({
+    return (await client.readContract({
       address: account.address,
       abi: parseAbi(accountAbi),
       functionName: 'isModuleInstalled',
@@ -47,36 +44,7 @@ const _isModuleInstalled = async ({
         module.additionalContext,
       ],
     })) as boolean
-  } else if (account.initCode) {
-    const initialModules = getInitData({ initCode: account.initCode })
-    switch (module.type) {
-      case 'validator':
-        isModuleInstalled = initialModules.validators.some(
-          (_module: Module) =>
-            getAddress(_module.module) == getAddress(module.module),
-        )
-        break
-      case 'executor':
-        isModuleInstalled = initialModules.executors.some(
-          (_module: Module) =>
-            _module.module.toLowerCase() == module.module.toLowerCase(),
-        )
-        break
-      case 'hook':
-        isModuleInstalled = initialModules.hooks.some(
-          (_module: Module) =>
-            _module.module.toLowerCase() == module.module.toLowerCase(),
-        )
-        break
-      case 'fallback':
-        isModuleInstalled = initialModules.fallbacks.some(
-          (_module: Module) =>
-            _module.module.toLowerCase() == module.module.toLowerCase(),
-        )
-        break
-    }
-  } else {
-    throw new Error('Account has no init code and is not deployed')
   }
-  return isModuleInstalled
+
+  return false
 }
