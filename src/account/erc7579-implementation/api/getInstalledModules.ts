@@ -1,6 +1,7 @@
 import { Address } from 'viem'
 import { Account } from '../../types'
-import { getInstalledModules as getInstalledModulesQuery } from 'src/common/queries'
+// @ts-ignore
+import { getInstalledModules as getInstalledModulesQuery } from 'src/common/queries/account'
 
 export const getInstalledModules = async ({
   account,

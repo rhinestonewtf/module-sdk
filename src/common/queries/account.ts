@@ -1,27 +1,31 @@
 import { Address } from 'viem'
 import { Account } from 'src/account'
-import { gql } from '@apollo/client'
-import { client } from 'src/common/graphQLClient'
-
-const query = `
-  query ($smartAccount: String) {
-    moduleQueries (where: { smartAccount: $smartAccount, isInstalled: true }) {
-      module,
-      moduleTypeId
-    }
-  }
-`
+import { GRAPHQL_API_URL } from '../constants'
 
 export const getInstalledModules = async ({
   account,
 }: {
   account: Account
 }): Promise<Address[]> => {
-  return client
-    .query({
-      query: gql(query),
-      variables: { smartAccount: account.address },
-    })
+  const query = `
+    query {
+      moduleQueries (where: { smartAccount: ${account.address}, isInstalled: true }) {
+        module,
+        moduleTypeId
+      }
+    }
+  `
+
+  return fetch(GRAPHQL_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query: query,
+    }),
+  })
+    .then((res) => res.json())
     .then((data) => {
       return data.data
     })

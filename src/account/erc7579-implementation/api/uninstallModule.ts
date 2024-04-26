@@ -116,7 +116,6 @@ const _uninstallFallback = async ({
 }
 
 const getPreviousModule = async ({
-  client,
   account,
   module,
 }: {
@@ -124,16 +123,14 @@ const getPreviousModule = async ({
   account: Account
   module: Module
 }): Promise<Address> => {
-  let insalledModules = await getInstalledModules({
-    client,
+  let installedModules = await getInstalledModules({
     account,
-    moduleTypes: [module.type],
   })
-  const index = insalledModules.indexOf(getAddress(module.module))
+  const index = installedModules.indexOf(getAddress(module.module))
   if (index === 0) {
     return SENTINEL_ADDRESS
   } else if (index > 0) {
-    return insalledModules[index - 1]
+    return installedModules[index - 1]
   } else {
     throw new Error(`Module ${module.module} not found in installed modules`)
   }
