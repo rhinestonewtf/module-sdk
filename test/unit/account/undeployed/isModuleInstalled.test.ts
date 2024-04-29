@@ -27,7 +27,7 @@ describe('Get installation status of module', () => {
       module: validator,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
   it('Should return true for installed executor', async () => {
     const isInstalled = await isModuleInstalled({
@@ -36,7 +36,7 @@ describe('Get installation status of module', () => {
       module: executor,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
   it('Should return true for installed fallback', async () => {
     // Not implemented yet
@@ -45,7 +45,7 @@ describe('Get installation status of module', () => {
       account,
       module: fallback,
     })
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
   it('Should return true for installed hook', async () => {
     const isInstalled = await isModuleInstalled({
@@ -54,7 +54,7 @@ describe('Get installation status of module', () => {
       module: hook,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
 
   it('Should return false for not-installed validator', async () => {

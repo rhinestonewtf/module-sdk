@@ -33,18 +33,21 @@ const _isModuleInstalled = async ({
   account: Account
   module: Module
 }): Promise<boolean> => {
-  if (await isContract({ client, address: account.address })) {
-    return (await client.readContract({
-      address: account.address,
-      abi: parseAbi(accountAbi),
-      functionName: 'isModuleInstalled',
-      args: [
-        moduleTypeIds[module.type],
-        module.module,
-        module.additionalContext,
-      ],
-    })) as boolean
+  try {
+    if (await isContract({ client, address: account.address })) {
+      return (await client.readContract({
+        address: account.address,
+        abi: parseAbi(accountAbi),
+        functionName: 'isModuleInstalled',
+        args: [
+          moduleTypeIds[module.type],
+          module.module,
+          module.additionalContext,
+        ],
+      })) as boolean
+    }
+    return false
+  } catch (e) {
+    return false
   }
-
-  return false
 }

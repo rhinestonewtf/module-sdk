@@ -1,18 +1,18 @@
-import { getAccount, uninstallModule } from '../../../../src/account/api'
-import { getModule } from '../../../../src/module/api/getModule'
-import { getClient } from '../../../../src/common/getClient'
-import { MockAccountUndeployed } from '../../../utils/mocks/account'
-import { MockClient } from '../../../utils/mocks/client'
+import { getAccount, uninstallModule } from '../../../../../src/account/api'
+import { getModule } from '../../../../../src/module/api/getModule'
+import { getClient } from '../../../../../src/common/getClient'
+import { MockKernalAccountDeployed } from '../../../../utils/mocks/account'
+import { MockClient } from '../../../../utils/mocks/client'
 import {
   MockExecutor,
   MockFallback,
   MockHook,
   MockValidator,
-} from '../../../utils/mocks/module'
+} from '../../../../utils/mocks/module'
 describe('Get calldata to uninstall a module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockAccountUndeployed)
+  const account = getAccount(MockKernalAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule(MockExecutor)
   const hook = getModule(MockHook)

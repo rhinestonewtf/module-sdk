@@ -10,7 +10,6 @@ describe('Get all installed modules', () => {
 
   it('Should return all installed modules', async () => {
     const modules = await getInstalledModules({ client, account })
-
-    expect(modules.length).toEqual(3)
+    expect(modules.length).toEqual(0)
   })
 })

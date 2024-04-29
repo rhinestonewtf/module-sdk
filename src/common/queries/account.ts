@@ -1,6 +1,7 @@
-import { Address } from 'viem'
 import { Account } from 'src/account'
-import { GRAPHQL_API_URL } from '../constants'
+import { client } from '../graphClient'
+import { gql } from '@apollo/client/core'
+import { Address } from 'viem'
 
 export const getInstalledModules = async ({
   account,
@@ -8,27 +9,23 @@ export const getInstalledModules = async ({
   account: Account
 }): Promise<Address[]> => {
   const query = `
-    query {
-      moduleQueries (where: { smartAccount: ${account.address}, isInstalled: true }) {
+    query ($smartAccount: String) {
+      moduleQueries (where: { smartAccount: $smartAccount, isInstalled: true }) {
         module,
         moduleTypeId
       }
     }
   `
 
-  return fetch(GRAPHQL_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: query,
-    }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      return data.data
+  return client
+    .query({
+      query: gql(query),
+      variables: { smartAccount: account.address },
     })
+    .then((data) => {
+      return data.data.moduleQueries.map((module: any) => module.module)
+    })
+
     .catch((err) => {
       console.log('Error fetching data: ', err)
     })

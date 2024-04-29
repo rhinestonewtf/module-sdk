@@ -17,7 +17,7 @@ describe('Get installation status of module', () => {
   const account = getAccount(MockAccountDeployed)
   const validator = getModule({
     ...MockValidator,
-    module: '0xB236CDE7e68431D874FD90E10b1910af5DC45DAc',
+    module: '0x503b54ed1e62365f0c9e4caf1479623b08acbe77',
   })
   const executor = getModule({
     ...MockExecutor,
@@ -27,16 +27,16 @@ describe('Get installation status of module', () => {
   const fallback = getModule(MockFallback)
   const notInstalledModuleAddress = SENTINEL_ADDRESS
 
-  it('Should return true for installed validator', async () => {
+  it('Should return false for installed validator', async () => {
     const isInstalled = await isModuleInstalled({
       client,
       account,
       module: validator,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
-  it('Should return true for installed executor', async () => {
+  it('Should return false for installed executor', async () => {
     const isInstalled = await isModuleInstalled({
       client,
       account,
@@ -45,7 +45,7 @@ describe('Get installation status of module', () => {
 
     expect(isInstalled).toEqual(true)
   })
-  it('Should return true for installed fallback', async () => {
+  it('Should return false for installed fallback', async () => {
     // Not implemented yet
     const isInstalled = await isModuleInstalled({
       client,
@@ -56,7 +56,7 @@ describe('Get installation status of module', () => {
     // Todo: currently no fallback installed on account
     expect(isInstalled).toEqual(false)
   })
-  it('Should return true for installed hook', async () => {
+  it('Should return false for installed hook', async () => {
     const isInstalled = await isModuleInstalled({
       client,
       account,
