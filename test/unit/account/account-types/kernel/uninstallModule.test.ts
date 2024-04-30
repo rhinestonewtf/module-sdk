@@ -24,7 +24,7 @@ describe('Get calldata to uninstall a module', () => {
       module: validator,
     })
 
-    expect(executions.length).toEqual(0)
+    expect(executions.length).toEqual(1)
     // expect(executions[0].target).toEqual(account.address)
     // expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData

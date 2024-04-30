@@ -39,11 +39,7 @@ const _isModuleInstalled = async ({
         address: account.address,
         abi: parseAbi(accountAbi),
         functionName: 'isModuleInstalled',
-        args: [
-          moduleTypeIds[module.type],
-          module.module,
-          module.additionalContext,
-        ],
+        args: [moduleTypeIds[module.type], module.module, module.data],
       })) as boolean
     }
     return false

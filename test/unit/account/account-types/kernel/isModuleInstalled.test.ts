@@ -1,20 +1,20 @@
-import { getAccount, isModuleInstalled } from '../../../../src/account/api'
-import { getModule } from '../../../../src/module/api/getModule'
-import { getClient } from '../../../../src/common/getClient'
-import { MockAccountDeployed } from '../../../utils/mocks/account'
-import { MockClient } from '../../../utils/mocks/client'
+import { getAccount, isModuleInstalled } from '../../../../../src/account/api'
+import { getModule } from '../../../../../src/module/api/getModule'
+import { getClient } from '../../../../../src/common/getClient'
+import { MockKernalAccountDeployed } from '../../../../utils/mocks/account'
+import { MockClient } from '../../../../utils/mocks/client'
 import {
   MockExecutor,
   MockFallback,
   MockHook,
   MockValidator,
-} from '../../../utils/mocks/module'
-import { SENTINEL_ADDRESS } from '../../../../src/common/constants'
+} from '../../../../utils/mocks/module'
+import { SENTINEL_ADDRESS } from '../../../../../src/common/constants'
 
 describe('Get installation status of module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockAccountDeployed)
+  const account = getAccount(MockKernalAccountDeployed)
   const validator = getModule({
     ...MockValidator,
     module: '0x503b54ed1e62365f0c9e4caf1479623b08acbe77',
@@ -43,7 +43,7 @@ describe('Get installation status of module', () => {
       module: executor,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
   it('Should return false for installed fallback', async () => {
     // Not implemented yet
