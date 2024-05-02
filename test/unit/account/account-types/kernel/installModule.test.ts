@@ -1,7 +1,7 @@
 import { getAccount, installModule } from '../../../../../src/account/api'
 import { getModule } from '../../../../../src/module/api/getModule'
 import { getClient } from '../../../../../src/common/getClient'
-import { MockKernelAccountUndeployed } from '../../../../utils/mocks/account'
+import { MockKernalAccountDeployed } from '../../../../utils/mocks/account'
 import { MockClient } from '../../../../utils/mocks/client'
 import {
   MockExecutor,
@@ -14,7 +14,7 @@ import { SENTINEL_ADDRESS } from '../../../../../src/common/constants'
 describe('Get calldata to install a module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockKernelAccountUndeployed)
+  const account = getAccount(MockKernalAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule(MockExecutor)
   const hook = getModule(MockHook)
