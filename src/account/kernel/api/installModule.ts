@@ -3,6 +3,7 @@ import {
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
+  encodePacked,
   parseAbi,
   slice,
 } from 'viem'
@@ -22,10 +23,11 @@ export const installModule = ({
   switch (module.type) {
     case 'validator':
     case 'executor':
+      return _installModule({ client, account, module, withHook: true })
     case 'hook':
     case 'policy':
     case 'signer':
-      return _installModule({ client, account, module })
+      return _installModule({ client, account, module, withHook: false })
     case 'fallback':
       return installFallback({ client, account, module })
     default:
@@ -37,13 +39,19 @@ const _installModule = async ({
   client,
   account,
   module,
+  withHook = false,
 }: {
   client: PublicClient
   account: Account
   module: KernelModule
+  withHook: boolean
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
+
+  if (withHook && !module.hook) {
+    throw new Error(`Hook is required for module type ${module.type}`)
+  }
 
   if (!isInstalled) {
     executions.push({
@@ -55,7 +63,12 @@ const _installModule = async ({
         args: [
           BigInt(kernelModuleTypeIds[module.type]),
           module.module,
-          module.data || '0x',
+          withHook
+            ? encodePacked(
+                ['address', 'bytes'],
+                [module.hook!, module.data || '0x'],
+              )
+            : module.data || '0x',
         ],
       }),
     })
@@ -72,6 +85,10 @@ async function installFallback({
   account: Account
   module: KernelModule
 }): Promise<Execution[]> {
+  if (!module.hook) {
+    throw new Error(`Hook is required for module type ${module.type}`)
+  }
+
   const executions: Execution[] = []
 
   const selector = slice(module.data!, 0, 4)
@@ -97,7 +114,10 @@ async function installFallback({
         args: [
           BigInt(kernelModuleTypeIds[module.type]),
           module.module,
-          module.data ?? '0x',
+          encodePacked(
+            ['address', 'bytes'],
+            [module.hook, module.data || '0x'],
+          ),
         ],
       }),
     })

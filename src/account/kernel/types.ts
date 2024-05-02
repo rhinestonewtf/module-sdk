@@ -5,6 +5,7 @@ export type KernelModule = {
   data?: Hex
   additionalContext?: Hex
   type: KernelModuleType
+  hook?: Address
 }
 
 export type KernelModuleType =
