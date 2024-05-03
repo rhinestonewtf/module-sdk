@@ -60,9 +60,9 @@ describe('Social Recovery Module', () => {
       guardian: guardians[1],
     })
 
-    expect(removeGuardianExecution.target).toEqual(SOCIAL_RECOVERY_ADDRESS)
-    expect(removeGuardianExecution.value).toEqual(BigInt(0))
-    expect(removeGuardianExecution.callData).toBeDefined()
+    expect((removeGuardianExecution as Error).message).toEqual(
+      'Guardian not found',
+    )
   })
 
   it('Should get list of guardians', async () => {

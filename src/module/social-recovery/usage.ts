@@ -1,12 +1,6 @@
 import { SENTINEL_ADDRESS, SOCIAL_RECOVERY_ADDRESS } from './constants'
 import { Execution } from '../../account/types'
-import {
-  Address,
-  encodeFunctionData,
-  getAddress,
-  PublicClient,
-  zeroAddress,
-} from 'viem'
+import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
 
@@ -50,14 +44,14 @@ export const getRemoveGuardianExecution = async ({
   client: PublicClient
   account: Account
   guardian: Address
-}): Promise<Execution> => {
+}): Promise<Execution | Error> => {
   const guardians = await getGuardians({ account, client })
   let prevGuardian: Address
 
   const currentGuardianIndex = guardians.findIndex((g) => g === guardian)
 
   if (currentGuardianIndex === -1) {
-    prevGuardian = zeroAddress
+    return new Error('Guardian not found')
   } else if (currentGuardianIndex === 0) {
     prevGuardian = SENTINEL_ADDRESS
   } else {
