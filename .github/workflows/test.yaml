@@ -7,7 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: pnpm/action-setup@v3
-      - name: Install dependencies
-        run: pnpm install
+        with:
+          version: 8
+          run_install: true
       - name: Run tests
         run: pnpm test
