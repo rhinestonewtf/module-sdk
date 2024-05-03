@@ -1,4 +1,4 @@
-import { Account } from 'src/account'
+import { Account } from '../../../src/account'
 import { client } from '../graphClient'
 import { gql } from '@apollo/client/core'
 import { Address } from 'viem'
