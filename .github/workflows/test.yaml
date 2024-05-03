@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: pnpm/action-setup@v3
       - name: Install dependencies
-        run: pnpm
+        run: pnpm install
       - name: Run tests
         run: pnpm test
