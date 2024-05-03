@@ -7,6 +7,7 @@ export type Module = {
   data?: Hex
   additionalContext?: Hex
   type: ModuleType
+  hook?: Address
 }
 
 type ModuleTypeIds = {
