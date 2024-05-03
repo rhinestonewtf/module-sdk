@@ -13,3 +13,7 @@ jobs:
           run_install: true
       - name: Run tests
         run: pnpm test
+      - name: Code style
+        run: pnpm prettier:check
+      - name: Check size
+        run: pnpm size
