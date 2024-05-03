@@ -1,8 +1,8 @@
 import { PublicClient, parseAbi } from 'viem'
 import { Account } from '../../types'
-import { Module, moduleTypeIds } from '../../../module/types'
 import { isContract } from '../../../common/utils'
 import { accountAbi } from '../constants/abis'
+import { KernelModule, kernelModuleTypeIds } from '../types'
 
 export const isModuleInstalled = async ({
   client,
@@ -11,13 +11,15 @@ export const isModuleInstalled = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<boolean> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
     case 'hook':
     case 'fallback':
+    case 'policy':
+    case 'signer':
       return await _isModuleInstalled({ client, account, module })
     default:
       throw new Error(`Unknown module type ${module.type}`)
@@ -31,19 +33,16 @@ const _isModuleInstalled = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<boolean> => {
-  try {
-    if (await isContract({ client, address: account.address })) {
-      return (await client.readContract({
-        address: account.address,
-        abi: parseAbi(accountAbi),
-        functionName: 'isModuleInstalled',
-        args: [moduleTypeIds[module.type], module.module, module.data],
-      })) as boolean
-    }
-    return false
-  } catch (e) {
-    return false
+  if (await isContract({ client, address: account.address })) {
+    return (await client.readContract({
+      address: account.address,
+      abi: parseAbi(accountAbi),
+      functionName: 'isModuleInstalled',
+      args: [kernelModuleTypeIds[module.type], module.module, module.data],
+    })) as boolean
   }
+
+  return false
 }

@@ -1,20 +1,20 @@
-import { getAccount, installModule } from '../../../../src/account/api'
-import { getModule } from '../../../../src/module/api/getModule'
-import { getClient } from '../../../../src/common/getClient'
-import { MockAccountUndeployed } from '../../../utils/mocks/account'
-import { MockClient } from '../../../utils/mocks/client'
+import { getAccount, installModule } from '../../../../../src/account/api'
+import { getModule } from '../../../../../src/module/api/getModule'
+import { getClient } from '../../../../../src/common/getClient'
+import { MockKernelAccountDeployed } from '../../../../utils/mocks/account'
+import { MockClient } from '../../../../utils/mocks/client'
 import {
   MockExecutor,
   MockFallback,
   MockHook,
   MockValidator,
-} from '../../../utils/mocks/module'
-import { SENTINEL_ADDRESS } from '../../../../src/common/constants'
+} from '../../../../utils/mocks/module'
+import { SENTINEL_ADDRESS } from '../../../../../src/common/constants'
 
 describe('Get calldata to install a module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockAccountUndeployed)
+  const account = getAccount(MockKernelAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule(MockExecutor)
   const hook = getModule(MockHook)

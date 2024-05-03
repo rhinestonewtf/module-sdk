@@ -1,18 +1,18 @@
 import { Address, PublicClient } from 'viem'
 import { Account, Execution } from '../types'
-import { Module, ModuleType } from '../../module/types'
 import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
+import { KernelModule, KernelModuleType } from './types'
 
-export class ERC7579Implementation {
+export class KernelImplementation {
   getInstalledModules = async ({
     account,
   }: {
     client: PublicClient
     account: Account
-    moduleTypes?: ModuleType[]
+    moduleTypes?: KernelModuleType[]
   }): Promise<Address[]> => {
     return getInstalledModules({ account })
   }
@@ -24,7 +24,7 @@ export class ERC7579Implementation {
   }: {
     client: PublicClient
     account: Account
-    module: Module
+    module: KernelModule
   }): Promise<Execution[]> => {
     return installModule({ client, account, module })
   }
@@ -36,7 +36,7 @@ export class ERC7579Implementation {
   }: {
     client: PublicClient
     account: Account
-    module: Module
+    module: KernelModule
   }): Promise<boolean> => {
     return isModuleInstalled({ client, account, module })
   }
@@ -48,7 +48,7 @@ export class ERC7579Implementation {
   }: {
     client: PublicClient
     account: Account
-    module: Module
+    module: KernelModule
   }): Promise<Execution[]> => {
     return uninstallModule({ client, account, module })
   }

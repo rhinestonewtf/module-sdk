@@ -1,18 +1,14 @@
 import {
-  Address,
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
   slice,
-  getAddress,
   parseAbi,
 } from 'viem'
 import { Account, Execution } from '../../types'
-import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
-import { getInstalledModules } from './getInstalledModules'
-import { SENTINEL_ADDRESS } from '../../../common/constants'
 import { accountAbi } from '../constants/abis'
+import { KernelModule, kernelModuleTypeIds } from '../types'
 
 export const uninstallModule = ({
   client,
@@ -21,12 +17,14 @@ export const uninstallModule = ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
     case 'hook':
+    case 'policy':
+    case 'signer':
       return _uninstallModule({ client, account, module })
     case 'fallback':
       return _uninstallFallback({ client, account, module })
@@ -42,30 +40,23 @@ const _uninstallModule = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (isInstalled) {
-    let moduleData = module.data || '0x'
-    if (module.type === 'validator' || module.type === 'executor') {
-      const prev = await getPreviousModule({ client, account, module })
-      moduleData = encodeAbiParameters(
-        [
-          { name: 'prev', type: 'address' },
-          { name: 'disableModuleData', type: 'bytes' },
-        ],
-        [prev, moduleData],
-      )
-    }
     executions.push({
       target: account.address,
       value: BigInt(0),
       callData: encodeFunctionData({
         functionName: 'uninstallModule',
         abi: parseAbi(accountAbi),
-        args: [BigInt(moduleTypeIds[module.type]), module.module, moduleData],
+        args: [
+          BigInt(kernelModuleTypeIds[module.type]),
+          module.module,
+          module.data || '0x',
+        ],
       }),
     })
   }
@@ -79,7 +70,7 @@ const _uninstallFallback = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }) => {
   const executions: Execution[] = []
 
@@ -104,7 +95,7 @@ const _uninstallFallback = async ({
         functionName: 'uninstallModule',
         abi: parseAbi(accountAbi),
         args: [
-          BigInt(moduleTypeIds[module.type]),
+          BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           module.data ?? '0x',
         ],
@@ -113,25 +104,4 @@ const _uninstallFallback = async ({
   }
 
   return executions
-}
-
-const getPreviousModule = async ({
-  account,
-  module,
-}: {
-  client: PublicClient
-  account: Account
-  module: Module
-}): Promise<Address> => {
-  let installedModules = await getInstalledModules({
-    account,
-  })
-  const index = installedModules.indexOf(getAddress(module.module))
-  if (index === 0) {
-    return SENTINEL_ADDRESS
-  } else if (index > 0) {
-    return installedModules[index - 1]
-  } else {
-    throw new Error(`Module ${module.module} not found in installed modules`)
-  }
 }

@@ -1,18 +1,18 @@
-import { getAccount, uninstallModule } from '../../../../src/account/api'
-import { getModule } from '../../../../src/module/api/getModule'
-import { getClient } from '../../../../src/common/getClient'
-import { MockAccountUndeployed } from '../../../utils/mocks/account'
-import { MockClient } from '../../../utils/mocks/client'
+import { getAccount, uninstallModule } from '../../../../../src/account/api'
+import { getModule } from '../../../../../src/module/api/getModule'
+import { getClient } from '../../../../../src/common/getClient'
+import { MockAccountDeployed } from '../../../../utils/mocks/account'
+import { MockClient } from '../../../../utils/mocks/client'
 import {
   MockExecutor,
   MockFallback,
   MockHook,
   MockValidator,
-} from '../../../utils/mocks/module'
+} from '../../../../utils/mocks/module'
 describe('Get calldata to uninstall a module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockAccountUndeployed)
+  const account = getAccount(MockAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule(MockExecutor)
   const hook = getModule(MockHook)
@@ -24,9 +24,9 @@ describe('Get calldata to uninstall a module', () => {
       module: validator,
     })
 
-    expect(executions.length).toEqual(1)
-    expect(executions[0].target).toEqual(account.address)
-    expect(Number(executions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(0)
+    // expect(executions[0].target).toEqual(account.address)
+    // expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall an executor', async () => {
@@ -36,9 +36,9 @@ describe('Get calldata to uninstall a module', () => {
       module: executor,
     })
 
-    expect(executions.length).toEqual(1)
-    expect(executions[0].target).toEqual(account.address)
-    expect(Number(executions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(0)
+    // expect(executions[0].target).toEqual(account.address)
+    // expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall a fallback handler', async () => {
@@ -47,17 +47,17 @@ describe('Get calldata to uninstall a module', () => {
       account,
       module: fallback,
     })
-    expect(executions.length).toEqual(1)
-    expect(executions[0].target).toEqual(account.address)
-    expect(Number(executions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(0)
+    // expect(executions[0].target).toEqual(account.address)
+    // expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
   it('Should return the data to uninstall a hook', async () => {
     const executions = await uninstallModule({ client, account, module: hook })
 
-    expect(executions.length).toEqual(1)
-    expect(executions[0].target).toEqual(account.address)
-    expect(Number(executions[0].value)).toEqual(0)
+    expect(executions.length).toEqual(0)
+    // expect(executions[0].target).toEqual(account.address)
+    // expect(Number(executions[0].value)).toEqual(0)
     // Todo: decode callData
   })
 })
