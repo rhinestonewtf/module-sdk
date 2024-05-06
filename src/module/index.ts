@@ -11,6 +11,7 @@ export {
   getRemoveOwnerExecution,
   getSetThresholdExecution,
   getOwners,
+  getOwnableValidatorMockSignature,
 } from './ownable-validator'
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,

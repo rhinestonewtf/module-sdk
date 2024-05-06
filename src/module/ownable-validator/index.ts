@@ -5,4 +5,5 @@ export {
   getAddOwnerExecution,
   getRemoveOwnerExecution,
   getOwners,
+  getOwnableValidatorMockSignature,
 } from './usage'

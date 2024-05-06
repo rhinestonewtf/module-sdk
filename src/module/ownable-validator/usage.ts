@@ -1,5 +1,11 @@
 import { Execution } from '../../../src/account'
-import { encodeFunctionData, Address, PublicClient, getAddress } from 'viem'
+import {
+  encodeFunctionData,
+  Address,
+  PublicClient,
+  getAddress,
+  Hex,
+} from 'viem'
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
 import { OWNABLE_VALIDATOR_ADDRESS } from './constants'
@@ -90,4 +96,8 @@ export const getOwners = async ({
     console.error(err)
     return []
   }
+}
+
+export const getOwnableValidatorMockSignature = (): Hex => {
+  return '0xe8b94748580ca0b4993c9a1b86b5be851bfc076ff5ce3a1ff65bf16392acfcb800f9b4f1aef1555c7fce5599fffb17e7c635502154a0333ba21f3ae491839af51c'
 }

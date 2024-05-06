@@ -20,6 +20,7 @@ export {
   getOwners,
   getRemoveOwnerExecution,
   getSetThresholdExecution,
+  getOwnableValidatorMockSignature,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   getScheduledOrdersExecutor,
   getCreateRecurringOrderExecution,
