@@ -1,3 +1,9 @@
 export { OWNABLE_VALIDATOR_ADDRESS } from './constants'
-export { getOwnableValidator } from './installation'
-export { getOwnableValidatorMockSignature } from './usage'
+export { getInstallOwnableValidator } from './installation'
+export {
+  getSetThresholdExecution,
+  getAddOwnerExecution,
+  getRemoveOwnerExecution,
+  getOwners,
+  getOwnableValidatorMockSignature,
+} from './usage'

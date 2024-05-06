@@ -1,4 +1,5 @@
-import { SENTINEL_ADDRESS, SOCIAL_RECOVERY_ADDRESS } from './constants'
+import { SOCIAL_RECOVERY_ADDRESS } from './constants'
+import { SENTINEL_ADDRESS } from '../../common/constants'
 import { Execution } from '../../account/types'
 import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
 import { Account } from '../../account/types'
