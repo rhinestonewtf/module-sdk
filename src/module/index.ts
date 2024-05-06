@@ -6,8 +6,11 @@ export {
 } from './mfa-validator'
 export {
   OWNABLE_VALIDATOR_ADDRESS,
-  getOwnableValidator,
-  getOwnableValidatorMockSignature,
+  getInstallOwnableValidator,
+  getAddOwnerExecution,
+  getRemoveOwnerExecution,
+  getSetThresholdExecution,
+  getOwners,
 } from './ownable-validator'
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,

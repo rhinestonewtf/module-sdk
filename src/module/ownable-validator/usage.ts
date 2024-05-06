@@ -1,4 +1,4 @@
-import { Execution } from 'src/account'
+import { Execution } from '../../../src/account'
 import { encodeFunctionData, Address, PublicClient, getAddress } from 'viem'
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
