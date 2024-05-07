@@ -1,0 +1,143 @@
+export const abi = [
+  {
+    inputs: [
+      { internalType: 'address', name: 'smartAccount', type: 'address' },
+    ],
+    name: 'AlreadyInitialized',
+    type: 'error',
+  },
+  { inputs: [], name: 'HookInvalidSelector', type: 'error' },
+  {
+    inputs: [
+      { internalType: 'address', name: 'smartAccount', type: 'address' },
+    ],
+    name: 'NotInitialized',
+    type: 'error',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'smartAccount',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'registry',
+        type: 'address',
+      },
+    ],
+    name: 'RegistrySet',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: 'clearTrustedForwarder',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'smartAccount', type: 'address' },
+    ],
+    name: 'isInitialized',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'uint256', name: 'typeID', type: 'uint256' }],
+    name: 'isModuleType',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'forwarder', type: 'address' },
+      { internalType: 'address', name: 'account', type: 'address' },
+    ],
+    name: 'isTrustedForwarder',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'name',
+    outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: 'data', type: 'bytes' }],
+    name: 'onInstall',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
+    name: 'onUninstall',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'bytes', name: 'hookData', type: 'bytes' }],
+    name: 'postCheck',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      { internalType: 'address', name: 'msgSender', type: 'address' },
+      { internalType: 'uint256', name: 'msgValue', type: 'uint256' },
+      { internalType: 'bytes', name: 'msgData', type: 'bytes' },
+    ],
+    name: 'preCheck',
+    outputs: [{ internalType: 'bytes', name: 'hookData', type: 'bytes' }],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+    name: 'registry',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: '_registry', type: 'address' }],
+    name: 'setRegistry',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'forwarder', type: 'address' }],
+    name: 'setTrustedForwarder',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+    name: 'trustedForwarder',
+    outputs: [{ internalType: 'address', name: '', type: 'address' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'version',
+    outputs: [{ internalType: 'string', name: '', type: 'string' }],
+    stateMutability: 'pure',
+    type: 'function',
+  },
+]
