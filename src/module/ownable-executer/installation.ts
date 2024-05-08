@@ -9,7 +9,7 @@ export const getInstallOwnableExecuter = ({
 }): Module => {
   return {
     module: OWNABLE_EXECUTER_ADDRESS,
-    data: encodePacked(['bytes'], [owner]),
+    data: encodePacked(['address'], [owner]),
     additionalContext: '0x',
     type: 'executor',
   }
