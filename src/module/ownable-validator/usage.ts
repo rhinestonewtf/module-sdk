@@ -1,4 +1,4 @@
-import { Execution } from 'src/account'
+import { Execution } from '../../account'
 import {
   encodeFunctionData,
   Address,
