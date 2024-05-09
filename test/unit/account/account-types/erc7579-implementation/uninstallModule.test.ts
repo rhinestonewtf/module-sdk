@@ -1,14 +1,14 @@
-import { getAccount, uninstallModule } from '../../../../../src/account/api'
-import { getModule } from '../../../../../src/module/api/getModule'
-import { getClient } from '../../../../../src/common/getClient'
-import { MockAccountDeployed } from '../../../../utils/mocks/account'
-import { MockClient } from '../../../../utils/mocks/client'
+import { getAccount, uninstallModule } from 'src/account/api'
+import { getModule } from 'src/module/api/getModule'
+import { getClient } from 'src/common/getClient'
+import { MockAccountDeployed } from 'test/utils/mocks/account'
+import { MockClient } from 'test/utils/mocks/client'
 import {
   MockExecutor,
   MockFallback,
   MockHook,
   MockValidator,
-} from '../../../../utils/mocks/module'
+} from 'test/utils/mocks/module'
 describe('Get calldata to uninstall a module', () => {
   // Setup
   const client = getClient(MockClient)

@@ -1,5 +1,5 @@
-import { getInstallOwnableExecuter } from '../../../../src/module/ownable-executer/installation'
-import { OWNABLE_EXECUTER_ADDRESS } from '../../../../src/module/ownable-executer/constants'
+import { getInstallOwnableExecuter } from 'src/module/ownable-executer/installation'
+import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer/constants'
 import { Address } from 'viem'
 import {
   getAddOwnerExecution,
@@ -7,11 +7,11 @@ import {
   getRemoveOwnerExecution,
   getExecuteOnOwnedAccountExecution,
   getExecuteBatchOnOwnedAccountExecution,
-} from '../../../../src/module/ownable-executer/usage'
-import { getClient } from '../../../../src/common/getClient'
-import { MockClient } from '../../../utils/mocks/client'
-import { getAccount } from '../../../../src/account'
-import { MockAccountDeployed } from '../../../utils/mocks/account'
+} from 'src/module/ownable-executer/usage'
+import { getClient } from 'src/common/getClient'
+import { MockClient } from 'test/utils/mocks/client'
+import { getAccount } from 'src/account'
+import { MockAccountDeployed } from 'test/utils/mocks/account'
 
 describe('Ownable Executer Module', () => {
   // Setup
