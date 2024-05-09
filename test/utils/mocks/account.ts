@@ -1,4 +1,4 @@
-import { Account } from '../../../src/account/types'
+import { Account } from 'src/account/types'
 
 export const MockAccountDeployed: Account = {
   address: '0xdb67438365b1a1da32128a239378d6477ce5f668',

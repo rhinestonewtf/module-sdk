@@ -1,15 +1,15 @@
-import { getInstallSocialRecovery } from '../../../../src/module/social-recovery/installation'
-import { SOCIAL_RECOVERY_ADDRESS } from '../../../../src/module/social-recovery/constants'
+import { getInstallSocialRecovery } from 'src/module/social-recovery/installation'
+import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
   getAddGuardianExecution,
   getGuardians,
   getRemoveGuardianExecution,
   getSetThresholdExecution,
-} from '../../../../src/module/social-recovery/usage'
-import { getClient } from '../../../../src/common/getClient'
+} from 'src/module/social-recovery/usage'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../test/utils/mocks/client'
-import { getAccount } from '../../../../src/account'
+import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../../test/utils/mocks/account'
 
 describe('Social Recovery Module', () => {

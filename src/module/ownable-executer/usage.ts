@@ -78,7 +78,6 @@ export const getOwners = async ({
 
     return owners
   } catch (err) {
-    console.error(err)
     return []
   }
 }
