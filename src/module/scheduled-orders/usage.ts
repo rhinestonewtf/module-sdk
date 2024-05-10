@@ -3,20 +3,18 @@ import {
   Hex,
   encodeAbiParameters,
   encodeFunctionData,
-  parseAbi,
+  encodePacked,
 } from 'viem'
-import {
-  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
-  scheduledOrdersAbi,
-} from './constants'
+import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
 import { RecurringOrder } from './types'
 import { Execution } from '../../account/types'
+import { abi } from './abi'
 
 type Params = {
   recurringOrder: RecurringOrder
 }
 
-export const getCreateRecurringOrderExecution = ({
+export const getCreateScheduledOrderExecution = ({
   recurringOrder,
 }: Params): Execution => {
   return {
@@ -24,21 +22,17 @@ export const getCreateRecurringOrderExecution = ({
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
-      abi: parseAbi(scheduledOrdersAbi),
+      abi,
       args: [
-        {
-          executeInterval: BigInt(
-            recurringOrder.repeatEvery
-          ),
-          numberOfExecutions: BigInt(recurringOrder.numberOfRepeats),
-          numberOfExecutionsCompleted: BigInt(0),
-          startDate: BigInt(recurringOrder.startDate),
-          isEnabled: true,
-          lastExecutionTime: BigInt(0),
-          executionData: getSwapOrderData({
-            recurringOrder,
-          }),
-        },
+        encodePacked(
+          ['uint48', 'uint16', 'uint48', 'bytes'],
+          [
+            recurringOrder.repeatEvery,
+            recurringOrder.numberOfRepeats,
+            recurringOrder.startDate,
+            getSwapOrderData({ recurringOrder }),
+          ],
+        ),
       ],
     }),
   }

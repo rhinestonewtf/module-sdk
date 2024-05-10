@@ -15,13 +15,13 @@ export {
 } from './ownable-validator'
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
-  getScheduledOrdersExecutor,
-  getCreateRecurringOrderExecution,
+  getInstallScheduledOrdersExecutor,
+  getCreateScheduledOrderExecution,
   getSwapOrderData,
 } from './scheduled-orders'
 export {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
-  getScheduledTransfersExecutor,
+  getInstallScheduledTransfersExecutor,
   getCreateScheduledTransferExecution,
   getScheduledTransactionData,
 } from './scheduled-transfers'

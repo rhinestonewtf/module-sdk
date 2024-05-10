@@ -3,15 +3,13 @@ import {
   Hex,
   encodeAbiParameters,
   encodeFunctionData,
+  encodePacked,
   erc20Abi,
-  parseAbi,
 } from 'viem'
 import { ScheduledTransaction } from './types'
 import { Execution } from '../../account/types'
-import {
-  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
-  scheduledTransfersAbi,
-} from './constants'
+import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
+import { abi } from './abi'
 
 type Params = {
   scheduledTransaction: ScheduledTransaction
@@ -59,19 +57,17 @@ export const getCreateScheduledTransferExecution = ({
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
-      abi: parseAbi(scheduledTransfersAbi),
+      abi,
       args: [
-        {
-          executeInterval: BigInt(scheduledTransaction.repeatEvery),
-          numberOfExecutions: BigInt(scheduledTransaction.numberOfRepeats),
-          numberOfExecutionsCompleted: BigInt(0),
-          startDate: BigInt(scheduledTransaction.startDate),
-          isEnabled: true,
-          lastExecutionTime: BigInt(0),
-          executionData: getScheduledTransactionData({
-            scheduledTransaction,
-          }),
-        },
+        encodePacked(
+          ['uint48', 'uint16', 'uint48', 'bytes'],
+          [
+            scheduledTransaction.repeatEvery,
+            scheduledTransaction.numberOfRepeats,
+            scheduledTransaction.startDate,
+            getScheduledTransactionData({ scheduledTransaction }),
+          ],
+        ),
       ],
     }),
   }
