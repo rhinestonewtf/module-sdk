@@ -1,11 +1,6 @@
-import { Hex, encodeAbiParameters } from 'viem'
+import { Hex, encodePacked } from 'viem'
 import { Module } from '../types'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
-
-export type WebauthnCredential = {
-  id: string
-  publicKey: [Hex, Hex]
-}
 
 type Params = {
   executeInterval: number
@@ -14,7 +9,7 @@ type Params = {
   executionData: Hex
 }
 
-export const getScheduledTransfersExecutor = ({
+export const getInstallScheduledTransfersExecutor = ({
   executeInterval,
   numberOfExecutions,
   startDate,
@@ -23,13 +18,8 @@ export const getScheduledTransfersExecutor = ({
   return {
     module: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
     type: 'executor',
-    data: encodeAbiParameters(
-      [
-        { name: 'executeInterval', type: 'uint48' },
-        { name: 'numberOfExecutions', type: 'uint16' },
-        { name: 'startDate', type: 'uint48' },
-        { name: 'executionData', type: 'bytes' },
-      ],
+    data: encodePacked(
+      ['uint48', 'uint16', 'uint48', 'bytes'],
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
   }

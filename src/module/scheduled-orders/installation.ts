@@ -1,4 +1,4 @@
-import { Hex, encodeAbiParameters } from 'viem'
+import { Hex, encodePacked } from 'viem'
 import { Module } from '../types'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
 
@@ -9,7 +9,7 @@ type Params = {
   executionData: Hex
 }
 
-export const getScheduledOrdersExecutor = ({
+export const getInstallScheduledOrdersExecutor = ({
   executeInterval,
   numberOfExecutions,
   startDate,
@@ -18,13 +18,8 @@ export const getScheduledOrdersExecutor = ({
   return {
     module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
     type: 'executor',
-    data: encodeAbiParameters(
-      [
-        { name: 'executeInterval', type: 'uint48' },
-        { name: 'numberOfExecutions', type: 'uint16' },
-        { name: 'startDate', type: 'uint48' },
-        { name: 'executionData', type: 'bytes' },
-      ],
+    data: encodePacked(
+      ['uint48', 'uint16', 'uint48', 'bytes'],
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
   }
