@@ -4,7 +4,7 @@ import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
-import { Module } from 'src/module'
+import { Module, ModuleType } from 'src/module'
 
 export class SafeImplementation {
   getInstalledModules = async ({
@@ -12,7 +12,7 @@ export class SafeImplementation {
   }: {
     client: PublicClient
     account: Account
-    moduleTypes?: Module[]
+    moduleTypes?: ModuleType[]
   }): Promise<Address[]> => {
     return getInstalledModules({ account })
   }

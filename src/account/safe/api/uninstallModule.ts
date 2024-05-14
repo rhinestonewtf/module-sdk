@@ -28,7 +28,7 @@ export const uninstallModule = ({
       return _uninstallModule({ client, account, module })
 
     case 'hook':
-      if (!module.selector || !module.hookType) {
+      if (!module.selector || module.hookType === undefined) {
         throw new Error(
           `hookType and selector params are required for module type ${module.type}`,
         )

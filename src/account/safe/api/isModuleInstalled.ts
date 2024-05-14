@@ -25,7 +25,7 @@ export const isModuleInstalled = async ({
     case 'executor':
       return await _isModuleInstalled({ client, account, module })
     case 'hook':
-      if (!module.selector || !module.hookType) {
+      if (!module.selector || module.hookType === undefined) {
         throw new Error(
           `hookType and selector params are required for module type ${module.type}`,
         )
@@ -75,8 +75,8 @@ const getModuleAdditionalContext = (module: SafeModule): Hex => {
       return '0x'
     case 'hook':
       return encodeAbiParameters(
-        parseAbiParameters('HookType hookType, bytes4 selector'),
-        [module.hookType, module.selector!],
+        parseAbiParameters('uint8 hookType, bytes4 selector'),
+        [module.hookType!, module.selector!],
       )
     case 'fallback':
       return encodeAbiParameters(parseAbiParameters('bytes4 functionSig'), [

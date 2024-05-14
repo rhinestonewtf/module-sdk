@@ -1,3 +1,4 @@
+import { SafeCallType, SafeHookType } from 'src/account/safe/types'
 import { Address, Hex } from 'viem'
 
 export type ModuleType = 'validator' | 'executor' | 'fallback' | 'hook'
@@ -7,6 +8,22 @@ export type Module = {
   data?: Hex
   additionalContext?: Hex
   type: ModuleType
+
+  /* ---- kernel module params ---- */
+  hook?: Address
+  /* ---- end kernel module params ---- */
+
+  /* ---- safe module params ---- */
+
+  // these two params needed for installing hooks
+  hookType?: SafeHookType
+  selector?: Hex
+
+  // these two params needed for installing fallback handlers
+  functionSig?: Hex
+  callType?: SafeCallType
+
+  /* ---- end safe module params ---- */
 }
 
 type ModuleTypeIds = {

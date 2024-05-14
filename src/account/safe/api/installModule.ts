@@ -26,7 +26,7 @@ export const installModule = ({
     case 'executor':
       return _installModule({ client, account, module })
     case 'hook':
-      if (!module.selector || !module.hookType) {
+      if (!module.selector || module.hookType === undefined) {
         throw new Error(
           `hookType and selector params are required for module type ${module.type}`,
         )
@@ -82,14 +82,14 @@ const getModuleCalldata = (module: SafeModule): Hex => {
     case 'hook':
       return encodeAbiParameters(
         parseAbiParameters(
-          'HookType hookType, bytes4 selector, bytes memory initData',
+          'uint8 hookType, bytes4 selector, bytes memory initData',
         ),
-        [module.hookType, module.selector!, module.data || '0x'],
+        [module.hookType!, module.selector!, module.data || '0x'],
       )
     case 'fallback':
       return encodeAbiParameters(
         parseAbiParameters(
-          'bytes4 functionSig, CallType calltype, bytes memory initData',
+          'bytes4 functionSig, bytes1 calltype, bytes memory initData',
         ),
         [module.functionSig!, module.callType!, module.data || '0x'],
       )
