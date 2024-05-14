@@ -4,7 +4,7 @@ import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
-import { Module, ModuleType } from 'src/module'
+import { Module, ModuleType } from '../../module'
 
 export class SafeImplementation {
   getInstalledModules = async ({

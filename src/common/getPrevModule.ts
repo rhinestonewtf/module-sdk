@@ -2,7 +2,7 @@ import { PublicClient, Address, getAddress } from 'viem'
 import { Module } from '..'
 import { SENTINEL_ADDRESS } from './constants'
 import { getInstalledModules } from './queries'
-import { Account } from 'src/account'
+import { Account } from '../account'
 
 export const getPreviousModule = async ({
   account,

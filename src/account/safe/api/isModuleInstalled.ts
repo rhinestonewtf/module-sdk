@@ -8,8 +8,8 @@ import {
 import { Account } from '../../types'
 import { isContract } from '../../../common/utils'
 import { accountAbi } from '../constants/abis'
-import { moduleTypeIds } from 'src/module/types'
-import { Module } from 'src/module/types'
+import { moduleTypeIds } from '../../../module/types'
+import { Module } from '../../../module/types'
 
 export const isModuleInstalled = async ({
   client,

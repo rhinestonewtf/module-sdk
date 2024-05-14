@@ -1,3 +1,3 @@
-import { getRegistryModules } from 'src/common/queries'
+import { getRegistryModules } from '../../common/queries'
 
 export const fetchRegistryModules = () => getRegistryModules()

@@ -1,6 +1,6 @@
 import { Address, Hex } from 'viem'
 import { Module, ModuleType } from '../types'
-import { SafeCallType, SafeHookType } from 'src/account/safe/types'
+import { SafeCallType, SafeHookType } from '../../account/safe/types'
 
 export const getModule = ({
   module,

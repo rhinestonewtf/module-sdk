@@ -9,7 +9,7 @@ import {
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
-import { Module, moduleTypeIds } from 'src/module/types'
+import { Module, moduleTypeIds } from '../../../module/types'
 
 export const installModule = ({
   client,

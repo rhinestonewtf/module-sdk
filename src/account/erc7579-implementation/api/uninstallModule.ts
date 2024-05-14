@@ -9,7 +9,7 @@ import { Account, Execution } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
-import { getPreviousModule } from 'src/common/getPrevModule'
+import { getPreviousModule } from '../../../common'
 
 export const uninstallModule = ({
   client,
