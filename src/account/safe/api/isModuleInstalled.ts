@@ -9,7 +9,7 @@ import { Account } from '../../types'
 import { isContract } from '../../../common/utils'
 import { accountAbi } from '../constants/abis'
 import { moduleTypeIds } from 'src/module/types'
-import { SafeModule } from '../types'
+import { Module } from 'src/module/types'
 
 export const isModuleInstalled = async ({
   client,
@@ -18,7 +18,7 @@ export const isModuleInstalled = async ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }): Promise<boolean> => {
   switch (module.type) {
     case 'validator':
@@ -50,7 +50,7 @@ const _isModuleInstalled = async ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }): Promise<boolean> => {
   if (await isContract({ client, address: account.address })) {
     return (await client.readContract({
@@ -68,7 +68,7 @@ const _isModuleInstalled = async ({
   return false
 }
 
-const getModuleAdditionalContext = (module: SafeModule): Hex => {
+const getModuleAdditionalContext = (module: Module): Hex => {
   switch (module.type) {
     case 'validator':
     case 'executor':

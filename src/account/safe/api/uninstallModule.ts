@@ -9,8 +9,7 @@ import {
 import { Account, Execution } from '../../types'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
-import { moduleTypeIds } from 'src/module/types'
-import { SafeModule } from '../types'
+import { Module, moduleTypeIds } from 'src/module/types'
 import { getPreviousModule } from 'src/common/getPrevModule'
 
 export const uninstallModule = ({
@@ -20,7 +19,7 @@ export const uninstallModule = ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
@@ -54,7 +53,7 @@ const _uninstallModule = async ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
@@ -86,7 +85,7 @@ const _uninstallModule = async ({
   return executions
 }
 
-const getModuleCalldata = (module: SafeModule): Hex => {
+const getModuleCalldata = (module: Module): Hex => {
   switch (module.type) {
     case 'validator':
     case 'executor':

@@ -9,8 +9,7 @@ import {
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
-import { moduleTypeIds } from 'src/module/types'
-import { SafeModule } from '../types'
+import { Module, moduleTypeIds } from 'src/module/types'
 
 export const installModule = ({
   client,
@@ -19,7 +18,7 @@ export const installModule = ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }): Promise<Execution[]> => {
   switch (module.type) {
     case 'validator':
@@ -51,7 +50,7 @@ const _installModule = async ({
 }: {
   client: PublicClient
   account: Account
-  module: SafeModule
+  module: Module
 }) => {
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
@@ -74,7 +73,7 @@ const _installModule = async ({
   return executions
 }
 
-const getModuleCalldata = (module: SafeModule): Hex => {
+const getModuleCalldata = (module: Module): Hex => {
   switch (module.type) {
     case 'validator':
     case 'executor':
