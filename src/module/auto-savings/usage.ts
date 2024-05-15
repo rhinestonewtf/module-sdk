@@ -61,14 +61,14 @@ export const getTokens = async ({
   client: PublicClient
 }): Promise<Address[]> => {
   try {
-    const guardians = (await client.readContract({
+    const tokens = (await client.readContract({
       address: AUTO_SAVINGS_ADDRESS,
       abi,
       functionName: 'getTokens',
       args: [account.address],
     })) as Address[]
 
-    return guardians
+    return tokens
   } catch (err) {
     console.error(err)
     return []
