@@ -7,9 +7,9 @@ import {
 } from 'viem'
 import { AUTO_SAVINGS_ADDRESS } from './constants'
 import { abi } from './abi'
-import { Execution } from 'src/account'
-import { SENTINEL_ADDRESS } from 'src/common/constants'
-import { Account } from 'src/account'
+import { Execution } from '../../account'
+import { SENTINEL_ADDRESS } from '../../common/constants'
+import { Account } from '../../account'
 
 type Params = {
   token: Address
