@@ -7,7 +7,7 @@ type Params = {
   configs: {
     percentage: number
     vault: Address
-    sqrtPriceLimitX96: number
+    sqrtPriceLimitX96: bigint
   }[]
 }
 
@@ -35,13 +35,7 @@ export const getInstallAutoSavingsExecutor = ({
           type: 'tuple[]',
         },
       ],
-      [
-        tokens,
-        configs.map((config) => ({
-          ...config,
-          sqrtPriceLimitX96: BigInt(config.sqrtPriceLimitX96),
-        })),
-      ],
+      [tokens, configs],
     ),
     additionalContext: '0x',
     type: 'executor',

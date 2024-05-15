@@ -16,7 +16,7 @@ type Params = {
   config: {
     percentage: number
     vault: Address
-    sqrtPriceLimitX96: number
+    sqrtPriceLimitX96: bigint
   }
 }
 
@@ -42,13 +42,7 @@ export const getSetConfigExecution = ({ token, config }: Params): Execution => {
           type: 'tuple',
         },
       ],
-      [
-        token,
-        {
-          ...config,
-          sqrtPriceLimitX96: BigInt(config.sqrtPriceLimitX96),
-        },
-      ],
+      [token, config],
     ),
   }
 }

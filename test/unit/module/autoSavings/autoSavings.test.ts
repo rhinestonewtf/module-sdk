@@ -22,7 +22,7 @@ describe('Auto Savings Module', () => {
     {
       percentage: 10,
       vault: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address,
-      sqrtPriceLimitX96: 10,
+      sqrtPriceLimitX96: BigInt(10),
     },
   ]
 
