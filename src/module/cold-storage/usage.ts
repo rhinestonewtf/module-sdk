@@ -14,7 +14,7 @@ import { abi as flashloanAbi } from './flashloanAbi'
 import { Execution } from '../../account'
 import { Account } from '../../account'
 import { moduleTypeIds } from '../types'
-import { SENTINEL_ADDRESS } from 'src/common/constants'
+import { SENTINEL_ADDRESS } from '../../common/constants'
 
 type Params = {
   waitPeriod: number
