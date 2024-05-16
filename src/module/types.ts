@@ -28,7 +28,7 @@ export type Module = {
 }
 
 type ModuleTypeIds = {
-  [index in ModuleType]: number
+  [index in ModuleType]: 1 | 2 | 3 | 4
 }
 
 export const moduleTypeIds: ModuleTypeIds = {
