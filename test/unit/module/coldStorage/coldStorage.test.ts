@@ -14,8 +14,10 @@ import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
-import { getInstallColdStorageHook } from 'src/module/cold-storage'
-import { getInstallColdStorageFlashloan } from 'src/module/cold-storage/installation'
+import {
+  getInstallColdStorageHook,
+  getInstallAllowedCallbackSenders,
+} from 'src/module/cold-storage'
 
 describe('Cold storage Module', () => {
   // Setup
@@ -25,7 +27,9 @@ describe('Cold storage Module', () => {
   const executionHash = toHex('test_hash', { size: 32 })
 
   it('should get install cold storage hook module', async () => {
-    const installColdStorageModule = getInstallColdStorageHook({
+    const installColdStorageModule = await getInstallColdStorageHook({
+      account,
+      client,
       moduleType: 'hook',
       owner: account.address,
       waitPeriod: 100,
@@ -37,7 +41,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should get install cold storage flashloan module', async () => {
-    const installColdStorageFlashloanModule = getInstallColdStorageFlashloan({
+    const installColdStorageFlashloanModule = getInstallAllowedCallbackSenders({
       addresses,
     })
 
