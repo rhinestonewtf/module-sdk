@@ -4,8 +4,8 @@ import {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
 } from './constants'
-import { Account } from 'src/account'
-import { getInstalledModules } from 'src/account'
+import { Account } from '../../account'
+import { getInstalledModules } from '../../account'
 
 type Params = {
   account: Account
