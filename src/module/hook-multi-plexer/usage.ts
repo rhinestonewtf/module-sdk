@@ -30,18 +30,20 @@ export const getHooks = async ({
 export const addHook = ({
   hook,
   hookType,
+  sig,
 }: {
   hook: Address
   hookType: HookType
+  sig?: Hex
 }): Execution => {
   try {
     return {
       target: HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
       callData: encodeFunctionData({
-        functionName: 'addHook',
+        functionName: sig ? 'addSigHook' : 'addHook',
         abi,
-        args: [hook, hookType],
+        args: sig ? [hook, sig, hookType] : [hook, hookType],
       }),
     }
   } catch {
@@ -49,72 +51,26 @@ export const addHook = ({
   }
 }
 
-export const addSigHook = ({
-  hook,
-  sig,
-  hookType,
-}: {
-  hook: Address
-  sig: Hex
-  hookType: HookType
-}): Execution => {
-  try {
-    return {
-      target: HOOK_MULTI_PLEXER_ADDRESS,
-      value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'addSigHook',
-        abi,
-        args: [hook, sig, hookType],
-      }),
-    }
-  } catch {
-    throw new Error(`Failed to add sig hook ${hook}`)
-  }
-}
-
 export const removeHook = ({
   hook,
   hookType,
+  sig,
 }: {
   hook: Address
   hookType: HookType
+  sig?: Hex
 }): Execution => {
   try {
     return {
       target: HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
       callData: encodeFunctionData({
-        functionName: 'removeHook',
+        functionName: sig ? 'removeSigHook' : 'removeHook',
         abi,
-        args: [hook, hookType],
+        args: sig ? [hook, sig, hookType] : [hook, hookType],
       }),
     }
   } catch {
     throw new Error(`Failed to remove hook ${hook}`)
-  }
-}
-
-export const removeSigHook = ({
-  hook,
-  sig,
-  hookType,
-}: {
-  hook: Address
-  sig: Hex
-  hookType: HookType
-}): Execution => {
-  try {
-    return {
-      target: HOOK_MULTI_PLEXER_ADDRESS,
-      value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'removeSigHook',
-        abi,
-        args: [hook, sig, hookType],
-      }),
-    }
-  } catch {
-    throw new Error(`Failed to add sig hook ${hook}`)
   }
 }

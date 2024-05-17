@@ -7,13 +7,7 @@ import {
   getInstallHookMultiPlexer,
   HOOK_MULTI_PLEXER_ADDRESS,
 } from 'src/module/hook-multi-plexer'
-import {
-  addHook,
-  addSigHook,
-  getHooks,
-  removeHook,
-  removeSigHook,
-} from 'src/module/hook-multi-plexer'
+import { addHook, getHooks, removeHook } from 'src/module/hook-multi-plexer'
 import { HookType, SigHookInit } from 'src/module/hook-multi-plexer/types'
 
 describe('Hook MultiPlexer Module', () => {
@@ -72,7 +66,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get addSigHook execution', async () => {
-    const addSigHookExecution = addSigHook({
+    const addSigHookExecution = addHook({
       hook: hooks.sigHooks[0].subHooks[0],
       sig: hooks.sigHooks[0].sig,
       hookType: HookType.SIG,
@@ -95,7 +89,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get removeSigHook execution', async () => {
-    const removeSigHookExecution = removeSigHook({
+    const removeSigHookExecution = removeHook({
       hook: hooks.sigHooks[0].subHooks[0],
       sig: hooks.sigHooks[0].sig,
       hookType: HookType.SIG,
