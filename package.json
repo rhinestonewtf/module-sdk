@@ -8,6 +8,7 @@
     "build:types": "tsc --project ./tsconfig.build.json --module esnext --declarationDir ./src/_types --emitDeclarationOnly --declaration --declarationMap",
     "clean": "rimraf src/_esm src/_cjs src/_types",
     "test": "jest",
+    "test:e2e": "jest --config ./jest-e2e.json",
     "test:coverage": "jest --coverage",
     "test:badges": "jest --coverage && jest-coverage-badges output './badges'",
     "lint": "eslint",
@@ -41,6 +42,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.1",
     "@size-limit/esbuild-why": "^11.1.1",
+    "permissionless": "^0.1.29",
     "tslib": "^2.6.2"
   }
 }

@@ -18,5 +18,8 @@
     "viem": "^2.4.1",
     "ws": "^8.16.0",
     "jest-coverage-badges": "^1.1.2"
+  },
+  "jest": {
+    "testRegex": ".*\\.test\\.ts$"
   }
 }
