@@ -1,8 +1,11 @@
 {
   "name": "@rhinestone/module-sdk",
-  "description": "Application SDK for using Smart Account Modules",
   "version": "0.0.1-alpha.5",
-  "homepage": "https://docs.rhinestone.wtf/module-sdk",
+  "description": "A TypeScript library for using Smart Account Modules in Applications",
+  "author": {
+    "name": "Rhinestone",
+    "url": "https://rhinestone.wtf"
+  },
   "license": "MIT",
   "main": "./_cjs/index.js",
   "module": "./_esm/index.js",
@@ -16,18 +19,18 @@
     },
     "./package.json": "./package.json"
   },
-  "author": {
-    "name": "Rhinestone",
-    "url": "https://rhinestone.wtf"
+  "peerDependencies": {
+    "viem": "^2.0.0"
   },
+  "homepage": "https://docs.rhinestone.wtf/module-sdk",
   "bugs": {
     "url": "https://github.com/rhinestonewtf/module-sdk/issues"
   },
-  "repository": "github:rhinestonewtf/module-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhinestonewtf/module-sdk.git"
+  },
   "publishConfig": {
     "access": "public"
-  },
-  "peerDependencies": {
-    "viem": "^2.0.0"
   }
 }
