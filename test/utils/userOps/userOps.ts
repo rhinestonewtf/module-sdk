@@ -12,7 +12,6 @@ import {
   getUserOperationHash,
 } from 'permissionless'
 import {
-  Account,
   Network,
   TransactionDetailsForUserOp,
   Validator,
@@ -23,6 +22,7 @@ import { AccountAbi } from './constants/abis/Account'
 import { ENTRY_POINT_ADDRESS } from './constants/contracts'
 import { defaultValidator } from './constants/validators'
 import { EntryPoint } from 'permissionless/types'
+import { Account } from 'src/account'
 
 const CALL_TYPE = {
   SINGLE: '0x0000000000000000000000000000000000000000000000000000000000000000',
@@ -209,7 +209,7 @@ async function getUserOpInitCode(
   account: Account,
 ): Promise<Hex> {
   if ((await isContract(network, account)) == false) {
-    return account.initCode
+    return account.initCode!
   }
   return '0x'
 }
@@ -218,7 +218,7 @@ async function isContract(
   network: Network,
   account: Account,
 ): Promise<boolean> {
-  if (account.deployedOnNetworks.includes(network.id)) {
+  if (account.deployedOnChains.includes(network.id)) {
     return true
   }
 

@@ -1,32 +1,8 @@
+import { Account } from 'src/account'
 import { Address, Hex } from 'viem'
 
 export type Network = {
-  name: string
-  testnet: boolean
-  icon: string
-  bundlerUrl: string
-  rpcUrl: string
-  zeroExBaseUrl: string
   id: number
-  network: string
-  nativeCurrency: { name: string; symbol: string; decimals: number }
-  rpcUrls: {
-    default: {
-      http: string[]
-    }
-    public: {
-      http: string[]
-    }
-  }
-  queryName: string
-  blockExplorerUrl: string
-  explorerName: string
-}
-
-export type Account = {
-  address: Address
-  initCode: Hex
-  deployedOnNetworks: number[]
 }
 
 export type Validator = {

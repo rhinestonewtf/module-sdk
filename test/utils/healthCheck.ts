@@ -18,20 +18,3 @@ export const ensureBundlerIsReady = async () => {
     }
   }
 }
-
-export const ensurePaymasterIsReady = async () => {
-  while (true) {
-    try {
-      // mock paymaster will open up this endpoint when ready
-      const res = await fetch(`http://localhost:3000/ping`)
-      const data = await res.json()
-      if (data.message !== 'pong') {
-        throw new Error('paymaster not ready yet')
-      }
-
-      return
-    } catch {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    }
-  }
-}
