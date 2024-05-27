@@ -44,20 +44,22 @@ export const setupEnvironment = async ({
     client: publicClient,
   })
 
-  // install all modules
-  const userOp = await createAndSignUserOp({
-    network: getNetwork(sepolia.id),
-    activeAccount: account,
-    chosenValidator: defaultValidator,
-    actions: installAllModulesActions,
-  })
+  if (installAllModulesActions.length) {
+    // install all modules
+    const userOp = await createAndSignUserOp({
+      network: getNetwork(sepolia.id),
+      activeAccount: account,
+      chosenValidator: defaultValidator,
+      actions: installAllModulesActions,
+    })
 
-  // submit user op to bundler
-  const userOpHash = (await submitUserOpToBundler({
-    userOp,
-  })) as Hex
+    // submit user op to bundler
+    const userOpHash = (await submitUserOpToBundler({
+      userOp,
+    })) as Hex
 
-  await bundlerClient.waitForUserOperationReceipt({
-    hash: userOpHash,
-  })
+    await bundlerClient.waitForUserOperationReceipt({
+      hash: userOpHash,
+    })
+  }
 }
