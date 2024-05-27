@@ -4,7 +4,7 @@ import { SafeCallType, SafeHookType } from '../../account/safe/types'
 
 export const getModule = ({
   module,
-  data,
+  data = '0x',
   type,
   additionalContext,
   hook,

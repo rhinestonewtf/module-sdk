@@ -1,66 +1,65 @@
-import { ensureBundlerIsReady } from 'test/utils/healthCheck'
-import { sepolia } from 'viem/chains'
+import { getAccount, isModuleInstalled } from 'src/account'
 
-import { getNetwork } from 'test/utils/userOps/constants/networks'
-import { getAccount } from 'src/account'
-import { defaultValidator } from 'test/utils/userOps/constants/validators'
 import {
-  createAndSignUserOp,
-  submitUserOpToBundler,
-} from 'test/utils/userOps/userOps'
+  getBundlerClient,
+  getPublicClient,
+  getTestClient,
+} from 'test/utils/userOps/clients'
 
-import { getBundlerClient, getTestClient } from 'test/utils/userOps/clients'
-import { Hex, parseEther } from 'viem'
+import { setupEnvironment } from '../setupEnvironment'
+import { cleanUpEnvironment } from '../cleanUpEnvironment'
+import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
+import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
 
 describe('Test basic bundler functions', () => {
-  // @ts-ignore
-  let bundlerClient: any, testClient: any
-
-  const ERC7579_ACCOUNT = '0xCA83633a0F6582b5bb2cDBC63E151d41999d7D47'
-
-  beforeAll(async () => {
-    bundlerClient = getBundlerClient()
-    testClient = getTestClient()
-
-    await ensureBundlerIsReady()
-    // await ensurePaymasterIsReady()
-
-    await testClient.setBalance({
-      address: ERC7579_ACCOUNT,
-      value: parseEther('1'),
-    })
+  const bundlerClient = getBundlerClient()
+  const testClient = getTestClient()
+  const publicClient = getPublicClient()
+  const account = getAccount({
+    address: '0xCA83633a0F6582b5bb2cDBC63E151d41999d7D47',
+    type: 'erc7579-implementation',
   })
 
-  it('should be able to create and submit user Op', async () => {
-    // top up account balance
+  beforeAll(async () => {
+    await setupEnvironment({
+      account,
+      publicClient: publicClient,
+      testClient,
+      bundlerClient,
+    })
+  }, 20000)
 
-    // create and sign user op
-    const userOp = await createAndSignUserOp({
-      network: getNetwork(sepolia.id),
-      activeAccount: getAccount({
-        address: ERC7579_ACCOUNT,
-        type: 'erc7579-implementation',
+  afterAll(async () => {
+    await cleanUpEnvironment({
+      account,
+      client: publicClient,
+      bundlerClient,
+    })
+  }, 20000)
+
+  it('should return true when checking ownable validator isInstalled', async () => {
+    const isOwnableValidatorInstalled = await isModuleInstalled({
+      account,
+      client: publicClient,
+      module: getModule({
+        type: 'validator',
+        module: OWNABLE_VALIDATOR_ADDRESS,
       }),
-      chosenValidator: defaultValidator,
-      actions: [
-        {
-          target: '0xCA83633a0F6582b5bb2cDBC63E151d41999d7D47',
-          value: BigInt(0),
-          callData: '0x',
-        },
-      ],
     })
 
-    // submit user op to bundler
-    const userOpHash = (await submitUserOpToBundler({
-      userOp,
-    })) as Hex
+    expect(isOwnableValidatorInstalled).toBe(true)
+  }, 20000)
 
-    const receipt = await bundlerClient.waitForUserOperationReceipt({
-      hash: userOpHash,
+  it('should return true when checking ownable executer isInstalled', async () => {
+    const isOwnableValidatorInstalled = await isModuleInstalled({
+      account,
+      client: publicClient,
+      module: getModule({
+        type: 'executor',
+        module: OWNABLE_EXECUTER_ADDRESS,
+      }),
     })
 
-    expect(userOpHash).toBeDefined()
-    expect(receipt.success).toEqual(true)
+    expect(isOwnableValidatorInstalled).toBe(true)
   }, 20000)
 })

@@ -2,11 +2,6 @@ import { Address, Hex, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
 import { MFA_VALIDATOR_ADDRESS } from './constants'
 
-export type WebauthnCredential = {
-  id: string
-  publicKey: [Hex, Hex]
-}
-
 export const getMFAValidator = ({
   validators,
   threshold,

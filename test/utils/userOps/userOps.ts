@@ -171,7 +171,7 @@ async function encodeUserOpCallData(
     })
   } else {
     return encodeFunctionData({
-      functionName: 'executeBatch',
+      functionName: 'execute',
       abi: AccountAbi.abi,
       args: [
         CALL_TYPE.BATCH,
