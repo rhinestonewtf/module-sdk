@@ -2,7 +2,7 @@ import {
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
-  slice,
+  encodePacked,
   parseAbi,
 } from 'viem'
 import { Account, Execution } from '../../types'
@@ -26,6 +26,11 @@ export const uninstallModule = ({
     case 'hook':
       return _uninstallModule({ client, account, module })
     case 'fallback':
+      if (!module.selector) {
+        throw new Error(
+          `Selector param is required for module type ${module.type}`,
+        )
+      }
       return _uninstallFallback({ client, account, module })
     default:
       throw new Error(`Unknown module type ${module.type}`)
@@ -80,7 +85,6 @@ const _uninstallFallback = async ({
 }) => {
   const executions: Execution[] = []
 
-  const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
     client,
     account,
@@ -88,7 +92,7 @@ const _uninstallFallback = async ({
       ...module,
       additionalContext: encodeAbiParameters(
         [{ name: 'functionSignature', type: 'bytes4' }],
-        [selector],
+        [module.selector!],
       ),
     },
   })
@@ -103,7 +107,10 @@ const _uninstallFallback = async ({
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,
-          module.data ?? '0x',
+          encodePacked(
+            ['bytes4', 'bytes'],
+            [module.selector!, module.data ?? '0x'],
+          ),
         ],
       }),
     })

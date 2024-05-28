@@ -1,4 +1,4 @@
-import { PublicClient, parseAbi } from 'viem'
+import { PublicClient, encodeAbiParameters, parseAbi } from 'viem'
 import { Account } from '../../types'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { isContract } from '../../../common/utils'
@@ -17,7 +17,13 @@ export const isModuleInstalled = async ({
     case 'validator':
     case 'executor':
     case 'hook':
+      return await _isModuleInstalled({ client, account, module })
     case 'fallback':
+      if (!module.selector) {
+        throw new Error(
+          `Selector param is required for module type ${module.type}`,
+        )
+      }
       return await _isModuleInstalled({ client, account, module })
     default:
       throw new Error(`Unknown module type ${module.type}`)
@@ -39,7 +45,16 @@ const _isModuleInstalled = async ({
         address: account.address,
         abi: parseAbi(accountAbi),
         functionName: 'isModuleInstalled',
-        args: [moduleTypeIds[module.type], module.module, module.data],
+        args: [
+          moduleTypeIds[module.type],
+          module.module,
+          module.selector
+            ? encodeAbiParameters(
+                [{ name: 'functionSignature', type: 'bytes4' }],
+                [module.selector],
+              )
+            : '0x',
+        ],
       })) as boolean
     }
     return false

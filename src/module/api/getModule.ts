@@ -1,6 +1,6 @@
 import { Address, Hex } from 'viem'
-import { Module, ModuleType } from '../types'
-import { SafeCallType, SafeHookType } from '../../account/safe/types'
+import { CallType, Module, ModuleType } from '../types'
+import { SafeHookType } from '../../account/safe/types'
 
 export const getModule = ({
   module,
@@ -23,7 +23,7 @@ export const getModule = ({
   /* ---  safe props  ---- */
   // these two params needed for installing fallback handler
   functionSig?: Hex
-  callType?: SafeCallType
+  callType?: CallType
 
   // these two params needed for installing hooks
   selector?: Hex

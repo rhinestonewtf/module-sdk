@@ -35,8 +35,6 @@ export const cleanUpEnvironment = async ({
     client,
   })
 
-  console.log('unInstallAllModulesActions', unInstallAllModulesActions)
-
   // uninstall all modules
   const userOp = await createAndSignUserOp({
     network: getNetwork(sepolia.id),

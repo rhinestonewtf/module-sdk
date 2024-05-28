@@ -1,13 +1,22 @@
 import { uninstallModule } from 'src/account'
-import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
+import {
+  getModule,
+  OWNABLE_VALIDATOR_ADDRESS,
+  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+} from 'src/module'
 import { Account } from 'src/account'
-import { PublicClient } from 'viem'
+import { Hex, PublicClient } from 'viem'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
-import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
+import {
+  COLD_STORAGE_FLASHLOAN_ADDRESS,
+  COLD_STORAGE_HOOK_ADDRESS,
+} from 'src/module/cold-storage'
+import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
 
 type Params = {
   account: Account
@@ -28,11 +37,6 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  console.log(
-    'unInstallOwnableValidatorAction',
-    unInstallOwnableValidatorAction,
-  )
-
   // unInstall ownable executor
   const unInstallOwnableExecutorAction = await uninstallModule({
     client,
@@ -42,8 +46,6 @@ export const getUnInstallModuleActions = async ({
       module: OWNABLE_EXECUTER_ADDRESS,
     }),
   })
-
-  console.log('unInstallOwnableExecutorAction', unInstallOwnableExecutorAction)
 
   // uninstall social recovery
   const unInstallSocialRecoveryAction = await uninstallModule({
@@ -55,8 +57,6 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  console.log('unInstallSocialRecoveryAction', unInstallSocialRecoveryAction)
-
   // uninstall auto savings executor
   const unInstallAutoSavingsExecutorAction = await uninstallModule({
     client,
@@ -66,11 +66,6 @@ export const getUnInstallModuleActions = async ({
       module: AUTO_SAVINGS_ADDRESS,
     }),
   })
-
-  console.log(
-    'unInstallAutoSavingsExecutorAction',
-    unInstallAutoSavingsExecutorAction,
-  )
 
   // uninstall deadman switch validator
   const unInstallDeadmanSwitchValidatorAction = await uninstallModule({
@@ -82,23 +77,6 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  console.log(
-    'unInstallDeadmanSwitchValidatorAction',
-    unInstallDeadmanSwitchValidatorAction,
-  )
-
-  // unInstall registry hook
-  const unInstallRegistryHookAction = await uninstallModule({
-    client,
-    account,
-    module: getModule({
-      type: 'hook',
-      module: REGISTRY_HOOK_ADDRESS,
-    }),
-  })
-
-  console.log('unInstallRegistryHookAction', unInstallRegistryHookAction)
-
   // unInstall multi factor validator
   const unInstallMultiFactorValidatorAction = await uninstallModule({
     client,
@@ -109,13 +87,61 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  console.log(
-    'unInstallMultiFactorValidatorAction',
-    unInstallMultiFactorValidatorAction,
-  )
+  // unInstall virtual code storage executor
+  const unInstallVirtualCodeStorageHookAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'executor',
+      module: COLD_STORAGE_HOOK_ADDRESS,
+    }),
+  })
+
+  // unInstall virtual code storage fallback
+  const unInstallVirtualCodeStorageFallbackAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'fallback',
+      module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+      selector: '0x00000000' as Hex,
+    }),
+  })
+
+  const unInstallScheduledOrdersExecutorAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'executor',
+      module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+    }),
+  })
+
+  const unInstallScheduledTransfersExecutorAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'executor',
+      module: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    }),
+  })
+
+  const unInstallHookMultiPlexerHookAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'hook',
+      module: HOOK_MULTI_PLEXER_ADDRESS,
+    }),
+  })
 
   return [
-    ...unInstallRegistryHookAction,
+    // ...unInstallRegistryHookAction,
+    ...unInstallHookMultiPlexerHookAction,
+    ...unInstallScheduledTransfersExecutorAction,
+    ...unInstallScheduledOrdersExecutorAction,
+    ...unInstallVirtualCodeStorageFallbackAction,
+    ...unInstallVirtualCodeStorageHookAction,
     ...unInstallMultiFactorValidatorAction,
     ...unInstallDeadmanSwitchValidatorAction,
     ...unInstallAutoSavingsExecutorAction,

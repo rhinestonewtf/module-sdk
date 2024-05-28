@@ -1,11 +1,5 @@
 import { Account, Execution } from '../../types'
-import {
-  PublicClient,
-  encodeAbiParameters,
-  encodeFunctionData,
-  parseAbi,
-  slice,
-} from 'viem'
+import { PublicClient, encodeFunctionData, encodePacked, parseAbi } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { Module, moduleTypeIds } from '../../../module/types'
 import { accountAbi } from '../constants/abis'
@@ -25,6 +19,11 @@ export const installModule = ({
     case 'hook':
       return _installModule({ client, account, module })
     case 'fallback':
+      if (!module.selector || !module.callType) {
+        throw new Error(
+          `Selector and callType params are required for module type ${module.type}`,
+        )
+      }
       return installFallback({ client, account, module })
     default:
       throw new Error(`Unknown module type ${module.type}`)
@@ -72,17 +71,10 @@ async function installFallback({
 }): Promise<Execution[]> {
   const executions: Execution[] = []
 
-  const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
     client,
     account,
-    module: {
-      ...module,
-      additionalContext: encodeAbiParameters(
-        [{ name: 'functionSignature', type: 'bytes4' }],
-        [selector],
-      ),
-    },
+    module,
   })
 
   if (!isInstalled) {
@@ -95,7 +87,10 @@ async function installFallback({
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,
-          module.data ?? '0x',
+          encodePacked(
+            ['bytes4', 'bytes1', 'bytes'],
+            [module.selector!, module.callType!, module.data ?? '0x'],
+          ),
         ],
       }),
     })
