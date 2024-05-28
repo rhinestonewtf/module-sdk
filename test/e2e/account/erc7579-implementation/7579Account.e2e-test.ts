@@ -1,66 +1,99 @@
-import { ensureBundlerIsReady } from 'test/utils/healthCheck'
-import { sepolia } from 'viem/chains'
-
-import { getNetwork } from 'test/utils/userOps/constants/networks'
 import { getAccount } from 'src/account'
-import { defaultValidator } from 'test/utils/userOps/constants/validators'
+import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
+import { setupEnvironment, cleanUpEnvironment } from '../../infra'
 import {
-  createAndSignUserOp,
-  submitUserOpToBundler,
-} from 'test/utils/userOps/userOps'
+  testAutoSavingsExecutor,
+  testDeadmanSwitchValidator,
+  testMultiFactorValidator,
+  testOwnableExecutor,
+  testOwnableValidator,
+  testRegistryHook,
+  testColdStorageHook,
+  testScheduledOrdersExecutor,
+  testScheduledTransfersExecutor,
+  testHookMultiPlexer,
+} from 'test/e2e/modules'
 
-import { getBundlerClient, getTestClient } from 'test/utils/userOps/clients'
-import { Hex, parseEther } from 'viem'
-
-describe('Test basic bundler functions', () => {
-  // @ts-ignore
-  let bundlerClient: any, testClient: any
-
-  const ERC7579_ACCOUNT = '0xCA83633a0F6582b5bb2cDBC63E151d41999d7D47'
-
-  beforeAll(async () => {
-    bundlerClient = getBundlerClient()
-    testClient = getTestClient()
-
-    await ensureBundlerIsReady()
-    // await ensurePaymasterIsReady()
-
-    await testClient.setBalance({
-      address: ERC7579_ACCOUNT,
-      value: parseEther('1'),
-    })
+describe('Test erc7579 account', () => {
+  const testClient = getTestClient()
+  const publicClient = getPublicClient()
+  const account = getAccount({
+    address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
+    type: 'erc7579-implementation',
   })
 
-  it('should be able to create and submit user Op', async () => {
-    // top up account balance
-
-    // create and sign user op
-    const userOp = await createAndSignUserOp({
-      network: getNetwork(sepolia.id),
-      activeAccount: getAccount({
-        address: ERC7579_ACCOUNT,
-        type: 'erc7579-implementation',
-      }),
-      chosenValidator: defaultValidator,
-      actions: [
-        {
-          target: '0xCA83633a0F6582b5bb2cDBC63E151d41999d7D47',
-          value: BigInt(0),
-          callData: '0x',
-        },
-      ],
+  beforeAll(async () => {
+    await setupEnvironment({
+      account,
+      publicClient: publicClient,
+      testClient,
     })
-
-    // submit user op to bundler
-    const userOpHash = (await submitUserOpToBundler({
-      userOp,
-    })) as Hex
-
-    const receipt = await bundlerClient.waitForUserOperationReceipt({
-      hash: userOpHash,
-    })
-
-    expect(userOpHash).toBeDefined()
-    expect(receipt.success).toEqual(true)
   }, 20000)
+
+  afterAll(async () => {
+    await cleanUpEnvironment({
+      account,
+      client: publicClient,
+    })
+  }, 20000)
+
+  testOwnableValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testOwnableExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testAutoSavingsExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testDeadmanSwitchValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testRegistryHook({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testMultiFactorValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testColdStorageHook({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testScheduledOrdersExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testScheduledTransfersExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testHookMultiPlexer({
+    account,
+    publicClient,
+    testClient,
+  })
 })

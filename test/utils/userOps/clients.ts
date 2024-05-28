@@ -24,8 +24,13 @@ export const getPublicClient = () => {
   })
 }
 
-export const getTestClient = () =>
-  createTestClient({
-    mode: 'anvil',
-    transport: http(RPC_URL),
-  })
+export const getTestClient = () => {
+  return {
+    ...createTestClient({
+      mode: 'anvil',
+      transport: http(RPC_URL),
+    }),
+    getBytecode: getPublicClient().getBytecode,
+    readContract: getPublicClient().readContract,
+  }
+}

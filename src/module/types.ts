@@ -1,4 +1,4 @@
-import { SafeCallType, SafeHookType } from '../account/safe/types'
+import { SafeHookType } from '../account/safe/types'
 import { Address, Hex } from 'viem'
 
 export type ModuleType = 'validator' | 'executor' | 'fallback' | 'hook'
@@ -22,7 +22,7 @@ export type Module = {
 
   // these two params needed for installing fallback handlers
   functionSig?: Hex
-  callType?: SafeCallType
+  callType?: CallType
 
   /* ---- end safe module params ---- */
 }
@@ -36,4 +36,11 @@ export const moduleTypeIds: ModuleTypeIds = {
   executor: 2,
   fallback: 3,
   hook: 4,
+}
+
+export enum CallType {
+  CALLTYPE_SINGLE = '0x00',
+  CALLTYPE_BATCH = '0x01',
+  CALLTYPE_STATIC = '0xFE',
+  CALLTYPE_DELEGATECALL = '0xFF',
 }

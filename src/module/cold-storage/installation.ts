@@ -1,4 +1,10 @@
-import { Address, encodeAbiParameters, encodePacked, PublicClient } from 'viem'
+import {
+  Address,
+  encodeAbiParameters,
+  encodePacked,
+  Hex,
+  PublicClient,
+} from 'viem'
 import { Module } from '../types'
 import {
   COLD_STORAGE_HOOK_ADDRESS,
@@ -6,6 +12,7 @@ import {
 } from './constants'
 import { Account } from '../../account'
 import { getInstalledModules } from '../../account'
+import { CallType } from '../../module/types'
 
 type Params = {
   account: Account
@@ -38,10 +45,14 @@ export const getInstallColdStorageHook = async ({
 
 type FlashloanParams = {
   addresses: Address[]
+  selector: Hex
+  callType: CallType
 }
 
 export const getInstallAllowedCallbackSenders = ({
   addresses,
+  selector,
+  callType,
 }: FlashloanParams): Module => {
   return {
     module: COLD_STORAGE_FLASHLOAN_ADDRESS,
@@ -49,7 +60,8 @@ export const getInstallAllowedCallbackSenders = ({
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
       [addresses],
     ),
-    additionalContext: '0x',
+    selector,
+    callType,
     type: 'fallback',
   }
 }

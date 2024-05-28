@@ -18,6 +18,7 @@ import {
   getInstallColdStorageHook,
   getInstallAllowedCallbackSenders,
 } from 'src/module/cold-storage'
+import { CallType } from 'src/module/types'
 
 describe('Cold storage Module', () => {
   // Setup
@@ -43,6 +44,8 @@ describe('Cold storage Module', () => {
   it('should get install cold storage flashloan module', async () => {
     const installColdStorageFlashloanModule = getInstallAllowedCallbackSenders({
       addresses,
+      selector: '0x00000000',
+      callType: CallType.CALLTYPE_SINGLE,
     })
 
     expect(installColdStorageFlashloanModule.module).toEqual(
