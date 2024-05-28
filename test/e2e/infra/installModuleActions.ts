@@ -41,7 +41,6 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     hookMultiPlexer,
   } = getInstallModuleData({
     account,
-    client,
   })
 
   // install ownable validator
@@ -141,7 +140,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   ]
 }
 
-export const getInstallModuleData = ({ account }: Params) => ({
+export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [account.address],
