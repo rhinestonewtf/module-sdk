@@ -10,7 +10,7 @@ type Params = {
 }
 
 export const testRegistryHook = async ({ account, publicClient }: Params) => {
-  it('should return true when checking registry hook isInstalled', async () => {
+  it('should return false when checking registry hook isInstalled', async () => {
     const isRegistryHookInstalled = await isModuleInstalled({
       account,
       client: publicClient,

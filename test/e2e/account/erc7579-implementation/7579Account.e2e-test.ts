@@ -12,9 +12,10 @@ import {
   testScheduledOrdersExecutor,
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
+  testSocialRecoveryValidator,
 } from 'test/e2e/modules'
 
-describe('Test erc7579 account', () => {
+describe('Test erc7579 reference implementation', () => {
   const testClient = getTestClient()
   const publicClient = getPublicClient()
   const account = getAccount({
@@ -56,6 +57,12 @@ describe('Test erc7579 account', () => {
   })
 
   testDeadmanSwitchValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testSocialRecoveryValidator({
     account,
     publicClient,
     testClient,

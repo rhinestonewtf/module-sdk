@@ -1,7 +1,14 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
-import { PublicClient, TestClient } from 'viem'
+import {
+  getRemoveValidatorExecution,
+  getSetThresholdExecution,
+  getSetValidatorExecution,
+  isSubValidator,
+  MULTI_FACTOR_VALIDATOR_ADDRESS,
+} from 'src/module/multi-factor-validator'
+import { Address, Hex, PublicClient, slice, TestClient } from 'viem'
+import { sendUserOp } from '../infra'
 
 type Params = {
   account: Account
@@ -24,5 +31,63 @@ export const testMultiFactorValidator = async ({
     })
 
     expect(isMFAInstalled).toBe(true)
+  }, 20000)
+
+  it('should set validator threshold', async () => {
+    const setThresholdAction = getSetThresholdExecution({ threshold: 1 })
+
+    const receipt = await sendUserOp({ account, actions: [setThresholdAction] })
+
+    expect(receipt.success).toBe(true)
+  }, 20000)
+
+  it('should set new validator', async () => {
+    const validatorAddress =
+      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
+    const validatorId = slice(validatorAddress, 0, 12) as Hex
+    const newValidatorData = '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Hex
+
+    const setValidatorAction = getSetValidatorExecution({
+      validatorAddress,
+      validatorId,
+      newValidatorData,
+    })
+
+    const receipt = await sendUserOp({ account, actions: [setValidatorAction] })
+
+    expect(receipt.success).toBe(true)
+  }, 20000)
+
+  it('should return true when checking if validator is sub validator', async () => {
+    const validatorAddress =
+      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
+    const validatorId = slice(validatorAddress, 0, 12) as Hex
+
+    const isSubValidatorResult = await isSubValidator({
+      account,
+      client: publicClient,
+      subValidator: validatorAddress,
+      validatorId,
+    })
+
+    expect(isSubValidatorResult).toBe(true)
+  })
+
+  it('should remove validator', async () => {
+    const validatorAddress =
+      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
+    const validatorId = slice(validatorAddress, 0, 12) as Hex
+
+    const removeValidatorAction = getRemoveValidatorExecution({
+      validatorAddress,
+      validatorId,
+    })
+
+    const receipt = await sendUserOp({
+      account,
+      actions: [removeValidatorAction],
+    })
+
+    expect(receipt.success).toBe(true)
   }, 20000)
 }
