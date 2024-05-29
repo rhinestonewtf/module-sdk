@@ -3,7 +3,7 @@ import { Address, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
 
-type ConfigType = [number, number, Address]
+export type DeadmanSwitchConfigType = [number, number, Address]
 
 export const getConfig = async ({
   account,
@@ -11,14 +11,14 @@ export const getConfig = async ({
 }: {
   account: Account
   client: PublicClient
-}): Promise<ConfigType> => {
+}): Promise<DeadmanSwitchConfigType> => {
   try {
     const config = (await client.readContract({
       address: DEADMAN_SWITCH_ADDRESS,
       abi,
       functionName: 'config',
       args: [account.address],
-    })) as ConfigType
+    })) as DeadmanSwitchConfigType
 
     return config
   } catch (err) {

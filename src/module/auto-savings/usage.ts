@@ -1,10 +1,4 @@
-import {
-  Address,
-  encodeAbiParameters,
-  encodeFunctionData,
-  getAddress,
-  PublicClient,
-} from 'viem'
+import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
 import { AUTO_SAVINGS_ADDRESS } from './constants'
 import { abi } from './abi'
 import { Execution } from '../../account'
@@ -24,26 +18,11 @@ export const getSetConfigExecution = ({ token, config }: Params): Execution => {
   return {
     target: AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
-    callData: encodeAbiParameters(
-      [
-        { internalType: 'address', name: 'token', type: 'address' },
-        {
-          components: [
-            { internalType: 'uint16', name: 'percentage', type: 'uint16' },
-            { internalType: 'address', name: 'vault', type: 'address' },
-            {
-              internalType: 'uint128',
-              name: 'sqrtPriceLimitX96',
-              type: 'uint128',
-            },
-          ],
-          internalType: 'struct AutoSavings.Config',
-          name: '_config',
-          type: 'tuple',
-        },
-      ],
-      [token, config],
-    ),
+    callData: encodeFunctionData({
+      functionName: 'setConfig',
+      abi,
+      args: [token, config],
+    }),
   }
 }
 
@@ -129,7 +108,7 @@ export const autoSave = async ({
   }
 }
 
-type ConfigType = [number, Address, number]
+export type ConfigType = [number, Address, number]
 
 export const getAccountTokenConfig = async ({
   client,

@@ -11,7 +11,6 @@ import { getInstallSocialRecovery } from 'src/module/social-recovery/installatio
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings'
 import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
-import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook'
 import { getInstallMultiFactorValidator } from 'src/module/multi-factor-validator'
 import { validators } from 'test/utils/userOps/constants/validators'
 import {
@@ -156,10 +155,10 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     registryAddress: REGISTRY_ADDRESS as Address,
   },
   autoSavingExecutor: {
-    tokens: [account.address],
+    tokens: ['0x96C9b8422f930a4a47c1e3df01103A282ee6EE04' as Address],
     configs: [
       {
-        percentage: 10,
+        percentage: 10 * 100,
         vault: '0xd921f0dF3B56899F26F658809aaa161cdfC2359F' as Address,
         sqrtPriceLimitX96: BigInt(10),
       },
@@ -205,10 +204,10 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     executionData: '0x' as Hex,
   },
   hookMultiPlexer: {
-    globalHooks: [REGISTRY_HOOK_ADDRESS as Address],
+    globalHooks: [],
     valueHooks: [],
     delegatecallHooks: [],
-    sigHooks: [],
     targetHooks: [],
+    sigHooks: [],
   },
 })
