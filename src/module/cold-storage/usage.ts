@@ -162,7 +162,7 @@ export const getRemoveAddressAction = async ({
     callData: encodeFunctionData({
       functionName: 'removeAddress',
       abi: flashloanAbi,
-      args: [prevAddress, addressToRemove],
+      args: [addressToRemove, prevAddress],
     }),
   }
 }
