@@ -1,4 +1,5 @@
 import { Account, isModuleInstalled } from 'src/account'
+import { SafeHookType } from 'src/account/safe/types'
 import { getModule } from 'src/module'
 import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
 import { PublicClient, TestClient } from 'viem'
@@ -20,6 +21,8 @@ export const testHookMultiPlexer = async ({
       module: getModule({
         type: 'hook',
         module: HOOK_MULTI_PLEXER_ADDRESS,
+        hookType: SafeHookType.GLOBAL,
+        selector: '0x00000000',
       }),
     })
 

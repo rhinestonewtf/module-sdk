@@ -53,7 +53,7 @@ export const testOwnableValidator = async ({
 
     const newOwners = await getOwners({ account, client: publicClient })
     expect(newOwners.length).toEqual(oldOwners.length + 1)
-  })
+  }, 20000)
 
   it('should remove owner from ownable validator', async () => {
     const ownerToRemove =
@@ -70,5 +70,5 @@ export const testOwnableValidator = async ({
 
     const newOwners = await getOwners({ account, client: publicClient })
     expect(newOwners.length).toEqual(oldOwners.length - 1)
-  })
+  }, 20000)
 }

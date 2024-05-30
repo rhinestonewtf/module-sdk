@@ -1,4 +1,5 @@
 import { Account, isModuleInstalled } from 'src/account'
+import { SafeHookType } from 'src/account/safe/types'
 import { getModule } from 'src/module'
 import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook'
 import { PublicClient, TestClient } from 'viem'
@@ -17,6 +18,8 @@ export const testRegistryHook = async ({ account, publicClient }: Params) => {
       module: getModule({
         type: 'hook',
         module: REGISTRY_HOOK_ADDRESS,
+        hookType: SafeHookType.GLOBAL,
+        selector: '0x00000000',
       }),
     })
 

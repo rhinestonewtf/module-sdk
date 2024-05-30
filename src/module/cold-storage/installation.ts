@@ -45,14 +45,16 @@ export const getInstallColdStorageHook = async ({
 
 type FlashloanParams = {
   addresses: Address[]
-  selector: Hex
+  functionSig?: Hex
   callType: CallType
+  selector?: Hex
 }
 
 export const getInstallAllowedCallbackSenders = ({
   addresses,
-  selector,
+  functionSig,
   callType,
+  selector,
 }: FlashloanParams): Module => {
   return {
     module: COLD_STORAGE_FLASHLOAN_ADDRESS,
@@ -60,7 +62,8 @@ export const getInstallAllowedCallbackSenders = ({
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
       [addresses],
     ),
-    selector,
+    functionSig,
+    selector: selector,
     callType,
     type: 'fallback',
   }

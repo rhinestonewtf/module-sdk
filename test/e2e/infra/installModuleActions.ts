@@ -6,19 +6,20 @@ import {
 } from 'src/module'
 import { Account } from 'src/account'
 import { Address, encodePacked, Hex, PublicClient } from 'viem'
-import { getInstallOwnableExecuter } from 'src/module/ownable-executer'
-import { getInstallSocialRecovery } from 'src/module/social-recovery/installation'
+import { CallType } from 'src/module/types'
+import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
+import { getInstallOwnableExecuter } from 'src/module/ownable-executer'
 import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings'
 import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
+import { getInstallSocialRecovery } from 'src/module/social-recovery/installation'
 import { getInstallMultiFactorValidator } from 'src/module/multi-factor-validator'
-import { validators } from 'test/utils/userOps/constants/validators'
 import {
   getInstallAllowedCallbackSenders,
   getInstallColdStorageHook,
 } from 'src/module/cold-storage'
 import { getInstallHookMultiPlexer } from 'src/module/hook-multi-plexer'
-import { CallType } from 'src/module/types'
+import { SafeHookType } from 'src/account/safe/types'
 
 type Params = {
   account: Account
@@ -135,7 +136,6 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     ...installScheduledOrdersExecutorAction,
     ...installScheduledTransfersExecutorAction,
     ...installHookMultiplexerAction,
-    // ...installRegistryHookAction,
   ]
 }
 
@@ -188,6 +188,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   },
   allowedCallbackSendersFallback: {
     addresses: [account.address] as Address[],
+    functionSig: '0x00000000' as Hex,
     selector: '0x00000000' as Hex,
     callType: CallType.CALLTYPE_SINGLE,
   },
@@ -209,5 +210,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     delegatecallHooks: [],
     targetHooks: [],
     sigHooks: [],
+    selector: '0x00000000' as Hex,
+    hookType: SafeHookType.GLOBAL,
   },
 })
