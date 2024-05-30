@@ -93,9 +93,9 @@ const getModuleCalldata = (module: Module): Hex => {
     case 'hook':
       return encodeAbiParameters(
         parseAbiParameters(
-          'HookType hookType, bytes4 selector, bytes memory initData',
+          'uint8 hookType, bytes4 selector, bytes memory initData',
         ),
-        [module.hookType, module.selector!, module.data || '0x'],
+        [module.hookType!, module.selector!, module.data || '0x'],
       )
     case 'fallback':
       return encodeAbiParameters(

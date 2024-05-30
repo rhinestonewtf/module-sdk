@@ -8,15 +8,16 @@ import {
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
+import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
 import {
   COLD_STORAGE_FLASHLOAN_ADDRESS,
   COLD_STORAGE_HOOK_ADDRESS,
 } from 'src/module/cold-storage'
 import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
+import { SafeHookType } from 'src/account/safe/types'
 
 type Params = {
   account: Account
@@ -88,7 +89,7 @@ export const getUnInstallModuleActions = async ({
   })
 
   // unInstall virtual code storage executor
-  const unInstallVirtualCodeStorageHookAction = await uninstallModule({
+  const unInstallVirtualCodeStorageExecutorAction = await uninstallModule({
     client,
     account,
     module: getModule({
@@ -104,6 +105,7 @@ export const getUnInstallModuleActions = async ({
     module: getModule({
       type: 'fallback',
       module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+      functionSig: '0x00000000' as Hex,
       selector: '0x00000000' as Hex,
     }),
   })
@@ -132,6 +134,8 @@ export const getUnInstallModuleActions = async ({
     module: getModule({
       type: 'hook',
       module: HOOK_MULTI_PLEXER_ADDRESS,
+      hookType: SafeHookType.GLOBAL,
+      selector: '0x00000000' as Hex,
     }),
   })
 
@@ -141,7 +145,7 @@ export const getUnInstallModuleActions = async ({
     ...unInstallScheduledTransfersExecutorAction,
     ...unInstallScheduledOrdersExecutorAction,
     ...unInstallVirtualCodeStorageFallbackAction,
-    ...unInstallVirtualCodeStorageHookAction,
+    ...unInstallVirtualCodeStorageExecutorAction,
     ...unInstallMultiFactorValidatorAction,
     ...unInstallDeadmanSwitchValidatorAction,
     ...unInstallAutoSavingsExecutorAction,

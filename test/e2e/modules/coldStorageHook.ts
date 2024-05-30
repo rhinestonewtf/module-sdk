@@ -44,6 +44,7 @@ export const testColdStorageHook = async ({
       module: getModule({
         type: 'fallback',
         module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+        functionSig: '0x00000000',
         selector: '0x00000000',
       }),
     })

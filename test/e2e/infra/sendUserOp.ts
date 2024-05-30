@@ -28,7 +28,9 @@ export const sendUserOp = async ({ account, actions }: SendUserOpParams) => {
     userOp,
   })) as Hex
 
-  return await bundlerClient.waitForUserOperationReceipt({
+  const receipt = await bundlerClient.waitForUserOperationReceipt({
     hash: userOpHash,
   })
+
+  return receipt
 }

@@ -1,4 +1,4 @@
-import { Address, encodeAbiParameters } from 'viem'
+import { Address, encodeAbiParameters, Hex } from 'viem'
 import { Module } from '../types'
 import { HOOK_MULTI_PLEXER_ADDRESS } from './constants'
 import { SigHookInit } from './types'
@@ -9,6 +9,8 @@ type Params = {
   delegatecallHooks: Address[]
   sigHooks: SigHookInit[]
   targetHooks: SigHookInit[]
+  selector?: Hex
+  hookType?: number
 }
 
 export const getInstallHookMultiPlexer = ({
@@ -17,6 +19,8 @@ export const getInstallHookMultiPlexer = ({
   delegatecallHooks,
   sigHooks,
   targetHooks,
+  selector,
+  hookType,
 }: Params): Module => {
   return {
     module: HOOK_MULTI_PLEXER_ADDRESS,
@@ -50,5 +54,7 @@ export const getInstallHookMultiPlexer = ({
     ),
     additionalContext: '0x',
     type: 'hook',
+    selector,
+    hookType,
   }
 }

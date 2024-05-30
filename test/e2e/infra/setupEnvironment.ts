@@ -26,7 +26,7 @@ export const setupEnvironment = async ({
   // top up account balance
   await testClient.setBalance({
     address: account.address,
-    value: parseEther('1'),
+    value: parseEther('2'),
   })
 
   const installAllModulesActions = await getInstallModuleActions({
