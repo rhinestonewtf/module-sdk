@@ -1,4 +1,4 @@
-import { CallType } from 'src/module/types'
+import { CallType } from '../../module/types'
 import { Address, Hex } from 'viem'
 
 export type KernelModule = {
