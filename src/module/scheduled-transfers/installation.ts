@@ -1,4 +1,4 @@
-import { Hex, encodePacked } from 'viem'
+import { Address, Hex, encodePacked } from 'viem'
 import { Module } from '../types'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
 
@@ -7,6 +7,7 @@ type Params = {
   numberOfExecutions: number
   startDate: number
   executionData: Hex
+  hook?: Address
 }
 
 export const getInstallScheduledTransfersExecutor = ({
@@ -14,6 +15,7 @@ export const getInstallScheduledTransfersExecutor = ({
   numberOfExecutions,
   startDate,
   executionData,
+  hook,
 }: Params): Module => {
   return {
     module: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
@@ -22,5 +24,6 @@ export const getInstallScheduledTransfersExecutor = ({
       ['uint48', 'uint16', 'uint48', 'bytes'],
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
+    hook,
   }
 }

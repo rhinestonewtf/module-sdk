@@ -5,7 +5,6 @@ import {
   encodeFunctionData,
   encodePacked,
   parseAbi,
-  slice,
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
@@ -66,7 +65,13 @@ const _installModule = async ({
           withHook
             ? encodePacked(
                 ['address', 'bytes'],
-                [module.hook!, module.data || '0x'],
+                [
+                  module.hook!,
+                  encodeAbiParameters(
+                    [{ type: 'bytes' }, { type: 'bytes' }],
+                    [module.data || '0x', '0x'],
+                  ),
+                ],
               )
             : module.data || '0x',
         ],
@@ -85,23 +90,18 @@ async function installFallback({
   account: Account
   module: KernelModule
 }): Promise<Execution[]> {
-  if (!module.hook) {
-    throw new Error(`Hook is required for module type ${module.type}`)
+  if (!module.hook || !module.selector || !module.callType) {
+    throw new Error(
+      `Hook and selector and callType are required for module type ${module.type}`,
+    )
   }
 
   const executions: Execution[] = []
 
-  const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
     client,
     account,
-    module: {
-      ...module,
-      additionalContext: encodeAbiParameters(
-        [{ name: 'functionSignature', type: 'bytes4' }],
-        [selector],
-      ),
-    },
+    module,
   })
 
   if (!isInstalled) {
@@ -115,8 +115,21 @@ async function installFallback({
           BigInt(kernelModuleTypeIds[module.type]),
           module.module,
           encodePacked(
-            ['address', 'bytes'],
-            [module.hook, module.data || '0x'],
+            ['bytes4', 'address', 'bytes'],
+            [
+              module.selector,
+              module.hook,
+              encodeAbiParameters(
+                [{ type: 'bytes' }, { type: 'bytes' }],
+                [
+                  encodePacked(
+                    ['bytes1', 'bytes'],
+                    [module.callType, module.data || '0x'],
+                  ),
+                  '0x',
+                ],
+              ),
+            ],
           ),
         ],
       }),

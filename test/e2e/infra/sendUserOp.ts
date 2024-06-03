@@ -1,3 +1,4 @@
+import { UserOperation } from 'permissionless'
 import { Account } from 'src/account'
 import { getBundlerClient } from 'test/utils/userOps/clients'
 import { getNetwork } from 'test/utils/userOps/constants/networks'
@@ -7,7 +8,7 @@ import {
   createAndSignUserOp,
   submitUserOpToBundler,
 } from 'test/utils/userOps/userOps'
-import { Hex } from 'viem'
+import { concat, Hex, pad, toHex } from 'viem'
 import { sepolia } from 'viem/chains'
 
 type SendUserOpParams = {

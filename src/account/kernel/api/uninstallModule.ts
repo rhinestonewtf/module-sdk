@@ -2,7 +2,7 @@ import {
   PublicClient,
   encodeAbiParameters,
   encodeFunctionData,
-  slice,
+  encodePacked,
   parseAbi,
 } from 'viem'
 import { Account, Execution } from '../../types'
@@ -74,16 +74,16 @@ const _uninstallFallback = async ({
 }) => {
   const executions: Execution[] = []
 
-  const selector = slice(module.data!, 0, 4)
   const isInstalled = await isModuleInstalled({
     client,
     account,
     module: {
       ...module,
-      additionalContext: encodeAbiParameters(
-        [{ name: 'functionSignature', type: 'bytes4' }],
-        [selector],
-      ),
+      data:
+        encodeAbiParameters(
+          [{ name: 'functionSignature', type: 'bytes4' }],
+          [module.selector!],
+        ) || '0x',
     },
   })
 
@@ -97,7 +97,10 @@ const _uninstallFallback = async ({
         args: [
           BigInt(kernelModuleTypeIds[module.type]),
           module.module,
-          module.data ?? '0x',
+          encodePacked(
+            ['bytes4', 'bytes'],
+            [module.selector!, module.data || '0x'],
+          ),
         ],
       }),
     })

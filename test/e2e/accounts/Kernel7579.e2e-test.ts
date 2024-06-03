@@ -1,7 +1,9 @@
 import { getAccount } from 'src/account'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
-import { setupEnvironment, cleanUpEnvironment } from '../infra'
+import { cleanUpEnvironment, setupEnvironment } from '../infra'
 import {
+  testOwnableValidator,
+  testOwnableExecutor,
   testAutoSavingsExecutor,
   testDeadmanSwitchValidator,
   testSocialRecoveryValidator,
@@ -11,17 +13,15 @@ import {
   testScheduledOrdersExecutor,
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
-  testOwnableExecutor,
-  testOwnableValidator,
-} from 'test/e2e/modules'
+} from '../modules'
 
-describe('Test Safe-7579 account', () => {
+describe('Test Kernel-7579 account', () => {
   const testClient = getTestClient()
   const publicClient = getPublicClient()
-  const SAFE_ACCOUNT_ADDRESS = '0xc2b17e73603dccc195118a36f3203134fd7985f5'
+  const KERNEL_ACCOUNT_ADDRESS = '0xee0cbe5e9c49a2cc31881ab9c26e662be68e85dd'
   const account = getAccount({
-    address: SAFE_ACCOUNT_ADDRESS,
-    type: 'safe',
+    address: KERNEL_ACCOUNT_ADDRESS,
+    type: 'kernel',
   })
 
   beforeAll(async () => {
@@ -30,14 +30,14 @@ describe('Test Safe-7579 account', () => {
       publicClient: publicClient,
       testClient,
     })
-  }, 20000)
+  }, 50000)
 
   afterAll(async () => {
     await cleanUpEnvironment({
       account,
       client: publicClient,
     })
-  }, 20000)
+  }, 50000)
 
   testOwnableValidator({
     account,

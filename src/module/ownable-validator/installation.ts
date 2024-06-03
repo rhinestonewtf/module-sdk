@@ -5,9 +5,11 @@ import { OWNABLE_VALIDATOR_ADDRESS } from './constants'
 export const getInstallOwnableValidator = ({
   threshold,
   owners,
+  hook,
 }: {
   threshold: number
   owners: Address[]
+  hook?: Address
 }): Module => {
   return {
     module: OWNABLE_VALIDATOR_ADDRESS,
@@ -19,6 +21,7 @@ export const getInstallOwnableValidator = ({
       [BigInt(threshold), owners],
     ),
     additionalContext: '0x',
+    hook,
     type: 'validator',
   }
 }

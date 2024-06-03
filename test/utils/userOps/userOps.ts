@@ -136,14 +136,26 @@ const getNonce = async ({
   chosenValidator: Validator
 }) => {
   const publicClient = getPublicClient()
+
   const nonce = await getAccountNonce(publicClient, {
     sender: activeAccount.address,
     entryPoint: ENTRY_POINT_ADDRESS as EntryPoint,
     key: BigInt(
-      pad(chosenValidator.address, {
-        dir: 'right',
-        size: 24,
-      }),
+      activeAccount.type === 'kernel'
+        ? pad(
+            encodePacked(
+              ['bytes1', 'bytes1', 'address'],
+              ['0x00', '0x00', chosenValidator.address],
+            ),
+            {
+              dir: 'right',
+              size: 24,
+            },
+          )
+        : pad(chosenValidator.address, {
+            dir: 'right',
+            size: 24,
+          }),
     ),
   })
 

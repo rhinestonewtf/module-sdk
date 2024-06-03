@@ -15,5 +15,7 @@ export const cleanUpEnvironment = async ({ account, client }: Params) => {
     client,
   })
 
-  await sendUserOp({ account, actions: unInstallAllModulesActions })
+  if (unInstallAllModulesActions.length) {
+    await sendUserOp({ account, actions: unInstallAllModulesActions })
+  }
 }
