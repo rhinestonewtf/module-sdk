@@ -8,16 +8,16 @@ import {
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
-import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
-import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
+import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import {
   COLD_STORAGE_FLASHLOAN_ADDRESS,
   COLD_STORAGE_HOOK_ADDRESS,
 } from 'src/module/cold-storage'
-import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
 import { SafeHookType } from 'src/account/safe/types'
+import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
+import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
+import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
 
 type Params = {
   account: Account
@@ -48,7 +48,7 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  // uninstall social recovery
+  // // uninstall social recovery
   const unInstallSocialRecoveryAction = await uninstallModule({
     client,
     account,
@@ -58,7 +58,7 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
-  // uninstall auto savings executor
+  // // uninstall auto savings executor
   const unInstallAutoSavingsExecutorAction = await uninstallModule({
     client,
     account,
@@ -140,7 +140,6 @@ export const getUnInstallModuleActions = async ({
   })
 
   return [
-    // ...unInstallRegistryHookAction,
     ...unInstallHookMultiPlexerHookAction,
     ...unInstallScheduledTransfersExecutorAction,
     ...unInstallScheduledOrdersExecutorAction,

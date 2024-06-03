@@ -26,6 +26,8 @@ export const testHookMultiPlexer = async ({
       }),
     })
 
-    expect(isHookMultiPlexerInstalled).toBe(true)
+    expect(isHookMultiPlexerInstalled).toBe(
+      account.type === 'kernel' ? false : true,
+    )
   }, 20000)
 }

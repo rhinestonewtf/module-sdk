@@ -20,6 +20,7 @@ type Params = {
   waitPeriod: number
   owner: Address
   moduleType: 'hook' | 'fallback' | 'executor'
+  hook?: Address
 }
 
 export const getInstallColdStorageHook = async ({
@@ -28,6 +29,7 @@ export const getInstallColdStorageHook = async ({
   waitPeriod,
   owner,
   moduleType,
+  hook,
 }: Params): Promise<Module> => {
   const installedModules = await getInstalledModules({ account, client })
 
@@ -40,6 +42,7 @@ export const getInstallColdStorageHook = async ({
     data,
     additionalContext: '0x',
     type: moduleType,
+    hook,
   }
 }
 
@@ -48,6 +51,7 @@ type FlashloanParams = {
   functionSig?: Hex
   callType: CallType
   selector?: Hex
+  hook?: Address
 }
 
 export const getInstallAllowedCallbackSenders = ({
@@ -55,6 +59,7 @@ export const getInstallAllowedCallbackSenders = ({
   functionSig,
   callType,
   selector,
+  hook,
 }: FlashloanParams): Module => {
   return {
     module: COLD_STORAGE_FLASHLOAN_ADDRESS,
@@ -63,7 +68,8 @@ export const getInstallAllowedCallbackSenders = ({
       [addresses],
     ),
     functionSig,
-    selector: selector,
+    selector,
+    hook,
     callType,
     type: 'fallback',
   }

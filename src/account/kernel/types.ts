@@ -1,3 +1,4 @@
+import { CallType } from '../../module/types'
 import { Address, Hex } from 'viem'
 
 export type KernelModule = {
@@ -6,6 +7,8 @@ export type KernelModule = {
   additionalContext?: Hex
   type: KernelModuleType
   hook?: Address
+  selector?: Hex
+  callType?: CallType
 }
 
 export type KernelModuleType =

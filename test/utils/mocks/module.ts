@@ -37,6 +37,7 @@ export const MockSafeFallback: Module = {
   type: 'fallback',
   callType: CallType.CALLTYPE_SINGLE,
   functionSig: '0x150b7a02',
+  selector: '0x150b7a02',
 }
 
 export const MockSafeHook: Module = {

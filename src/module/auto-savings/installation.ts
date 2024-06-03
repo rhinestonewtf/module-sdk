@@ -9,11 +9,13 @@ type Params = {
     vault: Address
     sqrtPriceLimitX96: bigint
   }[]
+  hook?: Address
 }
 
 export const getInstallAutoSavingsExecutor = ({
   tokens,
   configs,
+  hook,
 }: Params): Module => {
   return {
     module: AUTO_SAVINGS_ADDRESS,
@@ -39,5 +41,6 @@ export const getInstallAutoSavingsExecutor = ({
     ),
     additionalContext: '0x',
     type: 'executor',
+    hook,
   }
 }

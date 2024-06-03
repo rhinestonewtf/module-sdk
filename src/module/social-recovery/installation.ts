@@ -5,9 +5,11 @@ import { SOCIAL_RECOVERY_ADDRESS } from './constants'
 export const getInstallSocialRecovery = ({
   threshold,
   guardians,
+  hook,
 }: {
   threshold: number
   guardians: Address[]
+  hook?: Address
 }): Module => {
   return {
     module: SOCIAL_RECOVERY_ADDRESS,
@@ -20,5 +22,6 @@ export const getInstallSocialRecovery = ({
     ),
     additionalContext: '0x',
     type: 'validator',
+    hook,
   }
 }

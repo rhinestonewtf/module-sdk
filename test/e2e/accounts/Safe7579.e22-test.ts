@@ -1,26 +1,27 @@
 import { getAccount } from 'src/account'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
-import { setupEnvironment, cleanUpEnvironment } from '../infra'
+import { cleanUpEnvironment, setupEnvironment } from '../infra'
 import {
+  testOwnableValidator,
+  testOwnableExecutor,
   testAutoSavingsExecutor,
   testDeadmanSwitchValidator,
-  testMultiFactorValidator,
-  testOwnableExecutor,
-  testOwnableValidator,
+  testSocialRecoveryValidator,
   testRegistryHook,
+  testMultiFactorValidator,
   testColdStorageHook,
   testScheduledOrdersExecutor,
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
-  testSocialRecoveryValidator,
-} from 'test/e2e/modules'
+} from '../modules'
 
-describe('Test erc7579 reference implementation', () => {
+describe('Test Safe-7579 account', () => {
   const testClient = getTestClient()
   const publicClient = getPublicClient()
+  const SAFE_ACCOUNT_ADDRESS = '0xc2b17e73603dccc195118a36f3203134fd7985f5'
   const account = getAccount({
-    address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
-    type: 'erc7579-implementation',
+    address: SAFE_ACCOUNT_ADDRESS,
+    type: 'safe',
   })
 
   beforeAll(async () => {

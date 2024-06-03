@@ -1,4 +1,4 @@
-import { encodeAbiParameters, encodePacked } from 'viem'
+import { Address, encodeAbiParameters, encodePacked } from 'viem'
 import { Module } from '../types'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 import { Validator } from './types'
@@ -6,9 +6,11 @@ import { Validator } from './types'
 export const getInstallMultiFactorValidator = ({
   threshold,
   validators,
+  hook,
 }: {
   threshold: number
   validators: Validator[]
+  hook?: Address
 }): Module => {
   return {
     module: MULTI_FACTOR_VALIDATOR_ADDRESS,
@@ -37,5 +39,6 @@ export const getInstallMultiFactorValidator = ({
     ),
     additionalContext: '0x',
     type: 'validator',
+    hook,
   }
 }
