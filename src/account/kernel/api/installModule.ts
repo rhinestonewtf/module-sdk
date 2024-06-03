@@ -92,7 +92,7 @@ async function installFallback({
 }): Promise<Execution[]> {
   if (!module.hook || !module.selector || !module.callType) {
     throw new Error(
-      `Hook and selector and callType are required for module type ${module.type}`,
+      `Hook, selector and callType are required for module type ${module.type}`,
     )
   }
 
