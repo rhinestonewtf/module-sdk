@@ -3,10 +3,10 @@ import { getModule } from 'src/module'
 import {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
-  getSetWaitPeriodExecution,
+  getSetWaitPeriodAction,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
-  getAddAddressExecution,
+  getAddAddressAction,
   getWhitelist,
   getRemoveAddressAction,
 } from 'src/module/cold-storage'
@@ -53,7 +53,7 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should set waiting period for execution', async () => {
-    const setWaitPeriodAction = getSetWaitPeriodExecution({
+    const setWaitPeriodAction = getSetWaitPeriodAction({
       waitPeriod: 100,
     })
 
@@ -101,7 +101,7 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should add address to flashloan', async () => {
-    const addAddressFlashloanAction = getAddAddressExecution({
+    const addAddressFlashloanAction = getAddAddressAction({
       addressToAdd: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
     })
 

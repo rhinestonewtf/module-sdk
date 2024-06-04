@@ -4,7 +4,7 @@ import { abi } from './abi'
 import { Account } from '../../account'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 
-export const getSetThresholdExecution = ({
+export const getSetThresholdAction = ({
   threshold,
 }: {
   threshold: number
@@ -20,7 +20,7 @@ export const getSetThresholdExecution = ({
   }
 }
 
-export const getSetValidatorExecution = ({
+export const getSetValidatorAction = ({
   validatorAddress,
   validatorId,
   newValidatorData,
@@ -40,7 +40,7 @@ export const getSetValidatorExecution = ({
   }
 }
 
-export const getRemoveValidatorExecution = ({
+export const getRemoveValidatorAction = ({
   validatorAddress,
   validatorId,
 }: {

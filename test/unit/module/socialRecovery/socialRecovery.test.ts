@@ -2,10 +2,10 @@ import { getInstallSocialRecovery } from 'src/module/social-recovery/installatio
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
-  getAddGuardianExecution,
+  getAddGuardianAction,
   getGuardians,
-  getRemoveGuardianExecution,
-  getSetThresholdExecution,
+  getRemoveGuardianAction,
+  getSetThresholdAction,
 } from 'src/module/social-recovery/usage'
 import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../test/utils/mocks/client'
@@ -34,7 +34,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should get setThresholdExecution action', async () => {
-    const setThresholdExecution = getSetThresholdExecution({
+    const setThresholdExecution = getSetThresholdAction({
       threshold: 3,
     })
 
@@ -44,7 +44,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should get addGuardianExecution action', async () => {
-    const addGuardianExecution = getAddGuardianExecution({
+    const addGuardianExecution = getAddGuardianAction({
       guardian: guardians[0],
     })
 
@@ -54,7 +54,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should throw error when guardian not exists', async () => {
-    const removeGuardianExecution = await getRemoveGuardianExecution({
+    const removeGuardianExecution = await getRemoveGuardianAction({
       account,
       client,
       guardian: guardians[1],

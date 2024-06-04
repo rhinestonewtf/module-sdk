@@ -1,6 +1,6 @@
 import { Account, isModuleInstalled } from 'src/account'
 import {
-  getCreateScheduledTransferExecution,
+  getCreateScheduledTransferAction,
   getModule,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
 } from 'src/module'
@@ -38,7 +38,7 @@ export const testScheduledTransfersExecutor = async ({
       decimals: 18,
     }
 
-    const scheduledOrderAction = getCreateScheduledTransferExecution({
+    const scheduledOrderAction = getCreateScheduledTransferAction({
       scheduledTransaction: {
         token,
         amount: 100,

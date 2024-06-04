@@ -49,7 +49,7 @@ type CreateScheduledTransactionExecutionParams = {
   scheduledTransaction: ScheduledTransaction
 }
 
-export const getCreateScheduledTransferExecution = ({
+export const getCreateScheduledTransferAction = ({
   scheduledTransaction,
 }: CreateScheduledTransactionExecutionParams): Execution => {
   return {

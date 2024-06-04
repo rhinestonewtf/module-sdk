@@ -3,10 +3,10 @@ import { getModule } from 'src/module'
 import { Address, PublicClient, TestClient } from 'viem'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import {
-  getAddGuardianExecution,
+  getAddGuardianAction,
   getGuardians,
-  getRemoveGuardianExecution,
-  getSetThresholdExecution,
+  getRemoveGuardianAction,
+  getSetThresholdAction,
 } from 'src/module/social-recovery/usage'
 import { sendUserOp } from '../infra'
 
@@ -34,7 +34,7 @@ export const testSocialRecoveryValidator = async ({
   }, 20000)
 
   it('should set the threshold to 1', async () => {
-    const execution = getSetThresholdExecution({ threshold: 1 })
+    const execution = getSetThresholdAction({ threshold: 1 })
 
     const receipt = await sendUserOp({
       account,
@@ -47,7 +47,7 @@ export const testSocialRecoveryValidator = async ({
   it('should add new guardian', async () => {
     const newGuardian = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const execution = getAddGuardianExecution({
+    const execution = getAddGuardianAction({
       guardian: newGuardian,
     })
 
@@ -68,7 +68,7 @@ export const testSocialRecoveryValidator = async ({
 
     expect(allGuardians.includes(guardianToRemove)).toBe(true)
 
-    const execution = await getRemoveGuardianExecution({
+    const execution = await getRemoveGuardianAction({
       account,
       client: publicClient,
       guardian: guardianToRemove,

@@ -27,7 +27,7 @@ export const getHooks = async ({
   }
 }
 
-export const addHook = ({
+export const getAddHookAction = ({
   hook,
   hookType,
   sig,
@@ -51,7 +51,7 @@ export const addHook = ({
   }
 }
 
-export const removeHook = ({
+export const getRemoveHookAction = ({
   hook,
   hookType,
   sig,

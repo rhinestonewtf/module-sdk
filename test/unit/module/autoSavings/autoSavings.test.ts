@@ -2,10 +2,10 @@ import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings/installat
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import { Address, zeroAddress } from 'viem'
 import {
-  getSetConfigExecution,
-  deleteConfig,
+  getSetConfigAction,
+  getDeleteConfigAction,
   getTokens,
-  autoSave,
+  getAutoSaveAction,
   getAccountTokenConfig,
 } from 'src/module/auto-savings/usage'
 import { getClient } from 'src/common/getClient'
@@ -38,7 +38,7 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get setConfig execution', async () => {
-    const setConfigExecution = getSetConfigExecution({
+    const setConfigExecution = getSetConfigAction({
       token: tokens[0],
       config: configs[0],
     })
@@ -52,7 +52,7 @@ describe('Auto Savings Module', () => {
     let deleteConfigExecution
 
     try {
-      deleteConfigExecution = await deleteConfig({
+      deleteConfigExecution = await getDeleteConfigAction({
         client,
         account: account,
         token: tokens[0],
@@ -73,7 +73,7 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get autoSave execution', async () => {
-    const autoSaveExecution = (await autoSave({
+    const autoSaveExecution = (await getAutoSaveAction({
       token: tokens[0],
       amountReceived: 100,
     })) as Execution

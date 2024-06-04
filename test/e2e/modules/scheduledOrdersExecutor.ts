@@ -1,6 +1,6 @@
 import { Account, isModuleInstalled } from 'src/account'
 import {
-  getCreateScheduledOrderExecution,
+  getCreateScheduledOrderAction,
   getModule,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
 } from 'src/module'
@@ -41,7 +41,7 @@ export const testScheduledOrdersExecutor = async ({
       token_address: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
       decimals: 18,
     }
-    const scheduledOrderAction = getCreateScheduledOrderExecution({
+    const scheduledOrderAction = getCreateScheduledOrderAction({
       recurringOrder: {
         buyToken: token1,
         sellToken: token2,

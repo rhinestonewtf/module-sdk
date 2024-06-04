@@ -5,7 +5,7 @@ import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
 
-export const getSetThresholdExecution = ({
+export const getSetThresholdAction = ({
   threshold,
 }: {
   threshold: number
@@ -21,7 +21,7 @@ export const getSetThresholdExecution = ({
   }
 }
 
-export const getAddGuardianExecution = ({
+export const getAddGuardianAction = ({
   guardian,
 }: {
   guardian: Address
@@ -37,7 +37,7 @@ export const getAddGuardianExecution = ({
   }
 }
 
-export const getRemoveGuardianExecution = async ({
+export const getRemoveGuardianAction = async ({
   client,
   account,
   guardian,

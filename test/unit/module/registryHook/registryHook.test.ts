@@ -1,7 +1,7 @@
 import { getInstallRegistryHook } from 'src/module/registry-hook/installation'
 import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook/constants'
 import { Address } from 'viem'
-import { getSetRegistryExecution } from 'src/module/registry-hook/usage'
+import { getSetRegistryAction } from 'src/module/registry-hook/usage'
 
 describe('Registry hook Module', () => {
   // Setup
@@ -19,7 +19,7 @@ describe('Registry hook Module', () => {
   })
 
   it('Should get setRegistryExecution action', async () => {
-    const setRegistryExecution = getSetRegistryExecution({
+    const setRegistryExecution = getSetRegistryAction({
       registryAddress,
     })
 

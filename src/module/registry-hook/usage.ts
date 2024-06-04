@@ -3,7 +3,7 @@ import { encodeFunctionData, Address } from 'viem'
 import { abi } from './abi'
 import { REGISTRY_HOOK_ADDRESS } from './constants'
 
-export const getSetRegistryExecution = ({
+export const getSetRegistryAction = ({
   registryAddress,
 }: {
   registryAddress: Address
