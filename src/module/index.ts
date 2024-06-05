@@ -30,4 +30,13 @@ export {
   getWebauthnValidator,
   getWebauthnValidatorMockSignature,
 } from './webauthn-validator'
+export {
+  getInstallSocialRecoveryValidator,
+  getAddSocialRecoveryGuardianAction,
+  getSocialRecoveryGuardians,
+  getRemoveSocialRecoveryGuardianAction,
+  getSetSocialRecoveryThresholdAction,
+  SOCIAL_RECOVERY_ADDRESS,
+} from './social-recovery'
+
 export type { ModuleType, Module } from './types'

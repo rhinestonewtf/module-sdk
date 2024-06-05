@@ -1,11 +1,11 @@
-import { getInstallSocialRecovery } from 'src/module/social-recovery/installation'
+import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
-  getAddGuardianAction,
-  getGuardians,
-  getRemoveGuardianAction,
-  getSetThresholdAction,
+  getAddSocialRecoveryGuardianAction,
+  getSocialRecoveryGuardians,
+  getRemoveSocialRecoveryGuardianAction,
+  getSetSocialRecoveryThresholdAction,
 } from 'src/module/social-recovery/usage'
 import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../test/utils/mocks/client'
@@ -23,7 +23,7 @@ describe('Social Recovery Module', () => {
   ] as Address[]
 
   it('should get install social recovery module', async () => {
-    const installSocialRecoveryModule = getInstallSocialRecovery({
+    const installSocialRecoveryModule = getInstallSocialRecoveryValidator({
       threshold: 3,
       guardians,
     })
@@ -34,7 +34,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should get setThresholdExecution action', async () => {
-    const setThresholdExecution = getSetThresholdAction({
+    const setThresholdExecution = getSetSocialRecoveryThresholdAction({
       threshold: 3,
     })
 
@@ -44,7 +44,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should get addGuardianExecution action', async () => {
-    const addGuardianExecution = getAddGuardianAction({
+    const addGuardianExecution = getAddSocialRecoveryGuardianAction({
       guardian: guardians[0],
     })
 
@@ -54,11 +54,13 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should throw error when guardian not exists', async () => {
-    const removeGuardianExecution = await getRemoveGuardianAction({
-      account,
-      client,
-      guardian: guardians[1],
-    })
+    const removeGuardianExecution = await getRemoveSocialRecoveryGuardianAction(
+      {
+        account,
+        client,
+        guardian: guardians[1],
+      },
+    )
 
     expect((removeGuardianExecution as Error).message).toEqual(
       'Guardian not found',
@@ -66,7 +68,7 @@ describe('Social Recovery Module', () => {
   })
 
   it('Should get list of guardians', async () => {
-    const guardians = await getGuardians({
+    const guardians = await getSocialRecoveryGuardians({
       account,
       client,
     })

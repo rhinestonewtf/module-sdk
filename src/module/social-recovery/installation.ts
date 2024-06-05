@@ -2,7 +2,7 @@ import { Address, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
 import { SOCIAL_RECOVERY_ADDRESS } from './constants'
 
-export const getInstallSocialRecovery = ({
+export const getInstallSocialRecoveryValidator = ({
   threshold,
   guardians,
   hook,
