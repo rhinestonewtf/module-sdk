@@ -8,8 +8,8 @@ import { getAddress, PublicClient, TestClient, zeroAddress } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ConfigType,
-  deleteConfig,
-  getSetConfigExecution,
+  getDeleteConfigAction,
+  getSetConfigAction,
   getTokens,
 } from 'src/module/auto-savings/usage'
 
@@ -62,7 +62,7 @@ export const testAutoSavingsExecutor = async ({
       sqrtPriceLimitX96: autoSavingExecutor.configs[0].sqrtPriceLimitX96,
     }
 
-    const setConfigExecution = getSetConfigExecution({
+    const setConfigExecution = getSetConfigAction({
       config: newConfig,
       token: autoSavingExecutor.tokens[0],
     })
@@ -102,7 +102,7 @@ export const testAutoSavingsExecutor = async ({
   it('should be able to delete config for a token', async () => {
     const { autoSavingExecutor } = getInstallModuleData({ account })
 
-    const deleteConfigAction = await deleteConfig({
+    const deleteConfigAction = await getDeleteConfigAction({
       client: publicClient,
       account,
       token: autoSavingExecutor.tokens[0],

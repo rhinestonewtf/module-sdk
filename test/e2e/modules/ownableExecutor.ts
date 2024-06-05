@@ -1,16 +1,16 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import {
-  getAddOwnerExecution,
+  getAddOwnerAction,
   getOwners,
-  getRemoveOwnerExecution,
+  getRemoveOwnerAction,
   OWNABLE_EXECUTER_ADDRESS,
 } from 'src/module/ownable-executer'
 import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
-  getExecuteBatchOnOwnedAccountExecution,
-  getExecuteOnOwnedAccountExecution,
+  getExecuteBatchOnOwnedAccountAction,
+  getExecuteOnOwnedAccountAction,
 } from 'src/module/ownable-executer/usage'
 
 type Params = {
@@ -48,7 +48,7 @@ export const testOwnableExecutor = async ({
     const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
     const oldOwners = await getOwners({ account, client: publicClient })
-    const addNewOwnerAction = getAddOwnerExecution({ owner: newOwner })
+    const addNewOwnerAction = getAddOwnerAction({ owner: newOwner })
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })
 
@@ -61,7 +61,7 @@ export const testOwnableExecutor = async ({
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
     const oldOwners = await getOwners({ account, client: publicClient })
-    const removeOwnerAction = await getRemoveOwnerExecution({
+    const removeOwnerAction = await getRemoveOwnerAction({
       account,
       client: publicClient,
       owner: ownerToRemove,
@@ -74,7 +74,7 @@ export const testOwnableExecutor = async ({
   }, 20000)
 
   it('should execute on owned account', async () => {
-    const executeOnOwnedAccount = getExecuteOnOwnedAccountExecution({
+    const executeOnOwnedAccount = getExecuteOnOwnedAccountAction({
       ownedAccount: account.address,
       execution: {
         target: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
@@ -98,7 +98,7 @@ export const testOwnableExecutor = async ({
       callData: '0x' as Hex,
     }
 
-    const executeOnOwnedAccount = getExecuteBatchOnOwnedAccountExecution({
+    const executeOnOwnedAccount = getExecuteBatchOnOwnedAccountAction({
       ownedAccount: account.address,
       executions: [execution, execution],
     })

@@ -14,7 +14,7 @@ type Params = {
   }
 }
 
-export const getSetConfigExecution = ({ token, config }: Params): Execution => {
+export const getSetConfigAction = ({ token, config }: Params): Execution => {
   return {
     target: AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
@@ -48,7 +48,7 @@ export const getTokens = async ({
   }
 }
 
-export const deleteConfig = async ({
+export const getDeleteConfigAction = async ({
   account,
   client,
   token,
@@ -86,7 +86,7 @@ export const deleteConfig = async ({
   }
 }
 
-export const autoSave = async ({
+export const getAutoSaveAction = async ({
   token,
   amountReceived,
 }: {

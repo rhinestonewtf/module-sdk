@@ -4,8 +4,8 @@ import { Address, getAddress, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra/installModuleActions'
 import {
   getOwners,
-  getAddOwnerExecution,
-  getRemoveOwnerExecution,
+  getAddOwnerAction,
+  getRemoveOwnerAction,
 } from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
 
@@ -47,7 +47,7 @@ export const testOwnableValidator = async ({
     const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
     const oldOwners = await getOwners({ account, client: publicClient })
-    const addNewOwnerAction = getAddOwnerExecution({ owner: newOwner })
+    const addNewOwnerAction = getAddOwnerAction({ owner: newOwner })
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })
 
@@ -60,7 +60,7 @@ export const testOwnableValidator = async ({
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
     const oldOwners = await getOwners({ account, client: publicClient })
-    const removeOwnerAction = await getRemoveOwnerExecution({
+    const removeOwnerAction = await getRemoveOwnerAction({
       account,
       client: publicClient,
       owner: ownerToRemove,

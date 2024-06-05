@@ -7,7 +7,11 @@ import {
   getInstallHookMultiPlexer,
   HOOK_MULTI_PLEXER_ADDRESS,
 } from 'src/module/hook-multi-plexer'
-import { addHook, getHooks, removeHook } from 'src/module/hook-multi-plexer'
+import {
+  getAddHookAction,
+  getHooks,
+  getRemoveHookAction,
+} from 'src/module/hook-multi-plexer'
 import { HookType, SigHookInit } from 'src/module/hook-multi-plexer/types'
 
 describe('Hook MultiPlexer Module', () => {
@@ -55,7 +59,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get addHook execution', async () => {
-    const addHookExecution = addHook({
+    const addHookExecution = getAddHookAction({
       hook: hooks.globalHooks[0],
       hookType: HookType.GLOBAL,
     })
@@ -66,7 +70,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get addSigHook execution', async () => {
-    const addSigHookExecution = addHook({
+    const addSigHookExecution = getAddHookAction({
       hook: hooks.sigHooks[0].subHooks[0],
       sig: hooks.sigHooks[0].sig,
       hookType: HookType.SIG,
@@ -78,7 +82,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get removeHook execution', async () => {
-    const removeHookExecution = removeHook({
+    const removeHookExecution = getRemoveHookAction({
       hook: hooks.globalHooks[0],
       hookType: HookType.GLOBAL,
     })
@@ -89,7 +93,7 @@ describe('Hook MultiPlexer Module', () => {
   })
 
   it('should get removeSigHook execution', async () => {
-    const removeSigHookExecution = removeHook({
+    const removeSigHookExecution = getRemoveHookAction({
       hook: hooks.sigHooks[0].subHooks[0],
       sig: hooks.sigHooks[0].sig,
       hookType: HookType.SIG,

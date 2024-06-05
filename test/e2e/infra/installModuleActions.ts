@@ -11,7 +11,7 @@ import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
 import { getInstallOwnableExecuter } from 'src/module/ownable-executer'
-import { getInstallSocialRecovery } from 'src/module/social-recovery/installation'
+import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings'
 import {
   getInstallAllowedCallbackSenders,
@@ -62,7 +62,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const installSocialRecoveryAction = await installModule({
     client,
     account,
-    module: getInstallSocialRecovery(socialRecoveryValidator),
+    module: getInstallSocialRecoveryValidator(socialRecoveryValidator),
   })
 
   // install auto savings executor

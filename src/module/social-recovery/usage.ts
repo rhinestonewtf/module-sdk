@@ -5,7 +5,7 @@ import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
 
-export const getSetThresholdExecution = ({
+export const getSetSocialRecoveryThresholdAction = ({
   threshold,
 }: {
   threshold: number
@@ -21,7 +21,7 @@ export const getSetThresholdExecution = ({
   }
 }
 
-export const getAddGuardianExecution = ({
+export const getAddSocialRecoveryGuardianAction = ({
   guardian,
 }: {
   guardian: Address
@@ -37,7 +37,7 @@ export const getAddGuardianExecution = ({
   }
 }
 
-export const getRemoveGuardianExecution = async ({
+export const getRemoveSocialRecoveryGuardianAction = async ({
   client,
   account,
   guardian,
@@ -46,7 +46,7 @@ export const getRemoveGuardianExecution = async ({
   account: Account
   guardian: Address
 }): Promise<Execution | Error> => {
-  const guardians = await getGuardians({ account, client })
+  const guardians = await getSocialRecoveryGuardians({ account, client })
   let prevGuardian: Address
 
   const currentGuardianIndex = guardians.findIndex((g) => g === guardian)
@@ -70,7 +70,7 @@ export const getRemoveGuardianExecution = async ({
   }
 }
 
-export const getGuardians = async ({
+export const getSocialRecoveryGuardians = async ({
   account,
   client,
 }: {

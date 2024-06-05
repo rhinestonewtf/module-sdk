@@ -12,11 +12,7 @@ import { SENTINEL_ADDRESS } from '../../common/constants'
 import { OWNABLE_EXECUTER_ADDRESS } from './constants'
 import { Account } from '../../account'
 
-export const getAddOwnerExecution = ({
-  owner,
-}: {
-  owner: Address
-}): Execution => {
+export const getAddOwnerAction = ({ owner }: { owner: Address }): Execution => {
   return {
     target: OWNABLE_EXECUTER_ADDRESS,
     value: BigInt(0),
@@ -28,7 +24,7 @@ export const getAddOwnerExecution = ({
   }
 }
 
-export const getRemoveOwnerExecution = async ({
+export const getRemoveOwnerAction = async ({
   client,
   account,
   owner,
@@ -82,7 +78,7 @@ export const getOwners = async ({
   }
 }
 
-export const getExecuteOnOwnedAccountExecution = ({
+export const getExecuteOnOwnedAccountAction = ({
   ownedAccount,
   execution,
 }: {
@@ -110,7 +106,7 @@ export const getExecuteOnOwnedAccountExecution = ({
   }
 }
 
-export const getExecuteBatchOnOwnedAccountExecution = ({
+export const getExecuteBatchOnOwnedAccountAction = ({
   ownedAccount,
   executions,
 }: {

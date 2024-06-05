@@ -11,7 +11,7 @@ import { SENTINEL_ADDRESS } from '../../common/constants'
 import { OWNABLE_VALIDATOR_ADDRESS } from './constants'
 import { Account } from '../../account'
 
-export const getSetThresholdExecution = ({
+export const getSetThresholdAction = ({
   threshold,
 }: {
   threshold: number
@@ -27,11 +27,7 @@ export const getSetThresholdExecution = ({
   }
 }
 
-export const getAddOwnerExecution = ({
-  owner,
-}: {
-  owner: Address
-}): Execution => {
+export const getAddOwnerAction = ({ owner }: { owner: Address }): Execution => {
   return {
     target: OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
@@ -43,7 +39,7 @@ export const getAddOwnerExecution = ({
   }
 }
 
-export const getRemoveOwnerExecution = async ({
+export const getRemoveOwnerAction = async ({
   client,
   account,
   owner,

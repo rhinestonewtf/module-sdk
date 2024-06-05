@@ -1,6 +1,6 @@
 import { getInstallScheduledOrdersExecutor } from 'src/module/scheduled-orders/installation'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from 'src/module'
-import { getCreateScheduledOrderExecution } from 'src/module/scheduled-orders/usage'
+import { getCreateScheduledOrderAction } from 'src/module/scheduled-orders/usage'
 import { ERC20Token } from 'src/module/scheduled-orders/types'
 
 describe('ScheduledOrders Module', () => {
@@ -31,7 +31,7 @@ describe('ScheduledOrders Module', () => {
   })
 
   it('Should get createScheduledOrderExecution action', async () => {
-    const createScheduledOrderExecution = getCreateScheduledOrderExecution({
+    const createScheduledOrderExecution = getCreateScheduledOrderAction({
       recurringOrder: {
         buyToken: token1,
         sellToken: token2,

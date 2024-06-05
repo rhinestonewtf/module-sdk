@@ -7,11 +7,11 @@ export {
   getInstallAllowedCallbackSenders,
 } from './installation'
 export {
-  getSetWaitPeriodExecution,
+  getSetWaitPeriodAction,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
   getExecutionTime,
-  getAddAddressExecution,
+  getAddAddressAction,
   getRemoveAddressAction,
   getWhitelist,
 } from './usage'

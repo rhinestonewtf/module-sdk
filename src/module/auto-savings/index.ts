@@ -1,9 +1,9 @@
 export { AUTO_SAVINGS_ADDRESS } from './constants'
 export { getInstallAutoSavingsExecutor } from './installation'
 export {
-  getSetConfigExecution,
+  getSetConfigAction,
   getAccountTokenConfig,
-  deleteConfig,
-  autoSave,
+  getDeleteConfigAction,
+  getAutoSaveAction,
   getTokens,
 } from './usage'

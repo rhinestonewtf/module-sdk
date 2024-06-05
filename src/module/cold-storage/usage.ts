@@ -20,9 +20,7 @@ type Params = {
   waitPeriod: number
 }
 
-export const getSetWaitPeriodExecution = ({
-  waitPeriod,
-}: Params): Execution => {
+export const getSetWaitPeriodAction = ({ waitPeriod }: Params): Execution => {
   return {
     target: COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
@@ -116,7 +114,7 @@ export const getRequestTimelockedModuleConfigExecution = ({
 // Flashloan actions
 // -----------------
 
-export const getAddAddressExecution = ({
+export const getAddAddressAction = ({
   addressToAdd,
 }: {
   addressToAdd: Address

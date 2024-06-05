@@ -3,10 +3,10 @@ import { getModule } from 'src/module'
 import { Address, PublicClient, TestClient } from 'viem'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import {
-  getAddGuardianExecution,
-  getGuardians,
-  getRemoveGuardianExecution,
-  getSetThresholdExecution,
+  getAddSocialRecoveryGuardianAction,
+  getSocialRecoveryGuardians,
+  getRemoveSocialRecoveryGuardianAction,
+  getSetSocialRecoveryThresholdAction,
 } from 'src/module/social-recovery/usage'
 import { sendUserOp } from '../infra'
 
@@ -34,7 +34,7 @@ export const testSocialRecoveryValidator = async ({
   }, 20000)
 
   it('should set the threshold to 1', async () => {
-    const execution = getSetThresholdExecution({ threshold: 1 })
+    const execution = getSetSocialRecoveryThresholdAction({ threshold: 1 })
 
     const receipt = await sendUserOp({
       account,
@@ -47,7 +47,7 @@ export const testSocialRecoveryValidator = async ({
   it('should add new guardian', async () => {
     const newGuardian = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const execution = getAddGuardianExecution({
+    const execution = getAddSocialRecoveryGuardianAction({
       guardian: newGuardian,
     })
 
@@ -55,7 +55,10 @@ export const testSocialRecoveryValidator = async ({
       account,
       actions: [execution],
     })
-    const newGuardians = await getGuardians({ account, client: publicClient })
+    const newGuardians = await getSocialRecoveryGuardians({
+      account,
+      client: publicClient,
+    })
 
     expect(newGuardians.includes(newGuardian)).toBe(true)
   }, 20000)
@@ -64,11 +67,14 @@ export const testSocialRecoveryValidator = async ({
     const guardianToRemove =
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const allGuardians = await getGuardians({ account, client: publicClient })
+    const allGuardians = await getSocialRecoveryGuardians({
+      account,
+      client: publicClient,
+    })
 
     expect(allGuardians.includes(guardianToRemove)).toBe(true)
 
-    const execution = await getRemoveGuardianExecution({
+    const execution = await getRemoveSocialRecoveryGuardianAction({
       account,
       client: publicClient,
       guardian: guardianToRemove,
@@ -79,7 +85,10 @@ export const testSocialRecoveryValidator = async ({
       actions: [execution as Execution],
     })
 
-    const newGuardians = await getGuardians({ account, client: publicClient })
+    const newGuardians = await getSocialRecoveryGuardians({
+      account,
+      client: publicClient,
+    })
 
     expect(newGuardians.includes(guardianToRemove)).toBe(false)
   }, 20000)

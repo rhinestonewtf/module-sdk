@@ -2,11 +2,11 @@ import { getInstallOwnableExecuter } from 'src/module/ownable-executer/installat
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer/constants'
 import { Address } from 'viem'
 import {
-  getAddOwnerExecution,
+  getAddOwnerAction,
   getOwners,
-  getRemoveOwnerExecution,
-  getExecuteOnOwnedAccountExecution,
-  getExecuteBatchOnOwnedAccountExecution,
+  getRemoveOwnerAction,
+  getExecuteOnOwnedAccountAction,
+  getExecuteBatchOnOwnedAccountAction,
 } from 'src/module/ownable-executer/usage'
 import { getClient } from 'src/common/getClient'
 import { MockClient } from 'test/utils/mocks/client'
@@ -36,7 +36,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should get addOwnerExecution action', async () => {
-    const addOwnerExecution = getAddOwnerExecution({
+    const addOwnerExecution = getAddOwnerAction({
       owner: owners[0],
     })
 
@@ -46,7 +46,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnerExecution({
+    const removeOwnerExecution = await getRemoveOwnerAction({
       account,
       client,
       owner: owners[1],
@@ -64,7 +64,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should get executeOnOwnedAccountExecution action', async () => {
-    const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountExecution({
+    const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountAction({
       ownedAccount: owners[1] as Address,
       execution: {
         target: OWNABLE_EXECUTER_ADDRESS,
@@ -82,7 +82,7 @@ describe('Ownable Executer Module', () => {
 
   it('Should get executeBatchOnOwnedAccountExecution action', async () => {
     const executeBatchOnOwnedAccountExecution =
-      getExecuteBatchOnOwnedAccountExecution({
+      getExecuteBatchOnOwnedAccountAction({
         ownedAccount: owners[1] as Address,
         executions: [
           {

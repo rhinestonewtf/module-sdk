@@ -14,7 +14,7 @@ type Params = {
   recurringOrder: RecurringOrder
 }
 
-export const getCreateScheduledOrderExecution = ({
+export const getCreateScheduledOrderAction = ({
   recurringOrder,
 }: Params): Execution => {
   return {

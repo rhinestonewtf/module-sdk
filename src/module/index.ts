@@ -7,22 +7,22 @@ export {
 export {
   OWNABLE_VALIDATOR_ADDRESS,
   getInstallOwnableValidator,
-  getAddOwnerExecution,
-  getRemoveOwnerExecution,
-  getSetThresholdExecution,
+  getAddOwnerAction,
+  getRemoveOwnerAction,
+  getSetThresholdAction,
   getOwners,
   getOwnableValidatorMockSignature,
 } from './ownable-validator'
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   getInstallScheduledOrdersExecutor,
-  getCreateScheduledOrderExecution,
+  getCreateScheduledOrderAction,
   getSwapOrderData,
 } from './scheduled-orders'
 export {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
   getInstallScheduledTransfersExecutor,
-  getCreateScheduledTransferExecution,
+  getCreateScheduledTransferAction,
   getScheduledTransactionData,
 } from './scheduled-transfers'
 export {
@@ -30,4 +30,13 @@ export {
   getWebauthnValidator,
   getWebauthnValidatorMockSignature,
 } from './webauthn-validator'
+export {
+  getInstallSocialRecoveryValidator,
+  getAddSocialRecoveryGuardianAction,
+  getSocialRecoveryGuardians,
+  getRemoveSocialRecoveryGuardianAction,
+  getSetSocialRecoveryThresholdAction,
+  SOCIAL_RECOVERY_ADDRESS,
+} from './social-recovery'
+
 export type { ModuleType, Module } from './types'
