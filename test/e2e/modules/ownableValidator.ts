@@ -3,9 +3,9 @@ import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
 import { Address, getAddress, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra/installModuleActions'
 import {
-  getOwners,
-  getAddOwnerAction,
-  getRemoveOwnerAction,
+  getOwnableValidatorOwners,
+  getAddOwnableValidatorOwnerAction,
+  getRemoveOwnableValidatorOwnerAction,
 } from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
 
@@ -35,7 +35,10 @@ export const testOwnableValidator = async ({
   it('should return correct module owners', async () => {
     const { ownableValidator } = getInstallModuleData({ account })
 
-    const owners = await getOwners({ account, client: publicClient })
+    const owners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
 
     expect(owners.length).toEqual(ownableValidator.owners.length)
     expect(getAddress(owners[0])).toEqual(
@@ -46,12 +49,20 @@ export const testOwnableValidator = async ({
   it('should add new owner to ownable validator', async () => {
     const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const oldOwners = await getOwners({ account, client: publicClient })
-    const addNewOwnerAction = getAddOwnerAction({ owner: newOwner })
+    const oldOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    const addNewOwnerAction = getAddOwnableValidatorOwnerAction({
+      owner: newOwner,
+    })
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })
 
-    const newOwners = await getOwners({ account, client: publicClient })
+    const newOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
     expect(newOwners.length).toEqual(oldOwners.length + 1)
   }, 20000)
 
@@ -59,8 +70,11 @@ export const testOwnableValidator = async ({
     const ownerToRemove =
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const oldOwners = await getOwners({ account, client: publicClient })
-    const removeOwnerAction = await getRemoveOwnerAction({
+    const oldOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    const removeOwnerAction = await getRemoveOwnableValidatorOwnerAction({
       account,
       client: publicClient,
       owner: ownerToRemove,
@@ -68,7 +82,10 @@ export const testOwnableValidator = async ({
 
     await sendUserOp({ account, actions: [removeOwnerAction as Execution] })
 
-    const newOwners = await getOwners({ account, client: publicClient })
+    const newOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
     expect(newOwners.length).toEqual(oldOwners.length - 1)
   }, 20000)
 }

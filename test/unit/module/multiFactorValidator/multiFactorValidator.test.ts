@@ -5,11 +5,11 @@ import { MockAccountDeployed } from '../../../utils/mocks/account'
 import {
   MULTI_FACTOR_VALIDATOR_ADDRESS,
   getInstallMultiFactorValidator,
-  getRemoveValidatorAction,
-  getSetValidatorAction,
-  isSubValidator,
+  getRemoveMFAValidatorAction,
+  getSetMFAValidatorAction,
+  isMFASubValidator,
 } from 'src/module/multi-factor-validator'
-import { getSetThresholdAction } from 'src/module/multi-factor-validator'
+import { getSetMFAThresholdAction } from 'src/module/multi-factor-validator'
 import { Validator } from 'src/module/multi-factor-validator/types'
 import { Address, Hex, slice } from 'viem'
 
@@ -47,7 +47,7 @@ describe('MultiFactor Validator Module', () => {
   })
 
   it('should get setThreshold execution', async () => {
-    const setThresholdExecution = getSetThresholdAction({
+    const setThresholdExecution = getSetMFAThresholdAction({
       threshold: 2,
     })
 
@@ -57,7 +57,7 @@ describe('MultiFactor Validator Module', () => {
   })
 
   it('should get setValidator execution', async () => {
-    const setValidatorExecution = getSetValidatorAction({
+    const setValidatorExecution = getSetMFAValidatorAction({
       validatorAddress,
       validatorId,
       newValidatorData,
@@ -69,7 +69,7 @@ describe('MultiFactor Validator Module', () => {
   })
 
   it('should get removeValidator execution', async () => {
-    const removeValidatorExecution = getRemoveValidatorAction({
+    const removeValidatorExecution = getRemoveMFAValidatorAction({
       validatorAddress,
       validatorId,
     })
@@ -82,7 +82,7 @@ describe('MultiFactor Validator Module', () => {
   })
 
   it('should isSubValidator return false if subValidator is not installed', async () => {
-    const isValidator = await isSubValidator({
+    const isValidator = await isMFASubValidator({
       account,
       client,
       validatorId,

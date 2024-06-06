@@ -1,10 +1,10 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import {
-  getRemoveValidatorAction,
-  getSetThresholdAction,
-  getSetValidatorAction,
-  isSubValidator,
+  getRemoveMFAValidatorAction,
+  getSetMFAThresholdAction,
+  getSetMFAValidatorAction,
+  isMFASubValidator,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
 } from 'src/module/multi-factor-validator'
 import { Address, Hex, PublicClient, slice, TestClient } from 'viem'
@@ -34,7 +34,7 @@ export const testMultiFactorValidator = async ({
   }, 20000)
 
   it('should set validator threshold', async () => {
-    const setThresholdAction = getSetThresholdAction({ threshold: 1 })
+    const setThresholdAction = getSetMFAThresholdAction({ threshold: 1 })
 
     const receipt = await sendUserOp({ account, actions: [setThresholdAction] })
 
@@ -47,7 +47,7 @@ export const testMultiFactorValidator = async ({
     const validatorId = slice(validatorAddress, 0, 12) as Hex
     const newValidatorData = '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Hex
 
-    const setValidatorAction = getSetValidatorAction({
+    const setValidatorAction = getSetMFAValidatorAction({
       validatorAddress,
       validatorId,
       newValidatorData,
@@ -63,7 +63,7 @@ export const testMultiFactorValidator = async ({
       '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
     const validatorId = slice(validatorAddress, 0, 12) as Hex
 
-    const isSubValidatorResult = await isSubValidator({
+    const isSubValidatorResult = await isMFASubValidator({
       account,
       client: publicClient,
       subValidator: validatorAddress,
@@ -78,7 +78,7 @@ export const testMultiFactorValidator = async ({
       '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
     const validatorId = slice(validatorAddress, 0, 12) as Hex
 
-    const removeValidatorAction = getRemoveValidatorAction({
+    const removeValidatorAction = getRemoveMFAValidatorAction({
       validatorAddress,
       validatorId,
     })

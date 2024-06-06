@@ -2,9 +2,9 @@ import { getInstallOwnableExecuter } from 'src/module/ownable-executer/installat
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer/constants'
 import { Address } from 'viem'
 import {
-  getAddOwnerAction,
-  getOwners,
-  getRemoveOwnerAction,
+  getAddOwnableExecutorOwnerAction,
+  getOwnableExecutorOwners,
+  getRemoveOwnableExecutorOwnerAction,
   getExecuteOnOwnedAccountAction,
   getExecuteBatchOnOwnedAccountAction,
 } from 'src/module/ownable-executer/usage'
@@ -36,7 +36,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should get addOwnerExecution action', async () => {
-    const addOwnerExecution = getAddOwnerAction({
+    const addOwnerExecution = getAddOwnableExecutorOwnerAction({
       owner: owners[0],
     })
 
@@ -46,7 +46,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnerAction({
+    const removeOwnerExecution = await getRemoveOwnableExecutorOwnerAction({
       account,
       client,
       owner: owners[1],
@@ -56,7 +56,7 @@ describe('Ownable Executer Module', () => {
   })
 
   it('Should get list of owners', async () => {
-    const allOwners = await getOwners({
+    const allOwners = await getOwnableExecutorOwners({
       account,
       client,
     })

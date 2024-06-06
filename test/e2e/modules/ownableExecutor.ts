@@ -1,9 +1,9 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import {
-  getAddOwnerAction,
-  getOwners,
-  getRemoveOwnerAction,
+  getAddOwnableExecutorOwnerAction,
+  getOwnableExecutorOwners,
+  getRemoveOwnableExecutorOwnerAction,
   OWNABLE_EXECUTER_ADDRESS,
 } from 'src/module/ownable-executer'
 import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
@@ -39,7 +39,10 @@ export const testOwnableExecutor = async ({
   it('should return correct module owners', async () => {
     const { ownableExecuter } = getInstallModuleData({ account })
 
-    const owners = await getOwners({ account, client: publicClient })
+    const owners = await getOwnableExecutorOwners({
+      account,
+      client: publicClient,
+    })
 
     expect(getAddress(owners[0])).toEqual(getAddress(ownableExecuter.owner))
   }, 20000)
@@ -47,12 +50,20 @@ export const testOwnableExecutor = async ({
   it('should add new owner to ownable executer', async () => {
     const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const oldOwners = await getOwners({ account, client: publicClient })
-    const addNewOwnerAction = getAddOwnerAction({ owner: newOwner })
+    const oldOwners = await getOwnableExecutorOwners({
+      account,
+      client: publicClient,
+    })
+    const addNewOwnerAction = getAddOwnableExecutorOwnerAction({
+      owner: newOwner,
+    })
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })
 
-    const newOwners = await getOwners({ account, client: publicClient })
+    const newOwners = await getOwnableExecutorOwners({
+      account,
+      client: publicClient,
+    })
     expect(newOwners.length).toEqual(oldOwners.length + 1)
   }, 20000)
 
@@ -60,8 +71,11 @@ export const testOwnableExecutor = async ({
     const ownerToRemove =
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
-    const oldOwners = await getOwners({ account, client: publicClient })
-    const removeOwnerAction = await getRemoveOwnerAction({
+    const oldOwners = await getOwnableExecutorOwners({
+      account,
+      client: publicClient,
+    })
+    const removeOwnerAction = await getRemoveOwnableExecutorOwnerAction({
       account,
       client: publicClient,
       owner: ownerToRemove,
@@ -69,7 +83,10 @@ export const testOwnableExecutor = async ({
 
     await sendUserOp({ account, actions: [removeOwnerAction as Execution] })
 
-    const newOwners = await getOwners({ account, client: publicClient })
+    const newOwners = await getOwnableExecutorOwners({
+      account,
+      client: publicClient,
+    })
     expect(newOwners.length).toEqual(oldOwners.length - 1)
   }, 20000)
 

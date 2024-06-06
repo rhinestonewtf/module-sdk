@@ -5,7 +5,7 @@ import { abi } from './abi'
 
 export type DeadmanSwitchConfigType = [number, number, Address]
 
-export const getConfig = async ({
+export const getDeadmanSwitchConfig = async ({
   account,
   client,
 }: {
@@ -24,4 +24,8 @@ export const getConfig = async ({
   } catch (err) {
     throw new Error('Error getting config')
   }
+}
+
+export const getDeadmanSwitchValidatorMockSignature = () => {
+  // implement this function to return the signature of the validator mock
 }

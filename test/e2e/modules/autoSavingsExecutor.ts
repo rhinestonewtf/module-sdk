@@ -2,15 +2,15 @@ import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import {
   AUTO_SAVINGS_ADDRESS,
-  getAccountTokenConfig,
+  getAutoSavingAccountTokenConfig,
 } from 'src/module/auto-savings'
 import { getAddress, PublicClient, TestClient, zeroAddress } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ConfigType,
-  getDeleteConfigAction,
-  getSetConfigAction,
-  getTokens,
+  getDeleteAutoSavingConfigAction,
+  getSetAutoSavingConfigAction,
+  getAutoSavingTokens,
 } from 'src/module/auto-savings/usage'
 
 type Params = {
@@ -38,7 +38,7 @@ export const testAutoSavingsExecutor = async ({
 
   it('should return auto savings config', async () => {
     const { autoSavingExecutor } = getInstallModuleData({ account })
-    const config = await getAccountTokenConfig({
+    const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
       token: autoSavingExecutor.tokens[0],
@@ -62,7 +62,7 @@ export const testAutoSavingsExecutor = async ({
       sqrtPriceLimitX96: autoSavingExecutor.configs[0].sqrtPriceLimitX96,
     }
 
-    const setConfigExecution = getSetConfigAction({
+    const setConfigExecution = getSetAutoSavingConfigAction({
       config: newConfig,
       token: autoSavingExecutor.tokens[0],
     })
@@ -72,7 +72,7 @@ export const testAutoSavingsExecutor = async ({
       actions: [setConfigExecution],
     })
 
-    const config = await getAccountTokenConfig({
+    const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
       token: autoSavingExecutor.tokens[0],
@@ -88,7 +88,7 @@ export const testAutoSavingsExecutor = async ({
   it('should return auto savings tokens', async () => {
     const { autoSavingExecutor } = getInstallModuleData({ account })
 
-    const tokens = await getTokens({
+    const tokens = await getAutoSavingTokens({
       account,
       client: publicClient,
     })
@@ -102,7 +102,7 @@ export const testAutoSavingsExecutor = async ({
   it('should be able to delete config for a token', async () => {
     const { autoSavingExecutor } = getInstallModuleData({ account })
 
-    const deleteConfigAction = await getDeleteConfigAction({
+    const deleteConfigAction = await getDeleteAutoSavingConfigAction({
       client: publicClient,
       account,
       token: autoSavingExecutor.tokens[0],
@@ -113,7 +113,7 @@ export const testAutoSavingsExecutor = async ({
       actions: [deleteConfigAction as Execution],
     })
 
-    const config = await getAccountTokenConfig({
+    const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
       token: autoSavingExecutor.tokens[0],

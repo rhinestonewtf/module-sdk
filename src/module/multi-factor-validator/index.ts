@@ -1,8 +1,9 @@
 export { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 export { getInstallMultiFactorValidator } from './installation'
 export {
-  getSetThresholdAction,
-  getRemoveValidatorAction,
-  getSetValidatorAction,
-  isSubValidator,
+  getSetMFAThresholdAction,
+  getRemoveMFAValidatorAction,
+  getSetMFAValidatorAction,
+  isMFASubValidator,
+  getMFAValidatorMockSignature,
 } from './usage'

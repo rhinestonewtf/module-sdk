@@ -2,11 +2,11 @@ import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings/installat
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import { Address, zeroAddress } from 'viem'
 import {
-  getSetConfigAction,
-  getDeleteConfigAction,
-  getTokens,
+  getSetAutoSavingConfigAction,
+  getDeleteAutoSavingConfigAction,
+  getAutoSavingTokens,
   getAutoSaveAction,
-  getAccountTokenConfig,
+  getAutoSavingAccountTokenConfig,
 } from 'src/module/auto-savings/usage'
 import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../utils/mocks/client'
@@ -38,7 +38,7 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get setConfig execution', async () => {
-    const setConfigExecution = getSetConfigAction({
+    const setConfigExecution = getSetAutoSavingConfigAction({
       token: tokens[0],
       config: configs[0],
     })
@@ -52,7 +52,7 @@ describe('Auto Savings Module', () => {
     let deleteConfigExecution
 
     try {
-      deleteConfigExecution = await getDeleteConfigAction({
+      deleteConfigExecution = await getDeleteAutoSavingConfigAction({
         client,
         account: account,
         token: tokens[0],
@@ -65,7 +65,7 @@ describe('Auto Savings Module', () => {
   })
 
   it('Should get list of account tokens', async () => {
-    const tokens = await getTokens({
+    const tokens = await getAutoSavingTokens({
       account,
       client,
     })
@@ -84,13 +84,12 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get account token config', async () => {
-    const [percentage, vault, sqrtPriceLimitX96] = (await getAccountTokenConfig(
-      {
+    const [percentage, vault, sqrtPriceLimitX96] =
+      (await getAutoSavingAccountTokenConfig({
         account,
         client,
         token: tokens[0],
-      },
-    )) as [number, Address, number]
+      })) as [number, Address, number]
 
     expect(percentage).toEqual(0)
     expect(vault).toEqual(zeroAddress)

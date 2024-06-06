@@ -1,6 +1,9 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
-import { DEADMAN_SWITCH_ADDRESS, getConfig } from 'src/module/deadman-switch'
+import {
+  DEADMAN_SWITCH_ADDRESS,
+  getDeadmanSwitchConfig,
+} from 'src/module/deadman-switch'
 import { getAddress, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra'
 import { DeadmanSwitchConfigType } from 'src/module/deadman-switch/usage'
@@ -31,7 +34,7 @@ export const testDeadmanSwitchValidator = async ({
   it('should return deadman switch config', async () => {
     const { deadmanSwitchValidator } = getInstallModuleData({ account })
 
-    const [, timeout, nominee] = (await getConfig({
+    const [, timeout, nominee] = (await getDeadmanSwitchConfig({
       account,
       client: publicClient,
     })) as DeadmanSwitchConfigType

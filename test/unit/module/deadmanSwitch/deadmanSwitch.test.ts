@@ -1,4 +1,7 @@
-import { DEADMAN_SWITCH_ADDRESS, getConfig } from 'src/module/deadman-switch'
+import {
+  DEADMAN_SWITCH_ADDRESS,
+  getDeadmanSwitchConfig,
+} from 'src/module/deadman-switch'
 import { Address, zeroAddress } from 'viem'
 import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
 import { getClient } from 'src/common/getClient'
@@ -41,7 +44,7 @@ describe('Deadman switch Module', () => {
   })
 
   it('should get config data for deadman switch module', async () => {
-    const [lastAccess, timeout, nominee] = await getConfig({
+    const [lastAccess, timeout, nominee] = await getDeadmanSwitchConfig({
       account,
       client,
     })
