@@ -4,7 +4,7 @@ import { abi } from './abi'
 import { Account } from '../../account'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 
-export const getSetThresholdAction = ({
+export const getSetMFAThresholdAction = ({
   threshold,
 }: {
   threshold: number
@@ -20,7 +20,7 @@ export const getSetThresholdAction = ({
   }
 }
 
-export const getSetValidatorAction = ({
+export const getSetMFAValidatorAction = ({
   validatorAddress,
   validatorId,
   newValidatorData,
@@ -40,7 +40,7 @@ export const getSetValidatorAction = ({
   }
 }
 
-export const getRemoveValidatorAction = ({
+export const getRemoveMFAValidatorAction = ({
   validatorAddress,
   validatorId,
 }: {
@@ -58,7 +58,7 @@ export const getRemoveValidatorAction = ({
   }
 }
 
-export const isSubValidator = async ({
+export const isMFASubValidator = async ({
   account,
   client,
   subValidator,
@@ -79,4 +79,8 @@ export const isSubValidator = async ({
   } catch (err) {
     throw new Error(`Failed to check if ${subValidator} is a sub-validator`)
   }
+}
+
+export const getMFAValidatorMockSignature = () => {
+  // TODO: Implement this
 }

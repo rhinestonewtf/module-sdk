@@ -2,10 +2,10 @@ import { getInstallOwnableValidator } from 'src/module/ownable-validator/install
 import { OWNABLE_VALIDATOR_ADDRESS } from 'src/module/ownable-validator/constants'
 import { Address } from 'viem'
 import {
-  getAddOwnerAction,
-  getOwners,
-  getRemoveOwnerAction,
-  getSetThresholdAction,
+  getAddOwnableValidatorOwnerAction,
+  getOwnableValidatorOwners,
+  getRemoveOwnableValidatorOwnerAction,
+  getSetOwnableValidatorThresholdAction,
 } from 'src/module/ownable-validator/usage'
 import { getClient } from 'src/common/getClient'
 import { MockClient } from 'test/utils/mocks/client'
@@ -36,7 +36,7 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should get setThresholdExecution action', async () => {
-    const setThresholdExecution = getSetThresholdAction({
+    const setThresholdExecution = getSetOwnableValidatorThresholdAction({
       threshold: 3,
     })
 
@@ -46,7 +46,7 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should get addOwnerExecution action', async () => {
-    const addOwnerExecution = getAddOwnerAction({
+    const addOwnerExecution = getAddOwnableValidatorOwnerAction({
       owner: owners[0],
     })
 
@@ -56,7 +56,7 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnerAction({
+    const removeOwnerExecution = await getRemoveOwnableValidatorOwnerAction({
       account,
       client,
       owner: owners[1],
@@ -66,7 +66,7 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should get list of owners', async () => {
-    const allOwners = await getOwners({
+    const allOwners = await getOwnableValidatorOwners({
       account,
       client,
     })

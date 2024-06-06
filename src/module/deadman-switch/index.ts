@@ -1,3 +1,6 @@
 export { DEADMAN_SWITCH_ADDRESS } from './constants'
 export { getInstallDeadmanSwitch } from './installation'
-export { getConfig } from './usage'
+export {
+  getDeadmanSwitchConfig,
+  getDeadmanSwitchValidatorMockSignature,
+} from './usage'

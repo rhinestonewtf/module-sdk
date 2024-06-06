@@ -14,7 +14,10 @@ type Params = {
   }
 }
 
-export const getSetConfigAction = ({ token, config }: Params): Execution => {
+export const getSetAutoSavingConfigAction = ({
+  token,
+  config,
+}: Params): Execution => {
   return {
     target: AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
@@ -26,7 +29,7 @@ export const getSetConfigAction = ({ token, config }: Params): Execution => {
   }
 }
 
-export const getTokens = async ({
+export const getAutoSavingTokens = async ({
   account,
   client,
 }: {
@@ -48,7 +51,7 @@ export const getTokens = async ({
   }
 }
 
-export const getDeleteConfigAction = async ({
+export const getDeleteAutoSavingConfigAction = async ({
   account,
   client,
   token,
@@ -58,7 +61,7 @@ export const getDeleteConfigAction = async ({
   token: Address
 }): Promise<Execution | Error> => {
   try {
-    const allTokens = await getTokens({ account, client })
+    const allTokens = await getAutoSavingTokens({ account, client })
 
     let prevToken: Address
 
@@ -110,7 +113,7 @@ export const getAutoSaveAction = async ({
 
 export type ConfigType = [number, Address, number]
 
-export const getAccountTokenConfig = async ({
+export const getAutoSavingAccountTokenConfig = async ({
   client,
   account,
   token,
