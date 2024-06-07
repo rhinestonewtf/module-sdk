@@ -47,6 +47,7 @@ export {
   getSocialRecoveryGuardians,
   getRemoveSocialRecoveryGuardianAction,
   getSetSocialRecoveryThresholdAction,
+  getSocialRecoveryMockSignature,
 } from './social-recovery'
 
 export {
@@ -88,6 +89,7 @@ export {
   getAddHookAction,
   getRemoveHookAction,
   getHooks,
+  HookType,
 } from './hook-multi-plexer'
 
 export {
