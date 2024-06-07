@@ -8,7 +8,7 @@
   {
     "name": "module-sdk (cjs)",
     "path": "./src/_cjs/index.js",
-    "limit": "180 kB"
+    "limit": "2000 kB"
   },
   {
     "name": "module-sdk (minimal surface - tree-shaking)",

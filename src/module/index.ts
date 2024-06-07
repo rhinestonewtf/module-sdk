@@ -76,4 +76,30 @@ export {
   getAutoSavingTokens,
 } from './auto-savings'
 
+export {
+  REGISTRY_HOOK_ADDRESS,
+  getInstallRegistryHook,
+  getSetRegistryAction,
+} from './registry-hook'
+
+export {
+  HOOK_MULTI_PLEXER_ADDRESS,
+  getInstallHookMultiPlexer,
+  getAddHookAction,
+  getRemoveHookAction,
+  getHooks,
+} from './hook-multi-plexer'
+
+export {
+  COLD_STORAGE_HOOK_ADDRESS,
+  COLD_STORAGE_FLASHLOAN_ADDRESS,
+  getColdStorageSetWaitPeriodAction,
+  getRequestTimelockedExecution,
+  getRequestTimelockedModuleConfigExecution,
+  getColdStorageExecutionTime,
+  getFlashloanAddAddressAction,
+  getFlashloanRemoveAddressAction,
+  getFlashloanWhitelist,
+} from './cold-storage'
+
 export type { ModuleType, Module } from './types'
