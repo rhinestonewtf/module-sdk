@@ -20,7 +20,9 @@ type Params = {
   waitPeriod: number
 }
 
-export const getSetWaitPeriodAction = ({ waitPeriod }: Params): Execution => {
+export const getColdStorageSetWaitPeriodAction = ({
+  waitPeriod,
+}: Params): Execution => {
   return {
     target: COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
@@ -32,7 +34,7 @@ export const getSetWaitPeriodAction = ({ waitPeriod }: Params): Execution => {
   }
 }
 
-export const getExecutionTime = async ({
+export const getColdStorageExecutionTime = async ({
   account,
   client,
   executionHash,
@@ -114,7 +116,7 @@ export const getRequestTimelockedModuleConfigExecution = ({
 // Flashloan actions
 // -----------------
 
-export const getAddAddressAction = ({
+export const getFlashloanAddAddressAction = ({
   addressToAdd,
 }: {
   addressToAdd: Address
@@ -130,7 +132,7 @@ export const getAddAddressAction = ({
   }
 }
 
-export const getRemoveAddressAction = async ({
+export const getFlashloanRemoveAddressAction = async ({
   client,
   account,
   addressToRemove,
@@ -139,7 +141,7 @@ export const getRemoveAddressAction = async ({
   account: Account
   addressToRemove: Address
 }): Promise<Execution | Error> => {
-  const whitelistAddresses = await getWhitelist({ account, client })
+  const whitelistAddresses = await getFlashloanWhitelist({ account, client })
   let prevAddress: Address
 
   const currentAddressIndex = whitelistAddresses.findIndex(
@@ -165,7 +167,7 @@ export const getRemoveAddressAction = async ({
   }
 }
 
-export const getWhitelist = async ({
+export const getFlashloanWhitelist = async ({
   account,
   client,
 }: {

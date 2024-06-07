@@ -1,13 +1,13 @@
 import {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
-  getSetWaitPeriodAction,
-  getExecutionTime,
+  getColdStorageSetWaitPeriodAction,
+  getColdStorageExecutionTime,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
-  getAddAddressAction,
-  getRemoveAddressAction,
-  getWhitelist,
+  getFlashloanAddAddressAction,
+  getFlashloanRemoveAddressAction,
+  getFlashloanWhitelist,
 } from 'src/module/cold-storage'
 import { Address, toHex } from 'viem'
 import { getClient } from 'src/common/getClient'
@@ -56,7 +56,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should get setWaitPeriod Execution', async () => {
-    const setWaitPeriodExecution = getSetWaitPeriodAction({
+    const setWaitPeriodExecution = getColdStorageSetWaitPeriodAction({
       waitPeriod: 100,
     })
 
@@ -66,7 +66,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should return zero if execution hash not found', async () => {
-    const executionTime = await getExecutionTime({
+    const executionTime = await getColdStorageExecutionTime({
       account,
       client,
       executionHash,
@@ -108,7 +108,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should return add address execution for vsc flashloan', async () => {
-    const addAddressExecution = getAddAddressAction({
+    const addAddressExecution = getFlashloanAddAddressAction({
       addressToAdd: account.address,
     })
 
@@ -121,7 +121,7 @@ describe('Cold storage Module', () => {
     let removeAddressExecution
 
     try {
-      removeAddressExecution = await getRemoveAddressAction({
+      removeAddressExecution = await getFlashloanRemoveAddressAction({
         addressToRemove: addresses[0],
         account,
         client,
@@ -134,7 +134,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should return empty list of whitelist addresses', async () => {
-    const whitelistAddresses = await getWhitelist({
+    const whitelistAddresses = await getFlashloanWhitelist({
       account,
       client,
     })

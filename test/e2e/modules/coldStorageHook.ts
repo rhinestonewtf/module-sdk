@@ -3,12 +3,12 @@ import { getModule } from 'src/module'
 import {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
-  getSetWaitPeriodAction,
+  getColdStorageSetWaitPeriodAction,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
-  getAddAddressAction,
-  getWhitelist,
-  getRemoveAddressAction,
+  getFlashloanAddAddressAction,
+  getFlashloanWhitelist,
+  getFlashloanRemoveAddressAction,
 } from 'src/module/cold-storage'
 import { PublicClient, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
@@ -53,7 +53,7 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should set waiting period for execution', async () => {
-    const setWaitPeriodAction = getSetWaitPeriodAction({
+    const setWaitPeriodAction = getColdStorageSetWaitPeriodAction({
       waitPeriod: 100,
     })
 
@@ -101,7 +101,7 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should add address to flashloan', async () => {
-    const addAddressFlashloanAction = getAddAddressAction({
+    const addAddressFlashloanAction = getFlashloanAddAddressAction({
       addressToAdd: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
     })
 
@@ -114,18 +114,19 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should remove address from flashloan', async () => {
-    const removeAddressFromFlashloanAction = await getRemoveAddressAction({
-      account,
-      client: publicClient,
-      addressToRemove: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
-    })
+    const removeAddressFromFlashloanAction =
+      await getFlashloanRemoveAddressAction({
+        account,
+        client: publicClient,
+        addressToRemove: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
+      })
 
     const receipt = await sendUserOp({
       account,
       actions: [removeAddressFromFlashloanAction as Execution],
     })
 
-    const whitelist = await getWhitelist({
+    const whitelist = await getFlashloanWhitelist({
       account,
       client: publicClient,
     })
