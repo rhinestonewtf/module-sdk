@@ -1,7 +1,14 @@
 import { SOCIAL_RECOVERY_ADDRESS } from './constants'
 import { SENTINEL_ADDRESS } from '../../common/constants'
 import { Execution } from '../../account/types'
-import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
+import {
+  Address,
+  encodeFunctionData,
+  encodePacked,
+  getAddress,
+  Hex,
+  PublicClient,
+} from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
 
@@ -90,4 +97,14 @@ export const getSocialRecoveryGuardians = async ({
     console.error(err)
     return []
   }
+}
+
+export const getSocialRecoveryMockSignature = (): Hex => {
+  return encodePacked(
+    ['bytes', 'bytes'],
+    [
+      '0xe8b94748580ca0b4993c9a1b86b5be851bfc076ff5ce3a1ff65bf16392acfcb800f9b4f1aef1555c7fce5599fffb17e7c635502154a0333ba21f3ae491839af51c',
+      '0xe8b94748580ca0b4993c9a1b86b5be851bfc076ff5ce3a1ff65bf16392acfcb800f9b4f1aef1555c7fce5599fffb17e7c635502154a0333ba21f3ae491839af51d',
+    ],
+  )
 }
