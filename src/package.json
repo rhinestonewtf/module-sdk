@@ -1,6 +1,6 @@
 {
   "name": "@rhinestone/module-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A TypeScript library for using Smart Account Modules in Applications",
   "author": {
     "name": "Rhinestone",
@@ -32,5 +32,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.10.1",
+    "tslib": "^2.6.2"
   }
 }
