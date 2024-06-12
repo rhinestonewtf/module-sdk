@@ -10,16 +10,24 @@ The Module SDK allows you to:
 - **Easily install and uninstall** modules for any [ERC-7579](https://erc7579.com/) account
 - **Interact with** and **use** modules using a simple and consistent API
 - Can be used **alongside existing account SDKs** such as [permissionless.js](https://www.npmjs.com/package/permissionless), [Biconomy](https://www.npmjs.com/package/@biconomy/account), [Zerodev](https://www.npmjs.com/package/@zerodevapp/sdk) and many more
-- **Use existing modules**, such as:
-  - **ECDSA Validator** - Use ECDSA signatures to control an account
-  - **Webauthn Validator** - Use webauthn/passkeys to control an account
-  - **MFA Validator** - Set up multi-factor authentication for an account
-  - **Scheduled Transfers** - Schedule transfers to occur at a future time with an optional interval
-  - **Scheduled Orders** - Schedule swap orders to occur at a future time with an optional interval
+- **Use core modules**, such as:
+  - AutoSavings Executor: Automatically save a percentage of incoming funds
+  - ColdStorage Hook: Prevent funds from being withdrawn without a timelock
+  - Deadman Switch Validator: Prevent funds from being locked forever
+  - Hook Multiplexer: Combine multiple hooks into one with fine-grained control over when they are called
+  - MultiFactor Validator: Use multiple validators in combination as a multi-factor authentication system
+  - Ownable Executor: Allow an account to control a subaccount and pay for its transaction fees
+  - Ownable Validator: Authenticate on your account with multiple ECDSA keys
+  - Registry Hook: Query the Module Registry before installing and using modules
+  - Scheduled Orders Executor: Execute swaps on a specified schedule
+  - Scheduled Transfers Executor: Transfer funds on a specified schedule
+  - Social Recovery Validator: Recover your account using a set of guardians
 
 In-depth documentation is available at [docs.rhinestone.wtf](https://docs.rhinestone.wtf/module-sdk/).
 
-## Installation
+## Using the ModuleSDK
+
+### Installation
 
 Install [viem](https://viem.sh) as a peer dependency and then install the Module SDK:
 
@@ -39,7 +47,7 @@ yarn add viem @rhinestone/module-sdk
 bun install viem @rhinestone/module-sdk
 ```
 
-## Quick Start
+### Quick Start
 
 ```typescript
 // Import the required functions
@@ -48,26 +56,34 @@ import {
   getModule,
   getAccount,
   getClient,
-  getMFAValidator,
+  getInstallMultiFactorValidator,
 } from '@rhinestone/module-sdk'
 
 // Create a client for the current network
-const client = getClient(network)
+const client = getClient({
+  rpcUrl: 'https://rpc.ankr.com/eth	',
+})
 
 // Create the module object if you are using a custom module
-const module = getModule({
+const moduleToInstall = getModule({
   module: moduleAddress,
   data: initData,
   type: moduleType,
 })
 
 // Or use one of the existing modules
-const mfaModule = getMFAValidator({
-  type: 'mfa-validator',
-  data: {
-    threshold: 2,
-    methods: ['webauthn', 'passkey'],
-  },
+moduleToInstall = getInstallMultiFactorValidator({
+  threshold: 2,
+  validators: [
+    {
+      packedValidatorAndId: '0x123...',
+      data: '0x123...',
+    },
+    {
+      packedValidatorAndId: '0x456...',
+      data: '0x123...',
+    },
+  ],
 })
 
 // Create the account object
@@ -80,41 +96,15 @@ const account = getAccount({
 const executions = await installModule({
   client,
   account,
-  module,
+  moduleToInstall,
 })
 
 // Install the module on your account, using your existing account SDK
+// note: this is an example, you should use your own account SDK
 accountSDK.execute(executions)
 ```
 
-## Features
-
-- [x] Easy installation and uninstallation of modules
-- [x] Determine if a module is already installed on an account
-- [x] Different Module types
-  - [x] Validators
-  - [x] Executors
-  - [x] Hooks
-  - [x] Fallbacks
-- [ ] Different Modular Accounts
-  - [x] ERC-7579
-  - [ ] Safe
-  - [ ] Biconomy
-  - [ ] Kernel
-- [x] Supported Modules
-  - [x] ECDSA Validator
-  - [x] Webauthn Validator
-  - [x] MFA Validator
-  - [x] Scheduled Transfers
-  - [x] Scheduled Orders
-
-## Contributing
-
-For feature or change requests, feel free to open a PR, start a discussion or get in touch with us.
-
-For guidance on how to create PRs, see the [CONTRIBUTING](./CONTRIBUTING.md) guide.
-
-### Using this repo
+## Using this repo
 
 To install dependencies, run:
 
@@ -134,14 +124,6 @@ To run tests, run:
 pnpm test
 ```
 
-## Authors ✨
+## Contributing
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://twitter.com/abstractooor"><img src="https://avatars.githubusercontent.com/u/26718079" width="100px;" alt=""/><br /><sub><b>Konrad</b></sub></a><br /><a href="https://github.com/rhinestonewtf/modulekit-ui-playground/commits?author=kopy-kat" title="Code">💻</a> </td>
-    <td align="center"><a href="https://github.com/YasseinBilal"><img src="https://avatars.githubusercontent.com/u/9385005?v=4" width="100px;" alt=""/><br /><sub><b>Yassin</b></sub></a><br /><a href="https://github.com/rhinestonewtf/modulekit-ui-playground/commits?author=YasseinBilal" title="Code">💻</a></td>
-  </tr>
-</table>
+For feature or change requests, feel free to open a PR, start a discussion or get in touch with us.
