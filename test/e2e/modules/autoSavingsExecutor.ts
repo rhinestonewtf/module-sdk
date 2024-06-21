@@ -1,9 +1,6 @@
-import { Account, Execution, isModuleInstalled } from 'src/account'
-import { getModule } from 'src/module'
-import {
-  AUTO_SAVINGS_ADDRESS,
-  getAutoSavingAccountTokenConfig,
-} from 'src/module/auto-savings'
+import { Account, Execution, isModuleInstalled } from 'src'
+import { getModule } from 'src'
+import { AUTO_SAVINGS_ADDRESS, getAutoSavingAccountTokenConfig } from 'src'
 import { getAddress, PublicClient, TestClient, zeroAddress } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
@@ -11,7 +8,7 @@ import {
   getDeleteAutoSavingConfigAction,
   getSetAutoSavingConfigAction,
   getAutoSavingTokens,
-} from 'src/module/auto-savings/usage'
+} from 'src'
 
 type Params = {
   account: Account

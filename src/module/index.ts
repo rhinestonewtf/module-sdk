@@ -10,6 +10,8 @@ export {
   getMFAValidatorMockSignature,
 } from './multi-factor-validator'
 
+export type { Validator } from './multi-factor-validator'
+
 export {
   OWNABLE_VALIDATOR_ADDRESS,
   getInstallOwnableValidator,
@@ -25,6 +27,13 @@ export {
   getInstallScheduledOrdersExecutor,
   getCreateScheduledOrderAction,
   getSwapOrderData,
+} from './scheduled-orders'
+
+export type {
+  ERC20Token,
+  Order,
+  RecurringOrder,
+  Schedule,
 } from './scheduled-orders'
 
 export {
@@ -92,9 +101,13 @@ export {
   HookType,
 } from './hook-multi-plexer'
 
+export type { SigHookInit } from './hook-multi-plexer'
+
 export {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
+  getInstallColdStorageHook,
+  getInstallAllowedCallbackSenders,
   getColdStorageSetWaitPeriodAction,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
@@ -104,4 +117,7 @@ export {
   getFlashloanWhitelist,
 } from './cold-storage'
 
+export { CallType } from './types'
 export type { ModuleType, Module } from './types'
+
+export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'

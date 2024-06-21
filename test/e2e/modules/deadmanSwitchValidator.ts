@@ -1,12 +1,9 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
-import {
-  DEADMAN_SWITCH_ADDRESS,
-  getDeadmanSwitchConfig,
-} from 'src/module/deadman-switch'
+import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
 import { getAddress, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra'
-import { DeadmanSwitchConfigType } from 'src/module/deadman-switch/usage'
+import { DeadmanSwitchConfigType } from 'src'
 
 type Params = {
   account: Account

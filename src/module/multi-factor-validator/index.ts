@@ -7,3 +7,5 @@ export {
   isMFASubValidator,
   getMFAValidatorMockSignature,
 } from './usage'
+
+export type { Validator } from './types'

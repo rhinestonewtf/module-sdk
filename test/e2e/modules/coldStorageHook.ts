@@ -1,5 +1,5 @@
-import { Account, Execution, isModuleInstalled } from 'src/account'
-import { getModule } from 'src/module'
+import { Account, Execution, isModuleInstalled } from 'src'
+import { getModule } from 'src'
 import {
   COLD_STORAGE_HOOK_ADDRESS,
   COLD_STORAGE_FLASHLOAN_ADDRESS,
@@ -9,10 +9,10 @@ import {
   getFlashloanAddAddressAction,
   getFlashloanWhitelist,
   getFlashloanRemoveAddressAction,
-} from 'src/module/cold-storage'
+} from 'src'
 import { PublicClient, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
-import { moduleTypeIds } from 'src/module/types'
+import { moduleTypeIds } from 'src'
 
 type Params = {
   account: Account

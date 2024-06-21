@@ -1,7 +1,7 @@
 import { Account, isModuleInstalled } from 'src/account'
-import { SafeHookType } from 'src/account/safe/types'
+import { SafeHookType } from 'src'
 import { getModule } from 'src/module'
-import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook'
+import { REGISTRY_HOOK_ADDRESS } from 'src'
 import { PublicClient, TestClient } from 'viem'
 
 type Params = {
