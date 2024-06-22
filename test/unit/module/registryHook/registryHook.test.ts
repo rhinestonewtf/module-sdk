@@ -1,7 +1,7 @@
-import { getInstallRegistryHook } from 'src/module/registry-hook/installation'
-import { REGISTRY_HOOK_ADDRESS } from 'src/module/registry-hook/constants'
+import { getInstallRegistryHook } from 'src'
+import { REGISTRY_HOOK_ADDRESS } from 'src'
 import { Address } from 'viem'
-import { getSetRegistryAction } from 'src/module/registry-hook/usage'
+import { getSetRegistryAction } from 'src'
 
 describe('Registry hook Module', () => {
   // Setup

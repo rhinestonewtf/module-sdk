@@ -4,7 +4,7 @@ import {
   getModule,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
 } from 'src/module'
-import { ERC20Token } from 'src/module/scheduled-orders/types'
+import { ERC20Token } from 'src'
 import { PublicClient, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
 

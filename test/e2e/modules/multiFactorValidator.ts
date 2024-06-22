@@ -6,7 +6,7 @@ import {
   getSetMFAValidatorAction,
   isMFASubValidator,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
-} from 'src/module/multi-factor-validator'
+} from 'src'
 import { Address, Hex, PublicClient, slice, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
 

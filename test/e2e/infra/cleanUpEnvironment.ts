@@ -1,4 +1,4 @@
-import { Account } from 'src/account'
+import { Account } from 'src'
 import { PublicClient } from 'viem'
 import { getUnInstallModuleActions } from './unInstallModuleActions'
 import { sendUserOp } from './sendUserOp'

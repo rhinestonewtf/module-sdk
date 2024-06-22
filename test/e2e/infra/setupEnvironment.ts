@@ -1,9 +1,9 @@
-import { Account } from 'src/account'
+import { Account } from 'src'
 import { parseEther, PublicClient, TestClient } from 'viem'
 import { ensureBundlerIsReady } from 'test/utils/healthCheck'
 import { getInstallModuleActions } from './installModuleActions'
-import * as HelpersModule from 'src/common/getPrevModule'
-import { SENTINEL_ADDRESS } from 'src/common/constants'
+import * as HelpersModule from 'src'
+import { SENTINEL_ADDRESS } from 'src'
 import { sendUserOp } from './sendUserOp'
 
 type Params = {

@@ -1,4 +1,4 @@
-import { getAccount } from 'src/account'
+import { getAccount } from 'src'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
 import { setupEnvironment, cleanUpEnvironment } from '../infra'
 import {

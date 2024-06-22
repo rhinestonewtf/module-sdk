@@ -1,4 +1,4 @@
-import { CallType, Module } from 'src/module/types'
+import { CallType, Module } from 'src'
 
 export const MockValidator: Module = {
   module: '0x58e7d1cc62482891d902f0a7b255bac6cd001ac6',
