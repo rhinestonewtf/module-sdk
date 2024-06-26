@@ -66,6 +66,8 @@ export {
   getDeadmanSwitchValidatorMockSignature,
 } from './deadman-switch'
 
+export type { DeadmanSwitchConfigType } from './deadman-switch'
+
 export {
   OWNABLE_EXECUTER_ADDRESS,
   getInstallOwnableExecuter,
@@ -85,6 +87,8 @@ export {
   getAutoSaveAction,
   getAutoSavingTokens,
 } from './auto-savings'
+
+export type { ConfigType } from './auto-savings'
 
 export {
   REGISTRY_HOOK_ADDRESS,
@@ -117,7 +121,7 @@ export {
   getFlashloanWhitelist,
 } from './cold-storage'
 
-export { CallType } from './types'
+export { CallType, moduleTypeIds } from './types'
 export type { ModuleType, Module } from './types'
 
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'

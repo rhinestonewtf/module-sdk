@@ -6,6 +6,7 @@
   },
   "collectCoverageFrom": ["**/*.(t|j)s"],
   "moduleNameMapper": {
+    "^src": "<rootDir>/src",
     "^src/(.*)$": "<rootDir>/src/$1",
     "^test/(.*)$": "<rootDir>/test/$1"
   },

@@ -5,6 +5,8 @@ export {
   installModule,
   isModuleInstalled,
   uninstallModule,
+  SafeHookType,
+  SafeCallType,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
@@ -85,6 +87,7 @@ export {
   fetchRegistryModules,
   REGISTRY_ADDRESS,
   CallType,
+  moduleTypeIds,
 } from './module'
 
 export type {
@@ -96,6 +99,8 @@ export type {
   Schedule,
   SigHookInit,
   Validator,
+  DeadmanSwitchConfigType,
+  ConfigType,
 } from './module'
 
 // Common

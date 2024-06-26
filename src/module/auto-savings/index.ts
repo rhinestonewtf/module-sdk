@@ -7,3 +7,4 @@ export {
   getAutoSaveAction,
   getAutoSavingTokens,
 } from './usage'
+export type { ConfigType } from './usage'

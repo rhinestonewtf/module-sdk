@@ -4,3 +4,4 @@ export {
   getDeadmanSwitchConfig,
   getDeadmanSwitchValidatorMockSignature,
 } from './usage'
+export type { DeadmanSwitchConfigType } from './usage'
