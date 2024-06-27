@@ -34,7 +34,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@apollo/client": "^3.10.1",
     "tslib": "^2.6.2"
   }
 }

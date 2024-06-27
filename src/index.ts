@@ -87,16 +87,19 @@ export {
   CallType,
 } from './module'
 
+export type { ModuleType, Module } from './module'
+
 export type {
-  ModuleType,
-  Module,
-  ERC20Token,
   Order,
   RecurringOrder,
   Schedule,
-  SigHookInit,
-  Validator,
-} from './module'
+  ERC20Token,
+} from './module/scheduled-orders'
 
 // Common
-export { getClient, getPreviousModule, SENTINEL_ADDRESS } from './common'
+export {
+  getClient,
+  getPreviousModule,
+  SENTINEL_ADDRESS,
+  getRegistryModules,
+} from './common'

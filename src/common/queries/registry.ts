@@ -1,5 +1,4 @@
-import { client } from '../graphClient'
-import { gql } from '@apollo/client/core'
+import { GRAPHQL_API_URL } from '../constants'
 
 const query = `
   query {
@@ -12,12 +11,24 @@ const query = `
   }
 `
 
-export const getRegistryModules = async (): Promise<any> =>
-  client
-    .query({
-      query: gql(query),
-    })
-    .then((data) => data.data.moduleRegistrations)
-    .catch((err) => {
-      console.log('Error fetching data: ', err)
-    })
+export const getRegistryModules = async (): Promise<any> => {
+  const response = await fetch(GRAPHQL_API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      query,
+    }),
+  })
+
+  const responseBody = await response.json()
+
+  if (response.ok) {
+    return responseBody.data.moduleRegistrations
+  } else {
+    throw new Error(
+      `Error: ${responseBody.errors.map((error: any) => error.message).join(', ')}`,
+    )
+  }
+}

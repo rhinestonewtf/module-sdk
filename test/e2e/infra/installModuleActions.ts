@@ -28,9 +28,8 @@ type Params = {
 
 export const getInstallModuleActions = async ({ account, client }: Params) => {
   const {
-    // ownableExecuter,
-    ownableValidator,
     ownableExecuter,
+    ownableValidator,
     socialRecoveryValidator,
     autoSavingExecutor,
     deadmanSwitchValidator,
@@ -104,14 +103,14 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     module: getInstallAllowedCallbackSenders(allowedCallbackSendersFallback),
   })
 
-  // // install scheduled orders executor
+  // install scheduled orders executor
   const installScheduledOrdersExecutorAction = await installModule({
     client,
     account,
     module: getInstallScheduledOrdersExecutor(scheduledOrdersExecutor),
   })
 
-  // // install scheduled transfers executor
+  // install scheduled transfers executor
   const installScheduledTransfersExecutorAction = await installModule({
     client,
     account,
