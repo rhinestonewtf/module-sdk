@@ -51,3 +51,7 @@ export type {
   RecurringOrder,
   Schedule,
 } from './scheduled-orders'
+
+export type { SigHookInit } from './hook-multi-plexer'
+
+export type { Validator } from './multi-factor-validator'

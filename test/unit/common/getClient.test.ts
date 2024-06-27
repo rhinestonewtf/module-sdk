@@ -1,4 +1,4 @@
-import { getClient } from 'src/common/getClient'
+import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 
 describe('Get a client', () => {

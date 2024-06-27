@@ -1,5 +1,5 @@
-import { getInstallOwnableExecuter } from 'src/module/ownable-executer/installation'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer/constants'
+import { getInstallOwnableExecuter } from 'src'
+import { OWNABLE_EXECUTER_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
   getAddOwnableExecutorOwnerAction,
@@ -7,10 +7,10 @@ import {
   getRemoveOwnableExecutorOwnerAction,
   getExecuteOnOwnedAccountAction,
   getExecuteBatchOnOwnedAccountAction,
-} from 'src/module/ownable-executer/usage'
-import { getClient } from 'src/common/getClient'
+} from 'src'
+import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
-import { getAccount } from 'src/account'
+import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 
 describe('Ownable Executer Module', () => {

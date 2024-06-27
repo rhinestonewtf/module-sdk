@@ -108,4 +108,11 @@ export {
 
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
 
-export type { ModuleType, Module, CallType, ERC20Token } from './types'
+export type {
+  ModuleType,
+  Module,
+  CallType,
+  ERC20Token,
+  SigHookInit,
+  Validator,
+} from './types'

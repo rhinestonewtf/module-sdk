@@ -8,16 +8,16 @@ import {
   getFlashloanAddAddressAction,
   getFlashloanRemoveAddressAction,
   getFlashloanWhitelist,
-} from 'src/module/cold-storage'
+} from 'src'
 import { Address, toHex } from 'viem'
-import { getClient } from 'src/common/getClient'
+import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
-import { getAccount } from 'src/account'
+import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import {
   getInstallColdStorageHook,
   getInstallAllowedCallbackSenders,
-} from 'src/module/cold-storage'
+} from 'src'
 import { CallType } from 'src/module/types'
 
 describe('Cold storage Module', () => {

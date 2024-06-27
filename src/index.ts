@@ -87,7 +87,7 @@ export {
   CallType,
 } from './module'
 
-export type { ModuleType, Module } from './module'
+export type { ModuleType, Module, SigHookInit } from './module'
 
 export type {
   Order,

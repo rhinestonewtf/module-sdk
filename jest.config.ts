@@ -87,6 +87,7 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^src/(.*)$': '<rootDir>/src/$1',
+    '^src': '<rootDir>/src/index',
     '^test/(.*)$': '<rootDir>/test/$1',
   },
 
@@ -124,7 +125,7 @@ const config: Config = {
   // rootDir: undefined,
 
   // A list of paths to directories that Jest should use to search for files in
-  roots: ['src', 'test'],
+  roots: ['test', 'src'],
 
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
