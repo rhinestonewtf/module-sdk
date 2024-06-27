@@ -1,4 +1,4 @@
-import { fetchRegistryModules } from 'src'
+import { fetchRegistryModules } from 'src/module/registry/usage'
 
 describe('Registry Module', () => {
   it('should get registered modules in the registry', async () => {

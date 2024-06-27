@@ -1,6 +1,6 @@
-import { getAccount, uninstallModule } from 'src'
-import { getModule } from 'src'
-import { getClient } from 'src'
+import { getAccount, uninstallModule } from 'src/account/api'
+import { getModule } from 'src/module/api/getModule'
+import { getClient } from 'src/common/getClient'
 import { MockSafeAccountDeployed } from 'test/utils/mocks/account'
 import { MockClient } from 'test/utils/mocks/client'
 import {

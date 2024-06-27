@@ -1,6 +1,6 @@
-import { getAccount, isModuleInstalled } from 'src'
-import { getModule } from 'src'
-import { getClient } from 'src'
+import { getAccount, isModuleInstalled } from 'src/account/api'
+import { getModule } from 'src/module/api/getModule'
+import { getClient } from 'src/common/getClient'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 import { MockClient } from 'test/utils/mocks/client'
 import {
@@ -9,7 +9,7 @@ import {
   MockHook,
   MockValidator,
 } from 'test/utils/mocks/module'
-import { SENTINEL_ADDRESS } from 'src'
+import { SENTINEL_ADDRESS } from 'src/common/constants'
 
 describe('Get installation status of module', () => {
   // Setup

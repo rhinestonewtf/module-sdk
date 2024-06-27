@@ -1,13 +1,13 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import { Address, PublicClient, TestClient } from 'viem'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src'
+import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import {
   getAddSocialRecoveryGuardianAction,
   getSocialRecoveryGuardians,
   getRemoveSocialRecoveryGuardianAction,
   getSetSocialRecoveryThresholdAction,
-} from 'src'
+} from 'src/module/social-recovery/usage'
 import { sendUserOp } from '../infra'
 
 type Params = {

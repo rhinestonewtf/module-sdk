@@ -1,25 +1,25 @@
-import { installModule } from 'src'
+import { installModule } from 'src/account'
 import {
   getInstallOwnableValidator,
   getInstallScheduledOrdersExecutor,
   getInstallScheduledTransfersExecutor,
-} from 'src'
-import { Account } from 'src'
+} from 'src/module'
+import { Account } from 'src/account'
 import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
-import { CallType } from 'src'
+import { CallType } from 'src/module/types'
 import { validators } from 'test/utils/userOps/constants/validators'
-import { REGISTRY_ADDRESS } from 'src'
-import { SafeHookType } from 'src'
-import { getInstallOwnableExecuter } from 'src'
-import { getInstallSocialRecoveryValidator } from 'src'
-import { getInstallAutoSavingsExecutor } from 'src'
+import { REGISTRY_ADDRESS } from 'src/module/registry'
+import { SafeHookType } from 'src/account/safe/types'
+import { getInstallOwnableExecuter } from 'src/module/ownable-executer'
+import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
+import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings'
 import {
   getInstallAllowedCallbackSenders,
   getInstallColdStorageHook,
-} from 'src'
-import { getInstallHookMultiPlexer } from 'src'
-import { getInstallDeadmanSwitch } from 'src'
-import { getInstallMultiFactorValidator } from 'src'
+} from 'src/module/cold-storage'
+import { getInstallHookMultiPlexer } from 'src/module/hook-multi-plexer'
+import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
+import { getInstallMultiFactorValidator } from 'src/module/multi-factor-validator'
 
 type Params = {
   account: Account

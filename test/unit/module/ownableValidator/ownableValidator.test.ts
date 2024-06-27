@@ -1,13 +1,13 @@
-import { getInstallOwnableValidator } from 'src'
-import { OWNABLE_VALIDATOR_ADDRESS } from 'src'
+import { getInstallOwnableValidator } from 'src/module/ownable-validator/installation'
+import { OWNABLE_VALIDATOR_ADDRESS } from 'src/module/ownable-validator/constants'
 import { Address } from 'viem'
 import {
   getAddOwnableValidatorOwnerAction,
   getOwnableValidatorOwners,
   getRemoveOwnableValidatorOwnerAction,
   getSetOwnableValidatorThresholdAction,
-} from 'src'
-import { getClient } from 'src'
+} from 'src/module/ownable-validator/usage'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from 'test/utils/mocks/account'

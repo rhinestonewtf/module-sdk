@@ -1,4 +1,4 @@
-import { getClient } from 'src'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
@@ -8,9 +8,9 @@ import {
   getRemoveMFAValidatorAction,
   getSetMFAValidatorAction,
   isMFASubValidator,
-} from 'src'
-import { getSetMFAThresholdAction } from 'src'
-import { Validator } from 'src'
+} from 'src/module/multi-factor-validator'
+import { getSetMFAThresholdAction } from 'src/module/multi-factor-validator'
+import { Validator } from 'src/module/multi-factor-validator/types'
 import { Address, Hex, slice } from 'viem'
 
 describe('MultiFactor Validator Module', () => {

@@ -1,7 +1,10 @@
-import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
+import {
+  DEADMAN_SWITCH_ADDRESS,
+  getDeadmanSwitchConfig,
+} from 'src/module/deadman-switch'
 import { Address, zeroAddress } from 'viem'
-import { getInstallDeadmanSwitch } from 'src'
-import { getClient } from 'src'
+import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from 'test/utils/mocks/account'

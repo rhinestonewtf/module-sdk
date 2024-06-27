@@ -1,5 +1,5 @@
 import { keccak256, slice, toHex } from 'viem'
-import { getModule } from 'src'
+import { getModule } from 'src/module/api/getModule'
 
 describe('Get Module implementation', () => {
   // Setup

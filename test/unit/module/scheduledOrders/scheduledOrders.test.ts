@@ -1,7 +1,7 @@
-import { getInstallScheduledOrdersExecutor } from 'src'
+import { getInstallScheduledOrdersExecutor } from 'src/module/scheduled-orders/installation'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from 'src/module'
-import { getCreateScheduledOrderAction } from 'src'
-import { ERC20Token } from 'src'
+import { getCreateScheduledOrderAction } from 'src/module/scheduled-orders/usage'
+import { ERC20Token } from 'src/module/scheduled-orders/types'
 
 describe('ScheduledOrders Module', () => {
   // Setup

@@ -1,0 +1,2 @@
+export const MFA_VALIDATOR_ADDRESS =
+  '0x2f28bcd0f3de8845409b947d9de45ca5ed776767'

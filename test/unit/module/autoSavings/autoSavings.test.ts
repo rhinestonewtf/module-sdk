@@ -1,5 +1,5 @@
-import { getInstallAutoSavingsExecutor } from 'src'
-import { AUTO_SAVINGS_ADDRESS } from 'src'
+import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings/installation'
+import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import { Address, zeroAddress } from 'viem'
 import {
   getSetAutoSavingConfigAction,
@@ -7,8 +7,8 @@ import {
   getAutoSavingTokens,
   getAutoSaveAction,
   getAutoSavingAccountTokenConfig,
-} from 'src'
-import { getClient } from 'src'
+} from 'src/module/auto-savings/usage'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../utils/mocks/client'
 import { Execution, getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
