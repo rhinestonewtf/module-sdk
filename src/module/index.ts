@@ -102,6 +102,19 @@ export {
   getFlashloanAddAddressAction,
   getFlashloanRemoveAddressAction,
   getFlashloanWhitelist,
+  getInstallAllowedCallbackSenders,
+  getInstallColdStorageHook,
 } from './cold-storage'
 
-export type { ModuleType, Module } from './types'
+export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
+
+export type { ModuleType, Module, CallType } from './types'
+
+export type {
+  ERC20Token,
+  Order,
+  RecurringOrder,
+  Schedule,
+  SigHookInit,
+  Validator,
+} from '..'
