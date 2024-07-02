@@ -34,8 +34,8 @@ export const setupEnvironment = async ({
     client: publicClient,
   })
 
-  const batch1 = installAllModulesActions.slice(0, 10)
-  const batch2 = installAllModulesActions.slice(10)
+  const batch1 = installAllModulesActions.slice(0, 5)
+  const batch2 = installAllModulesActions.slice(5)
 
   if (batch1.length) {
     await sendUserOp({ account, actions: batch1 })
