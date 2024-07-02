@@ -1,6 +1,6 @@
 {
   "name": "@rhinestone/module-sdk",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "A TypeScript library for using Smart Account Modules in Applications",
   "author": {
     "name": "Rhinestone",
@@ -17,6 +17,21 @@
       "import": "./_esm/index.js",
       "default": "./_cjs/index.js"
     },
+    "./account": {
+      "types": "./_types/account/index.d.ts",
+      "import": "./_esm/account/index.js",
+      "default": "./_cjs/account/index.js"
+    },
+    "./module": {
+      "types": "./_types/module/index.d.ts",
+      "import": "./_esm/module/index.js",
+      "default": "./_cjs/module/index.js"
+    },
+    "./common": {
+      "types": "./_types/common/index.d.ts",
+      "import": "./_esm/common/index.js",
+      "default": "./_cjs/common/index.js"
+    },
     "./package.json": "./package.json"
   },
   "peerDependencies": {
@@ -32,8 +47,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "tslib": "^2.6.2"
   }
 }
