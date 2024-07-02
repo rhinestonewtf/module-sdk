@@ -10,7 +10,7 @@ import {
 } from 'src'
 import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
-import { getAccount } from 'src/account'
+import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 
 describe('Ownable Executer Module', () => {

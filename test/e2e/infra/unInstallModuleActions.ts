@@ -1,20 +1,23 @@
-import { uninstallModule } from 'src'
+import { uninstallModule } from 'src/account'
 import {
   getModule,
   OWNABLE_VALIDATOR_ADDRESS,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
-} from 'src'
-import { Account } from 'src'
+} from 'src/module'
+import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src'
-import { AUTO_SAVINGS_ADDRESS } from 'src'
-import { COLD_STORAGE_FLASHLOAN_ADDRESS, COLD_STORAGE_HOOK_ADDRESS } from 'src'
-import { SafeHookType } from 'src'
-import { HOOK_MULTI_PLEXER_ADDRESS } from 'src'
-import { DEADMAN_SWITCH_ADDRESS } from 'src'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src'
+import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
+import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
+import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
+import {
+  COLD_STORAGE_FLASHLOAN_ADDRESS,
+  COLD_STORAGE_HOOK_ADDRESS,
+} from 'src/module/cold-storage'
+import { SafeHookType } from 'src/account/safe/types'
+import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
+import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
+import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
 
 type Params = {
   account: Account

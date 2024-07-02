@@ -6,7 +6,7 @@ import {
   getOwnableValidatorOwners,
   getAddOwnableValidatorOwnerAction,
   getRemoveOwnableValidatorOwnerAction,
-} from 'src'
+} from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
 
 type Params = {

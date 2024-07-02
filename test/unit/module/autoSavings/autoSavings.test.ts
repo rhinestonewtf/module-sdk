@@ -10,7 +10,7 @@ import {
 } from 'src'
 import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
-import { Execution, getAccount } from 'src/account'
+import { Execution, getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 
 describe('Auto Savings Module', () => {

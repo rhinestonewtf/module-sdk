@@ -1,11 +1,12 @@
 import { Address } from 'viem'
 import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
-import { getAccount } from 'src/account'
+import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import { getInstallHookMultiPlexer, HOOK_MULTI_PLEXER_ADDRESS } from 'src'
 import { getAddHookAction, getHooks, getRemoveHookAction } from 'src'
-import { HookType, SigHookInit } from 'src'
+import { HookType } from 'src'
+import { SigHookInit } from 'src/module'
 
 describe('Hook MultiPlexer Module', () => {
   // Setup

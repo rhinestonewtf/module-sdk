@@ -44,3 +44,14 @@ export enum CallType {
   CALLTYPE_STATIC = '0xFE',
   CALLTYPE_DELEGATECALL = '0xFF',
 }
+
+export type {
+  ERC20Token,
+  Order,
+  RecurringOrder,
+  Schedule,
+} from './scheduled-orders'
+
+export type { SigHookInit } from './hook-multi-plexer'
+
+export type { Validator } from './multi-factor-validator'

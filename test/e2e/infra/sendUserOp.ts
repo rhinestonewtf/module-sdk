@@ -1,4 +1,4 @@
-import { Account } from 'src'
+import { Account } from 'src/account'
 import { getBundlerClient } from 'test/utils/userOps/clients'
 import { getNetwork } from 'test/utils/userOps/constants/networks'
 import { defaultValidator } from 'test/utils/userOps/constants/validators'

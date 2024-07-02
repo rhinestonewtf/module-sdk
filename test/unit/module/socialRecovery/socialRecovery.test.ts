@@ -1,13 +1,13 @@
-import { getInstallSocialRecoveryValidator } from 'src'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src'
+import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
+import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
   getAddSocialRecoveryGuardianAction,
   getSocialRecoveryGuardians,
   getRemoveSocialRecoveryGuardianAction,
   getSetSocialRecoveryThresholdAction,
-} from 'src'
-import { getClient } from 'src'
+} from 'src/module/social-recovery/usage'
+import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../test/utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../../test/utils/mocks/account'

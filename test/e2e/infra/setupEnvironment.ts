@@ -1,9 +1,9 @@
-import { Account } from 'src'
+import { Account } from 'src/account'
 import { parseEther, PublicClient, TestClient } from 'viem'
 import { ensureBundlerIsReady } from 'test/utils/healthCheck'
 import { getInstallModuleActions } from './installModuleActions'
-import * as HelpersModule from 'src'
-import { SENTINEL_ADDRESS } from 'src'
+import * as HelpersModule from 'src/common/getPrevModule'
+import { SENTINEL_ADDRESS } from 'src/common/constants'
 import { sendUserOp } from './sendUserOp'
 
 type Params = {
@@ -34,8 +34,8 @@ export const setupEnvironment = async ({
     client: publicClient,
   })
 
-  const batch1 = installAllModulesActions.slice(0, 10)
-  const batch2 = installAllModulesActions.slice(10)
+  const batch1 = installAllModulesActions.slice(0, 5)
+  const batch2 = installAllModulesActions.slice(5)
 
   if (batch1.length) {
     await sendUserOp({ account, actions: batch1 })

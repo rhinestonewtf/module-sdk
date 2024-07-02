@@ -5,13 +5,13 @@ import {
   getOwnableExecutorOwners,
   getRemoveOwnableExecutorOwnerAction,
   OWNABLE_EXECUTER_ADDRESS,
-} from 'src'
+} from 'src/module/ownable-executer'
 import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   getExecuteBatchOnOwnedAccountAction,
   getExecuteOnOwnedAccountAction,
-} from 'src'
+} from 'src/module/ownable-executer/usage'
 
 type Params = {
   account: Account
