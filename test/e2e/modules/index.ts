@@ -1,4 +1,5 @@
 export * from './ownableValidator'
+export * from './webauthnValidator'
 export * from './ownableExecutor'
 export * from './autoSavingsExecutor'
 export * from './deadmanSwitchValidator'

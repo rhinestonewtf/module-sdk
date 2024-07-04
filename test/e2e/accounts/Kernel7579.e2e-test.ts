@@ -13,6 +13,7 @@ import {
   testScheduledOrdersExecutor,
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
+  testWebauthnValidator,
 } from '../modules'
 
 describe('Test Kernel-7579 account', () => {
@@ -40,6 +41,12 @@ describe('Test Kernel-7579 account', () => {
   }, 50000)
 
   testOwnableValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testWebauthnValidator({
     account,
     publicClient,
     testClient,

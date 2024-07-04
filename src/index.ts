@@ -9,7 +9,6 @@ export {
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
 // Module
-
 export {
   getModule,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
@@ -35,7 +34,8 @@ export {
   getCreateScheduledTransferAction,
   getScheduledTransactionData,
   WEBAUTHN_VALIDATOR_ADDRESS,
-  getWebauthnValidator,
+  getInstallWebAuthnValidator,
+  getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,
   SOCIAL_RECOVERY_ADDRESS,
   getInstallSocialRecoveryValidator,
