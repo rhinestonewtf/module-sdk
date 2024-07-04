@@ -1,6 +1,7 @@
 import { installModule } from 'src/account'
 import {
   getInstallOwnableValidator,
+  getInstallWebAuthnValidator,
   getInstallScheduledOrdersExecutor,
   getInstallScheduledTransfersExecutor,
 } from 'src/module'
@@ -28,8 +29,9 @@ type Params = {
 
 export const getInstallModuleActions = async ({ account, client }: Params) => {
   const {
-    ownableExecuter,
     ownableValidator,
+    webAuthnValidator,
+    ownableExecuter,
     socialRecoveryValidator,
     autoSavingExecutor,
     deadmanSwitchValidator,
@@ -48,6 +50,13 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     client,
     account,
     module: getInstallOwnableValidator(ownableValidator),
+  })
+
+  // install webauthn validator
+  const installWebAuthnValidatorAction = await installModule({
+    client,
+    account,
+    module: getInstallWebAuthnValidator(webAuthnValidator),
   })
 
   // install ownable executor
@@ -126,6 +135,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
 
   return [
     ...installOwnableValidatorAction,
+    ...installWebAuthnValidatorAction,
     ...installOwnableExecutorAction,
     ...installSocialRecoveryAction,
     ...installAutoSavingsExecutorAction,
@@ -143,6 +153,12 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [account.address],
+    hook: zeroAddress,
+  },
+  webAuthnValidator: {
+    pubKeyX: 123,
+    pubKeyY: 456,
+    authenticatorId: 'authenticatorId',
     hook: zeroAddress,
   },
   ownableExecuter: {

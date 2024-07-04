@@ -1,12 +1,13 @@
 import { getAccount } from 'src/account'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
 import { setupEnvironment, cleanUpEnvironment } from '../infra'
+import { testWebauthnValidator } from '../modules'
 import {
+  testOwnableValidator,
   testAutoSavingsExecutor,
   testDeadmanSwitchValidator,
   testMultiFactorValidator,
   testOwnableExecutor,
-  testOwnableValidator,
   testRegistryHook,
   testColdStorageHook,
   testScheduledOrdersExecutor,
@@ -39,6 +40,12 @@ describe('Test erc7579 reference implementation', () => {
   }, 50000)
 
   testOwnableValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testWebauthnValidator({
     account,
     publicClient,
     testClient,

@@ -36,7 +36,8 @@ export {
 
 export {
   WEBAUTHN_VALIDATOR_ADDRESS,
-  getWebauthnValidator,
+  getInstallWebAuthnValidator,
+  getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,
 } from './webauthn-validator'
 

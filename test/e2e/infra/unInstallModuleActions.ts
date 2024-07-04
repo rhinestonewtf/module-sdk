@@ -18,6 +18,7 @@ import { SafeHookType } from 'src/account/safe/types'
 import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
 import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
+import { WEBAUTHN_VALIDATOR_ADDRESS } from 'src/module/webauthn-validator'
 
 type Params = {
   account: Account
@@ -35,6 +36,16 @@ export const getUnInstallModuleActions = async ({
     module: getModule({
       type: 'validator',
       module: OWNABLE_VALIDATOR_ADDRESS,
+    }),
+  })
+
+  // unInstall webauthn validator
+  const unInstallWebAuthnValidatorAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'validator',
+      module: WEBAUTHN_VALIDATOR_ADDRESS,
     }),
   })
 
@@ -150,6 +161,7 @@ export const getUnInstallModuleActions = async ({
     ...unInstallAutoSavingsExecutorAction,
     ...unInstallSocialRecoveryAction,
     ...unInstallOwnableExecutorAction,
+    ...unInstallWebAuthnValidatorAction,
     ...unInstallOwnableValidatorAction,
   ]
 }
