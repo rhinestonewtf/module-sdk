@@ -28,7 +28,9 @@ export const getRegistryModules = async (): Promise<any> => {
     return responseBody.data.moduleRegistrations
   } else {
     throw new Error(
-      `Error: ${responseBody.errors.map((error: any) => error.message).join(', ')}`,
+      `Error: ${responseBody.errors
+        .map((error: any) => error.message)
+        .join(', ')}`,
     )
   }
 }

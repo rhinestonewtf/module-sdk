@@ -50,7 +50,7 @@ const _uninstallModule = async ({
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (isInstalled) {
-    let moduleData = module.data || '0x'
+    let moduleData = module.initData || '0x'
     if (module.type === 'validator' || module.type === 'executor') {
       const prev = await getPreviousModule({ client, account, module })
       moduleData = encodeAbiParameters(
@@ -109,7 +109,7 @@ const _uninstallFallback = async ({
           module.module,
           encodePacked(
             ['bytes4', 'bytes'],
-            [module.selector!, module.data ?? '0x'],
+            [module.selector!, module.initData ?? '0x'],
           ),
         ],
       }),

@@ -34,7 +34,7 @@ describe('Cold storage Module', () => {
     })
 
     expect(installColdStorageModule.module).toEqual(COLD_STORAGE_HOOK_ADDRESS)
-    expect(installColdStorageModule.data).toBeDefined()
+    expect(installColdStorageModule.initData).toBeDefined()
     expect(installColdStorageModule.type).toEqual('hook')
   })
 
@@ -48,7 +48,7 @@ describe('Cold storage Module', () => {
     expect(installColdStorageFlashloanModule.module).toEqual(
       COLD_STORAGE_FLASHLOAN_ADDRESS,
     )
-    expect(installColdStorageFlashloanModule.data).toBeDefined()
+    expect(installColdStorageFlashloanModule.initData).toBeDefined()
     expect(installColdStorageFlashloanModule.type).toEqual('fallback')
   })
 

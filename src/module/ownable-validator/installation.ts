@@ -13,7 +13,7 @@ export const getOwnableValidator = ({
 }): Module => {
   return {
     module: OWNABLE_VALIDATOR_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { name: 'threshold', type: 'uint256' },
         { name: 'owners', type: 'address[]' },

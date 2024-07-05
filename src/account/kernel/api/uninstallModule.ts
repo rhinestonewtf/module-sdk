@@ -55,7 +55,7 @@ const _uninstallModule = async ({
         args: [
           BigInt(kernelModuleTypeIds[module.type]),
           module.module,
-          module.data || '0x',
+          module.initData || '0x',
         ],
       }),
     })
@@ -79,7 +79,7 @@ const _uninstallFallback = async ({
     account,
     module: {
       ...module,
-      data:
+      initData:
         encodeAbiParameters(
           [{ name: 'functionSignature', type: 'bytes4' }],
           [module.selector!],
@@ -99,7 +99,7 @@ const _uninstallFallback = async ({
           module.module,
           encodePacked(
             ['bytes4', 'bytes'],
-            [module.selector!, module.data || '0x'],
+            [module.selector!, module.initData || '0x'],
           ),
         ],
       }),

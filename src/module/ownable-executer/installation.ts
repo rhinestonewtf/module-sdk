@@ -11,7 +11,7 @@ export const getOwnableExecuter = ({
 }): Module => {
   return {
     module: OWNABLE_EXECUTER_ADDRESS,
-    data: encodePacked(['address'], [owner]),
+    initData: encodePacked(['address'], [owner]),
     deInitData: '0x',
     additionalContext: '0x',
     type: 'executor',

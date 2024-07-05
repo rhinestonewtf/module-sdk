@@ -14,7 +14,7 @@ export const getWebAuthnValidator = (
 ): Module => {
   return {
     module: WEBAUTHN_VALIDATOR_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         {
           components: [

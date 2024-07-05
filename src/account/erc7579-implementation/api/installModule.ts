@@ -52,7 +52,7 @@ const _installModule = async ({
         args: [
           BigInt(moduleTypeIds[module.type]),
           module.module,
-          module.data || '0x',
+          module.initData || '0x',
         ],
       }),
     })
@@ -89,7 +89,7 @@ async function installFallback({
           module.module,
           encodePacked(
             ['bytes4', 'bytes1', 'bytes'],
-            [module.selector!, module.callType!, module.data ?? '0x'],
+            [module.selector!, module.callType!, module.initData ?? '0x'],
           ),
         ],
       }),

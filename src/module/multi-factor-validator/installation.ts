@@ -14,7 +14,7 @@ export const getMultiFactorValidator = ({
 }): Module => {
   return {
     module: MULTI_FACTOR_VALIDATOR_ADDRESS,
-    data: encodePacked(
+    initData: encodePacked(
       ['uint8', 'bytes'],
       [
         threshold,

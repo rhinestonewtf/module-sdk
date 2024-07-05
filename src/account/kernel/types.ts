@@ -3,7 +3,7 @@ import { Address, Hex } from 'viem'
 
 export type KernelModule = {
   module: Address
-  data?: Hex
+  initData?: Hex
   additionalContext?: Hex
   type: KernelModuleType
   hook?: Address

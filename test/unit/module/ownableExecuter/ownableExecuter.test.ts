@@ -31,7 +31,7 @@ describe('Ownable Executer Module', () => {
     expect(installOwnableExecuterModule.module).toEqual(
       OWNABLE_EXECUTER_ADDRESS,
     )
-    expect(installOwnableExecuterModule.data).toBeDefined()
+    expect(installOwnableExecuterModule.initData).toBeDefined()
     expect(installOwnableExecuterModule.type).toEqual('executor')
   })
 

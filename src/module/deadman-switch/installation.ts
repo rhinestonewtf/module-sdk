@@ -28,7 +28,7 @@ export const getDeadmanSwitch = async ({
 
   return {
     module: DEADMAN_SWITCH_ADDRESS,
-    data: isInitialized
+    initData: isInitialized
       ? '0x'
       : encodePacked(['address', 'uint48'], [nominee, timeout]),
     deInitData: '0x',

@@ -33,13 +33,13 @@ export const getColdStorageHook = async ({
 }: Params): Promise<Module> => {
   const installedModules = await getInstalledModules({ account, client })
 
-  const data = installedModules.includes(COLD_STORAGE_HOOK_ADDRESS)
+  const initData = installedModules.includes(COLD_STORAGE_HOOK_ADDRESS)
     ? '0x'
     : encodePacked(['uint128', 'address'], [BigInt(waitPeriod), owner])
 
   return {
     module: COLD_STORAGE_HOOK_ADDRESS,
-    data,
+    initData,
     additionalContext: '0x',
     type: moduleType,
     hook,
@@ -63,7 +63,7 @@ export const getAllowedCallbackSenders = ({
 }: FlashloanParams): Module => {
   return {
     module: COLD_STORAGE_FLASHLOAN_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
       [addresses],
     ),

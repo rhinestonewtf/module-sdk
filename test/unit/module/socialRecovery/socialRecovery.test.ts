@@ -29,7 +29,7 @@ describe('Social Recovery Module', () => {
     })
 
     expect(installSocialRecoveryModule.module).toEqual(SOCIAL_RECOVERY_ADDRESS)
-    expect(installSocialRecoveryModule.data).toBeDefined()
+    expect(installSocialRecoveryModule.initData).toBeDefined()
     expect(installSocialRecoveryModule.type).toEqual('validator')
   })
 

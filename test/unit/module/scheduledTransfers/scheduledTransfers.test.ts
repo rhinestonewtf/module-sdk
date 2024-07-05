@@ -21,7 +21,7 @@ describe('ScheduledTransfers Module', () => {
     expect(installScheduledTransfersModule.module).toEqual(
       SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
     )
-    expect(installScheduledTransfersModule.data).toBeDefined()
+    expect(installScheduledTransfersModule.initData).toBeDefined()
     expect(installScheduledTransfersModule.type).toEqual('executor')
   })
 

@@ -89,18 +89,18 @@ const getModuleCalldata = (module: Module): Hex => {
   switch (module.type) {
     case 'validator':
     case 'executor':
-      return module.data || '0x'
+      return module.initData || '0x'
     case 'hook':
       return encodeAbiParameters(
         parseAbiParameters(
           'uint8 hookType, bytes4 selector, bytes memory initData',
         ),
-        [module.hookType!, module.selector!, module.data || '0x'],
+        [module.hookType!, module.selector!, module.initData || '0x'],
       )
     case 'fallback':
       return encodeAbiParameters(
         parseAbiParameters('bytes4 functionSig, bytes memory moduleDeInitData'),
-        [module.functionSig!, module.data || '0x'],
+        [module.functionSig!, module.initData || '0x'],
       )
     default:
       throw new Error(`Unknown module type ${module.type}`)

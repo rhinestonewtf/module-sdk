@@ -19,7 +19,7 @@ export const getAutoSavingsExecutor = ({
 }: Params): Module => {
   return {
     module: AUTO_SAVINGS_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { internalType: 'address[]', name: '_tokens', type: 'address[]' },
         {

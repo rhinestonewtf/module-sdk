@@ -14,7 +14,7 @@ describe('Registry hook Module', () => {
     })
 
     expect(installOwnableExecuterModule.module).toEqual(REGISTRY_HOOK_ADDRESS)
-    expect(installOwnableExecuterModule.data).toBeDefined()
+    expect(installOwnableExecuterModule.initData).toBeDefined()
     expect(installOwnableExecuterModule.type).toEqual('hook')
   })
 

@@ -13,7 +13,7 @@ export const getSocialRecoveryValidator = ({
 }): Module => {
   return {
     module: SOCIAL_RECOVERY_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { name: 'threshold', type: 'uint256' },
         { name: 'guardians', type: 'address[]' },

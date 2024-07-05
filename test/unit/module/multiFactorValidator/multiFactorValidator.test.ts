@@ -42,7 +42,7 @@ describe('MultiFactor Validator Module', () => {
     expect(installHookMultiPlexerModule.module).toEqual(
       MULTI_FACTOR_VALIDATOR_ADDRESS,
     )
-    expect(installHookMultiPlexerModule.data).toBeDefined()
+    expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('validator')
   })
 

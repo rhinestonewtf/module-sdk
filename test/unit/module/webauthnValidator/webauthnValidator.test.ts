@@ -23,7 +23,7 @@ describe('Webauthn Validator Module', () => {
     expect(installWebauthnValidatorModule.module).toEqual(
       WEBAUTHN_VALIDATOR_ADDRESS,
     )
-    expect(installWebauthnValidatorModule.data).toBeDefined()
+    expect(installWebauthnValidatorModule.initData).toBeDefined()
     expect(installWebauthnValidatorModule.type).toEqual('validator')
   })
 

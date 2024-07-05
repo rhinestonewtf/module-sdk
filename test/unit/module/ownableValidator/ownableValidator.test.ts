@@ -33,7 +33,7 @@ describe('Ownable Validator Module', () => {
     expect(installOwnableValidatorModule.module).toEqual(
       OWNABLE_VALIDATOR_ADDRESS,
     )
-    expect(installOwnableValidatorModule.data).toBeDefined()
+    expect(installOwnableValidatorModule.initData).toBeDefined()
     expect(installOwnableValidatorModule.type).toEqual('validator')
   })
 

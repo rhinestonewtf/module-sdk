@@ -24,7 +24,7 @@ describe('Deadman switch Module', () => {
     expect(installDeadmanSwitchHookModule.module).toEqual(
       DEADMAN_SWITCH_ADDRESS,
     )
-    expect(installDeadmanSwitchHookModule.data).toBeDefined()
+    expect(installDeadmanSwitchHookModule.initData).toBeDefined()
     expect(installDeadmanSwitchHookModule.type).toEqual('hook')
   })
 
@@ -40,7 +40,7 @@ describe('Deadman switch Module', () => {
     expect(installDeadmanSwitchValidatorModule.module).toEqual(
       DEADMAN_SWITCH_ADDRESS,
     )
-    expect(installDeadmanSwitchValidatorModule.data).toBeDefined()
+    expect(installDeadmanSwitchValidatorModule.initData).toBeDefined()
     expect(installDeadmanSwitchValidatorModule.type).toEqual('validator')
   })
 

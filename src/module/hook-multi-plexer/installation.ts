@@ -24,7 +24,7 @@ export const getHookMultiPlexer = ({
 }: Params): Module => {
   return {
     module: HOOK_MULTI_PLEXER_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { internalType: 'address[]', name: 'globalHooks', type: 'address[]' },
         { internalType: 'address[]', name: 'valueHooks', type: 'address[]' },

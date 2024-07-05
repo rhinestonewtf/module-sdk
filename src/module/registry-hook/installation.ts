@@ -9,7 +9,7 @@ export const getRegistryHook = ({
 }): Module => {
   return {
     module: REGISTRY_HOOK_ADDRESS,
-    data: encodePacked(['address'], [registryAddress]),
+    initData: encodePacked(['address'], [registryAddress]),
     deInitData: '0x',
     additionalContext: '0x',
     type: 'hook',

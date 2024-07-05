@@ -32,7 +32,7 @@ describe('Auto Savings Module', () => {
     })
 
     expect(installAutoSavingsModule.module).toEqual(AUTO_SAVINGS_ADDRESS)
-    expect(installAutoSavingsModule.data).toBeDefined()
+    expect(installAutoSavingsModule.initData).toBeDefined()
     expect(installAutoSavingsModule.type).toEqual('executor')
   })
 

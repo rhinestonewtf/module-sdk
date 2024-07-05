@@ -26,7 +26,7 @@ describe('ScheduledOrders Module', () => {
     expect(installScheduledOrdersModule.module).toEqual(
       SCHEDULED_ORDERS_EXECUTER_ADDRESS,
     )
-    expect(installScheduledOrdersModule.data).toBeDefined()
+    expect(installScheduledOrdersModule.initData).toBeDefined()
     expect(installScheduledOrdersModule.type).toEqual('executor')
   })
 

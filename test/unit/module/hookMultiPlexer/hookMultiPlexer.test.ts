@@ -39,7 +39,7 @@ describe('Hook MultiPlexer Module', () => {
     expect(installHookMultiPlexerModule.module).toEqual(
       HOOK_MULTI_PLEXER_ADDRESS,
     )
-    expect(installHookMultiPlexerModule.data).toBeDefined()
+    expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('hook')
   })
 
