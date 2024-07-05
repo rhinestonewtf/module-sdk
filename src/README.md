@@ -11,17 +11,17 @@ The Module SDK allows you to:
 - **Interact with** and **use** modules using a simple and consistent API
 - Can be used **alongside existing account SDKs** such as [permissionless.js](https://www.npmjs.com/package/permissionless), [Biconomy](https://www.npmjs.com/package/@biconomy/account), [Zerodev](https://www.npmjs.com/package/@zerodevapp/sdk) and many more
 - **Use core modules**, such as:
-  - AutoSavings Executor: Automatically save a percentage of incoming funds
-  - ColdStorage Hook: Prevent funds from being withdrawn without a timelock
-  - Deadman Switch Validator: Prevent funds from being locked forever
+  - Auto Savings: Automatically allocate a set percentage of any incoming token to a target vault
+  - ColdStorage Hook: Restrict all transactions with a timelock and only allow funds to be sent to a single address
+  - Deadman Switch: Recover an account after a specified inactive period
   - Hook Multiplexer: Combine multiple hooks into one with fine-grained control over when they are called
-  - MultiFactor Validator: Use multiple validators in combination as a multi-factor authentication system
+  - Multi Factor: Use multiple validators in combination as a multi-factor authentication system
   - Ownable Executor: Allow an account to control a subaccount and pay for its transaction fees
   - Ownable Validator: Authenticate on your account with multiple ECDSA keys
   - Registry Hook: Query the Module Registry before installing and using modules
-  - Scheduled Orders Executor: Execute swaps on a specified schedule
-  - Scheduled Transfers Executor: Transfer funds on a specified schedule
-  - Social Recovery Validator: Recover your account using a set of guardians
+  - Scheduled Orders: Execute swaps on a specified schedule
+  - Scheduled Transfers: Transfer funds on a specified schedule
+  - Social Recovery: Recover your account using a set of guardians
 
 In-depth documentation is available at [docs.rhinestone.wtf](https://docs.rhinestone.wtf/module-sdk/).
 
