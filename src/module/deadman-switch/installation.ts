@@ -2,7 +2,7 @@ import { Address, encodePacked, PublicClient } from 'viem'
 import { Module } from '../types'
 import { DEADMAN_SWITCH_ADDRESS } from './constants'
 import { abi } from './abi'
-import { Account } from 'src/account'
+import { Account } from '../../account'
 
 export const getDeadmanSwitch = async ({
   moduleType,
