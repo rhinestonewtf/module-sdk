@@ -1,9 +1,9 @@
 import { installModule } from 'src/account'
 import {
-  getInstallOwnableValidator,
-  getInstallWebAuthnValidator,
-  getInstallScheduledOrdersExecutor,
-  getInstallScheduledTransfersExecutor,
+  getOwnableValidator,
+  getWebAuthnValidator,
+  getScheduledOrdersExecutor,
+  getScheduledTransfersExecutor,
 } from 'src/module'
 import { Account } from 'src/account'
 import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
@@ -11,16 +11,16 @@ import { CallType } from 'src/module/types'
 import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
-import { getInstallOwnableExecuter } from 'src/module/ownable-executer'
-import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
-import { getInstallAutoSavingsExecutor } from 'src/module/auto-savings'
+import { getOwnableExecuter } from 'src/module/ownable-executer'
+import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
+import { getAutoSavingsExecutor } from 'src/module/auto-savings'
 import {
-  getInstallAllowedCallbackSenders,
-  getInstallColdStorageHook,
+  getAllowedCallbackSenders,
+  getColdStorageHook,
 } from 'src/module/cold-storage'
-import { getInstallHookMultiPlexer } from 'src/module/hook-multi-plexer'
-import { getInstallDeadmanSwitch } from 'src/module/deadman-switch'
-import { getInstallMultiFactorValidator } from 'src/module/multi-factor-validator'
+import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
+import { getDeadmanSwitch } from 'src/module/deadman-switch'
+import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
 
 type Params = {
   account: Account
@@ -49,56 +49,60 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const installOwnableValidatorAction = await installModule({
     client,
     account,
-    module: getInstallOwnableValidator(ownableValidator),
+    module: getOwnableValidator(ownableValidator),
   })
 
   // install webauthn validator
   const installWebAuthnValidatorAction = await installModule({
     client,
     account,
-    module: getInstallWebAuthnValidator(webAuthnValidator),
+    module: getWebAuthnValidator(webAuthnValidator),
   })
 
   // install ownable executor
   const installOwnableExecutorAction = await installModule({
     client,
     account,
-    module: getInstallOwnableExecuter(ownableExecuter),
+    module: getOwnableExecuter(ownableExecuter),
   })
 
   // install social recovery
   const installSocialRecoveryAction = await installModule({
     client,
     account,
-    module: getInstallSocialRecoveryValidator(socialRecoveryValidator),
+    module: getSocialRecoveryValidator(socialRecoveryValidator),
   })
 
   // install auto savings executor
   const installAutoSavingsExecutorAction = await installModule({
     client,
     account,
-    module: getInstallAutoSavingsExecutor(autoSavingExecutor),
+    module: getAutoSavingsExecutor(autoSavingExecutor),
   })
 
   // install deadman switch validator
   const installDeadmanSwitchValidatorAction = await installModule({
     client,
     account,
-    module: getInstallDeadmanSwitch(deadmanSwitchValidator),
+    module: await getDeadmanSwitch({
+      ...deadmanSwitchValidator,
+      account,
+      client,
+    }),
   })
 
   // install multi factor validator
   const installMultiFactorValidatorAction = await installModule({
     client,
     account,
-    module: getInstallMultiFactorValidator(multiFactorValidator),
+    module: getMultiFactorValidator(multiFactorValidator),
   })
 
   // install virtual code storage hook
   const installVirtualCodeStorageExecutorAction = await installModule({
     client,
     account,
-    module: await getInstallColdStorageHook({
+    module: await getColdStorageHook({
       account,
       client,
       ...virtualCodeStorageExecutor,
@@ -109,28 +113,28 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const installCallbackSendersAction = await installModule({
     client,
     account,
-    module: getInstallAllowedCallbackSenders(allowedCallbackSendersFallback),
+    module: getAllowedCallbackSenders(allowedCallbackSendersFallback),
   })
 
   // install scheduled orders executor
   const installScheduledOrdersExecutorAction = await installModule({
     client,
     account,
-    module: getInstallScheduledOrdersExecutor(scheduledOrdersExecutor),
+    module: getScheduledOrdersExecutor(scheduledOrdersExecutor),
   })
 
   // install scheduled transfers executor
   const installScheduledTransfersExecutorAction = await installModule({
     client,
     account,
-    module: getInstallScheduledTransfersExecutor(scheduledTransfersExecutor),
+    module: getScheduledTransfersExecutor(scheduledTransfersExecutor),
   })
 
   // install hook multi plexer
   const installHookMultiplexerAction = await installModule({
     client,
     account,
-    module: getInstallHookMultiPlexer(hookMultiPlexer),
+    module: getHookMultiPlexer(hookMultiPlexer),
   })
 
   return [

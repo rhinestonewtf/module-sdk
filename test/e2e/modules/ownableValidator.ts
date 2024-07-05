@@ -53,9 +53,11 @@ export const testOwnableValidator = async ({
       account,
       client: publicClient,
     })
-    const addNewOwnerAction = getAddOwnableValidatorOwnerAction({
+    const addNewOwnerAction = (await getAddOwnableValidatorOwnerAction({
       owner: newOwner,
-    })
+      account,
+      client: publicClient,
+    })) as Execution
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })
 

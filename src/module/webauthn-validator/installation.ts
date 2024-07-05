@@ -9,12 +9,12 @@ export type WebauthnCredential = {
   hook?: Address
 }
 
-export const getInstallWebAuthnValidator = (
+export const getWebAuthnValidator = (
   webAuthnCredential: WebauthnCredential,
 ): Module => {
   return {
     module: WEBAUTHN_VALIDATOR_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         {
           components: [
@@ -42,6 +42,7 @@ export const getInstallWebAuthnValidator = (
         keccak256(toHex(webAuthnCredential.authenticatorId)),
       ],
     ),
+    deInitData: '0x',
     hook: webAuthnCredential.hook,
     additionalContext: '0x',
     type: 'validator',

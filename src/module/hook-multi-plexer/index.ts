@@ -1,5 +1,5 @@
 export { HOOK_MULTI_PLEXER_ADDRESS } from './constants'
-export { getInstallHookMultiPlexer } from './installation'
+export { getHookMultiPlexer } from './installation'
 export { getAddHookAction, getRemoveHookAction, getHooks } from './usage'
 export { HookType } from './types'
 export type { SigHookInit } from './types'

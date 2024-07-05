@@ -1,6 +1,6 @@
 import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
 import { Address, zeroAddress } from 'viem'
-import { getInstallDeadmanSwitch } from 'src'
+import { getDeadmanSwitch } from 'src/module'
 import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
@@ -13,30 +13,34 @@ describe('Deadman switch Module', () => {
   const account = getAccount(MockAccountDeployed)
 
   it('should get install deadman switch hook module', async () => {
-    const installDeadmanSwitchHookModule = getInstallDeadmanSwitch({
+    const installDeadmanSwitchHookModule = await getDeadmanSwitch({
       nominee,
       timeout: 3,
       moduleType: 'hook',
+      account,
+      client,
     })
 
     expect(installDeadmanSwitchHookModule.module).toEqual(
       DEADMAN_SWITCH_ADDRESS,
     )
-    expect(installDeadmanSwitchHookModule.data).toBeDefined()
+    expect(installDeadmanSwitchHookModule.initData).toBeDefined()
     expect(installDeadmanSwitchHookModule.type).toEqual('hook')
   })
 
   it('should get install deadman switch validator module', async () => {
-    const installDeadmanSwitchValidatorModule = getInstallDeadmanSwitch({
+    const installDeadmanSwitchValidatorModule = await getDeadmanSwitch({
       nominee,
       timeout: 3,
       moduleType: 'validator',
+      account,
+      client,
     })
 
     expect(installDeadmanSwitchValidatorModule.module).toEqual(
       DEADMAN_SWITCH_ADDRESS,
     )
-    expect(installDeadmanSwitchValidatorModule.data).toBeDefined()
+    expect(installDeadmanSwitchValidatorModule.initData).toBeDefined()
     expect(installDeadmanSwitchValidatorModule.type).toEqual('validator')
   })
 

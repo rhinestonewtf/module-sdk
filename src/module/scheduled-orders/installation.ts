@@ -10,7 +10,7 @@ type Params = {
   hook?: Address
 }
 
-export const getInstallScheduledOrdersExecutor = ({
+export const getScheduledOrdersExecutor = ({
   executeInterval,
   numberOfExecutions,
   startDate,
@@ -20,10 +20,11 @@ export const getInstallScheduledOrdersExecutor = ({
   return {
     module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
     type: 'executor',
-    data: encodePacked(
+    initData: encodePacked(
       ['uint48', 'uint16', 'uint48', 'bytes'],
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
+    deInitData: '0x',
     hook,
   }
 }

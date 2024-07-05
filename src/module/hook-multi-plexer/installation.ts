@@ -13,7 +13,7 @@ type Params = {
   hookType?: number
 }
 
-export const getInstallHookMultiPlexer = ({
+export const getHookMultiPlexer = ({
   globalHooks,
   valueHooks,
   delegatecallHooks,
@@ -24,7 +24,7 @@ export const getInstallHookMultiPlexer = ({
 }: Params): Module => {
   return {
     module: HOOK_MULTI_PLEXER_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { internalType: 'address[]', name: 'globalHooks', type: 'address[]' },
         { internalType: 'address[]', name: 'valueHooks', type: 'address[]' },
@@ -52,6 +52,7 @@ export const getInstallHookMultiPlexer = ({
       ],
       [globalHooks, valueHooks, delegatecallHooks, sigHooks, targetHooks],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'hook',
     selector,

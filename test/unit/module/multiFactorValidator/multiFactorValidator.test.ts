@@ -4,11 +4,11 @@ import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import {
   MULTI_FACTOR_VALIDATOR_ADDRESS,
-  getInstallMultiFactorValidator,
+  getMultiFactorValidator,
   getRemoveMFAValidatorAction,
   getSetMFAValidatorAction,
   isMFASubValidator,
-} from 'src'
+} from 'src/module'
 import { getSetMFAThresholdAction } from 'src'
 import { Validator } from 'src/module'
 import { Address, Hex, slice } from 'viem'
@@ -37,12 +37,12 @@ describe('MultiFactor Validator Module', () => {
   }
 
   it('should get install multi factor module', async () => {
-    const installHookMultiPlexerModule = getInstallMultiFactorValidator(mfaData)
+    const installHookMultiPlexerModule = getMultiFactorValidator(mfaData)
 
     expect(installHookMultiPlexerModule.module).toEqual(
       MULTI_FACTOR_VALIDATOR_ADDRESS,
     )
-    expect(installHookMultiPlexerModule.data).toBeDefined()
+    expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('validator')
   })
 

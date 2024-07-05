@@ -3,7 +3,7 @@ import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
-import { getInstallHookMultiPlexer, HOOK_MULTI_PLEXER_ADDRESS } from 'src'
+import { getHookMultiPlexer, HOOK_MULTI_PLEXER_ADDRESS } from 'src/module'
 import { getAddHookAction, getHooks, getRemoveHookAction } from 'src'
 import { HookType } from 'src'
 import { SigHookInit } from 'src/module'
@@ -34,12 +34,12 @@ describe('Hook MultiPlexer Module', () => {
   }
 
   it('should get install hook multi plexer module', async () => {
-    const installHookMultiPlexerModule = getInstallHookMultiPlexer(hooks)
+    const installHookMultiPlexerModule = getHookMultiPlexer(hooks)
 
     expect(installHookMultiPlexerModule.module).toEqual(
       HOOK_MULTI_PLEXER_ADDRESS,
     )
-    expect(installHookMultiPlexerModule.data).toBeDefined()
+    expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('hook')
   })
 

@@ -39,7 +39,7 @@ export const testScheduledTransfersExecutor = async ({
     }
 
     const scheduledOrderAction = getCreateScheduledTransferAction({
-      scheduledTransaction: {
+      scheduledTransfer: {
         token,
         amount: 100,
         recipient: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',

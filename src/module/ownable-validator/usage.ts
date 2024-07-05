@@ -27,11 +27,23 @@ export const getSetOwnableValidatorThresholdAction = ({
   }
 }
 
-export const getAddOwnableValidatorOwnerAction = ({
+export const getAddOwnableValidatorOwnerAction = async ({
   owner,
+  client,
+  account,
 }: {
   owner: Address
-}): Execution => {
+  client: PublicClient
+  account: Account
+}): Promise<Execution | Error> => {
+  const owners = await getOwnableValidatorOwners({ account, client })
+
+  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+
+  if (currentOwnerIndex !== -1) {
+    throw new Error('Owner already exists')
+  }
+
   return {
     target: OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
@@ -95,6 +107,27 @@ export const getOwnableValidatorOwners = async ({
   } catch (err) {
     console.error(err)
     return []
+  }
+}
+
+export const getOwnableValidatorThreshold = async ({
+  account,
+  client,
+}: {
+  account: Account
+  client: PublicClient
+}): Promise<number> => {
+  try {
+    const threshold = (await client.readContract({
+      address: OWNABLE_VALIDATOR_ADDRESS,
+      abi,
+      functionName: 'threshold',
+      args: [account.address],
+    })) as number
+
+    return Number(threshold)
+  } catch {
+    throw new Error('Failed to get threshold')
   }
 }
 

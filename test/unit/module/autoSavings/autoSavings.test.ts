@@ -1,5 +1,4 @@
-import { getInstallAutoSavingsExecutor } from 'src'
-import { AUTO_SAVINGS_ADDRESS } from 'src'
+import { AUTO_SAVINGS_ADDRESS, getAutoSavingsExecutor } from 'src/module'
 import { Address, zeroAddress } from 'viem'
 import {
   getSetAutoSavingConfigAction,
@@ -27,13 +26,13 @@ describe('Auto Savings Module', () => {
   ]
 
   it('should get install auto savings module', async () => {
-    const installAutoSavingsModule = getInstallAutoSavingsExecutor({
+    const installAutoSavingsModule = getAutoSavingsExecutor({
       tokens,
       configs,
     })
 
     expect(installAutoSavingsModule.module).toEqual(AUTO_SAVINGS_ADDRESS)
-    expect(installAutoSavingsModule.data).toBeDefined()
+    expect(installAutoSavingsModule.initData).toBeDefined()
     expect(installAutoSavingsModule.type).toEqual('executor')
   })
 

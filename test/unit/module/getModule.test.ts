@@ -4,14 +4,14 @@ import { getModule } from 'src'
 describe('Get Module implementation', () => {
   // Setup
   const address = slice(keccak256(toHex('address')), 0, 20)
-  const data = keccak256(toHex('data'))
+  const initData = keccak256(toHex('initData'))
   const type = 'validator'
 
   it('should get and return an object with the passed arguments', async () => {
-    const module = getModule({ module: address, data, type })
+    const module = getModule({ module: address, initData, type })
 
     expect(module.module).toEqual(address)
-    expect(module.data).toEqual(data)
+    expect(module.initData).toEqual(initData)
     expect(module.type).toEqual(type)
   })
 })

@@ -69,11 +69,11 @@ const _installModule = async ({
                   module.hook!,
                   encodeAbiParameters(
                     [{ type: 'bytes' }, { type: 'bytes' }],
-                    [module.data || '0x', '0x'],
+                    [module.initData || '0x', '0x'],
                   ),
                 ],
               )
-            : module.data || '0x',
+            : module.initData || '0x',
         ],
       }),
     })
@@ -124,7 +124,7 @@ async function installFallback({
                 [
                   encodePacked(
                     ['bytes1', 'bytes'],
-                    [module.callType, module.data || '0x'],
+                    [module.callType, module.initData || '0x'],
                   ),
                   '0x',
                 ],

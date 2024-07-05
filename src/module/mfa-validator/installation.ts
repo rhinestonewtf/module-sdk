@@ -14,11 +14,13 @@ export const getMFAValidator = ({
   const subValidators: Address[] = validators.map(
     (validator) => validator.module,
   )
-  const initDatas: Hex[] = validators.map((validator) => validator.data ?? '0x')
+  const initDatas: Hex[] = validators.map(
+    (validator) => validator.initData ?? '0x',
+  )
 
   return {
     module: MFA_VALIDATOR_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { name: 'subValidators', type: 'address[]' },
         { name: 'deInitDatas', type: 'bytes[]' },
@@ -27,6 +29,7 @@ export const getMFAValidator = ({
       ],
       [subValidators, deInitDatas, initDatas, threshold],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'validator',
   }

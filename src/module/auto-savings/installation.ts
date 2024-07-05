@@ -12,14 +12,14 @@ type Params = {
   hook?: Address
 }
 
-export const getInstallAutoSavingsExecutor = ({
+export const getAutoSavingsExecutor = ({
   tokens,
   configs,
   hook,
 }: Params): Module => {
   return {
     module: AUTO_SAVINGS_ADDRESS,
-    data: encodeAbiParameters(
+    initData: encodeAbiParameters(
       [
         { internalType: 'address[]', name: '_tokens', type: 'address[]' },
         {
@@ -39,6 +39,7 @@ export const getInstallAutoSavingsExecutor = ({
       ],
       [tokens, configs],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'executor',
     hook,

@@ -37,7 +37,9 @@ export const getInstalledModules = async ({
     return responseBody.data.moduleQueries.map((module: any) => module.module)
   } else {
     throw new Error(
-      `Error: ${responseBody.errors.map((error: any) => error.message).join(', ')}`,
+      `Error: ${responseBody.errors
+        .map((error: any) => error.message)
+        .join(', ')}`,
     )
   }
 }
