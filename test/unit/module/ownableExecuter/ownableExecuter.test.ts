@@ -37,6 +37,8 @@ describe('Ownable Executer Module', () => {
 
   it('Should get addOwnerExecution action', async () => {
     const addOwnerExecution = await getAddOwnableExecutorOwnerAction({
+      client,
+      account,
       owner: owners[0],
     })
 

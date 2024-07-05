@@ -12,6 +12,7 @@ import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 import { getOwnableValidatorThreshold } from 'src/module'
+import { Execution } from 'src/account'
 
 describe('Ownable Validator Module', () => {
   // Setup
@@ -47,9 +48,11 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should get addOwnerExecution action', async () => {
-    const addOwnerExecution = await getAddOwnableValidatorOwnerAction({
+    const addOwnerExecution = (await getAddOwnableValidatorOwnerAction({
+      client,
+      account,
       owner: owners[0],
-    })
+    })) as Execution
 
     expect(addOwnerExecution.target).toEqual(OWNABLE_VALIDATOR_ADDRESS)
     expect(addOwnerExecution.value).toEqual(BigInt(0))
