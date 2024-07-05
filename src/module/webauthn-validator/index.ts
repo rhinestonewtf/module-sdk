@@ -1,5 +1,5 @@
 export { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
-export { getInstallWebAuthnValidator } from './installation'
+export { getWebAuthnValidator } from './installation'
 export {
   getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,

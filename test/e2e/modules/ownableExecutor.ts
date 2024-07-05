@@ -54,8 +54,10 @@ export const testOwnableExecutor = async ({
       account,
       client: publicClient,
     })
-    const addNewOwnerAction = getAddOwnableExecutorOwnerAction({
+    const addNewOwnerAction = await getAddOwnableExecutorOwnerAction({
       owner: newOwner,
+      account,
+      client: publicClient,
     })
 
     await sendUserOp({ account, actions: [addNewOwnerAction] })

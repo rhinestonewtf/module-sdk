@@ -3,7 +3,7 @@ import { Module } from '../types'
 import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 import { Validator } from './types'
 
-export const getInstallMultiFactorValidator = ({
+export const getMultiFactorValidator = ({
   threshold,
   validators,
   hook,
@@ -37,6 +37,7 @@ export const getInstallMultiFactorValidator = ({
         ),
       ],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'validator',
     hook,

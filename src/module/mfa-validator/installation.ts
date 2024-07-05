@@ -27,6 +27,7 @@ export const getMFAValidator = ({
       ],
       [subValidators, deInitDatas, initDatas, threshold],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'validator',
   }

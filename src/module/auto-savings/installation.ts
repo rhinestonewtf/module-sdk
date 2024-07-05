@@ -12,7 +12,7 @@ type Params = {
   hook?: Address
 }
 
-export const getInstallAutoSavingsExecutor = ({
+export const getAutoSavingsExecutor = ({
   tokens,
   configs,
   hook,
@@ -39,6 +39,7 @@ export const getInstallAutoSavingsExecutor = ({
       ],
       [tokens, configs],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'executor',
     hook,

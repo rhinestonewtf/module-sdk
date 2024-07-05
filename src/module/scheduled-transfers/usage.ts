@@ -6,21 +6,21 @@ import {
   encodePacked,
   erc20Abi,
 } from 'viem'
-import { ScheduledTransaction } from './types'
+import { ScheduledTransfer } from './types'
 import { Execution } from '../../account/types'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
 import { abi } from './abi'
 
 type Params = {
-  scheduledTransaction: ScheduledTransaction
+  scheduledTransfer: ScheduledTransfer
 }
 
-export const getScheduledTransactionData = ({
-  scheduledTransaction,
+export const getScheduledTransferData = ({
+  scheduledTransfer,
 }: Params): Hex => {
   const amount = BigInt(
-    Number(scheduledTransaction.amount) *
-      10 ** (scheduledTransaction.token?.decimals || 18),
+    Number(scheduledTransfer.amount) *
+      10 ** (scheduledTransfer.token?.decimals || 18),
   )
 
   return encodeAbiParameters(
@@ -30,28 +30,28 @@ export const getScheduledTransactionData = ({
       { name: 'callData', type: 'bytes' },
     ],
     [
-      scheduledTransaction.token
-        ? (scheduledTransaction.token.token_address as Address)
-        : (scheduledTransaction.recipient as Address),
-      scheduledTransaction.token ? BigInt(0) : amount,
-      scheduledTransaction.token
+      scheduledTransfer.token
+        ? (scheduledTransfer.token.token_address as Address)
+        : (scheduledTransfer.recipient as Address),
+      scheduledTransfer.token ? BigInt(0) : amount,
+      scheduledTransfer.token
         ? encodeFunctionData({
             functionName: 'transfer',
             abi: erc20Abi,
-            args: [scheduledTransaction.recipient as Address, amount],
+            args: [scheduledTransfer.recipient as Address, amount],
           })
         : '0x',
     ],
   )
 }
 
-type CreateScheduledTransactionExecutionParams = {
-  scheduledTransaction: ScheduledTransaction
+type CreateScheduledTransferExecutionParams = {
+  scheduledTransfer: ScheduledTransfer
 }
 
 export const getCreateScheduledTransferAction = ({
-  scheduledTransaction,
-}: CreateScheduledTransactionExecutionParams): Execution => {
+  scheduledTransfer,
+}: CreateScheduledTransferExecutionParams): Execution => {
   return {
     target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
     value: BigInt(0),
@@ -62,10 +62,10 @@ export const getCreateScheduledTransferAction = ({
         encodePacked(
           ['uint48', 'uint16', 'uint48', 'bytes'],
           [
-            scheduledTransaction.repeatEvery,
-            scheduledTransaction.numberOfRepeats,
-            scheduledTransaction.startDate,
-            getScheduledTransactionData({ scheduledTransaction }),
+            scheduledTransfer.repeatEvery,
+            scheduledTransfer.numberOfRepeats,
+            scheduledTransfer.startDate,
+            getScheduledTransferData({ scheduledTransfer }),
           ],
         ),
       ],

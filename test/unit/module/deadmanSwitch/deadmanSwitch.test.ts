@@ -1,6 +1,6 @@
 import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
 import { Address, zeroAddress } from 'viem'
-import { getInstallDeadmanSwitch } from 'src'
+import { getDeadmanSwitch } from 'src/module'
 import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
@@ -13,10 +13,12 @@ describe('Deadman switch Module', () => {
   const account = getAccount(MockAccountDeployed)
 
   it('should get install deadman switch hook module', async () => {
-    const installDeadmanSwitchHookModule = getInstallDeadmanSwitch({
+    const installDeadmanSwitchHookModule = await getDeadmanSwitch({
       nominee,
       timeout: 3,
       moduleType: 'hook',
+      account,
+      client,
     })
 
     expect(installDeadmanSwitchHookModule.module).toEqual(
@@ -27,10 +29,12 @@ describe('Deadman switch Module', () => {
   })
 
   it('should get install deadman switch validator module', async () => {
-    const installDeadmanSwitchValidatorModule = getInstallDeadmanSwitch({
+    const installDeadmanSwitchValidatorModule = await getDeadmanSwitch({
       nominee,
       timeout: 3,
       moduleType: 'validator',
+      account,
+      client,
     })
 
     expect(installDeadmanSwitchValidatorModule.module).toEqual(

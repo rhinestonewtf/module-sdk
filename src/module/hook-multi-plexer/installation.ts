@@ -13,7 +13,7 @@ type Params = {
   hookType?: number
 }
 
-export const getInstallHookMultiPlexer = ({
+export const getHookMultiPlexer = ({
   globalHooks,
   valueHooks,
   delegatecallHooks,
@@ -52,6 +52,7 @@ export const getInstallHookMultiPlexer = ({
       ],
       [globalHooks, valueHooks, delegatecallHooks, sigHooks, targetHooks],
     ),
+    deInitData: '0x',
     additionalContext: '0x',
     type: 'hook',
     selector,

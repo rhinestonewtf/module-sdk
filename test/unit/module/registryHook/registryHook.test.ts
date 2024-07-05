@@ -1,4 +1,4 @@
-import { getInstallRegistryHook } from 'src'
+import { getRegistryHook } from 'src/module'
 import { REGISTRY_HOOK_ADDRESS } from 'src'
 import { Address } from 'viem'
 import { getSetRegistryAction } from 'src'
@@ -9,7 +9,7 @@ describe('Registry hook Module', () => {
     '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
 
   it('should get install registry hook module', async () => {
-    const installOwnableExecuterModule = getInstallRegistryHook({
+    const installOwnableExecuterModule = getRegistryHook({
       registryAddress,
     })
 

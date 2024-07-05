@@ -23,7 +23,7 @@ type Params = {
   hook?: Address
 }
 
-export const getInstallColdStorageHook = async ({
+export const getColdStorageHook = async ({
   account,
   client,
   waitPeriod,
@@ -54,7 +54,7 @@ type FlashloanParams = {
   hook?: Address
 }
 
-export const getInstallAllowedCallbackSenders = ({
+export const getAllowedCallbackSenders = ({
   addresses,
   functionSig,
   callType,
@@ -67,6 +67,7 @@ export const getInstallAllowedCallbackSenders = ({
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
       [addresses],
     ),
+    deInitData: '0x',
     functionSig,
     selector,
     hook,

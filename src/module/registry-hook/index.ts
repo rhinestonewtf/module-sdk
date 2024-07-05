@@ -1,3 +1,3 @@
 export { REGISTRY_HOOK_ADDRESS } from './constants'
-export { getInstallRegistryHook } from './installation'
+export { getRegistryHook } from './installation'
 export { getSetRegistryAction } from './usage'

@@ -56,7 +56,7 @@ import {
   getModule,
   getAccount,
   getClient,
-  getInstallMultiFactorValidator,
+  getMultiFactorValidator,
 } from '@rhinestone/module-sdk'
 
 // Create a client for the current network
@@ -72,7 +72,7 @@ const moduleToInstall = getModule({
 })
 
 // Or use one of the existing modules
-moduleToInstall = getInstallMultiFactorValidator({
+moduleToInstall = getMultiFactorValidator({
   threshold: 2,
   validators: [
     {

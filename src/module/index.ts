@@ -2,7 +2,7 @@ export { getModule } from './api'
 
 export {
   MULTI_FACTOR_VALIDATOR_ADDRESS,
-  getInstallMultiFactorValidator,
+  getMultiFactorValidator,
   getSetMFAThresholdAction,
   getSetMFAValidatorAction,
   getRemoveMFAValidatorAction,
@@ -12,38 +12,39 @@ export {
 
 export {
   OWNABLE_VALIDATOR_ADDRESS,
-  getInstallOwnableValidator,
+  getOwnableValidator,
   getAddOwnableValidatorOwnerAction,
   getRemoveOwnableValidatorOwnerAction,
   getSetOwnableValidatorThresholdAction,
   getOwnableValidatorOwners,
+  getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
 } from './ownable-validator'
 
 export {
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
-  getInstallScheduledOrdersExecutor,
+  getScheduledOrdersExecutor,
   getCreateScheduledOrderAction,
   getSwapOrderData,
 } from './scheduled-orders'
 
 export {
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
-  getInstallScheduledTransfersExecutor,
+  getScheduledTransfersExecutor,
   getCreateScheduledTransferAction,
-  getScheduledTransactionData,
+  getScheduledTransferData,
 } from './scheduled-transfers'
 
 export {
   WEBAUTHN_VALIDATOR_ADDRESS,
-  getInstallWebAuthnValidator,
+  getWebAuthnValidator,
   getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,
 } from './webauthn-validator'
 
 export {
   SOCIAL_RECOVERY_ADDRESS,
-  getInstallSocialRecoveryValidator,
+  getSocialRecoveryValidator,
   getAddSocialRecoveryGuardianAction,
   getSocialRecoveryGuardians,
   getRemoveSocialRecoveryGuardianAction,
@@ -53,14 +54,14 @@ export {
 
 export {
   DEADMAN_SWITCH_ADDRESS,
-  getInstallDeadmanSwitch,
+  getDeadmanSwitch,
   getDeadmanSwitchConfig,
   getDeadmanSwitchValidatorMockSignature,
 } from './deadman-switch'
 
 export {
   OWNABLE_EXECUTER_ADDRESS,
-  getInstallOwnableExecuter,
+  getOwnableExecuter,
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,
@@ -70,7 +71,7 @@ export {
 
 export {
   AUTO_SAVINGS_ADDRESS,
-  getInstallAutoSavingsExecutor,
+  getAutoSavingsExecutor,
   getSetAutoSavingConfigAction,
   getAutoSavingAccountTokenConfig,
   getDeleteAutoSavingConfigAction,
@@ -80,13 +81,13 @@ export {
 
 export {
   REGISTRY_HOOK_ADDRESS,
-  getInstallRegistryHook,
+  getRegistryHook,
   getSetRegistryAction,
 } from './registry-hook'
 
 export {
   HOOK_MULTI_PLEXER_ADDRESS,
-  getInstallHookMultiPlexer,
+  getHookMultiPlexer,
   getAddHookAction,
   getRemoveHookAction,
   getHooks,
@@ -103,8 +104,8 @@ export {
   getFlashloanAddAddressAction,
   getFlashloanRemoveAddressAction,
   getFlashloanWhitelist,
-  getInstallAllowedCallbackSenders,
-  getInstallColdStorageHook,
+  getAllowedCallbackSenders,
+  getColdStorageHook,
 } from './cold-storage'
 
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'

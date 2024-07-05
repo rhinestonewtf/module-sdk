@@ -10,7 +10,7 @@ type Params = {
   hook?: Address
 }
 
-export const getInstallScheduledTransfersExecutor = ({
+export const getScheduledTransfersExecutor = ({
   executeInterval,
   numberOfExecutions,
   startDate,
@@ -24,6 +24,7 @@ export const getInstallScheduledTransfersExecutor = ({
       ['uint48', 'uint16', 'uint48', 'bytes'],
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
+    deInitData: '0x',
     hook,
   }
 }

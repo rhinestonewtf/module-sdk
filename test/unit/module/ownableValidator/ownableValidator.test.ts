@@ -1,4 +1,4 @@
-import { getInstallOwnableValidator } from 'src'
+import { getOwnableValidator } from 'src/module'
 import { OWNABLE_VALIDATOR_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
@@ -11,6 +11,7 @@ import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
+import { getOwnableValidatorThreshold } from 'src/module'
 
 describe('Ownable Validator Module', () => {
   // Setup
@@ -23,7 +24,7 @@ describe('Ownable Validator Module', () => {
   ] as Address[]
 
   it('should get install ownable validator module', async () => {
-    const installOwnableValidatorModule = getInstallOwnableValidator({
+    const installOwnableValidatorModule = getOwnableValidator({
       threshold: 3,
       owners,
     })
@@ -46,7 +47,7 @@ describe('Ownable Validator Module', () => {
   })
 
   it('Should get addOwnerExecution action', async () => {
-    const addOwnerExecution = getAddOwnableValidatorOwnerAction({
+    const addOwnerExecution = await getAddOwnableValidatorOwnerAction({
       owner: owners[0],
     })
 
@@ -71,5 +72,14 @@ describe('Ownable Validator Module', () => {
       client,
     })
     expect(allOwners.length).toEqual(0)
+  })
+
+  it('should return ownable validator threshold', async () => {
+    const threshold = await getOwnableValidatorThreshold({
+      client,
+      account,
+    })
+
+    expect(threshold).toEqual(0)
   })
 })

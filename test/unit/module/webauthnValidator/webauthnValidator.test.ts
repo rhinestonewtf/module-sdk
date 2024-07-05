@@ -1,6 +1,6 @@
 import {
   WEBAUTHN_VALIDATOR_ADDRESS,
-  getInstallWebAuthnValidator,
+  getWebAuthnValidator,
   getWebauthnValidatorSignature,
 } from 'src/module'
 import { toHex } from 'viem'
@@ -14,7 +14,7 @@ describe('Webauthn Validator Module', () => {
   }
 
   it('should get install webauthn validator module', async () => {
-    const installWebauthnValidatorModule = getInstallWebAuthnValidator({
+    const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKeyX: credentials.pubKeyX,
       pubKeyY: credentials.pubKeyY,
       authenticatorId: credentials.authenticatorId,

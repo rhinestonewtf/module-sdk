@@ -14,10 +14,7 @@ import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
-import {
-  getInstallColdStorageHook,
-  getInstallAllowedCallbackSenders,
-} from 'src'
+import { getColdStorageHook, getAllowedCallbackSenders } from 'src/module'
 import { CallType } from 'src/module/types'
 
 describe('Cold storage Module', () => {
@@ -28,7 +25,7 @@ describe('Cold storage Module', () => {
   const executionHash = toHex('test_hash', { size: 32 })
 
   it('should get install cold storage hook module', async () => {
-    const installColdStorageModule = await getInstallColdStorageHook({
+    const installColdStorageModule = await getColdStorageHook({
       account,
       client,
       moduleType: 'hook',
@@ -42,7 +39,7 @@ describe('Cold storage Module', () => {
   })
 
   it('should get install cold storage flashloan module', async () => {
-    const installColdStorageFlashloanModule = getInstallAllowedCallbackSenders({
+    const installColdStorageFlashloanModule = getAllowedCallbackSenders({
       addresses,
       selector: '0x00000000',
       callType: CallType.CALLTYPE_SINGLE,

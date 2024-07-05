@@ -1,4 +1,4 @@
-import { getInstallSocialRecoveryValidator } from 'src/module/social-recovery/installation'
+import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
@@ -23,7 +23,7 @@ describe('Social Recovery Module', () => {
   ] as Address[]
 
   it('should get install social recovery module', async () => {
-    const installSocialRecoveryModule = getInstallSocialRecoveryValidator({
+    const installSocialRecoveryModule = getSocialRecoveryValidator({
       threshold: 3,
       guardians,
     })

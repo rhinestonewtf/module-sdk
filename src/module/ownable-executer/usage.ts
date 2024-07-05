@@ -12,11 +12,23 @@ import { SENTINEL_ADDRESS } from '../../common/constants'
 import { OWNABLE_EXECUTER_ADDRESS } from './constants'
 import { Account } from '../../account'
 
-export const getAddOwnableExecutorOwnerAction = ({
+export const getAddOwnableExecutorOwnerAction = async ({
   owner,
+  client,
+  account,
 }: {
   owner: Address
-}): Execution => {
+  client: PublicClient
+  account: Account
+}): Promise<Execution> => {
+  const owners = await getOwnableExecutorOwners({ account, client })
+
+  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+
+  if (currentOwnerIndex !== -1) {
+    throw new Error('Owner already exists')
+  }
+
   return {
     target: OWNABLE_EXECUTER_ADDRESS,
     value: BigInt(0),

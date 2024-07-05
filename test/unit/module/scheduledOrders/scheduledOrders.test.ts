@@ -1,4 +1,4 @@
-import { getInstallScheduledOrdersExecutor } from 'src'
+import { getScheduledOrdersExecutor } from 'src/module'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from 'src'
 import { getCreateScheduledOrderAction } from 'src'
 import { ERC20Token } from 'src'
@@ -16,7 +16,7 @@ describe('ScheduledOrders Module', () => {
   }
 
   it('should get install scheduled orders module', async () => {
-    const installScheduledOrdersModule = getInstallScheduledOrdersExecutor({
+    const installScheduledOrdersModule = getScheduledOrdersExecutor({
       numberOfExecutions: 1,
       executeInterval: 10,
       startDate: new Date().getTime(),

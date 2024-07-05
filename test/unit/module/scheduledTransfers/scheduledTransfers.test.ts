@@ -1,6 +1,6 @@
-import { getInstallScheduledTransfersExecutor } from 'src'
+import { getScheduledTransfersExecutor } from 'src/module'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from 'src'
-import { getCreateScheduledTransferAction } from 'src'
+import { getCreateScheduledTransferAction } from 'src/module'
 import { ERC20Token } from 'src'
 
 describe('ScheduledTransfers Module', () => {
@@ -11,13 +11,12 @@ describe('ScheduledTransfers Module', () => {
   }
 
   it('should get install scheduled transfers module', async () => {
-    const installScheduledTransfersModule =
-      getInstallScheduledTransfersExecutor({
-        numberOfExecutions: 1,
-        executeInterval: 10,
-        startDate: new Date().getTime(),
-        executionData: '0x',
-      })
+    const installScheduledTransfersModule = getScheduledTransfersExecutor({
+      numberOfExecutions: 1,
+      executeInterval: 10,
+      startDate: new Date().getTime(),
+      executionData: '0x',
+    })
 
     expect(installScheduledTransfersModule.module).toEqual(
       SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
@@ -28,7 +27,7 @@ describe('ScheduledTransfers Module', () => {
 
   it('Should get createScheduledTransferExecution action', async () => {
     const createScheduledTransferExecution = getCreateScheduledTransferAction({
-      scheduledTransaction: {
+      scheduledTransfer: {
         token,
         amount: 100,
         recipient: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',

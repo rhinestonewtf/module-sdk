@@ -10,4 +10,13 @@ export const abi = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [
+      { internalType: 'address', name: 'smartAccount', type: 'address' },
+    ],
+    name: 'isInitialized',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function',
+  },
 ]
