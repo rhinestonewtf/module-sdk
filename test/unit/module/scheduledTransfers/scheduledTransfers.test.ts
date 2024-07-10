@@ -1,6 +1,7 @@
 import { getScheduledTransfersExecutor } from 'src/module'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from 'src'
 import { getCreateScheduledTransferAction } from 'src/module'
+import { getExecuteScheduledTransferAction } from 'src/module'
 import { ERC20Token } from 'src'
 
 describe('ScheduledTransfers Module', () => {
@@ -42,5 +43,13 @@ describe('ScheduledTransfers Module', () => {
     )
     expect(createScheduledTransferExecution.value).toEqual(BigInt(0))
     expect(createScheduledTransferExecution.callData).toBeDefined()
+  })
+
+  it('should get execute transfer action', async () => {
+    const executeTransfer = getExecuteScheduledTransferAction({ jobId: 1 })
+
+    expect(executeTransfer.target).toEqual(SCHEDULED_TRANSFERS_EXECUTER_ADDRESS)
+    expect(executeTransfer.value).toEqual(BigInt(0))
+    expect(executeTransfer.callData).toBeDefined()
   })
 })

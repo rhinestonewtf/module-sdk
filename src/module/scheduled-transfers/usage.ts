@@ -72,3 +72,21 @@ export const getCreateScheduledTransferAction = ({
     }),
   }
 }
+
+type ExecuteTransferParams = {
+  jobId: number
+}
+
+export const getExecuteScheduledTransferAction = ({
+  jobId,
+}: ExecuteTransferParams): Execution => {
+  return {
+    target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      functionName: 'executeOrder',
+      abi,
+      args: [BigInt(jobId)],
+    }),
+  }
+}

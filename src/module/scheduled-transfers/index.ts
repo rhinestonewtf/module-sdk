@@ -3,4 +3,5 @@ export { getScheduledTransfersExecutor } from './installation'
 export {
   getCreateScheduledTransferAction,
   getScheduledTransferData,
+  getExecuteScheduledTransferAction,
 } from './usage'

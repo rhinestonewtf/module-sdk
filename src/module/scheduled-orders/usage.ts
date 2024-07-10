@@ -54,3 +54,21 @@ export const getSwapOrderData = ({ recurringOrder }: Params): Hex => {
     ],
   )
 }
+
+type ExecuteOrderParams = {
+  jobId: number
+}
+
+export const getExecuteScheduledOrderAction = ({
+  jobId,
+}: ExecuteOrderParams): Execution => {
+  return {
+    target: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      functionName: 'executeOrder',
+      abi,
+      args: [BigInt(jobId)],
+    }),
+  }
+}
