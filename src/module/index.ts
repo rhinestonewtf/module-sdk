@@ -26,6 +26,7 @@ export {
   getScheduledOrdersExecutor,
   getCreateScheduledOrderAction,
   getSwapOrderData,
+  getExecuteScheduledOrderAction,
 } from './scheduled-orders'
 
 export {
@@ -33,6 +34,7 @@ export {
   getScheduledTransfersExecutor,
   getCreateScheduledTransferAction,
   getScheduledTransferData,
+  getExecuteScheduledTransferAction,
 } from './scheduled-transfers'
 
 export {

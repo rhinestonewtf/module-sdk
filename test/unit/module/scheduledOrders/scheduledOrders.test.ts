@@ -1,6 +1,7 @@
 import { getScheduledOrdersExecutor } from 'src/module'
 import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from 'src'
 import { getCreateScheduledOrderAction } from 'src'
+import { getExecuteScheduledOrderAction } from 'src/module'
 import { ERC20Token } from 'src'
 
 describe('ScheduledOrders Module', () => {
@@ -51,5 +52,13 @@ describe('ScheduledOrders Module', () => {
     )
     expect(createScheduledOrderExecution.value).toEqual(BigInt(0))
     expect(createScheduledOrderExecution.callData).toBeDefined()
+  })
+
+  it('should get execute order action', async () => {
+    const executeOrder = getExecuteScheduledOrderAction({ jobId: 1 })
+
+    expect(executeOrder.target).toEqual(SCHEDULED_ORDERS_EXECUTER_ADDRESS)
+    expect(executeOrder.value).toEqual(BigInt(0))
+    expect(executeOrder.callData).toBeDefined()
   })
 })
