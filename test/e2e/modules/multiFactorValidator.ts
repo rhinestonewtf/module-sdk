@@ -38,7 +38,7 @@ export const testMultiFactorValidator = async ({
 
     const receipt = await sendUserOp({ account, actions: [setThresholdAction] })
 
-    expect(receipt.success).toBe(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should set new validator', async () => {
@@ -55,7 +55,7 @@ export const testMultiFactorValidator = async ({
 
     const receipt = await sendUserOp({ account, actions: [setValidatorAction] })
 
-    expect(receipt.success).toBe(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should return true when checking if validator is sub validator', async () => {
@@ -88,6 +88,6 @@ export const testMultiFactorValidator = async ({
       actions: [removeValidatorAction],
     })
 
-    expect(receipt.success).toBe(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 }

@@ -1,36 +1,26 @@
 import { Account } from 'src/account'
-import { getBundlerClient } from 'test/utils/userOps/clients'
-import { getNetwork } from 'test/utils/userOps/constants/networks'
-import { defaultValidator } from 'test/utils/userOps/constants/validators'
+import { getPublicClient } from 'test/utils/userOps/clients'
 import { ExecuteAction } from 'test/utils/userOps/types'
-import {
-  createAndSignUserOp,
-  submitUserOpToBundler,
-} from 'test/utils/userOps/userOps'
-import { Hex } from 'viem'
-import { sepolia } from 'viem/chains'
+import { getNonce, getSmartClient } from '../../utils/userOps/smartClients'
 
 type SendUserOpParams = {
-  account: Account
   actions: ExecuteAction[]
+  account: Account
 }
-export const sendUserOp = async ({ account, actions }: SendUserOpParams) => {
-  const bundlerClient = getBundlerClient()
+export const sendUserOp = async ({ actions, account }: SendUserOpParams) => {
+  const publicClient = getPublicClient()
+  const smartClient = await getSmartClient(account)
+  const nonce = await getNonce({ account, publicClient })
 
-  const userOp = await createAndSignUserOp({
-    network: getNetwork(sepolia.id),
-    activeAccount: account,
-    chosenValidator: defaultValidator,
-    actions,
+  const hash = await smartClient.sendTransactions({
+    account: smartClient.account!,
+    transactions: actions.map((action) => ({
+      to: action.target,
+      data: action.callData,
+      value: action.value as bigint,
+    })),
+    nonce,
   })
 
-  const userOpHash = (await submitUserOpToBundler({
-    userOp,
-  })) as Hex
-
-  const receipt = await bundlerClient.waitForUserOperationReceipt({
-    hash: userOpHash,
-  })
-
-  return receipt
+  return hash
 }

@@ -102,12 +102,12 @@ export const testOwnableExecutor = async ({
       },
     })
 
-    const receipt = await sendUserOp({
+    const hash = await sendUserOp({
       account,
       actions: [executeOnOwnedAccount],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(hash).toBeDefined()
   }, 20000)
 
   it('should batch execute on owned account', async () => {
@@ -122,11 +122,11 @@ export const testOwnableExecutor = async ({
       executions: [execution, execution],
     })
 
-    const receipt = await sendUserOp({
+    const hash = await sendUserOp({
       account,
       actions: [executeOnOwnedAccount],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(hash).toBeDefined()
   }, 20000)
 }

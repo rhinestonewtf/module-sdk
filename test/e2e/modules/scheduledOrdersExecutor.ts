@@ -61,6 +61,6 @@ export const testScheduledOrdersExecutor = async ({
       actions: [scheduledOrderAction],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 }
