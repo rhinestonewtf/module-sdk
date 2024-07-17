@@ -1,3 +1,4 @@
+require('dotenv').config()
 import {
   createSmartAccountClient,
   ENTRYPOINT_ADDRESS_V07,
@@ -15,9 +16,7 @@ import { BUNDLER_URL } from 'test/utils/userOps/constants/contracts'
 import { erc7579Actions } from 'permissionless/actions/erc7579'
 import { Account } from 'src/account'
 
-const signer = privateKeyToAccount(
-  '0xf05ce3d1852f788211abf3cb37a29873ce48b57699673443910140cdf61f545f' as Hex,
-)
+const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
 const publicClient = getPublicClient()
 
