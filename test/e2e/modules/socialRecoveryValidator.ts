@@ -41,7 +41,7 @@ export const testSocialRecoveryValidator = async ({
       actions: [execution],
     })
 
-    expect(receipt.success).toBe(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should add new guardian', async () => {

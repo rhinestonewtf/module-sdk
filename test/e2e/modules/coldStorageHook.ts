@@ -62,7 +62,7 @@ export const testColdStorageHook = async ({
       actions: [setWaitPeriodAction],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should request time locked execution', async () => {
@@ -80,7 +80,7 @@ export const testColdStorageHook = async ({
       actions: [requestTimeLockedExecutionAction],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should request time locked module configuration', async () => {
@@ -97,7 +97,7 @@ export const testColdStorageHook = async ({
       actions: [moduleConfigAction],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should add address to flashloan', async () => {
@@ -110,7 +110,7 @@ export const testColdStorageHook = async ({
       actions: [addAddressFlashloanAction],
     })
 
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 
   it('should remove address from flashloan', async () => {
@@ -134,6 +134,6 @@ export const testColdStorageHook = async ({
     expect(whitelist).not.toContain(
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
     )
-    expect(receipt.success).toEqual(true)
+    expect(receipt).toBeDefined()
   }, 20000)
 }

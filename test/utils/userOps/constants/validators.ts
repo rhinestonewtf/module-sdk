@@ -1,5 +1,5 @@
-import { Hex, getAddress } from 'viem'
-import { Validator, ValidatorList } from '../types'
+import { Hex } from 'viem'
+import { ValidatorList } from '../types'
 import { privateKeyToAccount } from 'viem/accounts'
 
 export const validators: ValidatorList = {
@@ -27,13 +27,3 @@ export const validators: ValidatorList = {
 }
 
 export const defaultValidator = validators.mock
-
-export const getValidator = (address: string): Validator => {
-  const validator = Object.values(validators).find(
-    (_validator) => getAddress(_validator.address) === getAddress(address),
-  )
-  if (!validator) {
-    throw new Error(`Validator ${address} not found`)
-  }
-  return validator
-}
