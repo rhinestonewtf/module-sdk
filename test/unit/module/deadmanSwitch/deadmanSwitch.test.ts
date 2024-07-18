@@ -1,6 +1,6 @@
 import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
 import { Address, zeroAddress } from 'viem'
-import { getDeadmanSwitch } from 'src/module'
+import { getDeadmanSwitch } from 'src'
 import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'

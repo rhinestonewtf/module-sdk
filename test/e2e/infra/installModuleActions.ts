@@ -4,7 +4,7 @@ import {
   getWebAuthnValidator,
   getScheduledOrdersExecutor,
   getScheduledTransfersExecutor,
-} from 'src/module'
+} from 'src'
 import { Account } from 'src/account'
 import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
 import { CallType } from 'src/module/types'
