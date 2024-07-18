@@ -39,7 +39,6 @@ export const getScheduledOrders = async ({
 
   const responseBody = await response.json()
 
-
   if (response.ok) {
     return responseBody.data.scheduledOrdersExecutionAddedQueries // responseBody.data.moduleQueries.map((module: any) => module.module)
   } else {
@@ -50,8 +49,8 @@ export const getScheduledOrders = async ({
 }
 
 const queryById = `
-    query ($jobId: String) {
-      scheduledOrdersExecutionAddedQueries (where:{ jobId: $jobId}) {
+    query ($smartAccount: String, $jobId: String) {
+      scheduledOrdersExecutionAddedQueries (where:{smartAccount: $smartAccount, jobId: $jobId}) {
         id
         jobId
         smartAccount
@@ -66,10 +65,13 @@ const queryById = `
 
 export const getScheduledOrderByJobId = async ({
   jobId,
+  smartAccount,
 }: {
+  smartAccount: string
   jobId: string
 }): Promise<Address[]> => {
   const variables = {
+    smartAccount,
     jobId,
   }
 

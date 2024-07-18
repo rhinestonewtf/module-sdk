@@ -49,8 +49,8 @@ export const getScheduledTransfers = async ({
 }
 
 const queryById = `
-    query ($jobId: String) {
-      scheduledTransfersExecutionAddedQueries (where:{ jobId: $jobId}) {
+    query ($smartAccount: String, $jobId: String) {
+      scheduledTransfersExecutionAddedQueries (where:{ smartAccount: $smartAccount, jobId: $jobId}) {
         id
         jobId
         smartAccount
@@ -64,11 +64,14 @@ const queryById = `
   `
 
 export const getScheduledTransferByJobId = async ({
+  smartAccount,
   jobId,
 }: {
+  smartAccount: string
   jobId: string
 }): Promise<Address[]> => {
   const variables = {
+    smartAccount,
     jobId,
   }
 
