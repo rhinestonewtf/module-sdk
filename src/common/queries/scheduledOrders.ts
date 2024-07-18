@@ -39,10 +39,8 @@ export const getScheduledOrders = async ({
 
   const responseBody = await response.json()
 
-  console.log('responseBody', responseBody)
 
   if (response.ok) {
-    console.log('responseBody.data', responseBody.data)
     return responseBody.data.scheduledOrdersExecutionAddedQueries // responseBody.data.moduleQueries.map((module: any) => module.module)
   } else {
     throw new Error(
