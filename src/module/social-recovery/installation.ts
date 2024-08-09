@@ -18,7 +18,7 @@ export const getSocialRecoveryValidator = ({
         { name: 'threshold', type: 'uint256' },
         { name: 'guardians', type: 'address[]' },
       ],
-      [BigInt(threshold), guardians],
+      [BigInt(threshold), guardians.sort()],
     ),
     deInitData: '0x',
     additionalContext: '0x',

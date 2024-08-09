@@ -47,7 +47,7 @@ export const testOwnableValidator = async ({
   }, 20000)
 
   it('should add new owner to ownable validator', async () => {
-    const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
+    const newOwner = '0x6FcFDf060D3c32326c47c9B3bc4bDE4adF5b203e' as Address
 
     const oldOwners = await getOwnableValidatorOwners({
       account,
