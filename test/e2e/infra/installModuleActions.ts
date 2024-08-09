@@ -4,7 +4,7 @@ import {
   getWebAuthnValidator,
   getScheduledOrdersExecutor,
   getScheduledTransfersExecutor,
-} from 'src'
+} from 'src/module'
 import { Account } from 'src/account'
 import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
 import { CallType } from 'src/module/types'
@@ -156,7 +156,10 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
 export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
-    owners: [account.address],
+    owners: [
+      account.address,
+      '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
+    ],
     hook: zeroAddress,
   },
   webAuthnValidator: {

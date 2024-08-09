@@ -18,7 +18,7 @@ export const getOwnableValidator = ({
         { name: 'threshold', type: 'uint256' },
         { name: 'owners', type: 'address[]' },
       ],
-      [BigInt(threshold), owners],
+      [BigInt(threshold), owners.sort()],
     ),
     deInitData: '0x',
     additionalContext: '0x',

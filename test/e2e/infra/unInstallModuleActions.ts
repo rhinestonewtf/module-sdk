@@ -4,7 +4,7 @@ import {
   OWNABLE_VALIDATOR_ADDRESS,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
-} from 'src'
+} from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
