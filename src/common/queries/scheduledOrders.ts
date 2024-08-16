@@ -1,10 +1,10 @@
-import { Account } from '../../account'
-import { Address } from 'viem'
+import { Address, PublicClient } from 'viem'
 import { GRAPHQL_API_URL } from '../constants'
+import { Account } from 'src/account'
 
 const query = `
-    query ($smartAccount: String) {
-      scheduledOrdersExecutionAddedQueries (where:{ smartAccount: $smartAccount}) {
+    query ($smartAccount: String, $chainId: Int) {
+      ScheduledOrders_ExecutionQuery (where:{ smartAccount: { _eq: $smartAccount }, chainId: { _eq: $chainId }}) {
         id
         jobId
         smartAccount
@@ -19,11 +19,14 @@ const query = `
 
 export const getScheduledOrders = async ({
   account,
+  client,
 }: {
   account: Account
+  client: PublicClient
 }): Promise<Address[]> => {
   const variables = {
     smartAccount: account.address,
+    chainId: client.chain?.id,
   }
 
   const response = await fetch(GRAPHQL_API_URL, {
@@ -40,7 +43,7 @@ export const getScheduledOrders = async ({
   const responseBody = await response.json()
 
   if (response.ok) {
-    return responseBody.data.scheduledOrdersExecutionAddedQueries // responseBody.data.moduleQueries.map((module: any) => module.module)
+    return responseBody.data.ScheduledOrders_ExecutionQuery
   } else {
     throw new Error(
       `Error: ${responseBody.errors.map((error: any) => error.message).join(', ')}`,
@@ -49,8 +52,8 @@ export const getScheduledOrders = async ({
 }
 
 const queryById = `
-    query ($smartAccount: String, $jobId: String) {
-      scheduledOrdersExecutionAddedQueries (where:{smartAccount: $smartAccount, jobId: $jobId}) {
+    query ($smartAccount: String, $jobId: numeric, $chainId: Int) {
+      ScheduledOrders_ExecutionQuery (where:{smartAccount: { _eq: $smartAccount }, jobId: { _eq: $jobId }, chainId: { _eq: $chainId }}) {
         id
         jobId
         smartAccount
@@ -65,14 +68,17 @@ const queryById = `
 
 export const getScheduledOrderByJobId = async ({
   jobId,
-  smartAccount,
+  account,
+  client,
 }: {
-  smartAccount: string
-  jobId: string
+  account: Account
+  jobId: number
+  client: PublicClient
 }): Promise<Address[]> => {
   const variables = {
-    smartAccount,
+    smartAccount: account.address,
     jobId,
+    chainId: await client.getChainId(),
   }
 
   const response = await fetch(GRAPHQL_API_URL, {
@@ -89,7 +95,7 @@ export const getScheduledOrderByJobId = async ({
   const responseBody = await response.json()
 
   if (response.ok) {
-    return responseBody.data.scheduledOrdersExecutionAddedQueries[0]
+    return responseBody.data.ScheduledOrders_ExecutionQuery[0]
   } else {
     throw new Error(
       `Error: ${responseBody.errors.map((error: any) => error.message).join(', ')}`,

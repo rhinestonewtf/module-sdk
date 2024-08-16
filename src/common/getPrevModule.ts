@@ -7,12 +7,14 @@ import { Account } from '../account'
 export const getPreviousModule = async ({
   account,
   module,
+  client,
 }: {
   client: PublicClient
   account: Account
   module: Module
 }): Promise<Address> => {
   let installedModules = await getInstalledModules({
+    client,
     account,
   })
   const index = installedModules.indexOf(getAddress(module.module))

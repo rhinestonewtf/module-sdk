@@ -9,12 +9,13 @@ import { uninstallModule } from './api/uninstallModule'
 export class ERC7579Implementation {
   getInstalledModules = async ({
     account,
+    client,
   }: {
     client: PublicClient
     account: Account
     moduleTypes?: ModuleType[]
   }): Promise<Address[]> => {
-    return getInstalledModules({ account })
+    return getInstalledModules({ account, client })
   }
 
   installModule = ({

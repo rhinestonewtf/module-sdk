@@ -1,17 +1,24 @@
+import { PublicClient } from 'viem'
 import { GRAPHQL_API_URL } from '../constants'
 
 const query = `
-  query {
-    moduleRegistrations {
+  query ($chainId: Int) {
+     Registry_ModuleRegistration (where: { chainId: { _eq: $chainId } }) {
         id
         implementation
-        sender
-        resolver
       }
   }
 `
 
-export const getRegistryModules = async (): Promise<any> => {
+export const getRegistryModules = async ({
+  client,
+}: {
+  client: PublicClient
+}): Promise<any> => {
+  const variables = {
+    chainId: await client.getChainId(),
+  }
+
   const response = await fetch(GRAPHQL_API_URL, {
     method: 'POST',
     headers: {
@@ -19,13 +26,14 @@ export const getRegistryModules = async (): Promise<any> => {
     },
     body: JSON.stringify({
       query,
+      variables,
     }),
   })
 
   const responseBody = await response.json()
 
   if (response.ok) {
-    return responseBody.data.moduleRegistrations
+    return responseBody.data.Registry_ModuleRegistration
   } else {
     throw new Error(
       `Error: ${responseBody.errors
