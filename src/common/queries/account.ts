@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
 import { GRAPHQL_API_URL } from '../constants'
-import { Account } from 'src/account'
+import { Account } from '../../account'
 
 const query = `
     query ($smartAccount: String, $chainId: Int) {
