@@ -1,4 +1,4 @@
-import { http, createPublicClient, createTestClient } from 'viem'
+import { http, createPublicClient, createTestClient, Chain } from 'viem'
 import {
   bundlerActions,
   createBundlerClient,
@@ -17,11 +17,16 @@ export const getBundlerClient = () =>
     .extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
     .extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07))
 
-export const getPublicClient = () => {
-  return createPublicClient({
-    transport: http(RPC_URL),
-    chain: foundry,
-  })
+export const getPublicClient = (chain?: Chain) => {
+  return chain
+    ? createPublicClient({
+        transport: http(chain.rpcUrls.default.http[0]),
+        chain,
+      })
+    : createPublicClient({
+        transport: http(RPC_URL),
+        chain: foundry,
+      })
 }
 
 export const getTestClient = () => {

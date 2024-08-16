@@ -9,12 +9,13 @@ import { Module, ModuleType } from '../../module'
 export class SafeImplementation {
   getInstalledModules = async ({
     account,
+    client,
   }: {
     client: PublicClient
     account: Account
     moduleTypes?: ModuleType[]
   }): Promise<Address[]> => {
-    return getInstalledModules({ account })
+    return getInstalledModules({ account, client })
   }
 
   installModule = ({

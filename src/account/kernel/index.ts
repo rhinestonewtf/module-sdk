@@ -9,12 +9,13 @@ import { KernelModule, KernelModuleType } from './types'
 export class KernelImplementation {
   getInstalledModules = async ({
     account,
+    client,
   }: {
     client: PublicClient
     account: Account
     moduleTypes?: KernelModuleType[]
   }): Promise<Address[]> => {
-    return getInstalledModules({ account })
+    return getInstalledModules({ account, client })
   }
 
   installModule = ({

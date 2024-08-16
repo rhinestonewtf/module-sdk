@@ -1,11 +1,11 @@
-import { Account } from '../../account'
-import { Address } from 'viem'
+import { Address, PublicClient } from 'viem'
 import { GRAPHQL_API_URL } from '../constants'
+import { Account } from '../../account'
 
 const query = `
-    query ($smartAccount: String) {
-      moduleQueries (where: { smartAccount: $smartAccount, isInstalled: true }) {
-        module,
+    query ($smartAccount: String, $chainId: Int) {
+       SmartAccount_ModuleQuery (where: { smartAccount: { _eq: $smartAccount }, isInstalled: { _eq: true }, chainId: { _eq: $chainId }}) {
+        moduleAddress,
         moduleTypeId
       }
     }
@@ -13,11 +13,14 @@ const query = `
 
 export const getInstalledModules = async ({
   account,
+  client,
 }: {
   account: Account
+  client: PublicClient
 }): Promise<Address[]> => {
   const variables = {
     smartAccount: account.address,
+    chainId: await client.getChainId(),
   }
 
   const response = await fetch(GRAPHQL_API_URL, {
@@ -34,7 +37,9 @@ export const getInstalledModules = async ({
   const responseBody = await response.json()
 
   if (response.ok) {
-    return responseBody.data.moduleQueries.map((module: any) => module.module)
+    return responseBody.data.SmartAccount_ModuleQuery.map(
+      (module: any) => module.module,
+    )
   } else {
     throw new Error(
       `Error: ${responseBody.errors
