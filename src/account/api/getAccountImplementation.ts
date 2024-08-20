@@ -1,5 +1,6 @@
 import { ERC7579Implementation } from '../erc7579-implementation'
 import { KernelImplementation } from '../kernel'
+import { NexusImplementation } from '../nexus'
 import { SafeImplementation } from '../safe'
 import { Account } from '../types'
 
@@ -11,6 +12,8 @@ export const getAccountImplementation = ({ account }: { account: Account }) => {
       return new KernelImplementation()
     case 'safe':
       return new SafeImplementation()
+    case 'nexus':
+      return new NexusImplementation()
     default:
       throw new Error(`Unsupported account type: ${account.type}`)
   }

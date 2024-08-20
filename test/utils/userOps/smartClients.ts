@@ -55,6 +55,22 @@ const getKernelClient = async (account: Account) => {
   }).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
 }
 
+// Nexus Smart Client
+const getNexusClient = async (account: Account) => {
+  const nexusAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
+    signer,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    address: account.address,
+  })
+
+  return createSmartAccountClient({
+    account: nexusAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    chain: anvil,
+    bundlerTransport: http(BUNDLER_URL),
+  }).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
+}
+
 // 7575 Reference Implementation Smart Client
 const getERC7579Client = async (account: Account) => {
   const erc7579Account = await signerToSafeSmartAccount(publicClient, {
@@ -82,6 +98,8 @@ export const getSmartClient = (account: Account) => {
       return getKernelClient(account)
     case 'erc7579-implementation':
       return getERC7579Client(account)
+    case 'nexus':
+      return getNexusClient(account)
     default:
       throw new Error(`Unknown account type: ${account.type}`)
   }
@@ -112,10 +130,15 @@ export const getNonce = async ({
             ),
           )
         : BigInt(
-            pad('0x503b54Ed1E62365F0c9e4caF1479623b08acbe77', {
-              dir: 'right',
-              size: 24,
-            }),
+            pad(
+              account.type === 'nexus'
+                ? '0x11D02847245Df7cF19f48C8907ace59289D8aCEe'
+                : '0x503b54Ed1E62365F0c9e4caF1479623b08acbe77',
+              {
+                dir: 'right',
+                size: 24,
+              },
+            ),
           ),
   })
 }
