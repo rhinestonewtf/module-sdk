@@ -15,6 +15,7 @@ import { anvil } from 'viem/chains'
 import { BUNDLER_URL } from 'test/utils/userOps/constants/contracts'
 import { erc7579Actions } from 'permissionless/actions/erc7579'
 import { Account } from 'src/account'
+import { validators } from './constants/validators'
 
 const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
@@ -55,6 +56,22 @@ const getKernelClient = async (account: Account) => {
   }).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
 }
 
+// Nexus Smart Client
+const getNexusClient = async (account: Account) => {
+  const nexusAccount = await signerToEcdsaKernelSmartAccount(publicClient, {
+    signer,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    address: account.address,
+  })
+
+  return createSmartAccountClient({
+    account: nexusAccount,
+    entryPoint: ENTRYPOINT_ADDRESS_V07,
+    chain: anvil,
+    bundlerTransport: http(BUNDLER_URL),
+  }).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
+}
+
 // 7575 Reference Implementation Smart Client
 const getERC7579Client = async (account: Account) => {
   const erc7579Account = await signerToSafeSmartAccount(publicClient, {
@@ -82,6 +99,8 @@ export const getSmartClient = (account: Account) => {
       return getKernelClient(account)
     case 'erc7579-implementation':
       return getERC7579Client(account)
+    case 'nexus':
+      return getNexusClient(account)
     default:
       throw new Error(`Unknown account type: ${account.type}`)
   }
@@ -103,7 +122,7 @@ export const getNonce = async ({
             pad(
               encodePacked(
                 ['bytes1', 'bytes1', 'address'],
-                ['0x00', '0x00', '0x503b54Ed1E62365F0c9e4caF1479623b08acbe77'],
+                ['0x00', '0x00', validators.mock.address],
               ),
               {
                 dir: 'right',
@@ -112,7 +131,7 @@ export const getNonce = async ({
             ),
           )
         : BigInt(
-            pad('0x503b54Ed1E62365F0c9e4caF1479623b08acbe77', {
+            pad(validators.mock.address, {
               dir: 'right',
               size: 24,
             }),

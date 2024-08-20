@@ -1,7 +1,7 @@
 import { Address, Hex } from 'viem'
 import { Module } from '../module/types'
 
-export type AccountType = 'erc7579-implementation' | 'kernel' | 'safe'
+export type AccountType = 'erc7579-implementation' | 'kernel' | 'safe' | 'nexus'
 
 export type Account = {
   address: Address
