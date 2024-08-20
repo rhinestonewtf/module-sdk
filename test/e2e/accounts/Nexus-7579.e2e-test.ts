@@ -20,7 +20,7 @@ describe('Test Nexus-7579 Account', () => {
   const testClient = getTestClient()
   const publicClient = getPublicClient()
   const account = getAccount({
-    address: '0x80117Aa430047277853aee053dbC1fF3A208699d',
+    address: '0xD13D10447C8684D7793715272A57C2E35ae63823',
     type: 'nexus',
   })
 

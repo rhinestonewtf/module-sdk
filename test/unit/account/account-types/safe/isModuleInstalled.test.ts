@@ -15,10 +15,7 @@ describe('Get installation status of module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockKernelAccountDeployed)
-  const validator = getModule({
-    ...MockValidator,
-    module: '0x503b54ed1e62365f0c9e4caf1479623b08acbe77',
-  })
+  const validator = getModule(MockValidator)
   const executor = getModule({
     ...MockExecutor,
     module: '0x61291900F0810466802008A6B292e7Fa8C97cCF9',

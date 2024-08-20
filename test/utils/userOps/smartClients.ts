@@ -15,6 +15,7 @@ import { anvil } from 'viem/chains'
 import { BUNDLER_URL } from 'test/utils/userOps/constants/contracts'
 import { erc7579Actions } from 'permissionless/actions/erc7579'
 import { Account } from 'src/account'
+import { validators } from './constants/validators'
 
 const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
@@ -121,7 +122,7 @@ export const getNonce = async ({
             pad(
               encodePacked(
                 ['bytes1', 'bytes1', 'address'],
-                ['0x00', '0x00', '0x503b54Ed1E62365F0c9e4caF1479623b08acbe77'],
+                ['0x00', '0x00', validators.mock.address],
               ),
               {
                 dir: 'right',
@@ -130,15 +131,10 @@ export const getNonce = async ({
             ),
           )
         : BigInt(
-            pad(
-              account.type === 'nexus'
-                ? '0x11D02847245Df7cF19f48C8907ace59289D8aCEe'
-                : '0x503b54Ed1E62365F0c9e4caF1479623b08acbe77',
-              {
-                dir: 'right',
-                size: 24,
-              },
-            ),
+            pad(validators.mock.address, {
+              dir: 'right',
+              size: 24,
+            }),
           ),
   })
 }
