@@ -1,10 +1,9 @@
 import {
-  Address,
   Hex,
   encodeAbiParameters,
   encodeFunctionData,
   encodePacked,
-  erc20Abi,
+  zeroAddress,
 } from 'viem'
 import { ScheduledTransfer } from './types'
 import { Execution } from '../../account/types'
@@ -25,22 +24,16 @@ export const getScheduledTransferData = ({
 
   return encodeAbiParameters(
     [
-      { name: 'target', type: 'address' },
-      { name: 'value', type: 'uint256' },
-      { name: 'callData', type: 'bytes' },
+      { name: 'recipient', type: 'address' },
+      { name: 'token', type: 'address' },
+      { name: 'amount', type: 'uint256' },
     ],
     [
+      scheduledTransfer.recipient,
       scheduledTransfer.token
-        ? (scheduledTransfer.token.token_address as Address)
-        : (scheduledTransfer.recipient as Address),
-      scheduledTransfer.token ? BigInt(0) : amount,
-      scheduledTransfer.token
-        ? encodeFunctionData({
-            functionName: 'transfer',
-            abi: erc20Abi,
-            args: [scheduledTransfer.recipient as Address, amount],
-          })
-        : '0x',
+        ? scheduledTransfer.token.token_address
+        : zeroAddress,
+      amount,
     ],
   )
 }
