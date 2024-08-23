@@ -1,4 +1,7 @@
-import { getScheduledTransfersExecutor } from 'src/module'
+import {
+  getScheduledTransfersExecutor,
+  getToggleScheduledTransferAction,
+} from 'src/module'
 import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from 'src'
 import { getCreateScheduledTransferAction } from 'src/module'
 import { getExecuteScheduledTransferAction } from 'src/module'
@@ -43,6 +46,14 @@ describe('ScheduledTransfers Module', () => {
     )
     expect(createScheduledTransferExecution.value).toEqual(BigInt(0))
     expect(createScheduledTransferExecution.callData).toBeDefined()
+  })
+
+  it('should disable scheduled transfer', async () => {
+    const toggleTransfer = getToggleScheduledTransferAction({ jobId: 1 })
+
+    expect(toggleTransfer.target).toEqual(SCHEDULED_TRANSFERS_EXECUTER_ADDRESS)
+    expect(toggleTransfer.value).toEqual(BigInt(0))
+    expect(toggleTransfer.callData).toBeDefined()
   })
 
   it('should get execute transfer action', async () => {

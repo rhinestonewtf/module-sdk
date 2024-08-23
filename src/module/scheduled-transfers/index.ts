@@ -4,4 +4,5 @@ export {
   getCreateScheduledTransferAction,
   getScheduledTransferData,
   getExecuteScheduledTransferAction,
+  getToggleScheduledTransferAction,
 } from './usage'

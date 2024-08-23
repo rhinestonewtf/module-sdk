@@ -2,6 +2,7 @@ import { Account, isModuleInstalled } from 'src/account'
 import {
   getCreateScheduledTransferAction,
   getModule,
+  getToggleScheduledTransferAction,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
 } from 'src/module'
 import { ERC20Token } from 'src/module/scheduled-orders/types'
@@ -52,6 +53,41 @@ export const testScheduledTransfersExecutor = async ({
     const receipt = await sendUserOp({
       account,
       actions: [scheduledOrderAction],
+    })
+
+    expect(receipt).toBeDefined()
+  }, 20000)
+
+  it('should create a new scheduled transfer and disable it', async () => {
+    // setup
+    const token: ERC20Token = {
+      token_address: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+      decimals: 18,
+    }
+
+    const scheduledOrderAction = getCreateScheduledTransferAction({
+      scheduledTransfer: {
+        token,
+        amount: 100,
+        recipient: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+        startDate: new Date().getTime(),
+        repeatEvery: 10,
+        numberOfRepeats: 1,
+      },
+    })
+
+    let receipt = await sendUserOp({
+      account,
+      actions: [scheduledOrderAction],
+    })
+
+    expect(receipt).toBeDefined()
+
+    const toggleTransferAction = getToggleScheduledTransferAction({ jobId: 1 })
+
+    receipt = await sendUserOp({
+      account,
+      actions: [toggleTransferAction],
     })
 
     expect(receipt).toBeDefined()
