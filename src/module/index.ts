@@ -35,6 +35,7 @@ export {
   getCreateScheduledTransferAction,
   getScheduledTransferData,
   getExecuteScheduledTransferAction,
+  getToggleScheduledTransferAction,
 } from './scheduled-transfers'
 
 export {
