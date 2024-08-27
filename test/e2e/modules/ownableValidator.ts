@@ -1,13 +1,22 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
-import { Address, getAddress, PublicClient, TestClient } from 'viem'
+import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra/installModuleActions'
 import {
   getOwnableValidatorOwners,
   getAddOwnableValidatorOwnerAction,
   getRemoveOwnableValidatorOwnerAction,
+  getIsValidSignatureStateless,
+  encodeValidationData,
 } from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
+import {
+  ENTRYPOINT_ADDRESS_V07,
+  getUserOperationHash,
+  signUserOperationHashWithECDSA,
+} from 'permissionless'
+import { anvil } from 'viem/chains'
+import { privateKeyToAccount } from 'viem/accounts'
 
 type Params = {
   account: Account
@@ -89,5 +98,38 @@ export const testOwnableValidator = async ({
       client: publicClient,
     })
     expect(newOwners.length).toEqual(oldOwners.length - 1)
+  }, 20000)
+
+  it('should return true when checking stateless validation', async () => {
+    const account = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+
+    const hash = getUserOperationHash({
+      userOperation: {
+        callData: '0x',
+        nonce: BigInt(0),
+        sender: account.address,
+        callGasLimit: BigInt(0),
+        maxFeePerGas: BigInt(0),
+        maxPriorityFeePerGas: BigInt(0),
+        preVerificationGas: BigInt(0),
+        verificationGasLimit: BigInt(0),
+        signature: '0x',
+      },
+      chainId: anvil.id,
+      entryPoint: ENTRYPOINT_ADDRESS_V07,
+    })
+
+    const signature = await signUserOperationHashWithECDSA({
+      account,
+      hash,
+    })
+    const isValidSignature = await getIsValidSignatureStateless({
+      hash,
+      signature,
+      data: encodeValidationData({ threshold: 1, owners: [account.address] }),
+      client: publicClient,
+    })
+
+    expect(isValidSignature).toBe(true)
   }, 20000)
 }

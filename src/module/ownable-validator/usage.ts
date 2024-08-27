@@ -5,6 +5,7 @@ import {
   PublicClient,
   getAddress,
   Hex,
+  encodeAbiParameters,
 } from 'viem'
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
@@ -129,6 +130,49 @@ export const getOwnableValidatorThreshold = async ({
   } catch {
     throw new Error('Failed to get threshold')
   }
+}
+
+export const getIsValidSignatureStateless = async ({
+  hash,
+  signature,
+  data,
+  client,
+}: {
+  hash: Hex
+  signature: Hex
+  data: Hex
+  client: PublicClient
+}): Promise<number> => {
+  try {
+    return (await client.readContract({
+      address: OWNABLE_VALIDATOR_ADDRESS,
+      abi,
+      functionName: 'validateSignatureWithData',
+      args: [hash, signature, data],
+    })) as number
+  } catch {
+    throw new Error('Failed to check signature')
+  }
+}
+
+export const encodeValidationData = ({
+  threshold,
+  owners,
+}: {
+  threshold: number
+  owners: Address[]
+}) => {
+  return encodeAbiParameters(
+    [
+      {
+        type: 'uint256',
+      },
+      {
+        type: 'address[]',
+      },
+    ],
+    [BigInt(threshold), owners],
+  )
 }
 
 export const getOwnableValidatorMockSignature = (): Hex => {
