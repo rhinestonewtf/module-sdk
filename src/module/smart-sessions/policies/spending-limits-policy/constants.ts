@@ -1,0 +1,2 @@
+export const SPENDING_LIMITS_POLICY_ADDRESS =
+  '0xcc8d69271fa62045af45fdcc62cdc9c317a9e745'

@@ -1,0 +1,1 @@
+export const SUDO_POLICY_ADDRESS = '0x40235179bdd60beb6730e03d1aa91eae9b85928e'
