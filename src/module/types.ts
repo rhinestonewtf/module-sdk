@@ -56,3 +56,9 @@ export type {
 export type { SigHookInit } from './hook-multi-plexer'
 
 export type { Validator } from './multi-factor-validator'
+
+export type Policy = {
+  address: Address
+  initData: Hex
+  deInitData: Hex
+}
