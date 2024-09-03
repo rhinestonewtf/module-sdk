@@ -88,7 +88,21 @@ export const encodeSmartSessionSignature = ({
     case SmartSessionMode.USE:
       return encodePacked(
         ['bytes1', 'bytes32', 'bytes'],
-        [mode, permissionId, LibZip.flzCompress(signature) as Hex],
+        [
+          mode,
+          permissionId,
+          LibZip.flzCompress(
+            encodeAbiParameters(
+              [
+                {
+                  type: 'bytes',
+                  name: 'signature',
+                },
+              ],
+              [signature],
+            ),
+          ) as Hex,
+        ],
       )
     case SmartSessionMode.ENABLE:
     case SmartSessionMode.UNSAFE_ENABLE:
