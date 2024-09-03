@@ -5,6 +5,7 @@ import { getInstallModuleActions } from './installModuleActions'
 import * as HelpersModule from 'src/common/getPrevModule'
 import { SENTINEL_ADDRESS } from 'src/common/constants'
 import { sendUserOp } from './sendUserOp'
+import { getTrustAttestersAction } from 'test/utils/regisry'
 
 type Params = {
   account: Account
@@ -38,7 +39,10 @@ export const setupEnvironment = async ({
   const batch2 = installAllModulesActions.slice(5)
 
   if (batch1.length) {
-    await sendUserOp({ actions: batch1, account })
+    await sendUserOp({
+      actions: [getTrustAttestersAction(), ...batch1],
+      account,
+    })
   }
 
   if (batch2.length) {

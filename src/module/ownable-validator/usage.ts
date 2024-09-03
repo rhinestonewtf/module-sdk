@@ -171,7 +171,7 @@ export const encodeValidationData = ({
         type: 'address[]',
       },
     ],
-    [BigInt(threshold), owners],
+    [BigInt(threshold), owners.sort()],
   )
 }
 

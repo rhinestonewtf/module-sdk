@@ -1,26 +1,40 @@
 import { installModule } from 'src/account'
 import {
-  getOwnableValidator,
-  getWebAuthnValidator,
-  getScheduledOrdersExecutor,
-  getScheduledTransfersExecutor,
+  // getOwnableValidator,
+  // getWebAuthnValidator,
+  // getScheduledOrdersExecutor,
+  // getScheduledTransfersExecutor,
+  getSmartSessionsValidator,
+  OWNABLE_VALIDATOR_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
-import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
+import {
+  Address,
+  encodePacked,
+  Hex,
+  PublicClient,
+  toBytes,
+  toHex,
+  zeroAddress,
+} from 'viem'
 import { CallType } from 'src/module/types'
 import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
-import { getOwnableExecuter } from 'src/module/ownable-executer'
-import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
-import { getAutoSavingsExecutor } from 'src/module/auto-savings'
-import {
-  getAllowedCallbackSenders,
-  getColdStorageHook,
-} from 'src/module/cold-storage'
-import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
-import { getDeadmanSwitch } from 'src/module/deadman-switch'
-import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
+import { encodeValidationData } from 'src/module/ownable-validator/usage'
+// import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
+import { privateKeyToAccount } from 'viem/accounts'
+import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
+// import { getOwnableExecuter } from 'src/module/ownable-executer'
+// import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
+// import { getAutoSavingsExecutor } from 'src/module/auto-savings'
+// import {
+//   getAllowedCallbackSenders,
+//   getColdStorageHook,
+// } from 'src/module/cold-storage'
+// import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
+// import { getDeadmanSwitch } from 'src/module/deadman-switch'
+// import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
 
 type Params = {
   account: Account
@@ -29,127 +43,136 @@ type Params = {
 
 export const getInstallModuleActions = async ({ account, client }: Params) => {
   const {
-    ownableValidator,
-    webAuthnValidator,
-    ownableExecuter,
-    socialRecoveryValidator,
-    autoSavingExecutor,
-    deadmanSwitchValidator,
-    multiFactorValidator,
-    virtualCodeStorageExecutor,
-    allowedCallbackSendersFallback,
-    scheduledOrdersExecutor,
-    scheduledTransfersExecutor,
-    hookMultiPlexer,
+    // ownableValidator,
+    // webAuthnValidator,
+    // ownableExecuter,
+    // socialRecoveryValidator,
+    // autoSavingExecutor,
+    // deadmanSwitchValidator,
+    // multiFactorValidator,
+    // virtualCodeStorageExecutor,
+    // allowedCallbackSendersFallback,
+    // scheduledOrdersExecutor,
+    // scheduledTransfersExecutor,
+    // hookMultiPlexer,
+    smartSessions,
   } = getInstallModuleData({
     account,
   })
 
   // install ownable validator
-  const installOwnableValidatorAction = await installModule({
-    client,
-    account,
-    module: getOwnableValidator(ownableValidator),
-  })
+  // const installOwnableValidatorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getOwnableValidator(ownableValidator),
+  // })
 
-  // install webauthn validator
-  const installWebAuthnValidatorAction = await installModule({
-    client,
-    account,
-    module: getWebAuthnValidator(webAuthnValidator),
-  })
+  // // install webauthn validator
+  // const installWebAuthnValidatorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getWebAuthnValidator(webAuthnValidator),
+  // })
 
-  // install ownable executor
-  const installOwnableExecutorAction = await installModule({
-    client,
-    account,
-    module: getOwnableExecuter(ownableExecuter),
-  })
+  // // install ownable executor
+  // const installOwnableExecutorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getOwnableExecuter(ownableExecuter),
+  // })
 
-  // install social recovery
-  const installSocialRecoveryAction = await installModule({
-    client,
-    account,
-    module: getSocialRecoveryValidator(socialRecoveryValidator),
-  })
+  // // install social recovery
+  // const installSocialRecoveryAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getSocialRecoveryValidator(socialRecoveryValidator),
+  // })
 
-  // install auto savings executor
-  const installAutoSavingsExecutorAction = await installModule({
-    client,
-    account,
-    module: getAutoSavingsExecutor(autoSavingExecutor),
-  })
+  // // install auto savings executor
+  // const installAutoSavingsExecutorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getAutoSavingsExecutor(autoSavingExecutor),
+  // })
 
-  // install deadman switch validator
-  const installDeadmanSwitchValidatorAction = await installModule({
-    client,
-    account,
-    module: await getDeadmanSwitch({
-      ...deadmanSwitchValidator,
-      account,
-      client,
-    }),
-  })
+  // // install deadman switch validator
+  // const installDeadmanSwitchValidatorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: await getDeadmanSwitch({
+  //     ...deadmanSwitchValidator,
+  //     account,
+  //     client,
+  //   }),
+  // })
 
-  // install multi factor validator
-  const installMultiFactorValidatorAction = await installModule({
-    client,
-    account,
-    module: getMultiFactorValidator(multiFactorValidator),
-  })
+  // // install multi factor validator
+  // const installMultiFactorValidatorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getMultiFactorValidator(multiFactorValidator),
+  // })
 
-  // install virtual code storage hook
-  const installVirtualCodeStorageExecutorAction = await installModule({
-    client,
-    account,
-    module: await getColdStorageHook({
-      account,
-      client,
-      ...virtualCodeStorageExecutor,
-    }),
-  })
+  // // install virtual code storage hook
+  // const installVirtualCodeStorageExecutorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: await getColdStorageHook({
+  //     account,
+  //     client,
+  //     ...virtualCodeStorageExecutor,
+  //   }),
+  // })
 
-  // install callback senders
-  const installCallbackSendersAction = await installModule({
-    client,
-    account,
-    module: getAllowedCallbackSenders(allowedCallbackSendersFallback),
-  })
+  // // install callback senders
+  // const installCallbackSendersAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getAllowedCallbackSenders(allowedCallbackSendersFallback),
+  // })
 
-  // install scheduled orders executor
-  const installScheduledOrdersExecutorAction = await installModule({
-    client,
-    account,
-    module: getScheduledOrdersExecutor(scheduledOrdersExecutor),
-  })
+  // // install scheduled orders executor
+  // const installScheduledOrdersExecutorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getScheduledOrdersExecutor(scheduledOrdersExecutor),
+  // })
 
-  // install scheduled transfers executor
-  const installScheduledTransfersExecutorAction = await installModule({
-    client,
-    account,
-    module: getScheduledTransfersExecutor(scheduledTransfersExecutor),
-  })
+  // // install scheduled transfers executor
+  // const installScheduledTransfersExecutorAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getScheduledTransfersExecutor(scheduledTransfersExecutor),
+  // })
 
-  // install hook multi plexer
-  const installHookMultiplexerAction = await installModule({
+  // // install hook multi plexer
+  // const installHookMultiplexerAction = await installModule({
+  //   client,
+  //   account,
+  //   module: getHookMultiPlexer(hookMultiPlexer),
+  // })
+
+  // install smart sessions validator
+  const installSmartSessionsValidatorAction = await installModule({
     client,
     account,
-    module: getHookMultiPlexer(hookMultiPlexer),
+    module: getSmartSessionsValidator({ sessions: smartSessions }),
   })
 
   return [
-    ...installOwnableValidatorAction,
-    ...installWebAuthnValidatorAction,
-    ...installOwnableExecutorAction,
-    ...installSocialRecoveryAction,
-    ...installAutoSavingsExecutorAction,
-    ...installDeadmanSwitchValidatorAction,
-    ...installMultiFactorValidatorAction,
-    ...installVirtualCodeStorageExecutorAction,
-    ...installCallbackSendersAction,
-    ...installScheduledOrdersExecutorAction,
-    ...installScheduledTransfersExecutorAction,
-    ...installHookMultiplexerAction,
+    // ...installOwnableValidatorAction,
+    // ...installWebAuthnValidatorAction,
+    // ...installOwnableExecutorAction,
+    // ...installSocialRecoveryAction,
+    // ...installAutoSavingsExecutorAction,
+    // ...installDeadmanSwitchValidatorAction,
+    // ...installMultiFactorValidatorAction,
+    // ...installVirtualCodeStorageExecutorAction,
+    // ...installCallbackSendersAction,
+    // ...installScheduledOrdersExecutorAction,
+    // ...installScheduledTransfersExecutorAction,
+    // ...installHookMultiplexerAction,
+    ...installSmartSessionsValidatorAction,
   ]
 }
 
@@ -157,7 +180,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [
-      account.address,
+      privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address,
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
     ],
     hook: zeroAddress,
@@ -246,4 +269,36 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     selector: '0x00000000' as Hex,
     hookType: SafeHookType.GLOBAL,
   },
+  smartSessions: [
+    {
+      sessionValidator: OWNABLE_VALIDATOR_ADDRESS as Address,
+      sessionValidatorInitData: encodeValidationData({
+        threshold: 1,
+        owners: [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
+      }),
+      salt: toHex(toBytes('1', { size: 32 })),
+      userOpPolicies: [
+        // {
+        //   policy: getSudoPolicy().address,
+        //   initData: getSudoPolicy().initData,
+        // },
+      ],
+      actions: [
+        {
+          actionTarget: account.address,
+          actionTargetSelector: '0x9cfd7cff' as Hex,
+          actionPolicies: [
+            {
+              policy: getSudoPolicy().address,
+              initData: getSudoPolicy().initData,
+            },
+          ],
+        },
+      ],
+      erc7739Policies: {
+        allowedERC7739Content: [],
+        erc1271Policies: [],
+      },
+    },
+  ],
 })

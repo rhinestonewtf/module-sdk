@@ -1,4 +1,4 @@
 export const UNIVERSAL_ACTION_POLICY_ADDRESS =
-  '0xf87db2a1b6ac548ad5352bcc550ce373ba826bb6'
+  '0x8fc7d3527349183b98ed0a535a171334a03c2b3a'
 
 export const MAX_RULES = 16

@@ -111,6 +111,11 @@ export {
   getColdStorageHook,
 } from './cold-storage'
 
+export {
+  SMART_SESSIONS_ADDRESS,
+  getSmartSessionsValidator,
+} from './smart-sessions'
+
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
 
 export type {
