@@ -6,19 +6,19 @@ import {
   zeroAddress,
   encodeAbiParameters,
   Address,
+  encodeFunctionData,
 } from 'viem'
-import { abi, enableSessionAbi } from './abi'
+import { abi } from './abi'
 import { SMART_SESSIONS_ADDRESS } from './constants'
 import {
   ChainDigest,
-  EnableSession,
   EnableSessionData,
   Session,
   SmartSessionMode,
   SmartSessionModeType,
 } from './types'
 import { LibZip } from 'solady'
-import { Account, AccountType } from 'src/account'
+import { Account, AccountType, Execution } from 'src/account'
 
 export const getPermissionId = async ({
   client,
@@ -88,7 +88,21 @@ export const encodeSmartSessionSignature = ({
     case SmartSessionMode.USE:
       return encodePacked(
         ['bytes1', 'bytes32', 'bytes'],
-        [mode, permissionId, LibZip.flzCompress(signature) as Hex],
+        [
+          mode,
+          permissionId,
+          LibZip.flzCompress(
+            encodeAbiParameters(
+              [
+                {
+                  type: 'bytes',
+                  name: 'signature',
+                },
+              ],
+              [signature],
+            ),
+          ) as Hex,
+        ],
       )
     case SmartSessionMode.ENABLE:
     case SmartSessionMode.UNSAFE_ENABLE:
@@ -133,27 +147,6 @@ export const hashChainDigests = (chainDigests: ChainDigest[]): Hex => {
   })
 }
 
-export const encodeEnableSession = ({
-  enableSession,
-  validator,
-  accountType,
-}: {
-  enableSession: EnableSession
-  validator: Address
-  accountType: AccountType
-}) => {
-  return encodeAbiParameters(enableSessionAbi, [
-    enableSession.chainDigestIndex,
-    enableSession.hashesAndChainIds,
-    enableSession.sessionToEnable,
-    formatPermissionEnableSig({
-      signature: enableSession.permissionEnableSig,
-      validator,
-      accountType,
-    }),
-  ])
-}
-
 export const encodeEnableSessionSignature = ({
   enableSessionData,
   signature,
@@ -162,8 +155,143 @@ export const encodeEnableSessionSignature = ({
   signature: Hex
 }) => {
   return encodeAbiParameters(
-    [{ type: 'bytes' }, { type: 'bytes' }],
-    [encodeEnableSession({ ...enableSessionData }), signature],
+    [
+      {
+        components: [
+          {
+            type: 'uint8',
+            name: 'chainDigestIndex',
+          },
+          {
+            type: 'tuple[]',
+            components: [
+              {
+                internalType: 'uint64',
+                name: 'chainId',
+                type: 'uint64',
+              },
+              {
+                internalType: 'bytes32',
+                name: 'sessionDigest',
+                type: 'bytes32',
+              },
+            ],
+            name: 'hashesAndChainIds',
+          },
+          {
+            components: [
+              {
+                internalType: 'contract ISessionValidator',
+                name: 'sessionValidator',
+                type: 'address',
+              },
+              {
+                internalType: 'bytes',
+                name: 'sessionValidatorInitData',
+                type: 'bytes',
+              },
+              { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
+              {
+                components: [
+                  { internalType: 'address', name: 'policy', type: 'address' },
+                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
+                ],
+                internalType: 'struct PolicyData[]',
+                name: 'userOpPolicies',
+                type: 'tuple[]',
+              },
+              {
+                components: [
+                  {
+                    internalType: 'string[]',
+                    name: 'allowedERC7739Content',
+                    type: 'string[]',
+                  },
+                  {
+                    components: [
+                      {
+                        internalType: 'address',
+                        name: 'policy',
+                        type: 'address',
+                      },
+                      {
+                        internalType: 'bytes',
+                        name: 'initData',
+                        type: 'bytes',
+                      },
+                    ],
+                    internalType: 'struct PolicyData[]',
+                    name: 'erc1271Policies',
+                    type: 'tuple[]',
+                  },
+                ],
+                internalType: 'struct ERC7739Data',
+                name: 'erc7739Policies',
+                type: 'tuple',
+              },
+              {
+                components: [
+                  {
+                    internalType: 'bytes4',
+                    name: 'actionTargetSelector',
+                    type: 'bytes4',
+                  },
+                  {
+                    internalType: 'address',
+                    name: 'actionTarget',
+                    type: 'address',
+                  },
+                  {
+                    components: [
+                      {
+                        internalType: 'address',
+                        name: 'policy',
+                        type: 'address',
+                      },
+                      {
+                        internalType: 'bytes',
+                        name: 'initData',
+                        type: 'bytes',
+                      },
+                    ],
+                    internalType: 'struct PolicyData[]',
+                    name: 'actionPolicies',
+                    type: 'tuple[]',
+                  },
+                ],
+                internalType: 'struct ActionData[]',
+                name: 'actions',
+                type: 'tuple[]',
+              },
+            ],
+            internalType: 'struct Session',
+            name: 'sessionToEnable',
+            type: 'tuple',
+          },
+          {
+            type: 'bytes',
+            name: 'permissionEnableSig',
+          },
+        ],
+        internalType: 'struct EnableSession',
+        name: 'enableSession',
+        type: 'tuple',
+      },
+      { type: 'bytes' },
+    ],
+    [
+      {
+        chainDigestIndex: enableSessionData.enableSession.chainDigestIndex,
+        hashesAndChainIds: enableSessionData.enableSession.hashesAndChainIds,
+        sessionToEnable: enableSessionData.enableSession.sessionToEnable,
+        permissionEnableSig: formatPermissionEnableSig({
+          signature: enableSessionData.enableSession.permissionEnableSig,
+          validator: enableSessionData.validator,
+          accountType: enableSessionData.accountType,
+        }),
+      },
+      signature,
+    ],
   )
 }
 
@@ -188,6 +316,22 @@ export const formatPermissionEnableSig = ({
       )
     default:
       throw new Error(`Unsupported account type: ${accountType}`)
+  }
+}
+
+export const getRemoveSessionAction = ({
+  permissionId,
+}: {
+  permissionId: Hex
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'removeSession',
+      args: [permissionId],
+    }),
   }
 }
 

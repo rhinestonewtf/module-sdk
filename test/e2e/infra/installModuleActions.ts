@@ -1,6 +1,6 @@
 import { installModule } from 'src/account'
 import {
-  // getOwnableValidator,
+  getOwnableValidator,
   // getWebAuthnValidator,
   // getScheduledOrdersExecutor,
   // getScheduledTransfersExecutor,
@@ -43,7 +43,7 @@ type Params = {
 
 export const getInstallModuleActions = async ({ account, client }: Params) => {
   const {
-    // ownableValidator,
+    ownableValidator,
     // webAuthnValidator,
     // ownableExecuter,
     // socialRecoveryValidator,
@@ -61,11 +61,11 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   // install ownable validator
-  // const installOwnableValidatorAction = await installModule({
-  //   client,
-  //   account,
-  //   module: getOwnableValidator(ownableValidator),
-  // })
+  const installOwnableValidatorAction = await installModule({
+    client,
+    account,
+    module: getOwnableValidator(ownableValidator),
+  })
 
   // // install webauthn validator
   // const installWebAuthnValidatorAction = await installModule({
@@ -160,7 +160,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
-    // ...installOwnableValidatorAction,
+    ...installOwnableValidatorAction,
     // ...installWebAuthnValidatorAction,
     // ...installOwnableExecutorAction,
     // ...installSocialRecoveryAction,
@@ -180,8 +180,8 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [
-      privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address,
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
+      privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address,
     ],
     hook: zeroAddress,
   },
@@ -277,12 +277,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
         owners: [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
       }),
       salt: toHex(toBytes('1', { size: 32 })),
-      userOpPolicies: [
-        // {
-        //   policy: getSudoPolicy().address,
-        //   initData: getSudoPolicy().initData,
-        // },
-      ],
+      userOpPolicies: [],
       actions: [
         {
           actionTarget: account.address,

@@ -58,7 +58,7 @@ export const testOwnableValidator = async ({
     })
 
     expect(owners.length).toEqual(ownableValidator.owners.length)
-    expect(getAddress(owners[0])).toEqual(
+    expect(getAddress(owners.sort()[0])).toEqual(
       getAddress(ownableValidator.owners[0]),
     )
   }, 20000)

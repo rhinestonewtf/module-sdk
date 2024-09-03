@@ -75,30 +75,111 @@ export const installSmartSessionsAbi = [
   },
 ]
 
-export const enableSessionAbi = [
-  {
-    type: 'uint8',
-  },
-  {
-    type: 'tuple[]',
-    components: [
-      {
-        internalType: 'uint64',
-        name: 'chainId',
-        type: 'uint64',
-      },
-      {
-        internalType: 'bytes32',
-        name: 'sessionDigest',
-        type: 'bytes32',
-      },
-    ],
-  },
-  installSmartSessionsAbi[0],
-  {
-    type: 'bytes',
-  },
-]
+export const enableSessionAbi = {
+  components: [
+    {
+      type: 'uint8',
+      name: 'chainDigestIndex',
+    },
+    {
+      type: 'tuple[]',
+      components: [
+        {
+          internalType: 'uint64',
+          name: 'chainId',
+          type: 'uint64',
+        },
+        {
+          internalType: 'bytes32',
+          name: 'sessionDigest',
+          type: 'bytes32',
+        },
+      ],
+      name: 'chainData', // Giving a name to the tuple[]
+    },
+    {
+      components: [
+        {
+          internalType: 'contract ISessionValidator',
+          name: 'sessionValidator',
+          type: 'address',
+        },
+        {
+          internalType: 'bytes',
+          name: 'sessionValidatorInitData',
+          type: 'bytes',
+        },
+        { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
+        {
+          components: [
+            { internalType: 'address', name: 'policy', type: 'address' },
+            { internalType: 'bytes', name: 'initData', type: 'bytes' },
+          ],
+          internalType: 'struct PolicyData[]',
+          name: 'userOpPolicies',
+          type: 'tuple[]',
+        },
+        {
+          components: [
+            {
+              internalType: 'string[]',
+              name: 'allowedERC7739Content',
+              type: 'string[]',
+            },
+            {
+              components: [
+                { internalType: 'address', name: 'policy', type: 'address' },
+                { internalType: 'bytes', name: 'initData', type: 'bytes' },
+              ],
+              internalType: 'struct PolicyData[]',
+              name: 'erc1271Policies',
+              type: 'tuple[]',
+            },
+          ],
+          internalType: 'struct ERC7739Data',
+          name: 'erc7739Policies',
+          type: 'tuple',
+        },
+        {
+          components: [
+            {
+              internalType: 'bytes4',
+              name: 'actionTargetSelector',
+              type: 'bytes4',
+            },
+            {
+              internalType: 'address',
+              name: 'actionTarget',
+              type: 'address',
+            },
+            {
+              components: [
+                { internalType: 'address', name: 'policy', type: 'address' },
+                { internalType: 'bytes', name: 'initData', type: 'bytes' },
+              ],
+              internalType: 'struct PolicyData[]',
+              name: 'actionPolicies',
+              type: 'tuple[]',
+            },
+          ],
+          internalType: 'struct ActionData[]',
+          name: 'actions',
+          type: 'tuple[]',
+        },
+      ],
+      internalType: 'struct Session',
+      name: 'session',
+      type: 'tuple',
+    },
+    {
+      type: 'bytes',
+      name: 'signature',
+    },
+  ],
+  internalType: 'struct EnableSession',
+  name: 'enableSession',
+  type: 'tuple',
+}
 
 export const abi = [
   {
