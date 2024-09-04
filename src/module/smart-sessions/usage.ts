@@ -11,7 +11,7 @@ import {
 import { abi } from './abi'
 import { SMART_SESSIONS_ADDRESS } from './constants'
 import {
-  ChainDigest,
+  ChainSession,
   EnableSessionData,
   Session,
   SmartSessionMode,
@@ -33,6 +33,23 @@ export const getPermissionId = async ({
     functionName: 'getPermissionId',
     args: [session],
   })) as string
+}
+
+export const getSessionNonce = async ({
+  client,
+  account,
+  permissionId,
+}: {
+  client: PublicClient
+  account: Account
+  permissionId: Hex
+}) => {
+  return (await client.readContract({
+    address: SMART_SESSIONS_ADDRESS,
+    abi,
+    functionName: 'getNonce',
+    args: [permissionId, account.address],
+  })) as bigint
 }
 
 export const isSessionEnabled = async ({
@@ -125,7 +142,7 @@ export const encodeSmartSessionSignature = ({
   }
 }
 
-export const hashChainDigests = (chainDigests: ChainDigest[]): Hex => {
+export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
   return hashTypedData({
     domain: {
       name: 'SmartSession',
@@ -134,15 +151,42 @@ export const hashChainDigests = (chainDigests: ChainDigest[]): Hex => {
       verifyingContract: zeroAddress,
     },
     types: {
-      ChainDigest: [
-        { name: 'chainId', type: 'uint64' },
-        { name: 'sessionDigest', type: 'bytes32' },
+      PolicyData: [
+        { name: 'policy', type: 'address' },
+        { name: 'initData', type: 'bytes' },
       ],
-      ChainDigests: [{ name: 'chainDigests', type: 'ChainDigest[]' }],
+      ActionData: [
+        { name: 'actionTarget', type: 'address' },
+        { name: 'actionTargetSelector', type: 'bytes4' },
+        { name: 'actionPolicies', type: 'PolicyData[]' },
+      ],
+      ERC7739Data: [
+        { name: 'allowedERC7739Content', type: 'string[]' },
+        { name: 'erc1271Policies', type: 'PolicyData[]' },
+      ],
+      Session: [
+        { name: 'account', type: 'address' },
+        { name: 'smartSession', type: 'address' },
+        { name: 'mode', type: 'uint8' },
+        { name: 'sessionValidator', type: 'address' },
+        { name: 'salt', type: 'bytes32' },
+        { name: 'sessionValidatorInitData', type: 'bytes' },
+        { name: 'userOpPolicies', type: 'PolicyData[]' },
+        { name: 'erc7739Policies', type: 'ERC7739Data' },
+        { name: 'actions', type: 'ActionData[]' },
+        { name: 'nonce', type: 'uint256' },
+      ],
+      ChainSession: [
+        { name: 'chainId', type: 'uint64' },
+        { name: 'session', type: 'Session' },
+      ],
+      MultiChainSession: [
+        { name: 'sessionsAndChainIds', type: 'ChainSession[]' },
+      ],
     },
-    primaryType: 'ChainDigests',
+    primaryType: 'MultiChainSession',
     message: {
-      chainDigests,
+      sessionsAndChainIds: chainSessions,
     },
   })
 }

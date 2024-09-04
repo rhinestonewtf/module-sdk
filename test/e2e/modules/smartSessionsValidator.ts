@@ -9,12 +9,13 @@ import {
   encodeSmartSessionSignature,
   getPermissionId,
   getSessionDigest,
-  hashChainDigests,
+  getSessionNonce,
+  hashChainSessions,
 } from 'src/module/smart-sessions'
 import { Hex, PublicClient, TestClient, toBytes, toHex } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
-  ChainDigest,
+  ChainSession,
   Session,
   SmartSessionMode,
 } from 'src/module/smart-sessions/types'
@@ -111,6 +112,12 @@ export const testSmartSessionsValidator = async ({
       session,
     })) as Hex
 
+    const sessionNonce = await getSessionNonce({
+      client: publicClient,
+      account,
+      permissionId,
+    })
+
     const sessionDigest = await getSessionDigest({
       client: publicClient,
       account,
@@ -119,14 +126,27 @@ export const testSmartSessionsValidator = async ({
       permissionId,
     })
 
-    const chainDigests: ChainDigest[] = [
+    const chainDigests = [
       {
         chainId: BigInt(sepolia.id),
-        sessionDigest: sessionDigest,
+        sessionDigest,
       },
     ]
 
-    const permissionEnableHash = hashChainDigests(chainDigests)
+    const chainSessions: ChainSession[] = [
+      {
+        chainId: BigInt(sepolia.id),
+        session: {
+          ...session,
+          account: account.address,
+          smartSession: SMART_SESSIONS_ADDRESS,
+          mode: 1,
+          nonce: sessionNonce,
+        },
+      },
+    ]
+
+    const permissionEnableHash = hashChainSessions(chainSessions)
 
     const permissionEnableSig = await signer.signMessage({
       message: { raw: permissionEnableHash },

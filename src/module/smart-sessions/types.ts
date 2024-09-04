@@ -10,6 +10,19 @@ export type Session = {
   actions: ActionData[]
 }
 
+export type SessionToHash = {
+  account: Address
+  smartSession: Address
+  mode: number
+  nonce: bigint
+  sessionValidator: Address
+  sessionValidatorInitData: Hex
+  salt: Hex
+  userOpPolicies: PolicyData[]
+  erc7739Policies: ERC7739Data
+  actions: ActionData[]
+}
+
 export type PolicyData = {
   policy: Address
   initData: Hex
@@ -51,4 +64,9 @@ export type EnableSessionData = {
 export type ChainDigest = {
   chainId: bigint
   sessionDigest: Hex
+}
+
+export type ChainSession = {
+  chainId: bigint
+  session: SessionToHash
 }
