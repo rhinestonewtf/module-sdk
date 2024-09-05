@@ -8,11 +8,14 @@ import {
   Address,
   encodeFunctionData,
 } from 'viem'
-import { abi } from './abi'
+import { abi, encodeEnableSessionSignatureAbi } from './abi'
 import { SMART_SESSIONS_ADDRESS } from './constants'
 import {
+  ActionData,
   ChainSession,
   EnableSessionData,
+  ERC7739Data,
+  PolicyData,
   Session,
   SmartSessionMode,
   SmartSessionModeType,
@@ -113,7 +116,6 @@ export const encodeSmartSessionSignature = ({
               [
                 {
                   type: 'bytes',
-                  name: 'signature',
                 },
               ],
               [signature],
@@ -156,15 +158,15 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
         { name: 'initData', type: 'bytes' },
       ],
       ActionData: [
-        { name: 'actionTarget', type: 'address' },
         { name: 'actionTargetSelector', type: 'bytes4' },
+        { name: 'actionTarget', type: 'address' },
         { name: 'actionPolicies', type: 'PolicyData[]' },
       ],
       ERC7739Data: [
         { name: 'allowedERC7739Content', type: 'string[]' },
         { name: 'erc1271Policies', type: 'PolicyData[]' },
       ],
-      Session: [
+      SessionEIP712: [
         { name: 'account', type: 'address' },
         { name: 'smartSession', type: 'address' },
         { name: 'mode', type: 'uint8' },
@@ -176,15 +178,15 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
         { name: 'actions', type: 'ActionData[]' },
         { name: 'nonce', type: 'uint256' },
       ],
-      ChainSession: [
+      ChainSessionEIP712: [
         { name: 'chainId', type: 'uint64' },
-        { name: 'session', type: 'Session' },
+        { name: 'session', type: 'SessionEIP712' },
       ],
-      MultiChainSession: [
-        { name: 'sessionsAndChainIds', type: 'ChainSession[]' },
+      MultiChainSessionEIP712: [
+        { name: 'sessionsAndChainIds', type: 'ChainSessionEIP712[]' },
       ],
     },
-    primaryType: 'MultiChainSession',
+    primaryType: 'MultiChainSessionEIP712',
     message: {
       sessionsAndChainIds: chainSessions,
     },
@@ -198,145 +200,19 @@ export const encodeEnableSessionSignature = ({
   enableSessionData: EnableSessionData
   signature: Hex
 }) => {
-  return encodeAbiParameters(
-    [
-      {
-        components: [
-          {
-            type: 'uint8',
-            name: 'chainDigestIndex',
-          },
-          {
-            type: 'tuple[]',
-            components: [
-              {
-                internalType: 'uint64',
-                name: 'chainId',
-                type: 'uint64',
-              },
-              {
-                internalType: 'bytes32',
-                name: 'sessionDigest',
-                type: 'bytes32',
-              },
-            ],
-            name: 'hashesAndChainIds',
-          },
-          {
-            components: [
-              {
-                internalType: 'contract ISessionValidator',
-                name: 'sessionValidator',
-                type: 'address',
-              },
-              {
-                internalType: 'bytes',
-                name: 'sessionValidatorInitData',
-                type: 'bytes',
-              },
-              { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'userOpPolicies',
-                type: 'tuple[]',
-              },
-              {
-                components: [
-                  {
-                    internalType: 'string[]',
-                    name: 'allowedERC7739Content',
-                    type: 'string[]',
-                  },
-                  {
-                    components: [
-                      {
-                        internalType: 'address',
-                        name: 'policy',
-                        type: 'address',
-                      },
-                      {
-                        internalType: 'bytes',
-                        name: 'initData',
-                        type: 'bytes',
-                      },
-                    ],
-                    internalType: 'struct PolicyData[]',
-                    name: 'erc1271Policies',
-                    type: 'tuple[]',
-                  },
-                ],
-                internalType: 'struct ERC7739Data',
-                name: 'erc7739Policies',
-                type: 'tuple',
-              },
-              {
-                components: [
-                  {
-                    internalType: 'bytes4',
-                    name: 'actionTargetSelector',
-                    type: 'bytes4',
-                  },
-                  {
-                    internalType: 'address',
-                    name: 'actionTarget',
-                    type: 'address',
-                  },
-                  {
-                    components: [
-                      {
-                        internalType: 'address',
-                        name: 'policy',
-                        type: 'address',
-                      },
-                      {
-                        internalType: 'bytes',
-                        name: 'initData',
-                        type: 'bytes',
-                      },
-                    ],
-                    internalType: 'struct PolicyData[]',
-                    name: 'actionPolicies',
-                    type: 'tuple[]',
-                  },
-                ],
-                internalType: 'struct ActionData[]',
-                name: 'actions',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct Session',
-            name: 'sessionToEnable',
-            type: 'tuple',
-          },
-          {
-            type: 'bytes',
-            name: 'permissionEnableSig',
-          },
-        ],
-        internalType: 'struct EnableSession',
-        name: 'enableSession',
-        type: 'tuple',
-      },
-      { type: 'bytes' },
-    ],
-    [
-      {
-        chainDigestIndex: enableSessionData.enableSession.chainDigestIndex,
-        hashesAndChainIds: enableSessionData.enableSession.hashesAndChainIds,
-        sessionToEnable: enableSessionData.enableSession.sessionToEnable,
-        permissionEnableSig: formatPermissionEnableSig({
-          signature: enableSessionData.enableSession.permissionEnableSig,
-          validator: enableSessionData.validator,
-          accountType: enableSessionData.accountType,
-        }),
-      },
-      signature,
-    ],
-  )
+  return encodeAbiParameters(encodeEnableSessionSignatureAbi, [
+    {
+      chainDigestIndex: enableSessionData.enableSession.chainDigestIndex,
+      hashesAndChainIds: enableSessionData.enableSession.hashesAndChainIds,
+      sessionToEnable: enableSessionData.enableSession.sessionToEnable,
+      permissionEnableSig: formatPermissionEnableSig({
+        signature: enableSessionData.enableSession.permissionEnableSig,
+        validator: enableSessionData.validator,
+        accountType: enableSessionData.accountType,
+      }),
+    },
+    signature,
+  ])
 }
 
 export const formatPermissionEnableSig = ({
@@ -363,6 +239,22 @@ export const formatPermissionEnableSig = ({
   }
 }
 
+export const getEnableSessionsAction = ({
+  sessions,
+}: {
+  sessions: Session[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'enableSessions',
+      args: [sessions],
+    }),
+  }
+}
+
 export const getRemoveSessionAction = ({
   permissionId,
 }: {
@@ -379,19 +271,112 @@ export const getRemoveSessionAction = ({
   }
 }
 
-// USE Flow
-// 1. getPermissionId(session)
-// 2. sign UserOp
-// 3. encodeSmartSessionSignature(mode, permissionId, signature)
-// 4. Update signature in UserOp
-// 5. send UserOp
+export const getEnableUserOpPoliciesAction = ({
+  permissionId,
+  userOpPolicies,
+}: {
+  permissionId: Hex
+  userOpPolicies: PolicyData[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'enableUserOpPolicies',
+      args: [permissionId, userOpPolicies],
+    }),
+  }
+}
 
-// ENABLE Flow
-// 1. getPermissionId(session)
-// 2. getSessionDigest(session, permissionId, mode)
-// 3. hashChainDigests(chainDigests)
-// 4. sign chain digests hash
-// 5. sign UserOp
-// 6. encodeEnableSessionSignature(mode, permissionId, signature, enableSessionData)
-// 7. Update signature in UserOp
-// 8. send UserOp
+export const getDisableUserOpPoliciesAction = ({
+  permissionId,
+  userOpPolicies,
+}: {
+  permissionId: Hex
+  userOpPolicies: Address[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'disableUserOpPolicies',
+      args: [permissionId, userOpPolicies],
+    }),
+  }
+}
+
+export const getEnableERC1271PoliciesAction = ({
+  permissionId,
+  erc1271Policies,
+}: {
+  permissionId: Hex
+  erc1271Policies: ERC7739Data
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'enableERC1271Policies',
+      args: [permissionId, erc1271Policies],
+    }),
+  }
+}
+
+export const getDisableERC1271PoliciesAction = ({
+  permissionId,
+  policies,
+}: {
+  permissionId: Hex
+  policies: Address[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'disableERC1271Policies',
+      args: [permissionId, policies],
+    }),
+  }
+}
+
+export const getEnableActionPolicies = ({
+  permissionId,
+  actionPolicies,
+}: {
+  permissionId: Hex
+  actionPolicies: ActionData[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'enableActionPolicies',
+      args: [permissionId, actionPolicies],
+    }),
+  }
+}
+
+export const getDisableActionPolicies = ({
+  permissionId,
+  actionId,
+  policies,
+}: {
+  permissionId: Hex
+  actionId: Hex
+  policies: Address[]
+}): Execution => {
+  return {
+    target: SMART_SESSIONS_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      abi,
+      functionName: 'disableActionPolicies',
+      args: [permissionId, actionId, policies],
+    }),
+  }
+}

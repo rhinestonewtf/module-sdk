@@ -10,7 +10,7 @@ export type Session = {
   actions: ActionData[]
 }
 
-export type SessionToHash = {
+export type SessionEIP712 = {
   account: Address
   smartSession: Address
   mode: number
@@ -68,5 +68,5 @@ export type ChainDigest = {
 
 export type ChainSession = {
   chainId: bigint
-  session: SessionToHash
+  session: SessionEIP712
 }
