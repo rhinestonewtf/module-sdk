@@ -18,7 +18,6 @@
     "exactOptionalPropertyTypes": false, // todo
     // TODO: Uncomment and fix types.
     // "noUncheckedIndexedAccess": true,
-
     // JavaScript support
     "allowJs": false,
     "checkJs": false,
