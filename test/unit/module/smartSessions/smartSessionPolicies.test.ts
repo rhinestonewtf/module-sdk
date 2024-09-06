@@ -20,28 +20,16 @@ describe('Smart Sessions Polices', () => {
       valueLimitPerUse: BigInt(1000),
       paramRules: {
         length: 2,
-        rules: [
-          {
-            condition: ParamCondition.EQUAL,
-            offset: 0,
-            isLimited: true,
-            ref: '0x00000000000000000000000000000000000000000000000000000000000003e8', // 1000 in bytes32
-            usage: {
-              limit: BigInt(1000),
-              used: BigInt(10),
-            },
+        rules: new Array(16).fill({
+          condition: ParamCondition.EQUAL,
+          offset: 0,
+          isLimited: true,
+          ref: '0x00000000000000000000000000000000000000000000000000000000000003e8', // 1000 in bytes32
+          usage: {
+            limit: BigInt(1000),
+            used: BigInt(10),
           },
-          {
-            condition: ParamCondition.LESS_THAN,
-            offset: 32,
-            isLimited: false,
-            ref: '0x00000000000000000000000000000000000000000000000000000000000007d0', // 2000 in bytes32
-            usage: {
-              limit: BigInt(2000),
-              used: BigInt(100),
-            },
-          },
-        ],
+        }),
       },
     }
     const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
