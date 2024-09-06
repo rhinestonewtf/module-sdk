@@ -8,7 +8,7 @@ import {
   signerToEcdsaKernelSmartAccount,
   signerToSafeSmartAccount,
 } from 'permissionless/accounts'
-import { encodePacked, Hex, http, pad, PublicClient } from 'viem'
+import { Address, encodePacked, Hex, http, pad, PublicClient } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { getPublicClient } from 'test/utils/userOps/clients'
 import { anvil } from 'viem/chains'
@@ -91,7 +91,7 @@ const getERC7579Client = async (account: Account) => {
   }).extend(erc7579Actions({ entryPoint: ENTRYPOINT_ADDRESS_V07 }))
 }
 
-export const getSmartClient = (account: Account) => {
+export const getSmartClient = async (account: Account) => {
   switch (account.type) {
     case 'safe':
       return getSafeClient(account)
@@ -109,9 +109,11 @@ export const getSmartClient = (account: Account) => {
 export const getNonce = async ({
   publicClient,
   account,
+  validator,
 }: {
   publicClient: PublicClient
   account: Account
+  validator?: Address
 }) => {
   return await getAccountNonce(publicClient, {
     sender: account.address,
@@ -122,7 +124,7 @@ export const getNonce = async ({
             pad(
               encodePacked(
                 ['bytes1', 'bytes1', 'address'],
-                ['0x00', '0x00', validators.mock.address],
+                ['0x00', '0x00', validator || validators.mock.address],
               ),
               {
                 dir: 'right',
@@ -131,7 +133,7 @@ export const getNonce = async ({
             ),
           )
         : BigInt(
-            pad(validators.mock.address, {
+            pad(validator || validators.mock.address, {
               dir: 'right',
               size: 24,
             }),

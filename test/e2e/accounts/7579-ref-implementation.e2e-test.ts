@@ -14,6 +14,7 @@ import {
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
   testSocialRecoveryValidator,
+  testSmartSessionsValidator,
 } from 'test/e2e/modules'
 
 describe('Test erc7579 reference implementation', () => {
@@ -106,6 +107,12 @@ describe('Test erc7579 reference implementation', () => {
   })
 
   testHookMultiPlexer({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testSmartSessionsValidator({
     account,
     publicClient,
     testClient,

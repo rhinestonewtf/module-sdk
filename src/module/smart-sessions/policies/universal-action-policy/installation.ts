@@ -1,5 +1,5 @@
 import { MAX_RULES, UNIVERSAL_ACTION_POLICY_ADDRESS } from './constants'
-import { Policy } from '../../../types'
+import { Policy } from '../types'
 import { encodeAbiParameters } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'

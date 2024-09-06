@@ -1,6 +1,13 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
-import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
+import {
+  Address,
+  getAddress,
+  Hex,
+  PublicClient,
+  TestClient,
+  zeroAddress,
+} from 'viem'
 import { getInstallModuleData } from '../infra/installModuleActions'
 import {
   getOwnableValidatorOwners,
@@ -17,6 +24,7 @@ import {
 } from 'permissionless'
 import { anvil } from 'viem/chains'
 import { privateKeyToAccount } from 'viem/accounts'
+import { getOwnableValidatorMockSignature } from 'src/module'
 
 type Params = {
   account: Account
@@ -50,7 +58,7 @@ export const testOwnableValidator = async ({
     })
 
     expect(owners.length).toEqual(ownableValidator.owners.length)
-    expect(getAddress(owners[0])).toEqual(
+    expect(getAddress(owners.sort()[0])).toEqual(
       getAddress(ownableValidator.owners[0]),
     )
   }, 20000)
@@ -131,5 +139,33 @@ export const testOwnableValidator = async ({
     })
 
     expect(isValidSignature).toBe(true)
+  }, 20000)
+
+  it('should validate userOp using ownable validator', async () => {
+    const receipt = await sendUserOp({
+      account,
+      actions: [
+        {
+          target: zeroAddress,
+          value: BigInt(100),
+          callData: '0x',
+        },
+      ],
+      validator: OWNABLE_VALIDATOR_ADDRESS,
+      signUserOpHash: async (userOpHash) => {
+        const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+
+        const signature = await signer.signMessage({
+          message: { raw: userOpHash },
+        })
+
+        return signature
+      },
+      getDummySignature: async () => {
+        return getOwnableValidatorMockSignature()
+      },
+    })
+
+    expect(receipt).toBeDefined()
   }, 20000)
 }

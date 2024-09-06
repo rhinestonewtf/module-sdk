@@ -1,5 +1,5 @@
 import { SPENDING_LIMITS_POLICY_ADDRESS } from './constants'
-import { Policy } from '../../../types'
+import { Policy } from '../types'
 import { Address, encodeAbiParameters } from 'viem'
 
 type Params = {

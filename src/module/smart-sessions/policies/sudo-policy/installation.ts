@@ -1,5 +1,5 @@
 import { SUDO_POLICY_ADDRESS } from './constants'
-import { Policy } from '../../../types'
+import { Policy } from '../types'
 
 export const getSudoPolicy = (): Policy => {
   return {

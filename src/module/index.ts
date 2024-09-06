@@ -111,6 +111,26 @@ export {
   getColdStorageHook,
 } from './cold-storage'
 
+export {
+  SMART_SESSIONS_ADDRESS,
+  getSmartSessionsValidator,
+  getEnableSessionsAction,
+  getRemoveSessionAction,
+  getEnableUserOpPoliciesAction,
+  getDisableUserOpPoliciesAction,
+  getEnableERC1271PoliciesAction,
+  getDisableERC1271PoliciesAction,
+  getEnableActionPolicies,
+  getDisableActionPolicies,
+  getPermissionId,
+  getActionId,
+  getSessionDigest,
+  getSessionNonce,
+  getSpendingLimitsPolicy,
+  getSudoPolicy,
+  getUniversalActionPolicy,
+} from './smart-sessions'
+
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
 
 export type {

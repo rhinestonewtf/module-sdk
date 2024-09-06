@@ -4,6 +4,7 @@ import {
   OWNABLE_VALIDATOR_ADDRESS,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+  SMART_SESSIONS_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
@@ -150,7 +151,17 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
+  const unInstallSmartSessionsValidatorAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'validator',
+      module: SMART_SESSIONS_ADDRESS,
+    }),
+  })
+
   return [
+    ...unInstallSmartSessionsValidatorAction,
     ...unInstallHookMultiPlexerHookAction,
     ...unInstallScheduledTransfersExecutorAction,
     ...unInstallScheduledOrdersExecutorAction,
