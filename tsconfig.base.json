@@ -21,7 +21,7 @@
     // JavaScript support
     "allowJs": false,
     "checkJs": false,
-    
+
     // Interop constraints
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
