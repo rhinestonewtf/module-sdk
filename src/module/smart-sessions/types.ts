@@ -1,4 +1,4 @@
-import { AccountType } from 'src/account'
+import { AccountType } from '../../account'
 import { Address, Hex } from 'viem'
 
 export type Session = {

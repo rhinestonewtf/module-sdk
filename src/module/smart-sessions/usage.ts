@@ -21,7 +21,7 @@ import {
   SmartSessionModeType,
 } from './types'
 import { LibZip } from 'solady'
-import { Account, AccountType, Execution } from 'src/account'
+import { Account, AccountType, Execution } from '../../account'
 
 export const getPermissionId = async ({
   client,
