@@ -1,19 +1,19 @@
 import { getAccount } from 'src/account'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
 import { setupEnvironment, cleanUpEnvironment } from '../infra'
-// import { testWebauthnValidator } from '../modules'
+import { testWebauthnValidator } from '../modules'
 import {
-  // testOwnableValidator,
-  //   testAutoSavingsExecutor,
-  //   testDeadmanSwitchValidator,
-  //   testMultiFactorValidator,
-  //   testOwnableExecutor,
-  //   testRegistryHook,
-  //   testColdStorageHook,
-  //   testScheduledOrdersExecutor,
-  //   testScheduledTransfersExecutor,
-  //   testHookMultiPlexer,
-  //   testSocialRecoveryValidator,
+  testOwnableValidator,
+  testAutoSavingsExecutor,
+  testDeadmanSwitchValidator,
+  testMultiFactorValidator,
+  testOwnableExecutor,
+  testRegistryHook,
+  testColdStorageHook,
+  testScheduledOrdersExecutor,
+  testScheduledTransfersExecutor,
+  testHookMultiPlexer,
+  testSocialRecoveryValidator,
   testSmartSessionsValidator,
 } from 'test/e2e/modules'
 
@@ -40,81 +40,81 @@ describe('Test erc7579 reference implementation', () => {
     })
   }, 50000)
 
-  testSmartSessionsValidator({
+  testOwnableValidator({
     account,
     publicClient,
     testClient,
   })
 
-  // testOwnableValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testWebauthnValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testWebauthnValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testOwnableExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testOwnableExecutor({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testAutoSavingsExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testAutoSavingsExecutor({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testDeadmanSwitchValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testDeadmanSwitchValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testSocialRecoveryValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testSocialRecoveryValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testRegistryHook({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testRegistryHook({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testMultiFactorValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testMultiFactorValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testColdStorageHook({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testColdStorageHook({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testScheduledOrdersExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testScheduledOrdersExecutor({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testScheduledTransfersExecutor({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testScheduledTransfersExecutor({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testHookMultiPlexer({
+    account,
+    publicClient,
+    testClient,
+  })
 
-  // testHookMultiPlexer({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testSmartSessionsValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 })

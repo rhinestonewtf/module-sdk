@@ -14,6 +14,7 @@ import {
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
   testWebauthnValidator,
+  testSmartSessionsValidator,
 } from '../modules'
 
 describe('Test Kernel-7579 account', () => {
@@ -107,6 +108,12 @@ describe('Test Kernel-7579 account', () => {
   })
 
   testHookMultiPlexer({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testSmartSessionsValidator({
     account,
     publicClient,
     testClient,

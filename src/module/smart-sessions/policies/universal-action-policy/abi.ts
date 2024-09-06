@@ -45,7 +45,7 @@ export const abi = [
               },
             ],
             name: 'rules',
-            type: 'tuple[]',
+            type: 'tuple[16]',
           },
         ],
         name: 'paramRules',

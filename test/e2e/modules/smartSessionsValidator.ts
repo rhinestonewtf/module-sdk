@@ -8,15 +8,16 @@ import {
 import {
   encodeSmartSessionSignature,
   getDisableActionPolicies,
+  getDisableERC1271PoliciesAction,
+  getDisableUserOpPoliciesAction,
   getEnableActionPolicies,
+  getEnableERC1271PoliciesAction,
   getEnableSessionsAction,
   getEnableUserOpPoliciesAction,
   getPermissionId,
-  // getRemoveSessionAction,
   getSessionDigest,
   getSessionNonce,
   hashChainSessions,
-  isSessionEnabled,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -37,8 +38,12 @@ import {
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
 import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
-import { getUniversalActionPolicy } from 'src/module/smart-sessions/policies/universal-action-policy'
-// import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
+import {
+  getUniversalActionPolicy,
+  UNIVERSAL_ACTION_POLICY_ADDRESS,
+} from 'src/module/smart-sessions/policies/universal-action-policy'
+import { ParamCondition } from 'src/module/smart-sessions/policies/universal-action-policy/types'
+import { SUDO_POLICY_ADDRESS } from 'src/module/smart-sessions/policies/sudo-policy'
 
 type Params = {
   account: Account
@@ -65,10 +70,10 @@ export const testSmartSessionsValidator = async ({
 
   it('should return permissionId for a given session', async () => {
     const { smartSessions } = getInstallModuleData({ account })
-    const permissionId = await getPermissionId({
+    const permissionId = (await getPermissionId({
       client: publicClient,
-      session: smartSessions[0],
-    })
+      session: smartSessions.sessions[0],
+    })) as Hex
 
     expect(permissionId).toBeDefined()
   }, 20000)
@@ -77,7 +82,7 @@ export const testSmartSessionsValidator = async ({
     const { smartSessions } = getInstallModuleData({ account })
     const permissionId = (await getPermissionId({
       client: publicClient,
-      session: smartSessions[0],
+      session: smartSessions.sessions[0],
     })) as Hex
 
     const receipt = await sendUserOp({
@@ -121,7 +126,7 @@ export const testSmartSessionsValidator = async ({
     const { smartSessions } = getInstallModuleData({ account })
 
     const session: Session = {
-      ...smartSessions[0],
+      ...smartSessions.sessions[0],
       salt: toHex(toBytes('2', { size: 32 })),
     }
 
@@ -227,7 +232,7 @@ export const testSmartSessionsValidator = async ({
     const { smartSessions } = getInstallModuleData({ account })
 
     const session: Session = {
-      ...smartSessions[0],
+      ...smartSessions.sessions[0],
       salt: toHex(toBytes(55, { size: 32 })),
     }
 
@@ -243,12 +248,73 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
+  it('should enable userOp policy', async () => {
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const permissionId = (await getPermissionId({
+      client: publicClient,
+      session: smartSessions.sessions[0],
+    })) as Hex
+
+    const uniActionPolicy = getUniversalActionPolicy({
+      paramRules: {
+        length: 0,
+        rules: new Array(16).fill({
+          condition: ParamCondition.EQUAL,
+          isLimited: false,
+          offset: 0,
+          ref: toHex(toBytes('0x', { size: 32 })),
+          usage: { limit: BigInt(0), used: BigInt(0) },
+        }),
+      },
+      valueLimitPerUse: BigInt(100),
+    })
+
+    const enableUserOpPolicyAction = getEnableUserOpPoliciesAction({
+      permissionId,
+      userOpPolicies: [
+        {
+          policy: uniActionPolicy.address,
+          initData: uniActionPolicy.initData,
+        },
+      ],
+    })
+
+    const receipt = await sendUserOp({
+      actions: [enableUserOpPolicyAction],
+      account,
+    })
+
+    expect(receipt).toBeDefined()
+  }, 2000000)
+
+  it('should disable userOp policy', async () => {
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const permissionId = (await getPermissionId({
+      client: publicClient,
+      session: smartSessions.sessions[0],
+    })) as Hex
+
+    const disableUserOpPolicyAction = getDisableUserOpPoliciesAction({
+      permissionId,
+      userOpPolicies: [UNIVERSAL_ACTION_POLICY_ADDRESS],
+    })
+
+    const receipt = await sendUserOp({
+      actions: [disableUserOpPolicyAction],
+      account,
+    })
+
+    expect(receipt).toBeDefined()
+  }, 2000000)
+
   it('should enable action policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
       client: publicClient,
-      session: smartSessions[0],
+      session: smartSessions.sessions[0],
     })) as Hex
 
     const spendingLimitsPolicy = getSpendingLimitsPolicy([
@@ -287,7 +353,7 @@ export const testSmartSessionsValidator = async ({
 
     const permissionId = (await getPermissionId({
       client: publicClient,
-      session: smartSessions[0],
+      session: smartSessions.sessions[0],
     })) as Hex
 
     const actionId = keccak256(
@@ -315,55 +381,53 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should enable userOp policy', async () => {
+  it('should enable ERC1271 policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
       client: publicClient,
-      session: smartSessions[0],
+      session: smartSessions.sessions[0],
     })) as Hex
 
-    console.log('permissionId', permissionId)
-
-    const uniActionPolicy = getUniversalActionPolicy({
-      paramRules: {
-        length: 0,
-        rules: [],
+    const enableERC1271PolicyAction = getEnableERC1271PoliciesAction({
+      permissionId,
+      erc1271Policies: {
+        allowedERC7739Content: ['0x'],
+        erc1271Policies: [
+          {
+            policy: SUDO_POLICY_ADDRESS,
+            initData: '0x',
+          },
+        ],
       },
-      valueLimitPerUse: BigInt(100000000000000000),
-    })
-
-    console.log('uniActionPolicy', uniActionPolicy)
-
-    const sessionEanbled = await isSessionEnabled({
-      client: publicClient,
-      account,
-      permissionId,
-    })
-
-    console.log('sessionEanbled !!!', sessionEanbled)
-
-    const enableUserOpPolicyAction = getEnableUserOpPoliciesAction({
-      permissionId,
-      userOpPolicies: [
-        // {
-        //   policy: getSudoPolicy().address,
-        //   initData: getSudoPolicy().initData,
-        // },
-        {
-          policy: uniActionPolicy.address,
-          initData: uniActionPolicy.initData,
-        },
-      ],
     })
 
     const receipt = await sendUserOp({
-      actions: [enableUserOpPolicyAction],
+      actions: [enableERC1271PolicyAction],
       account,
     })
 
-    console.log('receipt !!!', receipt)
+    expect(receipt).toBeDefined()
+  }, 2000000)
+
+  it('should disable ERC1271 policy', async () => {
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const permissionId = (await getPermissionId({
+      client: publicClient,
+      session: smartSessions.sessions[0],
+    })) as Hex
+
+    const disableERC1271PolicyAction = getDisableERC1271PoliciesAction({
+      permissionId,
+      policies: [SUDO_POLICY_ADDRESS],
+    })
+
+    const receipt = await sendUserOp({
+      actions: [disableERC1271PolicyAction],
+      account,
+    })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 2000000)
 }
