@@ -7,6 +7,7 @@ import {
   encodeAbiParameters,
   Address,
   encodeFunctionData,
+  keccak256,
 } from 'viem'
 import { abi, encodeEnableSessionSignatureAbi } from './abi'
 import { SMART_SESSIONS_ADDRESS } from './constants'
@@ -36,6 +37,16 @@ export const getPermissionId = async ({
     functionName: 'getPermissionId',
     args: [session],
   })) as string
+}
+
+export const getActionId = async ({
+  target,
+  selector,
+}: {
+  target: Address
+  selector: Hex
+}) => {
+  return keccak256(encodePacked(['address', 'bytes4'], [target, selector]))
 }
 
 export const getSessionNonce = async ({
