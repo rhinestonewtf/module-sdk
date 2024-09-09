@@ -104,6 +104,7 @@ export {
   getSpendingLimitsPolicy,
   getSudoPolicy,
   getUniversalActionPolicy,
+  encodeSmartSessionSignature,
   CallType,
 } from './module'
 
