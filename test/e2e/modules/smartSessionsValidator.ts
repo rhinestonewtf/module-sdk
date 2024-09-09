@@ -120,7 +120,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it.skip('should validate userOp using smart session using ENABLE flow', async () => {
+  it('should validate userOp using smart session using ENABLE flow', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
