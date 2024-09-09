@@ -129,6 +129,7 @@ export {
   getSpendingLimitsPolicy,
   getSudoPolicy,
   getUniversalActionPolicy,
+  encodeSmartSessionSignature,
 } from './smart-sessions'
 
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
