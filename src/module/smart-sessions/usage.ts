@@ -159,9 +159,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
   return hashTypedData({
     domain: {
       name: 'SmartSession',
-      version: '',
-      chainId: 0,
-      verifyingContract: zeroAddress,
+      version: '1',
     },
     types: {
       PolicyData: [
