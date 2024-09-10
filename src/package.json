@@ -47,5 +47,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "solady": "^0.0.235"
   }
 }

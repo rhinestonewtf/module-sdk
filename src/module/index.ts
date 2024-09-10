@@ -130,6 +130,7 @@ export {
   getSudoPolicy,
   getUniversalActionPolicy,
   encodeSmartSessionSignature,
+  SmartSessionMode,
 } from './smart-sessions'
 
 export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
