@@ -104,51 +104,104 @@ export const getSessionDigest = async ({
   })) as Hex
 }
 
-export const encodeUseSmartSessionSignature = ({
-  permissionId,
-  signature,
-}: {
-  permissionId: Hex
-  signature: Hex
-}) => {
-  return encodePacked(
-    ['bytes1', 'bytes32', 'bytes'],
-    [
-      SmartSessionMode.USE,
-      permissionId,
-      LibZip.flzCompress(
-        encodeAbiParameters(
-          [
-            {
-              type: 'bytes',
-            },
-          ],
-          [signature],
-        ),
-      ) as Hex,
-    ],
-  )
-}
-
-export const encodeEnableSmartSessionSignature = ({
+export const encodeSmartSessionSignature = ({
+  mode,
   permissionId,
   signature,
   enableSessionData,
 }: {
+  mode: SmartSessionModeType
+  permissionId: Hex
+  signature: Hex
+  enableSessionData?: EnableSessionData
+}) => {
+  switch (mode) {
+    case SmartSessionMode.USE:
+      return encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          mode,
+          permissionId,
+          LibZip.flzCompress(
+            encodeAbiParameters(
+              [
+                {
+                  type: 'bytes',
+                },
+              ],
+              [signature],
+            ),
+          ) as Hex,
+        ],
+      )
+    case SmartSessionMode.ENABLE:
+    case SmartSessionMode.UNSAFE_ENABLE:
+      if (!enableSessionData) {
+        throw new Error('enableSession is required for ENABLE mode')
+      }
+
+      return encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          mode,
+          permissionId,
+          LibZip.flzCompress(
+            encodeEnableSessionSignature({ enableSessionData, signature }),
+          ) as Hex,
+        ],
+      )
+    default:
+      throw new Error(`Unknown mode ${mode}`)
+  }
+}
+
+export const encodeUseOrEnableSmartSessionSignature = async ({
+  account,
+  client,
+  permissionId,
+  signature,
+  enableSessionData,
+}: {
+  account: Account
+  client: PublicClient
   permissionId: Hex
   signature: Hex
   enableSessionData: EnableSessionData
 }) => {
-  return encodePacked(
-    ['bytes1', 'bytes32', 'bytes'],
-    [
-      SmartSessionMode.ENABLE,
-      permissionId,
-      LibZip.flzCompress(
-        encodeEnableSessionSignature({ enableSessionData, signature }),
-      ) as Hex,
-    ],
-  )
+  const sessionEnabled = await isSessionEnabled({
+    account,
+    client,
+    permissionId,
+  })
+
+  return sessionEnabled
+    ? encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          SmartSessionMode.USE,
+          permissionId,
+          LibZip.flzCompress(
+            encodeAbiParameters(
+              [
+                {
+                  type: 'bytes',
+                },
+              ],
+              [signature],
+            ),
+          ) as Hex,
+        ],
+      )
+    : encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          SmartSessionMode.ENABLE,
+          permissionId,
+          LibZip.flzCompress(
+            encodeEnableSessionSignature({ enableSessionData, signature }),
+          ) as Hex,
+        ],
+      )
 }
 
 export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
