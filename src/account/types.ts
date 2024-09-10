@@ -22,3 +22,8 @@ export type InitialModules = {
   hooks: Module[]
   fallbacks: Module[]
 }
+
+export type Signature1271Params = {
+  validator: Address
+  signature: Hex
+}

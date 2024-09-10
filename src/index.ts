@@ -5,6 +5,7 @@ export {
   installModule,
   isModuleInstalled,
   uninstallModule,
+  encode1271Signature,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
@@ -105,6 +106,7 @@ export {
   getSudoPolicy,
   getUniversalActionPolicy,
   encodeSmartSessionSignature,
+  SmartSessionMode,
   CallType,
 } from './module'
 

@@ -1,10 +1,11 @@
-import { Address, PublicClient } from 'viem'
-import { Account, Execution } from '../types'
+import { Address, Hex, PublicClient } from 'viem'
+import { Account, Execution, Signature1271Params } from '../types'
 import { Module, ModuleType } from '../../module/types'
 import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
+import { encode1271Signature } from './api/encode1271Signature'
 
 export class ERC7579Implementation {
   getInstalledModules = async ({
@@ -52,5 +53,12 @@ export class ERC7579Implementation {
     module: Module
   }): Promise<Execution[]> => {
     return uninstallModule({ client, account, module })
+  }
+
+  encode1271Signature = ({
+    validator,
+    signature,
+  }: Signature1271Params): Hex => {
+    return encode1271Signature({ validator, signature })
   }
 }
