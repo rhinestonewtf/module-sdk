@@ -155,6 +155,55 @@ export const encodeSmartSessionSignature = ({
   }
 }
 
+export const encodeUseOrEnableSmartSessionSignature = async ({
+  account,
+  client,
+  permissionId,
+  signature,
+  enableSessionData,
+}: {
+  account: Account
+  client: PublicClient
+  permissionId: Hex
+  signature: Hex
+  enableSessionData: EnableSessionData
+}) => {
+  const sessionEnabled = await isSessionEnabled({
+    account,
+    client,
+    permissionId,
+  })
+
+  return sessionEnabled
+    ? encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          SmartSessionMode.USE,
+          permissionId,
+          LibZip.flzCompress(
+            encodeAbiParameters(
+              [
+                {
+                  type: 'bytes',
+                },
+              ],
+              [signature],
+            ),
+          ) as Hex,
+        ],
+      )
+    : encodePacked(
+        ['bytes1', 'bytes32', 'bytes'],
+        [
+          SmartSessionMode.ENABLE,
+          permissionId,
+          LibZip.flzCompress(
+            encodeEnableSessionSignature({ enableSessionData, signature }),
+          ) as Hex,
+        ],
+      )
+}
+
 export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
   return hashTypedData({
     domain: {
@@ -202,7 +251,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
   })
 }
 
-export const encodeEnableSessionSignature = ({
+const encodeEnableSessionSignature = ({
   enableSessionData,
   signature,
 }: {
