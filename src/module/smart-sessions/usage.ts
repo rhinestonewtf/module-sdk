@@ -104,55 +104,51 @@ export const getSessionDigest = async ({
   })) as Hex
 }
 
-export const encodeSmartSessionSignature = ({
-  mode,
+export const encodeUseSmartSessionSignature = ({
+  permissionId,
+  signature,
+}: {
+  permissionId: Hex
+  signature: Hex
+}) => {
+  return encodePacked(
+    ['bytes1', 'bytes32', 'bytes'],
+    [
+      SmartSessionMode.USE,
+      permissionId,
+      LibZip.flzCompress(
+        encodeAbiParameters(
+          [
+            {
+              type: 'bytes',
+            },
+          ],
+          [signature],
+        ),
+      ) as Hex,
+    ],
+  )
+}
+
+export const encodeEnableSmartSessionSignature = ({
   permissionId,
   signature,
   enableSessionData,
 }: {
-  mode: SmartSessionModeType
   permissionId: Hex
   signature: Hex
-  enableSessionData?: EnableSessionData
+  enableSessionData: EnableSessionData
 }) => {
-  switch (mode) {
-    case SmartSessionMode.USE:
-      return encodePacked(
-        ['bytes1', 'bytes32', 'bytes'],
-        [
-          mode,
-          permissionId,
-          LibZip.flzCompress(
-            encodeAbiParameters(
-              [
-                {
-                  type: 'bytes',
-                },
-              ],
-              [signature],
-            ),
-          ) as Hex,
-        ],
-      )
-    case SmartSessionMode.ENABLE:
-    case SmartSessionMode.UNSAFE_ENABLE:
-      if (!enableSessionData) {
-        throw new Error('enableSession is required for ENABLE mode')
-      }
-
-      return encodePacked(
-        ['bytes1', 'bytes32', 'bytes'],
-        [
-          mode,
-          permissionId,
-          LibZip.flzCompress(
-            encodeEnableSessionSignature({ enableSessionData, signature }),
-          ) as Hex,
-        ],
-      )
-    default:
-      throw new Error(`Unknown mode ${mode}`)
-  }
+  return encodePacked(
+    ['bytes1', 'bytes32', 'bytes'],
+    [
+      SmartSessionMode.ENABLE,
+      permissionId,
+      LibZip.flzCompress(
+        encodeEnableSessionSignature({ enableSessionData, signature }),
+      ) as Hex,
+    ],
+  )
 }
 
 export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
@@ -202,7 +198,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
   })
 }
 
-export const encodeEnableSessionSignature = ({
+const encodeEnableSessionSignature = ({
   enableSessionData,
   signature,
 }: {

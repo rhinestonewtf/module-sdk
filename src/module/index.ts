@@ -19,6 +19,7 @@ export {
   getOwnableValidatorOwners,
   getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
+  encodeValidationData,
 } from './ownable-validator'
 
 export {
@@ -129,11 +130,26 @@ export {
   getSpendingLimitsPolicy,
   getSudoPolicy,
   getUniversalActionPolicy,
-  encodeSmartSessionSignature,
+  encodeUseSmartSessionSignature,
+  encodeEnableSmartSessionSignature,
+  isSessionEnabled,
   SmartSessionMode,
+  Session,
+  SessionEIP712,
+  PolicyData,
+  ERC7739Data,
+  ActionData,
+  EnableSession,
+  EnableSessionData,
+  ChainDigest,
+  ChainSession,
 } from './smart-sessions'
 
-export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
+export {
+  fetchRegistryModules,
+  REGISTRY_ADDRESS,
+  MOCK_ATTESTER_ADDRESS,
+} from './registry'
 
 export type {
   ModuleType,

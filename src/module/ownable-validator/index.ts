@@ -7,4 +7,5 @@ export {
   getOwnableValidatorOwners,
   getOwnableValidatorMockSignature,
   getOwnableValidatorThreshold,
+  encodeValidationData,
 } from './usage'
