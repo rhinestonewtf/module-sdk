@@ -132,6 +132,7 @@ export {
   getUniversalActionPolicy,
   encodeSmartSessionSignature,
   encodeUseOrEnableSmartSessionSignature,
+  decodeSmartSessionSignature,
   isSessionEnabled,
   hashChainSessions,
   SmartSessionMode,
