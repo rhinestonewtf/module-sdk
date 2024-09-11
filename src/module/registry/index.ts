@@ -1,2 +1,2 @@
-export { fetchRegistryModules } from './usage'
+export { fetchRegistryModules, getTrustAttestersAction } from './usage'
 export { REGISTRY_ADDRESS, MOCK_ATTESTER_ADDRESS } from './constants'

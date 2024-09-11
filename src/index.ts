@@ -88,6 +88,7 @@ export {
   getFlashloanRemoveAddressAction,
   getFlashloanWhitelist,
   fetchRegistryModules,
+  getTrustAttestersAction,
   REGISTRY_ADDRESS,
   MOCK_ATTESTER_ADDRESS,
   SMART_SESSIONS_ADDRESS,
