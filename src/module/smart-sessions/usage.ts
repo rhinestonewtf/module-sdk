@@ -8,6 +8,8 @@ import {
   Address,
   encodeFunctionData,
   keccak256,
+  slice,
+  decodeAbiParameters,
 } from 'viem'
 import { abi, encodeEnableSessionSignatureAbi } from './abi'
 import { SMART_SESSIONS_ADDRESS } from './constants'
@@ -202,6 +204,73 @@ export const encodeUseOrEnableSmartSessionSignature = async ({
           ) as Hex,
         ],
       )
+}
+
+export const decodeSmartSessionSignature = ({
+  signature,
+  account,
+}: {
+  signature: Hex
+  account?: Account
+}) => {
+  const mode = slice(signature, 0, 1)
+  const permissionId = slice(signature, 1, 33)
+  const compressedData = slice(signature, 33)
+  const data = LibZip.flzDecompress(compressedData) as Hex
+  switch (mode) {
+    case SmartSessionMode.USE:
+      const signature = decodeAbiParameters(
+        [
+          {
+            type: 'bytes',
+          },
+        ],
+        data,
+      )[0]
+      return {
+        mode,
+        permissionId,
+        signature,
+      }
+    case SmartSessionMode.ENABLE:
+    case SmartSessionMode.UNSAFE_ENABLE:
+      if (!account) {
+        throw new Error('account is required for ENABLE mode decoding')
+      }
+
+      const decodedData = decodeAbiParameters(
+        encodeEnableSessionSignatureAbi,
+        data,
+      ) as any
+      const enableSession = decodedData[0]
+
+      const permissionEnableSigSlice = account.type === 'kernel' ? 1 : 0
+      const permissionEnableSig = slice(
+        enableSession.permissionEnableSig,
+        20 + permissionEnableSigSlice,
+      )
+      const validator = slice(
+        enableSession.permissionEnableSig,
+        0 + permissionEnableSigSlice,
+        20 + permissionEnableSigSlice,
+      )
+      return {
+        mode,
+        permissionId,
+        signature: decodedData[1],
+        enableSessionData: {
+          enableSession: {
+            chainDigestIndex: enableSession.chainDigestIndex,
+            hashesAndChainIds: enableSession.hashesAndChainIds,
+            sessionToEnable: enableSession.sessionToEnable,
+            permissionEnableSig: permissionEnableSig,
+          },
+          validator: validator,
+        },
+      }
+    default:
+      throw new Error(`Unknown mode ${mode}`)
+  }
 }
 
 export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {

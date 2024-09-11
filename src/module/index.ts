@@ -132,6 +132,7 @@ export {
   getUniversalActionPolicy,
   encodeSmartSessionSignature,
   encodeUseOrEnableSmartSessionSignature,
+  decodeSmartSessionSignature,
   isSessionEnabled,
   hashChainSessions,
   SmartSessionMode,
@@ -149,6 +150,7 @@ export {
 export {
   fetchRegistryModules,
   REGISTRY_ADDRESS,
+  getTrustAttestersAction,
   MOCK_ATTESTER_ADDRESS,
 } from './registry'
 
