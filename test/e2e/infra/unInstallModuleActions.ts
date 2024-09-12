@@ -161,7 +161,6 @@ export const getUnInstallModuleActions = async ({
   })
 
   return [
-    ...unInstallSmartSessionsValidatorAction,
     ...unInstallHookMultiPlexerHookAction,
     ...unInstallScheduledTransfersExecutorAction,
     ...unInstallScheduledOrdersExecutorAction,
@@ -174,5 +173,6 @@ export const getUnInstallModuleActions = async ({
     ...unInstallOwnableExecutorAction,
     ...unInstallWebAuthnValidatorAction,
     ...unInstallOwnableValidatorAction,
+    // ...unInstallSmartSessionsValidatorAction,
   ]
 }

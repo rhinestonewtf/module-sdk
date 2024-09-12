@@ -10,6 +10,7 @@ import {
 import { Account } from 'src/account'
 import {
   Address,
+  encodeAbiParameters,
   encodePacked,
   Hex,
   PublicClient,
@@ -159,6 +160,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
+    //...installSmartSessionsValidatorAction,
     // ...installOwnableValidatorAction,
     // ...installWebAuthnValidatorAction,
     // ...installOwnableExecutorAction,
@@ -171,7 +173,6 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     // ...installScheduledOrdersExecutorAction,
     // ...installScheduledTransfersExecutorAction,
     // ...installHookMultiplexerAction,
-    ...installSmartSessionsValidatorAction,
   ]
 }
 
@@ -271,17 +272,33 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   smartSessions: {
     sessions: [
       {
-        sessionValidator: OWNABLE_VALIDATOR_ADDRESS as Address,
-        sessionValidatorInitData: encodeValidationData({
-          threshold: 1,
-          owners: [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
-        }),
-        salt: toHex(toBytes('33', { size: 32 })),
+        sessionValidator:
+          '0x6605F8785E09a245DD558e55F9A0f4A508434503' as Address,
+        sessionValidatorInitData: encodeAbiParameters(
+          [
+            {
+              type: 'uint256',
+            },
+            {
+              type: 'address[]',
+            },
+          ],
+          [
+            BigInt(1),
+            [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
+          ],
+        ),
+        salt: toHex(toBytes('2', { size: 32 })),
         userOpPolicies: [],
+        erc7739Policies: {
+          allowedERC7739Content: [],
+          erc1271Policies: [],
+        },
         actions: [
           {
-            actionTarget: account.address,
-            actionTargetSelector: '0x9cfd7cff' as Hex,
+            actionTarget:
+              '0xa564cB165815937967a7d018B7F34B907B52fcFd' as Address,
+            actionTargetSelector: '0x00000000' as Hex,
             actionPolicies: [
               {
                 policy: getSudoPolicy().address,
@@ -290,10 +307,6 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
             ],
           },
         ],
-        erc7739Policies: {
-          allowedERC7739Content: [],
-          erc1271Policies: [],
-        },
       },
     ],
     hook: zeroAddress,
