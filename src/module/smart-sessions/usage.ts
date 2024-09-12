@@ -245,6 +245,9 @@ export const decodeSmartSessionSignature = ({
       const enableSession = decodedData[0]
 
       const permissionEnableSigSlice = account.type === 'kernel' ? 1 : 0
+      if(account.type === 'kernel' && !enableSession.permissionEnableSig.startsWith('0x01')) {
+        throw new Error('Invalid permissionEnableSig for kernel account')
+      }
       const permissionEnableSig = slice(
         enableSession.permissionEnableSig,
         20 + permissionEnableSigSlice,
