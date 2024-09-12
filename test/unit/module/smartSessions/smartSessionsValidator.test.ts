@@ -170,5 +170,6 @@ describe('Smart Sessions Polices', () => {
     expect(keccak256(decodedSig.enableSessionData?.validator!)).toEqual(
       keccak256(OWNABLE_VALIDATOR_ADDRESS),
     )
+    expect(decodedSig.enableSessionData?.accountType).toEqual(account.type)
   })
 })

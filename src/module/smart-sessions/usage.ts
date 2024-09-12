@@ -241,7 +241,7 @@ export const decodeSmartSessionSignature = ({
       const decodedData = decodeAbiParameters(
         encodeEnableSessionSignatureAbi,
         data,
-      ) as any
+      ) 
       const enableSession = decodedData[0]
 
       const permissionEnableSigSlice = account.type === 'kernel' ? 1 : 0
@@ -266,7 +266,8 @@ export const decodeSmartSessionSignature = ({
             permissionEnableSig: permissionEnableSig,
           },
           validator: validator,
-        },
+          accountType: account.type,
+        } as EnableSessionData
       }
     default:
       throw new Error(`Unknown mode ${mode}`)

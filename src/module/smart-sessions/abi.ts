@@ -304,7 +304,7 @@ export const encodeEnableSessionSignatureAbi = [
     type: 'tuple',
   },
   { type: 'bytes' },
-]
+] as const
 
 export const abi = [
   {
