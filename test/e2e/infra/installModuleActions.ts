@@ -159,18 +159,18 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
-    ...installOwnableValidatorAction,
-    ...installWebAuthnValidatorAction,
-    ...installOwnableExecutorAction,
-    ...installSocialRecoveryAction,
-    ...installAutoSavingsExecutorAction,
-    ...installDeadmanSwitchValidatorAction,
-    ...installMultiFactorValidatorAction,
-    ...installVirtualCodeStorageExecutorAction,
-    ...installCallbackSendersAction,
-    ...installScheduledOrdersExecutorAction,
-    ...installScheduledTransfersExecutorAction,
-    ...installHookMultiplexerAction,
+    // ...installOwnableValidatorAction,
+    // ...installWebAuthnValidatorAction,
+    // ...installOwnableExecutorAction,
+    // ...installSocialRecoveryAction,
+    // ...installAutoSavingsExecutorAction,
+    // ...installDeadmanSwitchValidatorAction,
+    // ...installMultiFactorValidatorAction,
+    // ...installVirtualCodeStorageExecutorAction,
+    // ...installCallbackSendersAction,
+    // ...installScheduledOrdersExecutorAction,
+    // ...installScheduledTransfersExecutorAction,
+    // ...installHookMultiplexerAction,
     ...installSmartSessionsValidatorAction,
   ]
 }
@@ -276,7 +276,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
           threshold: 1,
           owners: [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
         }),
-        salt: toHex(toBytes('1', { size: 32 })),
+        salt: toHex(toBytes('33', { size: 32 })),
         userOpPolicies: [],
         actions: [
           {

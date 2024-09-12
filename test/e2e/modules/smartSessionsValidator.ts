@@ -28,7 +28,11 @@ import {
   TestClient,
   toBytes,
   toHex,
+  type TypedDataDefinition,
 } from 'viem'
+
+import { hashTypedData } from 'viem/experimental/solady'
+
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ChainSession,
@@ -127,7 +131,7 @@ export const testSmartSessionsValidator = async ({
 
     const session: Session = {
       ...smartSessions.sessions[0],
-      salt: toHex(toBytes('2', { size: 32 })),
+      salt: toHex(toBytes('43345', { size: 32 })),
     }
 
     const permissionId = (await getPermissionId({
@@ -430,4 +434,61 @@ export const testSmartSessionsValidator = async ({
 
     expect(receipt).toBeDefined()
   }, 2000000)
+
+  it('should return true when checking is valid signature', async () => {
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const permissionId = (await getPermissionId({
+      client: publicClient,
+      session: smartSessions.sessions[0],
+    })) as Hex
+
+    const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+
+    const userOpHash = keccak256('0xuserOpHash')
+
+    // bytes1 fields,
+    // string memory name,
+    // string memory version,
+    // uint256 chainId,
+    // address verifyingContract,
+    // bytes32 salt,
+    // uint256[] memory extensions
+
+    const typedData = {
+      domain: {
+        name: 'SmartSession',
+        version: '1',
+      },
+      types: {
+        Permit: [{ name: 'hash', type: 'bytes' }],
+      },
+      extensions: [],
+      primaryType: 'Permit',
+      message: {
+        hash: userOpHash,
+      },
+      fields: '0x0f',
+      verifierDomain: {
+        name: 'Smart Account',
+        version: '1',
+        verifyingContract: '0x1234567890abcdef1234567890abcdef12345678',
+        chainId: 1,
+      },
+    } as const
+
+    let signature = await signer.signTypedData(typedData)
+    signature = encodePacked(['bytes32', 'bytes'], [permissionId, signature])
+
+    const valid = (await publicClient.verifyMessage({
+      address: account.address,
+      message: { raw: userOpHash },
+      signature: encodePacked(
+        ['address', 'bytes'],
+        [SMART_SESSIONS_ADDRESS, signature],
+      ),
+    })) as boolean
+
+    expect(valid).toBe(true)
+  }, 20000)
 }
