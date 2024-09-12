@@ -241,10 +241,13 @@ export const decodeSmartSessionSignature = ({
       const decodedData = decodeAbiParameters(
         encodeEnableSessionSignatureAbi,
         data,
-      ) as any
+      ) 
       const enableSession = decodedData[0]
 
       const permissionEnableSigSlice = account.type === 'kernel' ? 1 : 0
+      if(account.type === 'kernel' && !enableSession.permissionEnableSig.startsWith('0x01')) {
+        throw new Error('Invalid permissionEnableSig for kernel account')
+      }
       const permissionEnableSig = slice(
         enableSession.permissionEnableSig,
         20 + permissionEnableSigSlice,
@@ -266,7 +269,8 @@ export const decodeSmartSessionSignature = ({
             permissionEnableSig: permissionEnableSig,
           },
           validator: validator,
-        },
+          accountType: account.type,
+        } as EnableSessionData
       }
     default:
       throw new Error(`Unknown mode ${mode}`)
