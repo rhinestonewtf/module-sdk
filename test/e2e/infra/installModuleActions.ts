@@ -160,19 +160,19 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
-    //...installSmartSessionsValidatorAction,
-    // ...installOwnableValidatorAction,
-    // ...installWebAuthnValidatorAction,
-    // ...installOwnableExecutorAction,
-    // ...installSocialRecoveryAction,
-    // ...installAutoSavingsExecutorAction,
-    // ...installDeadmanSwitchValidatorAction,
-    // ...installMultiFactorValidatorAction,
-    // ...installVirtualCodeStorageExecutorAction,
-    // ...installCallbackSendersAction,
-    // ...installScheduledOrdersExecutorAction,
-    // ...installScheduledTransfersExecutorAction,
-    // ...installHookMultiplexerAction,
+    ...installSmartSessionsValidatorAction,
+    ...installOwnableValidatorAction,
+    ...installWebAuthnValidatorAction,
+    ...installOwnableExecutorAction,
+    ...installSocialRecoveryAction,
+    ...installAutoSavingsExecutorAction,
+    ...installDeadmanSwitchValidatorAction,
+    ...installMultiFactorValidatorAction,
+    ...installVirtualCodeStorageExecutorAction,
+    ...installCallbackSendersAction,
+    ...installScheduledOrdersExecutorAction,
+    ...installScheduledTransfersExecutorAction,
+    ...installHookMultiplexerAction,
   ]
 }
 

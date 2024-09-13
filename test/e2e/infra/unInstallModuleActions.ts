@@ -173,6 +173,6 @@ export const getUnInstallModuleActions = async ({
     ...unInstallOwnableExecutorAction,
     ...unInstallWebAuthnValidatorAction,
     ...unInstallOwnableValidatorAction,
-    // ...unInstallSmartSessionsValidatorAction,
+    ...unInstallSmartSessionsValidatorAction,
   ]
 }
