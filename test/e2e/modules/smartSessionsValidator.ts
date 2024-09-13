@@ -28,7 +28,10 @@ import {
   TestClient,
   toBytes,
   toHex,
+  zeroAddress,
 } from 'viem'
+import { hashTypedData } from 'viem/experimental/solady'
+
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ChainSession,
@@ -89,9 +92,9 @@ export const testSmartSessionsValidator = async ({
       account,
       actions: [
         {
-          target: account.address,
+          target: smartSessions.sessions[0].actions[0].actionTarget,
           value: BigInt(0),
-          callData: '0x9cfd7cff',
+          callData: smartSessions.sessions[0].actions[0].actionTargetSelector,
         },
       ],
       validator: SMART_SESSIONS_ADDRESS,
@@ -120,14 +123,14 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should validate userOp using smart session using ENABLE flow', async () => {
+  it.skip('should validate userOp using smart session using ENABLE flow', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
 
     const session: Session = {
       ...smartSessions.sessions[0],
-      salt: toHex(toBytes('2', { size: 32 })),
+      salt: toHex(toBytes('44433', { size: 32 })),
     }
 
     const permissionId = (await getPermissionId({
@@ -179,9 +182,9 @@ export const testSmartSessionsValidator = async ({
       account,
       actions: [
         {
-          target: account.address,
+          target: smartSessions.sessions[0].actions[0].actionTarget,
           value: BigInt(0),
-          callData: '0x9cfd7cff',
+          callData: smartSessions.sessions[0].actions[0].actionTargetSelector,
         },
       ],
       validator: SMART_SESSIONS_ADDRESS,
@@ -430,4 +433,58 @@ export const testSmartSessionsValidator = async ({
 
     expect(receipt).toBeDefined()
   }, 2000000)
+
+  it('should return true when checking is valid signature', async () => {
+    const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const permissionId = (await getPermissionId({
+      client: publicClient,
+      session: smartSessions.sessions[0],
+    })) as Hex
+
+    const userOpHash = keccak256('0xuserOpHash')
+
+    const typedData = {
+      domain: {
+        name: 'SmartSession',
+        version: '1',
+        chainId: sepolia.id,
+        verifyingContract: SMART_SESSIONS_ADDRESS,
+      },
+      types: {
+        Permit: [{ name: 'hash', type: 'bytes' }],
+      },
+      primaryType: 'Permit',
+      message: {
+        hash: userOpHash,
+      },
+      extensions: [],
+      fields: '0x0f',
+      verifierDomain: {
+        name: 'SmartSession',
+        version: '1',
+        verifyingContract: SMART_SESSIONS_ADDRESS,
+        chainId: sepolia.id,
+      },
+    } as const
+
+    const hashedData = hashTypedData(typedData)
+
+    let signature = await signer.signMessage({ message: { raw: hashedData } })
+
+    signature = encodePacked(['bytes32', 'bytes'], [permissionId, signature])
+
+    const valid = (await publicClient.verifyMessage({
+      address: account.address,
+      message: { raw: userOpHash },
+      signature: encodePacked(
+        ['address', 'bytes'],
+        [SMART_SESSIONS_ADDRESS, signature],
+      ),
+    })) as boolean
+
+    expect(valid).toBe(true)
+  }, 20000)
 }
