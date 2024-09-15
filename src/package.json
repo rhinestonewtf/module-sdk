@@ -49,6 +49,7 @@
     "access": "public"
   },
   "dependencies": {
-    "solady": "^0.0.235"
+    "solady": "^0.0.235",
+    "tslib": "^2.7.0"
   }
 }
