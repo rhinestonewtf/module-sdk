@@ -24,6 +24,7 @@ export type InitialModules = {
 }
 
 export type ERC1271SignatureParams = {
+  account: Address
   validator: Address
   signature: Hex
 }

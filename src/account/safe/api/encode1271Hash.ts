@@ -1,5 +1,5 @@
 import { ERC1271HashParams } from '../../types'
-import { hashMessage, hashTypedData, Hex } from 'viem'
+import { hashTypedData, Hex } from 'viem'
 
 export const encode1271Hash = ({
   account,
@@ -18,7 +18,7 @@ export const encode1271Hash = ({
       },
       primaryType: 'SafeMessage',
       message: {
-        message: hashMessage(hash),
+        message: hash,
       },
     })
   }

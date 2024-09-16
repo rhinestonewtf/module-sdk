@@ -62,10 +62,11 @@ export class ERC7579Implementation {
   }
 
   encode1271Signature = ({
+    account,
     validator,
     signature,
   }: ERC1271SignatureParams): Hex => {
-    return encode1271Signature({ validator, signature })
+    return encode1271Signature({ account, validator, signature })
   }
 
   encode1271Hash = ({

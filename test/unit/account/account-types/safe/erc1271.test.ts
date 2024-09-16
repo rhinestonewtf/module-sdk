@@ -9,7 +9,7 @@ import { Hex, keccak256, parseAbi, toHex } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
 
-describe.skip('test ERC-1271 on the account', () => {
+describe('test ERC-1271 on the account', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockSafeAccountDeployed)
@@ -31,10 +31,8 @@ describe.skip('test ERC-1271 on the account', () => {
 
     const signature = encode1271Signature({
       account,
-      signatureParams: {
-        signature: rawSignature,
-        validator: validator.module,
-      },
+      signature: rawSignature,
+      validator: validator.module,
     })
 
     const returnValue = await client.readContract({
@@ -64,10 +62,8 @@ describe.skip('test ERC-1271 on the account', () => {
 
     const signature = encode1271Signature({
       account,
-      signatureParams: {
-        signature: rawSignature,
-        validator: account.address,
-      },
+      signature: rawSignature,
+      validator: account.address,
     })
 
     const returnValue = await client.readContract({
