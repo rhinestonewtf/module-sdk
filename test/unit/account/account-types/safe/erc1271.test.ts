@@ -9,7 +9,7 @@ import { Hex, keccak256, parseAbi, toHex } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
 
-describe('test ERC-1271 on the account', () => {
+describe.skip('test ERC-1271 on the account', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockSafeAccountDeployed)

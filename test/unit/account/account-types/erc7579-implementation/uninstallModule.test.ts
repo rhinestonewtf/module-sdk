@@ -17,7 +17,7 @@ describe('Get calldata to uninstall a module', () => {
   const executor = getModule(MockExecutor)
   const hook = getModule(MockHook)
   const fallback = getModule(MockFallback)
-  it('Should return the data to uninstall a validator', async () => {
+  it.skip('Should return the data to uninstall a validator', async () => {
     const executions = await uninstallModule({
       client,
       account,

@@ -24,14 +24,14 @@ describe('Get installation status of module', () => {
   const fallback = getModule(MockSafeFallback)
   const notInstalledModuleAddress = SENTINEL_ADDRESS
 
-  it('Should return false for installed validator', async () => {
+  it('Should return true for installed validator', async () => {
     const isInstalled = await isModuleInstalled({
       client,
       account,
       module: validator,
     })
 
-    expect(isInstalled).toEqual(false)
+    expect(isInstalled).toEqual(true)
   })
   it('Should return false for installed executor', async () => {
     const isInstalled = await isModuleInstalled({

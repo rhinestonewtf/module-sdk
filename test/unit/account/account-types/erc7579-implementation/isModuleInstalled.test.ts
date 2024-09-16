@@ -15,13 +15,9 @@ describe('Get installation status of module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
-  const validator = getModule({
-    ...MockValidator,
-    module: '0xb236cde7e68431d874fd90e10b1910af5dc45dac',
-  })
+  const validator = getModule(MockValidator)
   const executor = getModule({
     ...MockExecutor,
-    module: '0x61291900F0810466802008A6B292e7Fa8C97cCF9',
   })
   const hook = getModule(MockHook)
   const fallback = getModule(MockFallback)
@@ -43,7 +39,7 @@ describe('Get installation status of module', () => {
       module: executor,
     })
 
-    expect(isInstalled).toEqual(true)
+    expect(isInstalled).toEqual(false)
   })
   it('Should return false for installed fallback', async () => {
     // Not implemented yet

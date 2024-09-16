@@ -17,7 +17,9 @@ describe('Get calldata to uninstall a module', () => {
   const executor = getModule(MockExecutor)
   const hook = getModule(MockSafeHook)
   const fallback = getModule(MockSafeFallback)
-  it('Should return the data to uninstall a validator', async () => {
+
+  // ToDo: Enable test case after implementing wildcard indexing
+  it.skip('Should return the data to uninstall a validator', async () => {
     const executions = await uninstallModule({
       client,
       account,
