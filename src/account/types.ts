@@ -23,7 +23,15 @@ export type InitialModules = {
   fallbacks: Module[]
 }
 
-export type Signature1271Params = {
+export type ERC1271SignatureParams = {
+  account: Address
   validator: Address
   signature: Hex
+}
+
+export type ERC1271HashParams = {
+  account: Address
+  chainId: number
+  validator: Address
+  hash: Hex
 }

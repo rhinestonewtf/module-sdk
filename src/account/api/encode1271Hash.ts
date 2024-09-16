@@ -1,20 +1,23 @@
 import { Address, Hex } from 'viem'
-import { Account, ERC1271SignatureParams } from '../types'
+import { Account, ERC1271HashParams } from '../types'
 import { getAccountImplementation } from './getAccountImplementation'
 
-export const encode1271Signature = ({
+export const encode1271Hash = ({
   account,
+  chainId,
   validator,
-  signature,
+  hash,
 }: {
   account: Account
+  chainId: number
   validator: Address
-  signature: Hex
+  hash: Hex
 }): Hex => {
   const accountImplementation = getAccountImplementation({ account })
-  return accountImplementation.encode1271Signature({
+  return accountImplementation.encode1271Hash({
     account: account.address,
+    chainId,
     validator,
-    signature,
+    hash,
   })
 }

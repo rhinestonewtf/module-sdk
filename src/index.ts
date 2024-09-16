@@ -6,6 +6,7 @@ export {
   isModuleInstalled,
   uninstallModule,
   encode1271Signature,
+  encode1271Hash,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 

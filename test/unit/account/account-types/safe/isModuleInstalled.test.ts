@@ -1,7 +1,7 @@
 import { getAccount, isModuleInstalled } from 'src'
 import { getModule } from 'src'
 import { getClient } from 'src'
-import { MockKernelAccountDeployed } from 'test/utils/mocks/account'
+import { MockSafeAccountDeployed } from 'test/utils/mocks/account'
 import { MockClient } from 'test/utils/mocks/client'
 import {
   MockExecutor,
@@ -14,7 +14,7 @@ import { SENTINEL_ADDRESS } from 'src'
 describe('Get installation status of module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockKernelAccountDeployed)
+  const account = getAccount(MockSafeAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule({
     ...MockExecutor,
@@ -24,14 +24,14 @@ describe('Get installation status of module', () => {
   const fallback = getModule(MockSafeFallback)
   const notInstalledModuleAddress = SENTINEL_ADDRESS
 
-  it('Should return false for installed validator', async () => {
+  it('Should return true for installed validator', async () => {
     const isInstalled = await isModuleInstalled({
       client,
       account,
       module: validator,
     })
 
-    expect(isInstalled).toEqual(false)
+    expect(isInstalled).toEqual(true)
   })
   it('Should return false for installed executor', async () => {
     const isInstalled = await isModuleInstalled({
