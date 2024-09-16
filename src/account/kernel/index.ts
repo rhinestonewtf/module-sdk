@@ -1,11 +1,17 @@
 import { Address, Hex, PublicClient } from 'viem'
-import { Account, Execution, Signature1271Params } from '../types'
+import {
+  Account,
+  Execution,
+  ERC1271SignatureParams,
+  ERC1271HashParams,
+} from '../types'
 import { getInstalledModules } from './api/getInstalledModules'
 import { installModule } from './api/installModule'
 import { isModuleInstalled } from './api/isModuleInstalled'
 import { uninstallModule } from './api/uninstallModule'
 import { KernelModule, KernelModuleType } from './types'
 import { encode1271Signature } from './api/encode1271Signature'
+import { encode1271Hash } from './api/encode1271Hash'
 
 export class KernelImplementation {
   getInstalledModules = async ({
@@ -58,7 +64,16 @@ export class KernelImplementation {
   encode1271Signature = ({
     validator,
     signature,
-  }: Signature1271Params): Hex => {
+  }: ERC1271SignatureParams): Hex => {
     return encode1271Signature({ validator, signature })
+  }
+
+  encode1271Hash = ({
+    account,
+    chainId,
+    validator,
+    hash,
+  }: ERC1271HashParams): Hex => {
+    return encode1271Hash({ account, chainId, validator, hash })
   }
 }

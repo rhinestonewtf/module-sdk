@@ -1,7 +1,7 @@
 import { getAccount, isModuleInstalled } from 'src'
 import { getModule } from 'src'
 import { getClient } from 'src'
-import { MockKernelAccountDeployed } from 'test/utils/mocks/account'
+import { MockSafeAccountDeployed } from 'test/utils/mocks/account'
 import { MockClient } from 'test/utils/mocks/client'
 import {
   MockExecutor,
@@ -14,7 +14,7 @@ import { SENTINEL_ADDRESS } from 'src'
 describe('Get installation status of module', () => {
   // Setup
   const client = getClient(MockClient)
-  const account = getAccount(MockKernelAccountDeployed)
+  const account = getAccount(MockSafeAccountDeployed)
   const validator = getModule(MockValidator)
   const executor = getModule({
     ...MockExecutor,
