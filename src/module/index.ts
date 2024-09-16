@@ -20,7 +20,7 @@ export {
   getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
   encodeValidationData,
-  getOwnableValidatorSignatures,
+  getOwnableValidatorSignature,
 } from './ownable-validator'
 
 export {
@@ -153,6 +153,7 @@ export {
   REGISTRY_ADDRESS,
   getTrustAttestersAction,
   MOCK_ATTESTER_ADDRESS,
+  RHINESTONE_ATTESTER_ADDRESS,
 } from './registry'
 
 export type {

@@ -19,7 +19,7 @@ import {
   encodeValidationData,
   getOwnableValidatorThreshold,
   getSetOwnableValidatorThresholdAction,
-  getOwnableValidatorSignatures,
+  getOwnableValidatorSignature,
 } from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
 import {
@@ -62,10 +62,15 @@ export const testOwnableValidator = async ({
       client: publicClient,
     })
 
+    const ownersSorted = owners.sort()
+    const expectedOwnersSorted = ownableValidator.owners.sort()
+
     expect(owners.length).toEqual(ownableValidator.owners.length)
-    expect(getAddress(owners.sort()[0])).toEqual(
-      getAddress(ownableValidator.owners[0]),
-    )
+    for (let i = 0; i < owners.length; i++) {
+      expect(getAddress(ownersSorted[i])).toEqual(
+        getAddress(expectedOwnersSorted[i]),
+      )
+    }
   }, 20000)
 
   it('should add new owner to ownable validator', async () => {
@@ -91,8 +96,9 @@ export const testOwnableValidator = async ({
   }, 20000)
 
   it('should remove owner from ownable validator', async () => {
-    const ownerToRemove =
-      '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
+    const ownerToRemove = privateKeyToAccount(
+      '0xf8e4de715b5cddc791e98d9110abe9e05117fbe5004e2241374ea654e7bf15fe' as Hex,
+    ).address
 
     const oldOwners = await getOwnableValidatorOwners({
       account,
@@ -111,6 +117,30 @@ export const testOwnableValidator = async ({
       client: publicClient,
     })
     expect(newOwners.length).toEqual(oldOwners.length - 1)
+  }, 20000)
+
+  it('should re-add a previous owner to ownable validator', async () => {
+    const newOwner = privateKeyToAccount(
+      '0xf8e4de715b5cddc791e98d9110abe9e05117fbe5004e2241374ea654e7bf15fe' as Hex,
+    ).address
+
+    const oldOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    const addNewOwnerAction = (await getAddOwnableValidatorOwnerAction({
+      owner: newOwner,
+      account,
+      client: publicClient,
+    })) as Execution
+
+    await sendUserOp({ account, actions: [addNewOwnerAction] })
+
+    const newOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    expect(newOwners.length).toEqual(oldOwners.length + 1)
   }, 20000)
 
   it('should return true when checking stateless validation', async () => {
@@ -164,7 +194,7 @@ export const testOwnableValidator = async ({
           message: { raw: userOpHash },
         })
 
-        return getOwnableValidatorSignatures({
+        return getOwnableValidatorSignature({
           signatures: [signature],
         })
       },
@@ -240,7 +270,7 @@ export const testOwnableValidator = async ({
           message: { raw: userOpHash },
         })
 
-        return getOwnableValidatorSignatures({
+        return getOwnableValidatorSignature({
           signatures: [signature1, signature2, signature3],
         })
       },
