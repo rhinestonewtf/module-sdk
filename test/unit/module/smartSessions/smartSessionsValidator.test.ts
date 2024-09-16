@@ -52,7 +52,9 @@ describe('Smart Sessions Polices', () => {
 
   it('should correctly encode and decode the session signature in use mode', async () => {
     const permissionId = keccak256(toHex('permissionId'))
-    const signature = getOwnableValidatorMockSignature()
+    const signature = getOwnableValidatorMockSignature({
+      threshold: 1,
+    })
 
     const encodedSig = encodeSmartSessionSignature({
       mode: SmartSessionMode.USE,
@@ -358,13 +360,13 @@ describe('Smart Sessions Polices', () => {
     const wrongAccount = getAccount({
       address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
       type: 'kernel',
-    }) 
-    
-    expect(() => decodeSmartSessionSignature({
-      signature: encodedSig,
-      account: wrongAccount,
-    })).toThrow('Invalid permissionEnableSig for kernel account');
+    })
 
+    expect(() =>
+      decodeSmartSessionSignature({
+        signature: encodedSig,
+        account: wrongAccount,
+      }),
+    ).toThrow('Invalid permissionEnableSig for kernel account')
   })
-
 })

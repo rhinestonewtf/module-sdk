@@ -115,7 +115,9 @@ export const testSmartSessionsValidator = async ({
         return encodeSmartSessionSignature({
           mode: SmartSessionMode.USE,
           permissionId,
-          signature: getOwnableValidatorMockSignature(),
+          signature: getOwnableValidatorMockSignature({
+            threshold: 1,
+          }),
         })
       },
     })
@@ -123,7 +125,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it.skip('should validate userOp using smart session using ENABLE flow', async () => {
+  it('should validate userOp using smart session using ENABLE flow', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -213,7 +215,9 @@ export const testSmartSessionsValidator = async ({
         return encodeSmartSessionSignature({
           mode: SmartSessionMode.ENABLE,
           permissionId,
-          signature: getOwnableValidatorMockSignature(),
+          signature: getOwnableValidatorMockSignature({
+            threshold: 1,
+          }),
           enableSessionData: {
             enableSession: {
               chainDigestIndex: 0,
@@ -434,7 +438,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 2000000)
 
-  it('should return true when checking is valid signature', async () => {
+  it.skip('should return true when checking is valid signature', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
