@@ -1,7 +1,7 @@
 import { CallType, Module } from 'src/module/types'
 
 export const MockValidator: Module = {
-  module: '0x503b54ed1e62365f0c9e4caf1479623b08acbe77',
+  module: '0x503b54Ed1E62365F0c9e4caF1479623b08acbe77',
   initData: '0x',
   type: 'validator',
   hook: '0x73cC9a599d853D4e5a9Bc092578ef3DB7e063179',

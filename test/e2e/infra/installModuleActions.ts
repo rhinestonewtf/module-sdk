@@ -4,13 +4,27 @@ import {
   getWebAuthnValidator,
   getScheduledOrdersExecutor,
   getScheduledTransfersExecutor,
+  getSmartSessionsValidator,
+  OWNABLE_VALIDATOR_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
-import { Address, encodePacked, Hex, PublicClient, zeroAddress } from 'viem'
+import {
+  Address,
+  encodeAbiParameters,
+  encodePacked,
+  Hex,
+  PublicClient,
+  toBytes,
+  toHex,
+  zeroAddress,
+} from 'viem'
 import { CallType } from 'src/module/types'
 import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
+import { encodeValidationData } from 'src/module/ownable-validator/usage'
+import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
+import { privateKeyToAccount } from 'viem/accounts'
 import { getOwnableExecuter } from 'src/module/ownable-executer'
 import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { getAutoSavingsExecutor } from 'src/module/auto-savings'
@@ -41,6 +55,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     scheduledOrdersExecutor,
     scheduledTransfersExecutor,
     hookMultiPlexer,
+    smartSessions,
   } = getInstallModuleData({
     account,
   })
@@ -137,7 +152,15 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     module: getHookMultiPlexer(hookMultiPlexer),
   })
 
+  // install smart sessions validator
+  const installSmartSessionsValidatorAction = await installModule({
+    client,
+    account,
+    module: getSmartSessionsValidator(smartSessions),
+  })
+
   return [
+    ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
     ...installWebAuthnValidatorAction,
     ...installOwnableExecutorAction,
@@ -157,8 +180,10 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [
-      account.address,
-      '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
+      privateKeyToAccount(
+        '0xf8e4de715b5cddc791e98d9110abe9e05117fbe5004e2241374ea654e7bf15fe' as Hex,
+      ).address,
+      privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address,
     ],
     hook: zeroAddress,
   },
@@ -245,5 +270,47 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     sigHooks: [],
     selector: '0x00000000' as Hex,
     hookType: SafeHookType.GLOBAL,
+  },
+  smartSessions: {
+    sessions: [
+      {
+        sessionValidator:
+          '0x6605F8785E09a245DD558e55F9A0f4A508434503' as Address,
+        sessionValidatorInitData: encodeAbiParameters(
+          [
+            {
+              type: 'uint256',
+            },
+            {
+              type: 'address[]',
+            },
+          ],
+          [
+            BigInt(1),
+            [privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address],
+          ],
+        ),
+        salt: toHex(toBytes('2', { size: 32 })),
+        userOpPolicies: [],
+        erc7739Policies: {
+          allowedERC7739Content: [],
+          erc1271Policies: [],
+        },
+        actions: [
+          {
+            actionTarget:
+              '0xa564cB165815937967a7d018B7F34B907B52fcFd' as Address,
+            actionTargetSelector: '0x00000000' as Hex,
+            actionPolicies: [
+              {
+                policy: getSudoPolicy().address,
+                initData: getSudoPolicy().initData,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    hook: zeroAddress,
   },
 })

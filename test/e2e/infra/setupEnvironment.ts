@@ -38,7 +38,10 @@ export const setupEnvironment = async ({
   const batch2 = installAllModulesActions.slice(5)
 
   if (batch1.length) {
-    await sendUserOp({ actions: batch1, account })
+    await sendUserOp({
+      actions: [...batch1],
+      account,
+    })
   }
 
   if (batch2.length) {

@@ -83,3 +83,17 @@ export const getExecuteScheduledTransferAction = ({
     }),
   }
 }
+
+export const getToggleScheduledTransferAction = ({
+  jobId,
+}: ExecuteTransferParams): Execution => {
+  return {
+    target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    value: BigInt(0),
+    callData: encodeFunctionData({
+      functionName: 'toggleOrder',
+      abi,
+      args: [BigInt(jobId)],
+    }),
+  }
+}

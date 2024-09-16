@@ -1,7 +1,7 @@
 import { getAccount } from 'src/account'
 import { getPublicClient, getTestClient } from 'test/utils/userOps/clients'
 import { setupEnvironment, cleanUpEnvironment } from '../infra'
-import { testWebauthnValidator } from '../modules'
+import { testSmartSessionsValidator, testWebauthnValidator } from '../modules'
 import {
   testOwnableValidator,
   testAutoSavingsExecutor,
@@ -106,6 +106,12 @@ describe('Test Nexus-7579 Account', () => {
   })
 
   testHookMultiPlexer({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testSmartSessionsValidator({
     account,
     publicClient,
     testClient,

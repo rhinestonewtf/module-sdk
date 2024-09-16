@@ -19,6 +19,8 @@ export {
   getOwnableValidatorOwners,
   getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
+  encodeValidationData,
+  getOwnableValidatorSignature,
 } from './ownable-validator'
 
 export {
@@ -35,6 +37,7 @@ export {
   getCreateScheduledTransferAction,
   getScheduledTransferData,
   getExecuteScheduledTransferAction,
+  getToggleScheduledTransferAction,
 } from './scheduled-transfers'
 
 export {
@@ -110,7 +113,48 @@ export {
   getColdStorageHook,
 } from './cold-storage'
 
-export { fetchRegistryModules, REGISTRY_ADDRESS } from './registry'
+export {
+  SMART_SESSIONS_ADDRESS,
+  getSmartSessionsValidator,
+  getEnableSessionsAction,
+  getRemoveSessionAction,
+  getEnableUserOpPoliciesAction,
+  getDisableUserOpPoliciesAction,
+  getEnableERC1271PoliciesAction,
+  getDisableERC1271PoliciesAction,
+  getEnableActionPolicies,
+  getDisableActionPolicies,
+  getPermissionId,
+  getActionId,
+  getSessionDigest,
+  getSessionNonce,
+  getSpendingLimitsPolicy,
+  getSudoPolicy,
+  getUniversalActionPolicy,
+  encodeSmartSessionSignature,
+  encodeUseOrEnableSmartSessionSignature,
+  decodeSmartSessionSignature,
+  isSessionEnabled,
+  hashChainSessions,
+  SmartSessionMode,
+  Session,
+  SessionEIP712,
+  PolicyData,
+  ERC7739Data,
+  ActionData,
+  EnableSession,
+  EnableSessionData,
+  ChainDigest,
+  ChainSession,
+} from './smart-sessions'
+
+export {
+  fetchRegistryModules,
+  REGISTRY_ADDRESS,
+  getTrustAttestersAction,
+  MOCK_ATTESTER_ADDRESS,
+  RHINESTONE_ATTESTER_ADDRESS,
+} from './registry'
 
 export type {
   ModuleType,

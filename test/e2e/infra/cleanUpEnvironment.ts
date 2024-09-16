@@ -10,6 +10,7 @@ type Params = {
 
 // Clean up the environment by uninstalling all modules
 export const cleanUpEnvironment = async ({ account, client }: Params) => {
+  console.log('Cleaning up environment...')
   const unInstallAllModulesActions = await getUnInstallModuleActions({
     account,
     client,

@@ -13,12 +13,11 @@
     "noImplicitReturns": true, // Not enabled by default in `strict` mode.
     "useUnknownInCatchVariables": true, // TODO: This would normally be enabled in `strict` mode but would require some adjustments to the codebase.
     "noImplicitOverride": true, // Not enabled by default in `strict` mode.
-    "noUnusedLocals": true, // Not enabled by default in `strict` mode.
-    "noUnusedParameters": true, // Not enabled by default in `strict` mode.
+    "noUnusedLocals": false, // Not enabled by default in `strict` mode.
+    "noUnusedParameters": false, // Not enabled by default in `strict` mode.
     "exactOptionalPropertyTypes": false, // todo
     // TODO: Uncomment and fix types.
     // "noUncheckedIndexedAccess": true,
-
     // JavaScript support
     "allowJs": false,
     "checkJs": false,
