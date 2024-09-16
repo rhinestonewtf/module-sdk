@@ -20,6 +20,7 @@ export {
   getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
   encodeValidationData,
+  getOwnableValidatorSignatures,
 } from './ownable-validator'
 
 export {

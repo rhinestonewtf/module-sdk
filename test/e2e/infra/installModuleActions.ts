@@ -180,7 +180,9 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   ownableValidator: {
     threshold: 1,
     owners: [
-      '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
+      privateKeyToAccount(
+        '0xf8e4de715b5cddc791e98d9110abe9e05117fbe5004e2241374ea654e7bf15fe' as Hex,
+      ).address,
       privateKeyToAccount(process.env.PRIVATE_KEY as Hex).address,
     ],
     hook: zeroAddress,

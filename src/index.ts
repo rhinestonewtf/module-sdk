@@ -27,6 +27,7 @@ export {
   getOwnableValidatorOwners,
   getOwnableValidatorThreshold,
   getOwnableValidatorMockSignature,
+  getOwnableValidatorSignatures,
   encodeValidationData,
   SCHEDULED_ORDERS_EXECUTER_ADDRESS,
   getScheduledOrdersExecutor,

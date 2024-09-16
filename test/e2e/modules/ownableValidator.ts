@@ -2,6 +2,8 @@ import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
 import {
   Address,
+  concat,
+  encodePacked,
   getAddress,
   Hex,
   PublicClient,
@@ -15,6 +17,9 @@ import {
   getRemoveOwnableValidatorOwnerAction,
   getIsValidSignatureStateless,
   encodeValidationData,
+  getOwnableValidatorThreshold,
+  getSetOwnableValidatorThresholdAction,
+  getOwnableValidatorSignatures,
 } from 'src/module/ownable-validator/usage'
 import { sendUserOp } from '../infra'
 import {
@@ -23,7 +28,7 @@ import {
   signUserOperationHashWithECDSA,
 } from 'permissionless'
 import { anvil } from 'viem/chains'
-import { privateKeyToAccount } from 'viem/accounts'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { getOwnableValidatorMockSignature } from 'src/module'
 
 type Params = {
@@ -159,10 +164,88 @@ export const testOwnableValidator = async ({
           message: { raw: userOpHash },
         })
 
-        return signature
+        return getOwnableValidatorSignatures({
+          signatures: [signature],
+        })
       },
       getDummySignature: async () => {
-        return getOwnableValidatorMockSignature()
+        return getOwnableValidatorMockSignature({ threshold: 1 })
+      },
+    })
+
+    expect(receipt).toBeDefined()
+  }, 20000)
+  it('should validate userOp using ownable validator and three owners', async () => {
+    // add new owner
+    const thirdOwner = privateKeyToAccount(generatePrivateKey())
+
+    const oldOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    const addNewOwnerAction = (await getAddOwnableValidatorOwnerAction({
+      owner: thirdOwner.address,
+      account,
+      client: publicClient,
+    })) as Execution
+
+    await sendUserOp({ account, actions: [addNewOwnerAction] })
+
+    const newOwners = await getOwnableValidatorOwners({
+      account,
+      client: publicClient,
+    })
+    expect(newOwners.length).toEqual(oldOwners.length + 1)
+
+    // increase threshold
+    const threshold = 3
+    const setThresholdAction = getSetOwnableValidatorThresholdAction({
+      threshold,
+    }) as Execution
+
+    await sendUserOp({ account, actions: [setThresholdAction] })
+
+    const newThreshold = await getOwnableValidatorThreshold({
+      account,
+      client: publicClient,
+    })
+    expect(newThreshold).toEqual(threshold)
+
+    // create userOp
+    const receipt = await sendUserOp({
+      account,
+      actions: [
+        {
+          target: zeroAddress,
+          value: BigInt(100),
+          callData: '0x',
+        },
+      ],
+      validator: OWNABLE_VALIDATOR_ADDRESS,
+      signUserOpHash: async (userOpHash) => {
+        const signer1 = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+        const signer2 = privateKeyToAccount(
+          '0xf8e4de715b5cddc791e98d9110abe9e05117fbe5004e2241374ea654e7bf15fe' as Hex,
+        )
+
+        const signature1 = await signer1.signMessage({
+          message: { raw: userOpHash },
+        })
+
+        const signature2 = await signer2.signMessage({
+          message: { raw: userOpHash },
+        })
+
+        const signature3 = await thirdOwner.signMessage({
+          message: { raw: userOpHash },
+        })
+
+        return getOwnableValidatorSignatures({
+          signatures: [signature1, signature2, signature3],
+        })
+      },
+      getDummySignature: async () => {
+        return getOwnableValidatorMockSignature({ threshold })
       },
     })
 
