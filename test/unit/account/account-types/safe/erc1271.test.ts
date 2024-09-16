@@ -24,7 +24,9 @@ describe('test ERC-1271 on the account', () => {
       hash,
     })
 
-    const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+    const signer = privateKeyToAccount(
+      '0xa88f4055e4ffb55fd532c07c65aa45ba1d969c07f749e14f6b79bfb434688efb' as Hex,
+    )
     const rawSignature = await signer.signMessage({
       message: { raw: formattedHash },
     })
@@ -55,7 +57,9 @@ describe('test ERC-1271 on the account', () => {
       hash,
     })
 
-    const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+    const signer = privateKeyToAccount(
+      '0xa88f4055e4ffb55fd532c07c65aa45ba1d969c07f749e14f6b79bfb434688efb' as Hex,
+    )
     const rawSignature = await signer.signMessage({
       message: { raw: formattedHash },
     })
