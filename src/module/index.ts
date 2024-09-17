@@ -66,13 +66,13 @@ export {
 
 export {
   OWNABLE_EXECUTER_ADDRESS,
-  getOwnableExecuter,
+  getOwnableExecutor,
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,
   getExecuteOnOwnedAccountAction,
   getExecuteBatchOnOwnedAccountAction,
-} from './ownable-executer'
+} from './ownable-executor'
 
 export {
   AUTO_SAVINGS_ADDRESS,

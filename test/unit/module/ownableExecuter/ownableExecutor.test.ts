@@ -1,4 +1,4 @@
-import { getOwnableExecuter } from 'src/module'
+import { getOwnableExecutor } from 'src/module'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
@@ -13,7 +13,7 @@ import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 
-describe('Ownable Executer Module', () => {
+describe('Ownable Executor Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
@@ -23,16 +23,16 @@ describe('Ownable Executer Module', () => {
     '0x9FF36a253C70b65122B47c70F2AfaF65F2957118',
   ] as Address[]
 
-  it('should get install ownable executer module', async () => {
-    const installOwnableExecuterModule = getOwnableExecuter({
+  it('should get install ownable executor module', async () => {
+    const installOwnableExecutorModule = getOwnableExecutor({
       owner: owners[0],
     })
 
-    expect(installOwnableExecuterModule.module).toEqual(
+    expect(installOwnableExecutorModule.module).toEqual(
       OWNABLE_EXECUTER_ADDRESS,
     )
-    expect(installOwnableExecuterModule.initData).toBeDefined()
-    expect(installOwnableExecuterModule.type).toEqual('executor')
+    expect(installOwnableExecutorModule.initData).toBeDefined()
+    expect(installOwnableExecutorModule.type).toEqual('executor')
   })
 
   it('Should get addOwnerExecution action', async () => {

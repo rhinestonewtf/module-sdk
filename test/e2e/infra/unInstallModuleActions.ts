@@ -8,7 +8,7 @@ import {
 } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
+import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executor'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import {
