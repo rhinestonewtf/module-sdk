@@ -1,4 +1,4 @@
-export { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
+export { SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS } from './constants'
 export { getScheduledTransfersExecutor } from './installation'
 export {
   getCreateScheduledTransferAction,

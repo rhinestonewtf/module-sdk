@@ -4,7 +4,7 @@ import {
   getAddOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,
   getRemoveOwnableExecutorOwnerAction,
-  OWNABLE_EXECUTER_ADDRESS,
+  OWNABLE_EXECUTOR_ADDRESS,
 } from 'src/module/ownable-executor'
 import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
@@ -29,7 +29,7 @@ export const testOwnableExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: OWNABLE_EXECUTER_ADDRESS,
+        module: OWNABLE_EXECUTOR_ADDRESS,
       }),
     })
 

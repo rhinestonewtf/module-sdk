@@ -1,4 +1,4 @@
-export { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
+export { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from './constants'
 export { getScheduledOrdersExecutor } from './installation'
 export {
   getCreateScheduledOrderAction,

@@ -1,5 +1,5 @@
 import { getOwnableExecutor } from 'src/module'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src'
+import { OWNABLE_EXECUTOR_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
   getAddOwnableExecutorOwnerAction,
@@ -29,7 +29,7 @@ describe('Ownable Executor Module', () => {
     })
 
     expect(installOwnableExecutorModule.module).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+      OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(installOwnableExecutorModule.initData).toBeDefined()
     expect(installOwnableExecutorModule.type).toEqual('executor')
@@ -42,7 +42,7 @@ describe('Ownable Executor Module', () => {
       owner: owners[0],
     })
 
-    expect(addOwnerExecution.target).toEqual(OWNABLE_EXECUTER_ADDRESS)
+    expect(addOwnerExecution.target).toEqual(OWNABLE_EXECUTOR_ADDRESS)
     expect(addOwnerExecution.value).toEqual(BigInt(0))
     expect(addOwnerExecution.callData).toBeDefined()
   })
@@ -69,14 +69,14 @@ describe('Ownable Executor Module', () => {
     const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountAction({
       ownedAccount: owners[1] as Address,
       execution: {
-        target: OWNABLE_EXECUTER_ADDRESS,
+        target: OWNABLE_EXECUTOR_ADDRESS,
         value: BigInt(0),
         callData: '0x',
       },
     })
 
     expect(executeOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+      OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeOnOwnedAccountExecution.callData).toBeDefined()
@@ -88,7 +88,7 @@ describe('Ownable Executor Module', () => {
         ownedAccount: owners[1] as Address,
         executions: [
           {
-            target: OWNABLE_EXECUTER_ADDRESS,
+            target: OWNABLE_EXECUTOR_ADDRESS,
             value: BigInt(0),
             callData: '0x',
           },
@@ -96,7 +96,7 @@ describe('Ownable Executor Module', () => {
       })
 
     expect(executeBatchOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+      OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeBatchOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeBatchOnOwnedAccountExecution.callData).toBeDefined()

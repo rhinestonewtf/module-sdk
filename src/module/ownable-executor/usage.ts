@@ -9,7 +9,7 @@ import {
 } from 'viem'
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
-import { OWNABLE_EXECUTER_ADDRESS } from './constants'
+import { OWNABLE_EXECUTOR_ADDRESS } from './constants'
 import { Account } from '../../account'
 
 export const getAddOwnableExecutorOwnerAction = async ({
@@ -30,7 +30,7 @@ export const getAddOwnableExecutorOwnerAction = async ({
   }
 
   return {
-    target: OWNABLE_EXECUTER_ADDRESS,
+    target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOwner',
@@ -63,7 +63,7 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
   }
 
   return {
-    target: OWNABLE_EXECUTER_ADDRESS,
+    target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'removeOwner',
@@ -82,7 +82,7 @@ export const getOwnableExecutorOwners = async ({
 }): Promise<Address[]> => {
   try {
     const owners = (await client.readContract({
-      address: OWNABLE_EXECUTER_ADDRESS,
+      address: OWNABLE_EXECUTOR_ADDRESS,
       abi,
       functionName: 'getOwners',
       args: [account.address],
@@ -102,7 +102,7 @@ export const getExecuteOnOwnedAccountAction = ({
   execution: Execution
 }): Execution => {
   return {
-    target: OWNABLE_EXECUTER_ADDRESS,
+    target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'executeOnOwnedAccount',
@@ -130,7 +130,7 @@ export const getExecuteBatchOnOwnedAccountAction = ({
   executions: Execution[]
 }): Execution => {
   return {
-    target: OWNABLE_EXECUTER_ADDRESS,
+    target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'executeBatchOnOwnedAccount',

@@ -24,7 +24,7 @@ export {
 } from './ownable-validator'
 
 export {
-  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+  SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
   getScheduledOrdersExecutor,
   getCreateScheduledOrderAction,
   getSwapOrderData,
@@ -32,7 +32,7 @@ export {
 } from './scheduled-orders'
 
 export {
-  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   getScheduledTransfersExecutor,
   getCreateScheduledTransferAction,
   getScheduledTransferData,
@@ -65,7 +65,7 @@ export {
 } from './deadman-switch'
 
 export {
-  OWNABLE_EXECUTER_ADDRESS,
+  OWNABLE_EXECUTOR_ADDRESS,
   getOwnableExecutor,
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,

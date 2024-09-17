@@ -5,7 +5,7 @@ import {
   encodeFunctionData,
   encodePacked,
 } from 'viem'
-import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
+import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from './constants'
 import { RecurringOrder } from './types'
 import { Execution } from '../../account/types'
 import { abi } from './abi'
@@ -18,7 +18,7 @@ export const getCreateScheduledOrderAction = ({
   recurringOrder,
 }: Params): Execution => {
   return {
-    target: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+    target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
@@ -63,7 +63,7 @@ export const getExecuteScheduledOrderAction = ({
   jobId,
 }: ExecuteOrderParams): Execution => {
   return {
-    target: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+    target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'executeOrder',
