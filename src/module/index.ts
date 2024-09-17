@@ -66,7 +66,7 @@ export {
 
 export {
   OWNABLE_EXECUTER_ADDRESS,
-  getOwnableExecuter,
+  getOwnableExecutor,
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,

@@ -2,7 +2,7 @@ import { Address, encodePacked } from 'viem'
 import { Module } from '../types'
 import { OWNABLE_EXECUTER_ADDRESS } from './constants'
 
-export const getOwnableExecuter = ({
+export const getOwnableExecutor = ({
   owner,
   hook,
 }: {

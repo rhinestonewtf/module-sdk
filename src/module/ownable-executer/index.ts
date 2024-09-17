@@ -1,5 +1,5 @@
 export { OWNABLE_EXECUTER_ADDRESS } from './constants'
-export { getOwnableExecuter } from './installation'
+export { getOwnableExecutor } from './installation'
 export {
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,

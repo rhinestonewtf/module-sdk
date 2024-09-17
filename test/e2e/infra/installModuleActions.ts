@@ -25,7 +25,7 @@ import { SafeHookType } from 'src/account/safe/types'
 import { encodeValidationData } from 'src/module/ownable-validator/usage'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import { privateKeyToAccount } from 'viem/accounts'
-import { getOwnableExecuter } from 'src/module/ownable-executer'
+import { getOwnableExecutor } from 'src/module/ownable-executer'
 import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { getAutoSavingsExecutor } from 'src/module/auto-savings'
 import {
@@ -45,7 +45,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const {
     ownableValidator,
     webAuthnValidator,
-    ownableExecuter,
+    ownableExecutor,
     socialRecoveryValidator,
     autoSavingExecutor,
     deadmanSwitchValidator,
@@ -78,7 +78,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const installOwnableExecutorAction = await installModule({
     client,
     account,
-    module: getOwnableExecuter(ownableExecuter),
+    module: getOwnableExecutor(ownableExecutor),
   })
 
   // install social recovery
@@ -193,7 +193,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     authenticatorId: 'authenticatorId',
     hook: zeroAddress,
   },
-  ownableExecuter: {
+  ownableExecutor: {
     owner: account.address,
     hook: zeroAddress,
   },

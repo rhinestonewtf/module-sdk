@@ -37,14 +37,14 @@ export const testOwnableExecutor = async ({
   }, 20000)
 
   it('should return correct module owners', async () => {
-    const { ownableExecuter } = getInstallModuleData({ account })
+    const { ownableExecutor } = getInstallModuleData({ account })
 
     const owners = await getOwnableExecutorOwners({
       account,
       client: publicClient,
     })
 
-    expect(getAddress(owners[0])).toEqual(getAddress(ownableExecuter.owner))
+    expect(getAddress(owners[0])).toEqual(getAddress(ownableExecutor.owner))
   }, 20000)
 
   it('should add new owner to ownable executer', async () => {

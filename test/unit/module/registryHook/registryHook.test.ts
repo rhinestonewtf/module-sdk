@@ -9,13 +9,13 @@ describe('Registry hook Module', () => {
     '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
 
   it('should get install registry hook module', async () => {
-    const installOwnableExecuterModule = getRegistryHook({
+    const installOwnableExecutorModule = getRegistryHook({
       registryAddress,
     })
 
-    expect(installOwnableExecuterModule.module).toEqual(REGISTRY_HOOK_ADDRESS)
-    expect(installOwnableExecuterModule.initData).toBeDefined()
-    expect(installOwnableExecuterModule.type).toEqual('hook')
+    expect(installOwnableExecutorModule.module).toEqual(REGISTRY_HOOK_ADDRESS)
+    expect(installOwnableExecutorModule.initData).toBeDefined()
+    expect(installOwnableExecutorModule.type).toEqual('hook')
   })
 
   it('Should get setRegistryExecution action', async () => {

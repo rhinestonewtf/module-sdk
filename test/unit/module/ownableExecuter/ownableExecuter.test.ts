@@ -1,4 +1,4 @@
-import { getOwnableExecuter } from 'src/module'
+import { getOwnableExecutor } from 'src/module'
 import { OWNABLE_EXECUTER_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
@@ -24,15 +24,15 @@ describe('Ownable Executer Module', () => {
   ] as Address[]
 
   it('should get install ownable executer module', async () => {
-    const installOwnableExecuterModule = getOwnableExecuter({
+    const installOwnableExecutorModule = getOwnableExecutor({
       owner: owners[0],
     })
 
-    expect(installOwnableExecuterModule.module).toEqual(
+    expect(installOwnableExecutorModule.module).toEqual(
       OWNABLE_EXECUTER_ADDRESS,
     )
-    expect(installOwnableExecuterModule.initData).toBeDefined()
-    expect(installOwnableExecuterModule.type).toEqual('executor')
+    expect(installOwnableExecutorModule.initData).toBeDefined()
+    expect(installOwnableExecutorModule.type).toEqual('executor')
   })
 
   it('Should get addOwnerExecution action', async () => {
