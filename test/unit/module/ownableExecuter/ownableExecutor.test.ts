@@ -13,7 +13,7 @@ import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 
-describe('Ownable Executer Module', () => {
+describe('Ownable Executor Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
@@ -23,7 +23,7 @@ describe('Ownable Executer Module', () => {
     '0x9FF36a253C70b65122B47c70F2AfaF65F2957118',
   ] as Address[]
 
-  it('should get install ownable executer module', async () => {
+  it('should get install ownable executor module', async () => {
     const installOwnableExecutorModule = getOwnableExecutor({
       owner: owners[0],
     })

@@ -25,7 +25,7 @@ import { SafeHookType } from 'src/account/safe/types'
 import { encodeValidationData } from 'src/module/ownable-validator/usage'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import { privateKeyToAccount } from 'viem/accounts'
-import { getOwnableExecutor } from 'src/module/ownable-executer'
+import { getOwnableExecutor } from 'src/module/ownable-executor'
 import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
 import { getAutoSavingsExecutor } from 'src/module/auto-savings'
 import {
