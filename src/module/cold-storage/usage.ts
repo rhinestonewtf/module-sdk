@@ -42,7 +42,7 @@ export const getColdStorageExecutionTime = async ({
   account: Account
   client: PublicClient
   executionHash: Hex
-}): Promise<Number | Error> => {
+}): Promise<Number> => {
   try {
     const executionTimestamp = (await client.readContract({
       address: COLD_STORAGE_HOOK_ADDRESS,
@@ -140,7 +140,7 @@ export const getFlashloanRemoveAddressAction = async ({
   client: PublicClient
   account: Account
   addressToRemove: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   const whitelistAddresses = await getFlashloanWhitelist({ account, client })
   let prevAddress: Address
 

@@ -59,7 +59,7 @@ export const getDeleteAutoSavingConfigAction = async ({
   account: Account
   client: PublicClient
   token: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   try {
     const allTokens = await getAutoSavingTokens({ account, client })
 
@@ -95,7 +95,7 @@ export const getAutoSaveAction = async ({
 }: {
   token: Address
   amountReceived: number
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   try {
     return {
       target: AUTO_SAVINGS_ADDRESS,
@@ -121,7 +121,7 @@ export const getAutoSavingAccountTokenConfig = async ({
   client: PublicClient
   account: Account
   token: Address
-}): Promise<ConfigType | Error> => {
+}): Promise<ConfigType> => {
   try {
     const config = (await client.readContract({
       address: AUTO_SAVINGS_ADDRESS,

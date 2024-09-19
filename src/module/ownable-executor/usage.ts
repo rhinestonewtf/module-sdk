@@ -48,7 +48,7 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
   client: PublicClient
   account: Account
   owner: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   const owners = await getOwnableExecutorOwners({ account, client })
   let prevOwner: Address
 

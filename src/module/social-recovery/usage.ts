@@ -52,7 +52,7 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
   client: PublicClient
   account: Account
   guardian: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   const guardians = await getSocialRecoveryGuardians({ account, client })
   let prevGuardian: Address
 
