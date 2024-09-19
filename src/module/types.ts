@@ -21,6 +21,8 @@ export type Module = {
   hookType?: SafeHookType
   selector?: Hex
 
+  /* ---- safe and nexus module params ---- */
+
   // these two params needed for installing fallback handlers
   functionSig?: Hex
   callType?: CallType
