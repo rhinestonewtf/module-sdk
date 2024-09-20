@@ -59,14 +59,16 @@ describe('Ownable Validator Module', () => {
     expect(addOwnerExecution.callData).toBeDefined()
   })
 
-  it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnableValidatorOwnerAction({
-      account,
-      client,
-      owner: owners[1],
-    })
+  it('Should throw error when owner does not exists while removing owner', async () => {
+    async function getAction() {
+      await getRemoveOwnableValidatorOwnerAction({
+        account,
+        client,
+        owner: owners[1],
+      })
+    }
 
-    expect((removeOwnerExecution as Error).message).toEqual('Owner not found')
+    await expect(getAction).rejects.toThrow('Owner not found')
   })
 
   it('Should get list of owners', async () => {

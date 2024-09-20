@@ -53,18 +53,16 @@ describe('Social Recovery Module', () => {
     expect(addGuardianExecution.callData).toBeDefined()
   })
 
-  it('Should throw error when guardian not exists', async () => {
-    const removeGuardianExecution = await getRemoveSocialRecoveryGuardianAction(
-      {
+  it('Should throw error when guardian does not exists', async () => {
+    async function getAction() {
+      await getRemoveSocialRecoveryGuardianAction({
         account,
         client,
         guardian: guardians[1],
-      },
-    )
+      })
+    }
 
-    expect((removeGuardianExecution as Error).message).toEqual(
-      'Guardian not found',
-    )
+    await expect(getAction).rejects.toThrow('Guardian not found')
   })
 
   it('Should get list of guardians', async () => {

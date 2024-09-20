@@ -149,7 +149,7 @@ export const getFlashloanRemoveAddressAction = async ({
   )
 
   if (currentAddressIndex === -1) {
-    return new Error('Address not found')
+    throw new Error('Address not found')
   } else if (currentAddressIndex === 0) {
     prevAddress = SENTINEL_ADDRESS
   } else {

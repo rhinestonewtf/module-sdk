@@ -55,7 +55,7 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
   const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
 
   if (currentOwnerIndex === -1) {
-    return new Error('Owner not found')
+    throw new Error('Owner not found')
   } else if (currentOwnerIndex === 0) {
     prevOwner = SENTINEL_ADDRESS
   } else {

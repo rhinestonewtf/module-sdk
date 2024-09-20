@@ -48,13 +48,15 @@ describe('Ownable Executor Module', () => {
   })
 
   it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnableExecutorOwnerAction({
-      account,
-      client,
-      owner: owners[1],
-    })
+    async function getAction() {
+      await getRemoveOwnableExecutorOwnerAction({
+        account,
+        client,
+        owner: owners[1],
+      })
+    }
 
-    expect((removeOwnerExecution as Error).message).toEqual('Owner not found')
+    await expect(getAction).rejects.toThrow('Owner not found')
   })
 
   it('Should get list of owners', async () => {

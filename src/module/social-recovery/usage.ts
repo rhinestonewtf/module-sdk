@@ -59,7 +59,7 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
   const currentGuardianIndex = guardians.findIndex((g) => g === guardian)
 
   if (currentGuardianIndex === -1) {
-    return new Error('Guardian not found')
+    throw new Error('Guardian not found')
   } else if (currentGuardianIndex === 0) {
     prevGuardian = SENTINEL_ADDRESS
   } else {

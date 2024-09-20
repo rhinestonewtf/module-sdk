@@ -68,7 +68,7 @@ export const getDeleteAutoSavingConfigAction = async ({
     const currentTokenIndex = allTokens.findIndex((t) => t === token)
 
     if (currentTokenIndex === -1) {
-      return new Error('Token not found')
+      throw new Error('Token not found')
     } else if (currentTokenIndex === 0) {
       prevToken = SENTINEL_ADDRESS
     } else {
@@ -85,7 +85,7 @@ export const getDeleteAutoSavingConfigAction = async ({
       }),
     }
   } catch {
-    return new Error(`Failed to delete config for token ${token}`)
+    throw new Error(`Failed to delete config for token ${token}`)
   }
 }
 
@@ -107,7 +107,7 @@ export const getAutoSaveAction = async ({
       }),
     }
   } catch {
-    return new Error(`Failed to create autosave action for token ${token}`)
+    throw new Error(`Failed to create autosave action for token ${token}`)
   }
 }
 
@@ -132,6 +132,6 @@ export const getAutoSavingAccountTokenConfig = async ({
 
     return config
   } catch {
-    return new Error(`Failed to get config for token ${token}`)
+    throw new Error(`Failed to get config for token ${token}`)
   }
 }
