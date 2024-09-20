@@ -115,19 +115,15 @@ describe('Cold storage Module', () => {
   })
 
   it('should throw error if address to remove does not exist', async () => {
-    let removeAddressExecution
-
-    try {
-      removeAddressExecution = await getFlashloanRemoveAddressAction({
+    async function getAction() {
+      await getFlashloanRemoveAddressAction({
         addressToRemove: addresses[0],
         account,
         client,
       })
-    } catch (error) {
-      expect((removeAddressExecution as Error).message).toEqual(
-        'Address not found',
-      )
     }
+
+    await expect(getAction).rejects.toThrow('Address not found')
   })
 
   it('should return empty list of whitelist addresses', async () => {

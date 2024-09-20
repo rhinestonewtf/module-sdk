@@ -48,14 +48,14 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
   client: PublicClient
   account: Account
   owner: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   const owners = await getOwnableExecutorOwners({ account, client })
   let prevOwner: Address
 
   const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
 
   if (currentOwnerIndex === -1) {
-    return new Error('Owner not found')
+    throw new Error('Owner not found')
   } else if (currentOwnerIndex === 0) {
     prevOwner = SENTINEL_ADDRESS
   } else {

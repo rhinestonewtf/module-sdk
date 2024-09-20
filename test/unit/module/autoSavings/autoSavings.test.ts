@@ -48,19 +48,17 @@ describe('Auto Savings Module', () => {
   })
 
   it('should throw error if token to delete does not exist', async () => {
-    let deleteConfigExecution
-
-    try {
-      deleteConfigExecution = await getDeleteAutoSavingConfigAction({
+    async function getAction() {
+      await getDeleteAutoSavingConfigAction({
         client,
         account: account,
         token: tokens[0],
       })
-    } catch (error) {
-      expect((deleteConfigExecution as Error).message).toEqual(
-        'Failed to delete config for token 0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
-      )
     }
+
+    await expect(getAction).rejects.toThrow(
+      'Failed to delete config for token 0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+    )
   })
 
   it('Should get list of account tokens', async () => {
