@@ -2,9 +2,11 @@ import {
   getScheduledTransfersExecutor,
   getToggleScheduledTransferAction,
 } from 'src/module'
-import { SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS } from 'src'
-import { getCreateScheduledTransferAction } from 'src/module'
-import { getExecuteScheduledTransferAction } from 'src/module'
+import {
+  getCreateScheduledTransferAction,
+  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+  getExecuteScheduledTransferAction,
+} from 'src/module'
 import { ERC20Token } from 'src'
 
 describe('ScheduledTransfers Module', () => {

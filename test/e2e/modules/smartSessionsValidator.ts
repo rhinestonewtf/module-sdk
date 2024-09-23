@@ -207,7 +207,7 @@ export const testSmartSessionsValidator = async ({
               permissionEnableSig,
             },
             validator: OWNABLE_VALIDATOR_ADDRESS,
-            accountType: 'erc7579-implementation',
+            accountType: account.type,
           },
         })
       },
@@ -226,7 +226,7 @@ export const testSmartSessionsValidator = async ({
               permissionEnableSig,
             },
             validator: OWNABLE_VALIDATOR_ADDRESS,
-            accountType: 'erc7579-implementation',
+            accountType: account.type,
           },
         })
       },

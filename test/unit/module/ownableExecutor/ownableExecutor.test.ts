@@ -1,5 +1,5 @@
 import { getOwnableExecutor } from 'src/module'
-import { OWNABLE_EXECUTOR_ADDRESS } from 'src'
+import { OWNABLE_EXECUTOR_ADDRESS } from 'src/module'
 import { Address } from 'viem'
 import {
   getAddOwnableExecutorOwnerAction,
