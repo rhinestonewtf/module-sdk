@@ -148,6 +148,8 @@ export {
   ChainSession,
 } from './smart-sessions'
 
+export * from './account-locker'
+
 export {
   fetchRegistryModules,
   REGISTRY_ADDRESS,

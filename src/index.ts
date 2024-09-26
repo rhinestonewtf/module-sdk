@@ -127,6 +127,19 @@ export {
   ChainDigest,
   ChainSession,
   CallType,
+  ACCOUNT_LOCKER_HOOK,
+  ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+  ACCOUNT_LOCKER_TARGET_EXECUTOR,
+  getAccountLockerHook,
+  getAccountLockerSourceExecutor,
+  getAccountLockerTargetExecutor,
+  getDepositToAcrossAction,
+  getRegisterApprovalSpendAction,
+  getToggleScheduledTransferAction,
+  getUnlockFundsAction,
+  WithdrawRequest,
+  CrossChainOrder,
+  ApprovalSpend,
 } from './module'
 
 export type { ModuleType, Module, SigHookInit } from './module'
