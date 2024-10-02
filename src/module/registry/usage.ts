@@ -25,7 +25,7 @@ export const getTrustAttestersAction = ({
   }
 }
 
-export const findTrustAttesters = async ({
+export const findTrustedAttesters = async ({
   client, 
   accountAddress
 }: {

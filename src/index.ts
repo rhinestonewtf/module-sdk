@@ -92,7 +92,7 @@ export {
   getFlashloanWhitelist,
   fetchRegistryModules,
   getTrustAttestersAction,
-  findTrustAttesters,
+  findTrustedAttesters,
   REGISTRY_ADDRESS,
   RHINESTONE_ATTESTER_ADDRESS,
   MOCK_ATTESTER_ADDRESS,
