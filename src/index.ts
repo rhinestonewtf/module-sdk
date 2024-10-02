@@ -12,6 +12,7 @@ export type { Account, AccountType, Execution, InitialModules } from './account'
 
 // Module
 export {
+  moduleTypeIds,
   getModule,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
   getMultiFactorValidator,
@@ -91,6 +92,7 @@ export {
   getFlashloanWhitelist,
   fetchRegistryModules,
   getTrustAttestersAction,
+  findTrustedAttesters,
   REGISTRY_ADDRESS,
   RHINESTONE_ATTESTER_ADDRESS,
   MOCK_ATTESTER_ADDRESS,

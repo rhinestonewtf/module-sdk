@@ -150,8 +150,9 @@ export {
 
 export {
   fetchRegistryModules,
-  REGISTRY_ADDRESS,
   getTrustAttestersAction,
+  findTrustedAttesters,
+  REGISTRY_ADDRESS,
   MOCK_ATTESTER_ADDRESS,
   RHINESTONE_ATTESTER_ADDRESS,
 } from './registry'
@@ -164,3 +165,5 @@ export type {
   SigHookInit,
   Validator,
 } from './types'
+
+export { moduleTypeIds } from './types'

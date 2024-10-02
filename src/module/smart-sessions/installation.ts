@@ -5,7 +5,7 @@ import { Session } from './types'
 import { installSmartSessionsAbi } from './abi'
 
 type Params = {
-  sessions: Session[]
+  sessions?: Session[]
   hook?: Address
 }
 
@@ -15,7 +15,7 @@ export const getSmartSessionsValidator = ({
 }: Params): Module => {
   return {
     module: SMART_SESSIONS_ADDRESS,
-    initData: encodeAbiParameters(installSmartSessionsAbi, [sessions]),
+    initData: sessions ? encodeAbiParameters(installSmartSessionsAbi, [sessions]) : '0x',
     deInitData: '0x',
     additionalContext: '0x',
     type: 'validator',
