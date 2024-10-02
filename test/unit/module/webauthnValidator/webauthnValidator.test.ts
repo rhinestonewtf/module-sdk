@@ -31,9 +31,9 @@ describe('Webauthn Validator Module', () => {
     const signature = getWebauthnValidatorSignature({
       authenticatorData: toHex('authenticatorData'),
       clientDataJSON: 'clientDataHash',
-      responseTypeLocation: 0,
-      r: 10,
-      s: 5,
+      responseTypeLocation: BigInt(0),
+      r: BigInt(10),
+      s: BigInt(5),
       usePrecompiled: true,
     })
 
