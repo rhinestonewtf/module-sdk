@@ -12,6 +12,7 @@ export type { Account, AccountType, Execution, InitialModules } from './account'
 
 // Module
 export {
+  moduleTypeIds,
   getModule,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
   getMultiFactorValidator,

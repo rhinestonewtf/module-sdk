@@ -164,3 +164,5 @@ export type {
   SigHookInit,
   Validator,
 } from './types'
+
+export { moduleTypeIds } from './types'
