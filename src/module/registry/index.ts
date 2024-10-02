@@ -1,4 +1,4 @@
-export { fetchRegistryModules, getTrustAttestersAction } from './usage'
+export { fetchRegistryModules, getTrustAttestersAction, findTrustAttesters } from './usage'
 export {
   REGISTRY_ADDRESS,
   MOCK_ATTESTER_ADDRESS,

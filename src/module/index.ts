@@ -150,8 +150,9 @@ export {
 
 export {
   fetchRegistryModules,
-  REGISTRY_ADDRESS,
   getTrustAttestersAction,
+  findTrustAttesters,
+  REGISTRY_ADDRESS,
   MOCK_ATTESTER_ADDRESS,
   RHINESTONE_ATTESTER_ADDRESS,
 } from './registry'

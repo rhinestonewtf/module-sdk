@@ -24,3 +24,18 @@ export const getTrustAttestersAction = ({
     }),
   }
 }
+
+export const findTrustAttesters = async ({
+  client, 
+  accountAddress
+}: {
+  client:PublicClient, 
+  accountAddress:Address
+}) => {
+  return await client.readContract({
+    address: REGISTRY_ADDRESS,
+    abi,
+    functionName: 'findTrustedAttesters',
+    args: [accountAddress]
+  }) as Address[]
+}
