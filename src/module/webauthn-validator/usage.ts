@@ -10,9 +10,9 @@ export const getWebauthnValidatorSignature = ({
 }: {
   authenticatorData: Hex
   clientDataJSON: string
-  responseTypeLocation: number
-  r: number
-  s: number
+  responseTypeLocation: bigint
+  r: bigint
+  s: bigint
   usePrecompiled: boolean
 }) => {
   return encodeAbiParameters(
