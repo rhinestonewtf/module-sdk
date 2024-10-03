@@ -11,23 +11,24 @@ import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
 import { Execution, getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
+import { sepolia } from 'viem/chains'
 
 describe('Auto Savings Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
-  const tokens = ['0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3'] as Address[]
+  const tokens = ['0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address]
   const configs = [
     {
-      percentage: 10,
+      token: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address,
+      percentage: BigInt(10),
       vault: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address,
-      sqrtPriceLimitX96: BigInt(10),
     },
   ]
 
   it('should get install auto savings module', async () => {
     const installAutoSavingsModule = getAutoSavingsExecutor({
-      tokens,
+      chainId: sepolia.id,
       configs,
     })
 
@@ -81,15 +82,13 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get account token config', async () => {
-    const [percentage, vault, sqrtPriceLimitX96] =
-      (await getAutoSavingAccountTokenConfig({
-        account,
-        client,
-        token: tokens[0],
-      })) as [number, Address, number]
+    const [percentage, vault] = await getAutoSavingAccountTokenConfig({
+      account,
+      client,
+      token: tokens[0],
+    })
 
-    expect(percentage).toEqual(0)
+    expect(percentage).toEqual(0n)
     expect(vault).toEqual(zeroAddress)
-    expect(Number(sqrtPriceLimitX96)).toEqual(0)
   })
 })

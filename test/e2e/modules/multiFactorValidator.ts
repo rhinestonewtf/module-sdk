@@ -1,5 +1,5 @@
 import { Account, isModuleInstalled } from 'src/account'
-import { getModule } from 'src/module'
+import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
 import {
   getRemoveMFAValidatorAction,
   getSetMFAThresholdAction,
@@ -42,9 +42,8 @@ export const testMultiFactorValidator = async ({
   }, 20000)
 
   it('should set new validator', async () => {
-    const validatorAddress =
-      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
-    const validatorId = slice(validatorAddress, 0, 12) as Hex
+    const validatorAddress = OWNABLE_VALIDATOR_ADDRESS
+    const validatorId = '0x000000000000000000000001' as Hex
     const newValidatorData = '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Hex
 
     const setValidatorAction = getSetMFAValidatorAction({
@@ -59,9 +58,8 @@ export const testMultiFactorValidator = async ({
   }, 20000)
 
   it('should return true when checking if validator is sub validator', async () => {
-    const validatorAddress =
-      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
-    const validatorId = slice(validatorAddress, 0, 12) as Hex
+    const validatorAddress = OWNABLE_VALIDATOR_ADDRESS
+    const validatorId = '0x000000000000000000000001' as Hex
 
     const isSubValidatorResult = await isMFASubValidator({
       account,
@@ -74,9 +72,8 @@ export const testMultiFactorValidator = async ({
   })
 
   it('should remove validator', async () => {
-    const validatorAddress =
-      '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3' as Address
-    const validatorId = slice(validatorAddress, 0, 12) as Hex
+    const validatorAddress = OWNABLE_VALIDATOR_ADDRESS
+    const validatorId = '0x000000000000000000000001' as Hex
 
     const removeValidatorAction = getRemoveMFAValidatorAction({
       validatorAddress,

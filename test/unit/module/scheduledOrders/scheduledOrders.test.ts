@@ -3,6 +3,7 @@ import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from 'src/module'
 import { getCreateScheduledOrderAction } from 'src'
 import { getExecuteScheduledOrderAction } from 'src'
 import { ERC20Token } from 'src'
+import { sepolia } from 'viem/chains'
 
 describe('ScheduledOrders Module', () => {
   // Setup
@@ -18,6 +19,7 @@ describe('ScheduledOrders Module', () => {
 
   it('should get install scheduled orders module', async () => {
     const installScheduledOrdersModule = getScheduledOrdersExecutor({
+      chainId: sepolia.id,
       numberOfExecutions: 1,
       executeInterval: 10,
       startDate: new Date().getTime(),

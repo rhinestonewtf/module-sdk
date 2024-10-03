@@ -41,30 +41,26 @@ export const testAutoSavingsExecutor = async ({
     const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
-      token: autoSavingExecutor.tokens[0],
+      token: autoSavingExecutor.configs[0].token,
     })
 
-    const [percentage, vault, sqrtPriceLimitX96] = config as ConfigType
+    const [percentage, vault] = config as ConfigType
 
     expect(percentage).toEqual(autoSavingExecutor.configs[0].percentage)
     expect(vault).toEqual(autoSavingExecutor.configs[0].vault)
-    expect(sqrtPriceLimitX96).toEqual(
-      autoSavingExecutor.configs[0].sqrtPriceLimitX96,
-    )
   }, 20000)
 
   it('should set auto savings config', async () => {
     const { autoSavingExecutor } = getInstallModuleData({ account })
 
     const newConfig = {
-      percentage: 20 * 100,
+      percentage: BigInt(20 * 100),
       vault: autoSavingExecutor.configs[0].vault,
-      sqrtPriceLimitX96: autoSavingExecutor.configs[0].sqrtPriceLimitX96,
     }
 
     const setConfigExecution = getSetAutoSavingConfigAction({
       config: newConfig,
-      token: autoSavingExecutor.tokens[0],
+      token: autoSavingExecutor.configs[0].token,
     })
 
     await sendUserOp({
@@ -75,14 +71,13 @@ export const testAutoSavingsExecutor = async ({
     const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
-      token: autoSavingExecutor.tokens[0],
+      token: autoSavingExecutor.configs[0].token,
     })
 
-    const [percentage, vault, sqrtPriceLimitX96] = config as ConfigType
+    const [percentage, vault] = config as ConfigType
 
     expect(percentage).toEqual(newConfig.percentage)
     expect(vault).toEqual(newConfig.vault)
-    expect(sqrtPriceLimitX96).toEqual(newConfig.sqrtPriceLimitX96)
   }, 20000)
 
   it('should return auto savings tokens', async () => {
@@ -93,9 +88,9 @@ export const testAutoSavingsExecutor = async ({
       client: publicClient,
     })
 
-    expect(tokens.length).toEqual(autoSavingExecutor.tokens.length)
+    expect(tokens.length).toEqual(autoSavingExecutor.configs.length)
     expect(getAddress(tokens[0])).toEqual(
-      getAddress(autoSavingExecutor.tokens[0]),
+      getAddress(autoSavingExecutor.configs[0].token),
     )
   }, 20000)
 
@@ -105,7 +100,7 @@ export const testAutoSavingsExecutor = async ({
     const deleteConfigAction = await getDeleteAutoSavingConfigAction({
       client: publicClient,
       account,
-      token: autoSavingExecutor.tokens[0],
+      token: autoSavingExecutor.configs[0].token,
     })
 
     await sendUserOp({
@@ -116,13 +111,12 @@ export const testAutoSavingsExecutor = async ({
     const config = await getAutoSavingAccountTokenConfig({
       client: publicClient,
       account,
-      token: autoSavingExecutor.tokens[0],
+      token: autoSavingExecutor.configs[0].token,
     })
 
-    const [percentage, vault, sqrtPriceLimitX96] = config as ConfigType
+    const [percentage, vault] = config as ConfigType
 
-    expect(percentage).toEqual(0)
+    expect(percentage).toEqual(0n)
     expect(vault).toEqual(zeroAddress)
-    expect(sqrtPriceLimitX96).toEqual(0n)
   }, 20000)
 }

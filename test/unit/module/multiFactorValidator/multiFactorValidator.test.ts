@@ -11,7 +11,7 @@ import {
 } from 'src/module'
 import { getSetMFAThresholdAction } from 'src'
 import { Validator } from 'src/module'
-import { Address, Hex, slice } from 'viem'
+import { Address, encodePacked, Hex, slice } from 'viem'
 
 describe('MultiFactor Validator Module', () => {
   // Setup
@@ -26,11 +26,23 @@ describe('MultiFactor Validator Module', () => {
     threshold: 2,
     validators: [
       {
-        packedValidatorAndId: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+        packedValidatorAndId: encodePacked(
+          ['bytes12', 'address'],
+          [
+            '0x000000000000000000000000',
+            '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+          ],
+        ),
         data: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
       },
       {
-        packedValidatorAndId: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+        packedValidatorAndId: encodePacked(
+          ['bytes12', 'address'],
+          [
+            '0x000000000000000000000000',
+            '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
+          ],
+        ),
         data: '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
       },
     ] as Validator[],

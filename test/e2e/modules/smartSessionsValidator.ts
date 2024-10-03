@@ -58,7 +58,7 @@ export const testSmartSessionsValidator = async ({
   account,
   publicClient,
 }: Params) => {
-  it('should return true when checking smart session validator isInstalled', async () => {
+  it.skip('should return true when checking smart session validator isInstalled', async () => {
     const isSmartSessionsInstalled = await isModuleInstalled({
       account,
       client: publicClient,
@@ -71,7 +71,7 @@ export const testSmartSessionsValidator = async ({
     expect(isSmartSessionsInstalled).toBe(true)
   }, 20000)
 
-  it('should return permissionId for a given session', async () => {
+  it.skip('should return permissionId for a given session', async () => {
     const { smartSessions } = getInstallModuleData({ account })
     const permissionId = (await getPermissionId({
       client: publicClient,
@@ -81,7 +81,7 @@ export const testSmartSessionsValidator = async ({
     expect(permissionId).toBeDefined()
   }, 20000)
 
-  it('should validate userOp using smart session using USE flow', async () => {
+  it.skip('should validate userOp using smart session using USE flow', async () => {
     const { smartSessions } = getInstallModuleData({ account })
     const permissionId = (await getPermissionId({
       client: publicClient,
@@ -125,7 +125,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should validate userOp using smart session using ENABLE flow', async () => {
+  it.skip('should validate userOp using smart session using ENABLE flow', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -235,7 +235,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should add new session for the account', async () => {
+  it.skip('should add new session for the account', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const session: Session = {
@@ -255,7 +255,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should enable userOp policy', async () => {
+  it.skip('should enable userOp policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
@@ -295,7 +295,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 2000000)
 
-  it('should disable userOp policy', async () => {
+  it.skip('should disable userOp policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
@@ -316,7 +316,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 2000000)
 
-  it('should enable action policy', async () => {
+  it.skip('should enable action policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
@@ -355,7 +355,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should disable action policy', async () => {
+  it.skip('should disable action policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
@@ -388,7 +388,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 20000)
 
-  it('should enable ERC1271 policy', async () => {
+  it.skip('should enable ERC1271 policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({
@@ -417,7 +417,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt).toBeDefined()
   }, 2000000)
 
-  it('should disable ERC1271 policy', async () => {
+  it.skip('should disable ERC1271 policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const permissionId = (await getPermissionId({

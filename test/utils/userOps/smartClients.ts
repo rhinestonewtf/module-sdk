@@ -3,12 +3,21 @@ import {
   createSmartAccountClient,
   ENTRYPOINT_ADDRESS_V07,
   getAccountNonce,
+  bundlerActions,
 } from 'permissionless'
 import {
   signerToEcdsaKernelSmartAccount,
   signerToSafeSmartAccount,
 } from 'permissionless/accounts'
-import { Address, encodePacked, Hex, http, pad, PublicClient } from 'viem'
+import {
+  Address,
+  createClient,
+  encodePacked,
+  Hex,
+  http,
+  pad,
+  PublicClient,
+} from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import { getPublicClient } from 'test/utils/userOps/clients'
 import { anvil } from 'viem/chains'
@@ -16,10 +25,18 @@ import { BUNDLER_URL } from 'test/utils/userOps/constants/contracts'
 import { erc7579Actions } from 'permissionless/actions/erc7579'
 import { Account } from 'src/account'
 import { validators } from './constants/validators'
+import { pimlicoBundlerActions } from 'permissionless/actions/pimlico'
 
 const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
 const publicClient = getPublicClient()
+
+export const getBundlerClient = () =>
+  createClient({
+    transport: http(BUNDLER_URL),
+  })
+    .extend(bundlerActions(ENTRYPOINT_ADDRESS_V07))
+    .extend(pimlicoBundlerActions(ENTRYPOINT_ADDRESS_V07))
 
 // Safe Smart Client
 const getSafeClient = async (account: Account) => {
