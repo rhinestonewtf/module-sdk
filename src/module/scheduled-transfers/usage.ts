@@ -7,7 +7,7 @@ import {
 } from 'viem'
 import { ScheduledTransfer } from './types'
 import { Execution } from '../../account/types'
-import { SCHEDULED_TRANSFERS_EXECUTER_ADDRESS } from './constants'
+import { SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS } from './constants'
 import { abi } from './abi'
 
 type Params = {
@@ -46,7 +46,7 @@ export const getCreateScheduledTransferAction = ({
   scheduledTransfer,
 }: CreateScheduledTransferExecutionParams): Execution => {
   return {
-    target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'addOrder',
@@ -74,7 +74,7 @@ export const getExecuteScheduledTransferAction = ({
   jobId,
 }: ExecuteTransferParams): Execution => {
   return {
-    target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'executeOrder',
@@ -88,7 +88,7 @@ export const getToggleScheduledTransferAction = ({
   jobId,
 }: ExecuteTransferParams): Execution => {
   return {
-    target: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: encodeFunctionData({
       functionName: 'toggleOrder',

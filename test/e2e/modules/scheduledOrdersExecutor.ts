@@ -2,7 +2,7 @@ import { Account, isModuleInstalled } from 'src/account'
 import {
   getCreateScheduledOrderAction,
   getModule,
-  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+  SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
 } from 'src/module'
 import { ERC20Token } from 'src/module/scheduled-orders/types'
 import { PublicClient, TestClient } from 'viem'
@@ -24,7 +24,7 @@ export const testScheduledOrdersExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+        module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
       }),
     })
 

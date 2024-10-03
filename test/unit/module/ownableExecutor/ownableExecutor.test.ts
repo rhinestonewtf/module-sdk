@@ -1,5 +1,5 @@
-import { getOwnableExecuter } from 'src/module'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src'
+import { getOwnableExecutor } from 'src/module'
+import { OWNABLE_EXECUTOR_ADDRESS } from 'src/module'
 import { Address } from 'viem'
 import {
   getAddOwnableExecutorOwnerAction,
@@ -13,7 +13,7 @@ import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 
-describe('Ownable Executer Module', () => {
+describe('Ownable Executor Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
@@ -23,16 +23,16 @@ describe('Ownable Executer Module', () => {
     '0x9FF36a253C70b65122B47c70F2AfaF65F2957118',
   ] as Address[]
 
-  it('should get install ownable executer module', async () => {
-    const installOwnableExecuterModule = getOwnableExecuter({
+  it('should get install ownable executor module', async () => {
+    const installOwnableExecutorModule = getOwnableExecutor({
       owner: owners[0],
     })
 
-    expect(installOwnableExecuterModule.module).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+    expect(installOwnableExecutorModule.module).toEqual(
+      OWNABLE_EXECUTOR_ADDRESS,
     )
-    expect(installOwnableExecuterModule.initData).toBeDefined()
-    expect(installOwnableExecuterModule.type).toEqual('executor')
+    expect(installOwnableExecutorModule.initData).toBeDefined()
+    expect(installOwnableExecutorModule.type).toEqual('executor')
   })
 
   it('Should get addOwnerExecution action', async () => {
@@ -42,19 +42,21 @@ describe('Ownable Executer Module', () => {
       owner: owners[0],
     })
 
-    expect(addOwnerExecution.target).toEqual(OWNABLE_EXECUTER_ADDRESS)
+    expect(addOwnerExecution.target).toEqual(OWNABLE_EXECUTOR_ADDRESS)
     expect(addOwnerExecution.value).toEqual(BigInt(0))
     expect(addOwnerExecution.callData).toBeDefined()
   })
 
   it('Should throw error when owner not exists while removing owner', async () => {
-    const removeOwnerExecution = await getRemoveOwnableExecutorOwnerAction({
-      account,
-      client,
-      owner: owners[1],
-    })
+    async function getAction() {
+      await getRemoveOwnableExecutorOwnerAction({
+        account,
+        client,
+        owner: owners[1],
+      })
+    }
 
-    expect((removeOwnerExecution as Error).message).toEqual('Owner not found')
+    await expect(getAction).rejects.toThrow('Owner not found')
   })
 
   it('Should get list of owners', async () => {
@@ -69,14 +71,14 @@ describe('Ownable Executer Module', () => {
     const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountAction({
       ownedAccount: owners[1] as Address,
       execution: {
-        target: OWNABLE_EXECUTER_ADDRESS,
+        target: OWNABLE_EXECUTOR_ADDRESS,
         value: BigInt(0),
         callData: '0x',
       },
     })
 
     expect(executeOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+      OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeOnOwnedAccountExecution.callData).toBeDefined()
@@ -88,7 +90,7 @@ describe('Ownable Executer Module', () => {
         ownedAccount: owners[1] as Address,
         executions: [
           {
-            target: OWNABLE_EXECUTER_ADDRESS,
+            target: OWNABLE_EXECUTOR_ADDRESS,
             value: BigInt(0),
             callData: '0x',
           },
@@ -96,7 +98,7 @@ describe('Ownable Executer Module', () => {
       })
 
     expect(executeBatchOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTER_ADDRESS,
+      OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeBatchOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeBatchOnOwnedAccountExecution.callData).toBeDefined()

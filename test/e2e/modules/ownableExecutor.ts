@@ -4,14 +4,14 @@ import {
   getAddOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,
   getRemoveOwnableExecutorOwnerAction,
-  OWNABLE_EXECUTER_ADDRESS,
-} from 'src/module/ownable-executer'
+  OWNABLE_EXECUTOR_ADDRESS,
+} from 'src/module/ownable-executor'
 import { Address, getAddress, Hex, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   getExecuteBatchOnOwnedAccountAction,
   getExecuteOnOwnedAccountAction,
-} from 'src/module/ownable-executer/usage'
+} from 'src/module/ownable-executor/usage'
 
 type Params = {
   account: Account
@@ -23,13 +23,13 @@ export const testOwnableExecutor = async ({
   account,
   publicClient,
 }: Params) => {
-  it('should return true when checking ownable executer isInstalled', async () => {
+  it('should return true when checking ownable executor isInstalled', async () => {
     const isOwnableValidatorInstalled = await isModuleInstalled({
       account,
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: OWNABLE_EXECUTER_ADDRESS,
+        module: OWNABLE_EXECUTOR_ADDRESS,
       }),
     })
 
@@ -37,17 +37,17 @@ export const testOwnableExecutor = async ({
   }, 20000)
 
   it('should return correct module owners', async () => {
-    const { ownableExecuter } = getInstallModuleData({ account })
+    const { ownableExecutor } = getInstallModuleData({ account })
 
     const owners = await getOwnableExecutorOwners({
       account,
       client: publicClient,
     })
 
-    expect(getAddress(owners[0])).toEqual(getAddress(ownableExecuter.owner))
+    expect(getAddress(owners[0])).toEqual(getAddress(ownableExecutor.owner))
   }, 20000)
 
-  it('should add new owner to ownable executer', async () => {
+  it('should add new owner to ownable executor', async () => {
     const newOwner = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address
 
     const oldOwners = await getOwnableExecutorOwners({

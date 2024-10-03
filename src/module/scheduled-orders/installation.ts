@@ -1,6 +1,6 @@
 import { Address, Hex, encodePacked } from 'viem'
 import { Module } from '../types'
-import { SCHEDULED_ORDERS_EXECUTER_ADDRESS } from './constants'
+import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from './constants'
 
 type Params = {
   executeInterval: number
@@ -18,7 +18,7 @@ export const getScheduledOrdersExecutor = ({
   hook,
 }: Params): Module => {
   return {
-    module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+    module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     type: 'executor',
     initData: encodePacked(
       ['uint48', 'uint16', 'uint48', 'bytes'],

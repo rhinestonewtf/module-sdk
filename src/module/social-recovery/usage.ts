@@ -52,14 +52,14 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
   client: PublicClient
   account: Account
   guardian: Address
-}): Promise<Execution | Error> => {
+}): Promise<Execution> => {
   const guardians = await getSocialRecoveryGuardians({ account, client })
   let prevGuardian: Address
 
   const currentGuardianIndex = guardians.findIndex((g) => g === guardian)
 
   if (currentGuardianIndex === -1) {
-    return new Error('Guardian not found')
+    throw new Error('Guardian not found')
   } else if (currentGuardianIndex === 0) {
     prevGuardian = SENTINEL_ADDRESS
   } else {

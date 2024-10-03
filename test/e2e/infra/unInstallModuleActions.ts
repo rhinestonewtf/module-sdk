@@ -2,13 +2,13 @@ import { uninstallModule } from 'src/account'
 import {
   getModule,
   OWNABLE_VALIDATOR_ADDRESS,
-  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
-  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+  SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   SMART_SESSIONS_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
-import { OWNABLE_EXECUTER_ADDRESS } from 'src/module/ownable-executer'
+import { OWNABLE_EXECUTOR_ADDRESS } from 'src/module/ownable-executor'
 import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
 import {
@@ -56,7 +56,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: OWNABLE_EXECUTER_ADDRESS,
+      module: OWNABLE_EXECUTOR_ADDRESS,
     }),
   })
 
@@ -127,7 +127,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+      module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     }),
   })
 
@@ -136,7 +136,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+      module: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     }),
   })
 

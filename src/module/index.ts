@@ -24,7 +24,7 @@ export {
 } from './ownable-validator'
 
 export {
-  SCHEDULED_ORDERS_EXECUTER_ADDRESS,
+  SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
   getScheduledOrdersExecutor,
   getCreateScheduledOrderAction,
   getSwapOrderData,
@@ -32,7 +32,7 @@ export {
 } from './scheduled-orders'
 
 export {
-  SCHEDULED_TRANSFERS_EXECUTER_ADDRESS,
+  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   getScheduledTransfersExecutor,
   getCreateScheduledTransferAction,
   getScheduledTransferData,
@@ -65,14 +65,14 @@ export {
 } from './deadman-switch'
 
 export {
-  OWNABLE_EXECUTER_ADDRESS,
-  getOwnableExecuter,
+  OWNABLE_EXECUTOR_ADDRESS,
+  getOwnableExecutor,
   getAddOwnableExecutorOwnerAction,
   getRemoveOwnableExecutorOwnerAction,
   getOwnableExecutorOwners,
   getExecuteOnOwnedAccountAction,
   getExecuteBatchOnOwnedAccountAction,
-} from './ownable-executer'
+} from './ownable-executor'
 
 export {
   AUTO_SAVINGS_ADDRESS,
@@ -150,8 +150,9 @@ export {
 
 export {
   fetchRegistryModules,
-  REGISTRY_ADDRESS,
   getTrustAttestersAction,
+  findTrustedAttesters,
+  REGISTRY_ADDRESS,
   MOCK_ATTESTER_ADDRESS,
   RHINESTONE_ATTESTER_ADDRESS,
 } from './registry'
@@ -164,3 +165,5 @@ export type {
   SigHookInit,
   Validator,
 } from './types'
+
+export { moduleTypeIds } from './types'
