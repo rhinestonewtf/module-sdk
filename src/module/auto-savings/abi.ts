@@ -81,7 +81,6 @@ export const abi = [
     outputs: [
       { internalType: 'uint16', name: 'percentage', type: 'uint16' },
       { internalType: 'address', name: 'vault', type: 'address' },
-      { internalType: 'uint128', name: 'sqrtPriceLimitX96', type: 'uint128' },
     ],
     stateMutability: 'view',
     type: 'function',

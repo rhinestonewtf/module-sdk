@@ -81,15 +81,13 @@ describe('Auto Savings Module', () => {
   })
 
   it('should get account token config', async () => {
-    const [percentage, vault, sqrtPriceLimitX96] =
-      (await getAutoSavingAccountTokenConfig({
-        account,
-        client,
-        token: tokens[0],
-      })) as [number, Address, number]
+    const [percentage, vault] = (await getAutoSavingAccountTokenConfig({
+      account,
+      client,
+      token: tokens[0],
+    })) as [number, Address, number]
 
     expect(percentage).toEqual(0)
     expect(vault).toEqual(zeroAddress)
-    expect(Number(sqrtPriceLimitX96)).toEqual(0)
   })
 })
