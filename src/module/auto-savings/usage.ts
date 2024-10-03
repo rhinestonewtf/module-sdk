@@ -118,7 +118,7 @@ export const getAutoSaveAction = async ({
   }
 }
 
-export type ConfigType = [number, Address]
+export type ConfigType = [bigint, Address]
 
 export const getAutoSavingAccountTokenConfig = async ({
   client,

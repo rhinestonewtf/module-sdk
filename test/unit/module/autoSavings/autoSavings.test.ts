@@ -88,7 +88,7 @@ describe('Auto Savings Module', () => {
       token: tokens[0],
     })
 
-    expect(percentage).toEqual(0)
+    expect(percentage).toEqual(0n)
     expect(vault).toEqual(zeroAddress)
   })
 })
