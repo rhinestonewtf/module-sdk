@@ -23,9 +23,9 @@ export const getMultiFactorValidator = ({
             {
               components: [
                 {
-                  internalType: 'bytes',
+                  internalType: 'bytes32',
                   name: 'packedValidatorAndId',
-                  type: 'bytes',
+                  type: 'bytes32',
                 },
                 { internalType: 'bytes', name: 'data', type: 'bytes' },
               ],

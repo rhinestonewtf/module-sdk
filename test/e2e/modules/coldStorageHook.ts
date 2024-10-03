@@ -114,11 +114,12 @@ export const testColdStorageHook = async ({
   }, 20000)
 
   it('should remove address from flashloan', async () => {
+    const addressToRemove = '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c'
     const removeAddressFromFlashloanAction =
       await getFlashloanRemoveAddressAction({
         account,
         client: publicClient,
-        addressToRemove: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
+        addressToRemove: addressToRemove,
       })
 
     const receipt = await sendUserOp({
@@ -131,9 +132,7 @@ export const testColdStorageHook = async ({
       client: publicClient,
     })
 
-    expect(whitelist).not.toContain(
-      '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
-    )
+    expect(whitelist).not.toContain(addressToRemove)
     expect(receipt).toBeDefined()
   }, 20000)
 }

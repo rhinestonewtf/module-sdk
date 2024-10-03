@@ -19,7 +19,6 @@ import {
   zeroAddress,
 } from 'viem'
 import { CallType } from 'src/module/types'
-import { validators } from 'test/utils/userOps/constants/validators'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
 import { encodeValidationData } from 'src/module/ownable-validator/usage'
@@ -35,6 +34,7 @@ import {
 import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
 import { getDeadmanSwitch } from 'src/module/deadman-switch'
 import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
+import { sepolia } from 'viem/chains'
 
 type Params = {
   account: Account
@@ -160,7 +160,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
-    ...installSmartSessionsValidatorAction,
+    // ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
     ...installWebAuthnValidatorAction,
     ...installOwnableExecutorAction,
@@ -206,12 +206,12 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     registryAddress: REGISTRY_ADDRESS as Address,
   },
   autoSavingExecutor: {
-    tokens: ['0x96C9b8422f930a4a47c1e3df01103A282ee6EE04' as Address],
+    chainId: sepolia.id as number,
     configs: [
       {
-        percentage: 10 * 100,
+        token: '0x96C9b8422f930a4a47c1e3df01103A282ee6EE04' as Address,
+        percentage: BigInt(10 * 100),
         vault: '0xd921f0dF3B56899F26F658809aaa161cdfC2359F' as Address,
-        sqrtPriceLimitX96: BigInt(10),
       },
     ],
     hook: zeroAddress,
@@ -228,7 +228,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
       {
         packedValidatorAndId: encodePacked(
           ['bytes12', 'address'],
-          ['0x000000000000000000000000', validators.ecdsa.address],
+          ['0x000000000000000000000000', OWNABLE_VALIDATOR_ADDRESS],
         ),
         data: '0x41414141' as Hex,
       },
@@ -249,6 +249,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     callType: CallType.CALLTYPE_SINGLE,
   },
   scheduledOrdersExecutor: {
+    chainId: sepolia.id as number,
     executeInterval: 100,
     numberOfExecutions: 10,
     startDate: new Date().getTime(),

@@ -4,13 +4,13 @@ import { abi } from './abi'
 import { Execution } from '../../account'
 import { SENTINEL_ADDRESS } from '../../common/constants'
 import { Account } from '../../account'
+import { getSwapDetails } from '../utils/uniswap'
 
 type Params = {
   token: Address
   config: {
-    percentage: number
+    percentage: bigint
     vault: Address
-    sqrtPriceLimitX96: bigint
   }
 }
 
@@ -96,6 +96,7 @@ export const getAutoSaveAction = async ({
   token: Address
   amountReceived: number
 }): Promise<Execution> => {
+  const swapDetails = getSwapDetails()
   try {
     return {
       target: AUTO_SAVINGS_ADDRESS,
@@ -103,7 +104,13 @@ export const getAutoSaveAction = async ({
       callData: encodeFunctionData({
         functionName: 'autoSave',
         abi,
-        args: [token, BigInt(amountReceived)],
+        args: [
+          token,
+          BigInt(amountReceived),
+          swapDetails.sqrtPriceLimitX96,
+          swapDetails.amountOutMin,
+          swapDetails.fee,
+        ],
       }),
     }
   } catch {

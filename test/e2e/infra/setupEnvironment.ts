@@ -5,6 +5,11 @@ import { getInstallModuleActions } from './installModuleActions'
 import * as HelpersModule from 'src/common/getPrevModule'
 import { SENTINEL_ADDRESS } from 'src/common/constants'
 import { sendUserOp } from './sendUserOp'
+import {
+  getTrustAttestersAction,
+  MOCK_ATTESTER_ADDRESS,
+  RHINESTONE_ATTESTER_ADDRESS,
+} from 'src/module'
 
 type Params = {
   account: Account
@@ -39,7 +44,13 @@ export const setupEnvironment = async ({
 
   if (batch1.length) {
     await sendUserOp({
-      actions: [...batch1],
+      actions: [
+        getTrustAttestersAction({
+          threshold: 1,
+          attesters: [RHINESTONE_ATTESTER_ADDRESS, MOCK_ATTESTER_ADDRESS],
+        }),
+        ...batch1,
+      ],
       account,
     })
   }

@@ -56,6 +56,9 @@ export const abi = [
     inputs: [
       { internalType: 'address', name: 'token', type: 'address' },
       { internalType: 'uint256', name: 'amountReceived', type: 'uint256' },
+      { internalType: 'uint160', name: 'sqrtPriceLimitX96', type: 'uint160' },
+      { internalType: 'uint256', name: 'amountOutMinimum', type: 'uint256' },
+      { internalType: 'uint24', name: 'fee', type: 'uint24' },
     ],
     name: 'autoSave',
     outputs: [],
@@ -79,7 +82,7 @@ export const abi = [
     ],
     name: 'config',
     outputs: [
-      { internalType: 'uint16', name: 'percentage', type: 'uint16' },
+      { internalType: 'uint64', name: 'percentage', type: 'uint64' },
       { internalType: 'address', name: 'vault', type: 'address' },
     ],
     stateMutability: 'view',
@@ -146,13 +149,8 @@ export const abi = [
       { internalType: 'address', name: 'token', type: 'address' },
       {
         components: [
-          { internalType: 'uint16', name: 'percentage', type: 'uint16' },
+          { internalType: 'uint64', name: 'percentage', type: 'uint64' },
           { internalType: 'address', name: 'vault', type: 'address' },
-          {
-            internalType: 'uint128',
-            name: 'sqrtPriceLimitX96',
-            type: 'uint128',
-          },
         ],
         internalType: 'struct AutoSavings.Config',
         name: '_config',
