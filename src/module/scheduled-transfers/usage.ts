@@ -45,24 +45,28 @@ type CreateScheduledTransferExecutionParams = {
 export const getCreateScheduledTransferAction = ({
   scheduledTransfer,
 }: CreateScheduledTransferExecutionParams): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'addOrder',
+    abi,
+    args: [
+      encodePacked(
+        ['uint48', 'uint16', 'uint48', 'bytes'],
+        [
+          scheduledTransfer.repeatEvery,
+          scheduledTransfer.numberOfRepeats,
+          scheduledTransfer.startDate,
+          getScheduledTransferData({ scheduledTransfer }),
+        ],
+      ),
+    ],
+  })
+
   return {
+    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addOrder',
-      abi,
-      args: [
-        encodePacked(
-          ['uint48', 'uint16', 'uint48', 'bytes'],
-          [
-            scheduledTransfer.repeatEvery,
-            scheduledTransfer.numberOfRepeats,
-            scheduledTransfer.startDate,
-            getScheduledTransferData({ scheduledTransfer }),
-          ],
-        ),
-      ],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -73,27 +77,35 @@ type ExecuteTransferParams = {
 export const getExecuteScheduledTransferAction = ({
   jobId,
 }: ExecuteTransferParams): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'executeOrder',
+    abi,
+    args: [BigInt(jobId)],
+  })
+
   return {
+    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'executeOrder',
-      abi,
-      args: [BigInt(jobId)],
-    }),
+    callData: data,
+    data,
   }
 }
 
 export const getToggleScheduledTransferAction = ({
   jobId,
 }: ExecuteTransferParams): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'toggleOrder',
+    abi,
+    args: [BigInt(jobId)],
+  })
+
   return {
+    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'toggleOrder',
-      abi,
-      args: [BigInt(jobId)],
-    }),
+    callData: data,
+    data,
   }
 }

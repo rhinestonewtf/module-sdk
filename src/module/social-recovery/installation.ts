@@ -12,6 +12,7 @@ export const getSocialRecoveryValidator = ({
   hook?: Address
 }): Module => {
   return {
+    address: SOCIAL_RECOVERY_ADDRESS,
     module: SOCIAL_RECOVERY_ADDRESS,
     initData: encodeAbiParameters(
       [

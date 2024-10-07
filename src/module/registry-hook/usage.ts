@@ -8,13 +8,17 @@ export const getSetRegistryAction = ({
 }: {
   registryAddress: Address
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setRegistry',
+    abi,
+    args: [registryAddress],
+  })
+
   return {
+    to: REGISTRY_HOOK_ADDRESS,
     target: REGISTRY_HOOK_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setRegistry',
-      abi,
-      args: [registryAddress],
-    }),
+    callData: data,
+    data,
   }
 }

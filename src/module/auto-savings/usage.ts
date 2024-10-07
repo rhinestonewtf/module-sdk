@@ -18,14 +18,18 @@ export const getSetAutoSavingConfigAction = ({
   token,
   config,
 }: Params): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setConfig',
+    abi,
+    args: [token, config],
+  })
+
   return {
+    to: AUTO_SAVINGS_ADDRESS,
     target: AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setConfig',
-      abi,
-      args: [token, config],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -75,14 +79,18 @@ export const getDeleteAutoSavingConfigAction = async ({
       prevToken = getAddress(allTokens[currentTokenIndex - 1])
     }
 
+    const data = encodeFunctionData({
+      functionName: 'deleteConfig',
+      abi,
+      args: [prevToken, token],
+    })
+
     return {
+      to: AUTO_SAVINGS_ADDRESS,
       target: AUTO_SAVINGS_ADDRESS,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'deleteConfig',
-        abi,
-        args: [prevToken, token],
-      }),
+      callData: data,
+      data,
     }
   } catch {
     throw new Error(`Failed to delete config for token ${token}`)
@@ -98,20 +106,24 @@ export const getAutoSaveAction = async ({
 }): Promise<Execution> => {
   const swapDetails = getSwapDetails()
   try {
+    const data = encodeFunctionData({
+      functionName: 'autoSave',
+      abi,
+      args: [
+        token,
+        BigInt(amountReceived),
+        swapDetails.sqrtPriceLimitX96,
+        swapDetails.amountOutMin,
+        swapDetails.fee,
+      ],
+    })
+
     return {
+      to: AUTO_SAVINGS_ADDRESS,
       target: AUTO_SAVINGS_ADDRESS,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'autoSave',
-        abi,
-        args: [
-          token,
-          BigInt(amountReceived),
-          swapDetails.sqrtPriceLimitX96,
-          swapDetails.amountOutMin,
-          swapDetails.fee,
-        ],
-      }),
+      callData: data,
+      data,
     }
   } catch {
     throw new Error(`Failed to create autosave action for token ${token}`)

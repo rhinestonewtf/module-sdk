@@ -12,6 +12,7 @@ export const getOwnableValidator = ({
   hook?: Address
 }): Module => {
   return {
+    address: OWNABLE_VALIDATOR_ADDRESS,
     module: OWNABLE_VALIDATOR_ADDRESS,
     initData: encodeAbiParameters(
       [

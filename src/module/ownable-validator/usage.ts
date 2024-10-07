@@ -18,14 +18,18 @@ export const getSetOwnableValidatorThresholdAction = ({
 }: {
   threshold: number
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setThreshold',
+    abi,
+    args: [BigInt(threshold)],
+  })
+
   return {
+    to: OWNABLE_VALIDATOR_ADDRESS,
     target: OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setThreshold',
-      abi,
-      args: [BigInt(threshold)],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -46,14 +50,18 @@ export const getAddOwnableValidatorOwnerAction = async ({
     throw new Error('Owner already exists')
   }
 
+  const data = encodeFunctionData({
+    functionName: 'addOwner',
+    abi,
+    args: [owner],
+  })
+
   return {
+    to: OWNABLE_VALIDATOR_ADDRESS,
     target: OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addOwner',
-      abi,
-      args: [owner],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -79,14 +87,18 @@ export const getRemoveOwnableValidatorOwnerAction = async ({
     prevOwner = getAddress(owners[currentOwnerIndex - 1])
   }
 
+  const data = encodeFunctionData({
+    functionName: 'removeOwner',
+    abi,
+    args: [prevOwner, owner],
+  })
+
   return {
+    to: OWNABLE_VALIDATOR_ADDRESS,
     target: OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'removeOwner',
-      abi,
-      args: [prevOwner, owner],
-    }),
+    callData: data,
+    data,
   }
 }
 

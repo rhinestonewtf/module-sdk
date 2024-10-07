@@ -3,7 +3,6 @@ import {
   Hex,
   PublicClient,
   hashTypedData,
-  zeroAddress,
   encodeAbiParameters,
   Address,
   encodeFunctionData,
@@ -241,11 +240,14 @@ export const decodeSmartSessionSignature = ({
       const decodedData = decodeAbiParameters(
         encodeEnableSessionSignatureAbi,
         data,
-      ) 
+      )
       const enableSession = decodedData[0]
 
       const permissionEnableSigSlice = account.type === 'kernel' ? 1 : 0
-      if(account.type === 'kernel' && !enableSession.permissionEnableSig.startsWith('0x01')) {
+      if (
+        account.type === 'kernel' &&
+        !enableSession.permissionEnableSig.startsWith('0x01')
+      ) {
         throw new Error('Invalid permissionEnableSig for kernel account')
       }
       const permissionEnableSig = slice(
@@ -270,7 +272,7 @@ export const decodeSmartSessionSignature = ({
           },
           validator: validator,
           accountType: account.type,
-        } as EnableSessionData
+        } as EnableSessionData,
       }
     default:
       throw new Error(`Unknown mode ${mode}`)
@@ -375,14 +377,18 @@ export const getEnableSessionsAction = ({
 }: {
   sessions: Session[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'enableSessions',
+    args: [sessions],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'enableSessions',
-      args: [sessions],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -391,14 +397,18 @@ export const getRemoveSessionAction = ({
 }: {
   permissionId: Hex
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'removeSession',
+    args: [permissionId],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'removeSession',
-      args: [permissionId],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -409,14 +419,18 @@ export const getEnableUserOpPoliciesAction = ({
   permissionId: Hex
   userOpPolicies: PolicyData[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'enableUserOpPolicies',
+    args: [permissionId, userOpPolicies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'enableUserOpPolicies',
-      args: [permissionId, userOpPolicies],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -427,14 +441,18 @@ export const getDisableUserOpPoliciesAction = ({
   permissionId: Hex
   userOpPolicies: Address[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'disableUserOpPolicies',
+    args: [permissionId, userOpPolicies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'disableUserOpPolicies',
-      args: [permissionId, userOpPolicies],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -445,14 +463,18 @@ export const getEnableERC1271PoliciesAction = ({
   permissionId: Hex
   erc1271Policies: ERC7739Data
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'enableERC1271Policies',
+    args: [permissionId, erc1271Policies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'enableERC1271Policies',
-      args: [permissionId, erc1271Policies],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -463,14 +485,18 @@ export const getDisableERC1271PoliciesAction = ({
   permissionId: Hex
   policies: Address[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'disableERC1271Policies',
+    args: [permissionId, policies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'disableERC1271Policies',
-      args: [permissionId, policies],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -481,14 +507,18 @@ export const getEnableActionPolicies = ({
   permissionId: Hex
   actionPolicies: ActionData[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'enableActionPolicies',
+    args: [permissionId, actionPolicies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'enableActionPolicies',
-      args: [permissionId, actionPolicies],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -501,13 +531,17 @@ export const getDisableActionPolicies = ({
   actionId: Hex
   policies: Address[]
 }): Execution => {
+  const data = encodeFunctionData({
+    abi,
+    functionName: 'disableActionPolicies',
+    args: [permissionId, actionId, policies],
+  })
+
   return {
+    to: SMART_SESSIONS_ADDRESS,
     target: SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      abi,
-      functionName: 'disableActionPolicies',
-      args: [permissionId, actionId, policies],
-    }),
+    callData: data,
+    data,
   }
 }

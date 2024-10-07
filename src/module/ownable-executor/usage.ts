@@ -29,14 +29,18 @@ export const getAddOwnableExecutorOwnerAction = async ({
     throw new Error('Owner already exists')
   }
 
+  const data = encodeFunctionData({
+    functionName: 'addOwner',
+    abi,
+    args: [owner],
+  })
+
   return {
+    to: OWNABLE_EXECUTOR_ADDRESS,
     target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addOwner',
-      abi,
-      args: [owner],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -62,14 +66,18 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
     prevOwner = getAddress(owners[currentOwnerIndex - 1])
   }
 
+  const data = encodeFunctionData({
+    functionName: 'removeOwner',
+    abi,
+    args: [prevOwner, owner],
+  })
+
   return {
+    to: OWNABLE_EXECUTOR_ADDRESS,
     target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'removeOwner',
-      abi,
-      args: [prevOwner, owner],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -101,24 +109,24 @@ export const getExecuteOnOwnedAccountAction = ({
   ownedAccount: Address
   execution: Execution
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'executeOnOwnedAccount',
+    abi,
+    args: [
+      ownedAccount,
+      encodePacked(
+        ['address', 'uint256', 'bytes'],
+        [execution.target, BigInt(Number(execution.value)), execution.callData],
+      ),
+    ],
+  })
+
   return {
+    to: OWNABLE_EXECUTOR_ADDRESS,
     target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'executeOnOwnedAccount',
-      abi,
-      args: [
-        ownedAccount,
-        encodePacked(
-          ['address', 'uint256', 'bytes'],
-          [
-            execution.target,
-            BigInt(Number(execution.value)),
-            execution.callData,
-          ],
-        ),
-      ],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -129,39 +137,43 @@ export const getExecuteBatchOnOwnedAccountAction = ({
   ownedAccount: Address
   executions: Execution[]
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'executeBatchOnOwnedAccount',
+    abi,
+    args: [
+      ownedAccount,
+      encodeAbiParameters(
+        [
+          {
+            components: [
+              {
+                name: 'target',
+                type: 'address',
+              },
+              {
+                name: 'value',
+                type: 'uint256',
+              },
+              {
+                name: 'callData',
+                type: 'bytes',
+              },
+            ],
+            name: 'Execution',
+            type: 'tuple[]',
+          },
+        ],
+        // @ts-ignore
+        [executions],
+      ),
+    ],
+  })
+
   return {
+    to: OWNABLE_EXECUTOR_ADDRESS,
     target: OWNABLE_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'executeBatchOnOwnedAccount',
-      abi,
-      args: [
-        ownedAccount,
-        encodeAbiParameters(
-          [
-            {
-              components: [
-                {
-                  name: 'target',
-                  type: 'address',
-                },
-                {
-                  name: 'value',
-                  type: 'uint256',
-                },
-                {
-                  name: 'callData',
-                  type: 'bytes',
-                },
-              ],
-              name: 'Execution',
-              type: 'tuple[]',
-            },
-          ],
-          // @ts-ignore
-          [executions],
-        ),
-      ],
-    }),
+    callData: data,
+    data,
   }
 }
