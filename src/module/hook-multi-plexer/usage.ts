@@ -37,14 +37,18 @@ export const getAddHookAction = ({
   sig?: Hex
 }): Execution => {
   try {
+    const data = encodeFunctionData({
+      functionName: sig ? 'addSigHook' : 'addHook',
+      abi,
+      args: sig ? [hook, sig, hookType] : [hook, hookType],
+    })
+
     return {
+      to: HOOK_MULTI_PLEXER_ADDRESS,
       target: HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: sig ? 'addSigHook' : 'addHook',
-        abi,
-        args: sig ? [hook, sig, hookType] : [hook, hookType],
-      }),
+      callData: data,
+      data,
     }
   } catch {
     throw new Error(`Failed to add hook ${hook}`)
@@ -61,14 +65,18 @@ export const getRemoveHookAction = ({
   sig?: Hex
 }): Execution => {
   try {
+    const data = encodeFunctionData({
+      functionName: sig ? 'removeSigHook' : 'removeHook',
+      abi,
+      args: sig ? [hook, sig, hookType] : [hook, hookType],
+    })
+
     return {
+      to: HOOK_MULTI_PLEXER_ADDRESS,
       target: HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: sig ? 'removeSigHook' : 'removeHook',
-        abi,
-        args: sig ? [hook, sig, hookType] : [hook, hookType],
-      }),
+      callData: data,
+      data,
     }
   } catch {
     throw new Error(`Failed to remove hook ${hook}`)

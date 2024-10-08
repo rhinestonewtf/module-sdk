@@ -4,10 +4,12 @@ import { Address, Hex } from 'viem'
 export type ModuleType = 'validator' | 'executor' | 'fallback' | 'hook'
 
 export type Module = {
+  address: Address
+  // note: this parameter will be deprecated in the next major version; use address instead
   module: Address
-  initData?: Hex
-  deInitData?: Hex
-  additionalContext?: Hex
+  initData: Hex
+  deInitData: Hex
+  additionalContext: Hex
   type: ModuleType
 
   /* ---- kernel module params ---- */

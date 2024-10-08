@@ -68,9 +68,11 @@ export const testColdStorageHook = async ({
   it('should request time locked execution', async () => {
     const requestTimeLockedExecutionAction = getRequestTimelockedExecution({
       execution: {
+        to: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
         target: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
         value: BigInt(0),
         callData: '0x',
+        data: '0x',
       },
       additionalWait: 100,
     })

@@ -43,18 +43,22 @@ const _installModule = async ({
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (!isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'installModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(moduleTypeIds[module.type]),
+        module.module,
+        module.initData || '0x',
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'installModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(moduleTypeIds[module.type]),
-          module.module,
-          module.initData || '0x',
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
   return executions
@@ -78,21 +82,25 @@ async function installFallback({
   })
 
   if (!isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'installModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(moduleTypeIds[module.type]),
+        module.module,
+        encodePacked(
+          ['bytes4', 'bytes1', 'bytes'],
+          [module.selector!, module.callType!, module.initData ?? '0x'],
+        ),
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'installModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(moduleTypeIds[module.type]),
-          module.module,
-          encodePacked(
-            ['bytes4', 'bytes1', 'bytes'],
-            [module.selector!, module.callType!, module.initData ?? '0x'],
-          ),
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
 

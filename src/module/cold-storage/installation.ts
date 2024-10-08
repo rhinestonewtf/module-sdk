@@ -38,8 +38,10 @@ export const getColdStorageHook = async ({
     : encodePacked(['uint128', 'address'], [BigInt(waitPeriod), owner])
 
   return {
+    address: COLD_STORAGE_HOOK_ADDRESS,
     module: COLD_STORAGE_HOOK_ADDRESS,
     initData,
+    deInitData: '0x',
     additionalContext: '0x',
     type: moduleType,
     hook,
@@ -62,6 +64,7 @@ export const getAllowedCallbackSenders = ({
   hook,
 }: FlashloanParams): Module => {
   return {
+    address: COLD_STORAGE_FLASHLOAN_ADDRESS,
     module: COLD_STORAGE_FLASHLOAN_ADDRESS,
     initData: encodeAbiParameters(
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
@@ -69,6 +72,7 @@ export const getAllowedCallbackSenders = ({
     ),
     deInitData: '0x',
     functionSig,
+    additionalContext: '0x',
     selector,
     hook,
     callType,

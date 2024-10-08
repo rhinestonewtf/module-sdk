@@ -10,6 +10,7 @@ export const getOwnableExecutor = ({
   hook?: Address
 }): Module => {
   return {
+    address: OWNABLE_EXECUTOR_ADDRESS,
     module: OWNABLE_EXECUTOR_ADDRESS,
     initData: encodePacked(['address'], [owner]),
     deInitData: '0x',

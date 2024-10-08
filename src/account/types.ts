@@ -11,9 +11,13 @@ export type Account = {
 }
 
 export type Execution = {
+  to: Address
+  // note: target will be deprecated in the next major version; please use to instead
   target: Address
   value: BigInt
+  // note: callData will be deprecated in the next major version; please use data instead
   callData: Hex
+  data: Hex
 }
 
 export type InitialModules = {

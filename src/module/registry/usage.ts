@@ -14,28 +14,33 @@ export const getTrustAttestersAction = ({
   attesters: Address[]
   threshold: number
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'trustAttesters',
+    abi,
+    args: [threshold, attesters],
+  })
+
   return {
+    to: REGISTRY_ADDRESS,
     target: REGISTRY_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'trustAttesters',
-      abi,
-      args: [threshold, attesters],
-    }),
+    callData: data,
+    data,
   }
 }
 
 export const findTrustedAttesters = async ({
-  client, 
-  accountAddress
+  client,
+  accountAddress,
 }: {
-  client:PublicClient, 
-  accountAddress:Address
+  client: PublicClient
+  accountAddress: Address
 }) => {
-  return await client.readContract({
+  return (await client.readContract({
     address: REGISTRY_ADDRESS,
     abi,
     functionName: 'findTrustedAttesters',
-    args: [accountAddress]
-  }) as Address[]
+    args: [accountAddress],
+  })) as Address[]
 }
+

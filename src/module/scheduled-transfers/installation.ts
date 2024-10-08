@@ -18,6 +18,7 @@ export const getScheduledTransfersExecutor = ({
   hook,
 }: Params): Module => {
   return {
+    address: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     module: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     type: 'executor',
     initData: encodePacked(
@@ -25,6 +26,7 @@ export const getScheduledTransfersExecutor = ({
       [executeInterval, numberOfExecutions, startDate, executionData],
     ),
     deInitData: '0x',
+    additionalContext: '0x',
     hook,
   }
 }

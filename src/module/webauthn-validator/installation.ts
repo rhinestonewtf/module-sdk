@@ -13,6 +13,7 @@ export const getWebAuthnValidator = (
   webAuthnCredential: WebauthnCredential,
 ): Module => {
   return {
+    address: WEBAUTHN_VALIDATOR_ADDRESS,
     module: WEBAUTHN_VALIDATOR_ADDRESS,
     initData: encodeAbiParameters(
       [

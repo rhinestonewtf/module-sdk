@@ -17,14 +17,18 @@ export const getSetSocialRecoveryThresholdAction = ({
 }: {
   threshold: number
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setThreshold',
+    abi,
+    args: [BigInt(threshold)],
+  })
+
   return {
+    to: SOCIAL_RECOVERY_ADDRESS,
     target: SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setThreshold',
-      abi,
-      args: [BigInt(threshold)],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -33,14 +37,18 @@ export const getAddSocialRecoveryGuardianAction = ({
 }: {
   guardian: Address
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'addGuardian',
+    abi,
+    args: [guardian],
+  })
+
   return {
+    to: SOCIAL_RECOVERY_ADDRESS,
     target: SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addGuardian',
-      abi,
-      args: [guardian],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -66,14 +74,18 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
     prevGuardian = getAddress(guardians[currentGuardianIndex - 1])
   }
 
+  const data = encodeFunctionData({
+    functionName: 'removeGuardian',
+    abi,
+    args: [prevGuardian, guardian],
+  })
+
   return {
+    to: SOCIAL_RECOVERY_ADDRESS,
     target: SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'removeGuardian',
-      abi,
-      args: [prevGuardian, guardian],
-    }),
+    callData: data,
+    data,
   }
 }
 

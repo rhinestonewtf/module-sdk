@@ -26,6 +26,7 @@ export const getScheduledOrdersExecutor = ({
   }
 
   return {
+    address: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     type: 'executor',
     initData: encodePacked(
@@ -39,6 +40,7 @@ export const getScheduledOrdersExecutor = ({
       ],
     ),
     deInitData: '0x',
+    additionalContext: '0x',
     hook,
   }
 }

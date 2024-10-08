@@ -23,14 +23,18 @@ type Params = {
 export const getColdStorageSetWaitPeriodAction = ({
   waitPeriod,
 }: Params): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setWaitPeriod',
+    abi,
+    args: [BigInt(waitPeriod)],
+  })
+
   return {
+    to: COLD_STORAGE_HOOK_ADDRESS,
     target: COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setWaitPeriod',
-      abi,
-      args: [BigInt(waitPeriod)],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -69,14 +73,18 @@ export const getRequestTimelockedExecution = ({
   execution,
   additionalWait,
 }: RequestTimelockedExecutionParams): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'requestTimelockedExecution',
+    abi,
+    args: [execution, additionalWait],
+  })
+
   return {
+    to: COLD_STORAGE_HOOK_ADDRESS,
     target: COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'requestTimelockedExecution',
-      abi,
-      args: [execution, additionalWait],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -95,20 +103,24 @@ export const getRequestTimelockedModuleConfigExecution = ({
   isInstall,
   additionalWait,
 }: RequestTimelockedModuleConfigParams): Execution => {
+  const callData = encodeFunctionData({
+    functionName: 'requestTimelockedModuleConfig',
+    abi,
+    args: [
+      BigInt(moduleTypeId),
+      module,
+      data,
+      isInstall,
+      BigInt(additionalWait),
+    ],
+  })
+
   return {
+    to: COLD_STORAGE_HOOK_ADDRESS,
     target: COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'requestTimelockedModuleConfig',
-      abi,
-      args: [
-        BigInt(moduleTypeId),
-        module,
-        data,
-        isInstall,
-        BigInt(additionalWait),
-      ],
-    }),
+    callData: callData,
+    data: callData,
   }
 }
 
@@ -121,14 +133,18 @@ export const getFlashloanAddAddressAction = ({
 }: {
   addressToAdd: Address
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'addAddress',
+    abi: flashloanAbi,
+    args: [addressToAdd],
+  })
+
   return {
+    to: COLD_STORAGE_FLASHLOAN_ADDRESS,
     target: COLD_STORAGE_FLASHLOAN_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addAddress',
-      abi: flashloanAbi,
-      args: [addressToAdd],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -156,14 +172,18 @@ export const getFlashloanRemoveAddressAction = async ({
     prevAddress = getAddress(whitelistAddresses[currentAddressIndex - 1])
   }
 
+  const data = encodeFunctionData({
+    functionName: 'removeAddress',
+    abi: flashloanAbi,
+    args: [prevAddress, addressToRemove],
+  })
+
   return {
+    to: COLD_STORAGE_FLASHLOAN_ADDRESS,
     target: COLD_STORAGE_FLASHLOAN_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'removeAddress',
-      abi: flashloanAbi,
-      args: [prevAddress, addressToRemove],
-    }),
+    callData: data,
+    data,
   }
 }
 

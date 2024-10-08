@@ -56,18 +56,22 @@ const _installModule = async ({
   const isInstalled = await isModuleInstalled({ client, account, module })
 
   if (!isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'installModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(moduleTypeIds[module.type]),
+        module.module,
+        getModuleCalldata(module),
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'installModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(moduleTypeIds[module.type]),
-          module.module,
-          getModuleCalldata(module),
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
   return executions
