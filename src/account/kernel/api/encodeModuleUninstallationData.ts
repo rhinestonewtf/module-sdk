@@ -1,7 +1,6 @@
 import { Account } from '../../types'
-import { Hex, PublicClient, encodePacked, encodeAbiParameters } from 'viem'
-import { Module, CallType } from '../../../module/types'
-import { getPreviousModule } from '../../../common'
+import { Hex, PublicClient, encodePacked } from 'viem'
+import { KernelModule } from '../types'
 
 export const encodeModuleUninstallationData = async ({
   client,
@@ -10,20 +9,11 @@ export const encodeModuleUninstallationData = async ({
 }: {
   client: PublicClient
   account: Account
-  module: Module
+  module: KernelModule
 }): Promise<Hex> => {
   switch (module.type) {
     case 'validator':
     case 'executor':
-      const prev = await getPreviousModule({ client, account, module })
-      return encodeAbiParameters(
-        [
-          { name: 'prev', type: 'address' },
-          { name: 'disableModuleData', type: 'bytes' },
-        ],
-        [prev, module.deInitData],
-      )
-
     case 'hook':
       return module.deInitData
     case 'fallback':

@@ -1,6 +1,11 @@
 import { Account } from '../../types'
-import { Hex, PublicClient, encodePacked, encodeAbiParameters } from 'viem'
-import { Module, CallType } from '../../../module/types'
+import {
+  Hex,
+  PublicClient,
+  parseAbiParameters,
+  encodeAbiParameters,
+} from 'viem'
+import { Module } from '../../../module/types'
 import { getPreviousModule } from '../../../common'
 
 export const encodeModuleUninstallationData = async ({
@@ -23,13 +28,18 @@ export const encodeModuleUninstallationData = async ({
         ],
         [prev, module.deInitData],
       )
-
     case 'hook':
-      return module.deInitData
+      return encodeAbiParameters(
+        parseAbiParameters(
+          'uint8 hookType, bytes4 selector, bytes memory deInitData',
+        ),
+        [module.hookType!, module.selector!, module.deInitData],
+      )
+
     case 'fallback':
-      return encodePacked(
-        ['bytes4', 'bytes'],
-        [module.selector!, module.deInitData],
+      return encodeAbiParameters(
+        parseAbiParameters('bytes4 functionSig, bytes memory moduleDeInitData'),
+        [module.functionSig!, module.deInitData],
       )
     default:
       throw new Error(`Unknown module type ${module.type}`)
