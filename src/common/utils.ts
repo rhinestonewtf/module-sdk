@@ -7,6 +7,7 @@ export const isContract = async ({
   client: PublicClient
   address: Address
 }) => {
+  // todo: upgrade from getBytecode
   const bytecode = await client.getBytecode({
     address: address,
   })

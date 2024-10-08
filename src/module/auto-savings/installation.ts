@@ -24,6 +24,7 @@ export const getAutoSavingsExecutor = ({
   }
 
   return {
+    address: AUTO_SAVINGS_ADDRESS,
     module: AUTO_SAVINGS_ADDRESS,
     initData: encodeAbiParameters(
       [

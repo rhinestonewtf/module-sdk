@@ -96,9 +96,11 @@ export const testOwnableExecutor = async ({
     const executeOnOwnedAccount = getExecuteOnOwnedAccountAction({
       ownedAccount: account.address,
       execution: {
+        to: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
         target: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
         value: BigInt(0),
         callData: '0x',
+        data: '0x',
       },
     })
 
@@ -112,9 +114,11 @@ export const testOwnableExecutor = async ({
 
   it('should batch execute on owned account', async () => {
     const execution = {
+      to: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
       target: '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c' as Address,
       value: BigInt(0),
       callData: '0x' as Hex,
+      data: '0x' as Hex,
     }
 
     const executeOnOwnedAccount = getExecuteBatchOnOwnedAccountAction({

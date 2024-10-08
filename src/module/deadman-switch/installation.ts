@@ -27,6 +27,7 @@ export const getDeadmanSwitch = async ({
   })) as boolean
 
   return {
+    address: DEADMAN_SWITCH_ADDRESS,
     module: DEADMAN_SWITCH_ADDRESS,
     initData: isInitialized
       ? '0x'

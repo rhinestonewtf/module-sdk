@@ -3,6 +3,7 @@ import { CallType, Module, ModuleType } from '../types'
 import { SafeHookType } from '../../account/safe/types'
 
 export const getModule = ({
+  address,
   module,
   initData = '0x',
   deInitData = '0x',
@@ -14,6 +15,7 @@ export const getModule = ({
   selector,
   hookType,
 }: {
+  address?: Address
   module: Address
   initData?: Hex
   deInitData?: Hex
@@ -33,6 +35,7 @@ export const getModule = ({
   hookType?: SafeHookType
 }): Module => {
   return {
+    address: address ?? module,
     module,
     initData,
     deInitData,

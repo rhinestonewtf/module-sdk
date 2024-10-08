@@ -13,6 +13,7 @@ export const getMultiFactorValidator = ({
   hook?: Address
 }): Module => {
   return {
+    address: MULTI_FACTOR_VALIDATOR_ADDRESS,
     module: MULTI_FACTOR_VALIDATOR_ADDRESS,
     initData: encodePacked(
       ['uint8', 'bytes'],

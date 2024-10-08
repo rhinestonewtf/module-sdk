@@ -17,14 +17,18 @@ export const getSetMFAThresholdAction = ({
 }: {
   threshold: number
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setThreshold',
+    abi,
+    args: [threshold],
+  })
+
   return {
+    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
     target: MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setThreshold',
-      abi,
-      args: [threshold],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -37,14 +41,18 @@ export const getSetMFAValidatorAction = ({
   validatorId: Hex
   newValidatorData: Hex
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'setValidator',
+    abi,
+    args: [validatorAddress, validatorId, newValidatorData],
+  })
+
   return {
+    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
     target: MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'setValidator',
-      abi,
-      args: [validatorAddress, validatorId, newValidatorData],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -55,14 +63,18 @@ export const getRemoveMFAValidatorAction = ({
   validatorAddress: Address
   validatorId: Hex
 }): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'removeValidator',
+    abi,
+    args: [validatorAddress, validatorId],
+  })
+
   return {
+    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
     target: MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'removeValidator',
-      abi,
-      args: [validatorAddress, validatorId],
-    }),
+    callData: data,
+    data,
   }
 }
 

@@ -18,24 +18,28 @@ type Params = {
 export const getCreateScheduledOrderAction = ({
   recurringOrder,
 }: Params): Execution => {
+  const data = encodeFunctionData({
+    functionName: 'addOrder',
+    abi,
+    args: [
+      encodePacked(
+        ['uint48', 'uint16', 'uint48', 'bytes'],
+        [
+          recurringOrder.repeatEvery,
+          recurringOrder.numberOfRepeats,
+          recurringOrder.startDate,
+          getSwapOrderData({ recurringOrder }),
+        ],
+      ),
+    ],
+  })
+
   return {
+    to: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'addOrder',
-      abi,
-      args: [
-        encodePacked(
-          ['uint48', 'uint16', 'uint48', 'bytes'],
-          [
-            recurringOrder.repeatEvery,
-            recurringOrder.numberOfRepeats,
-            recurringOrder.startDate,
-            getSwapOrderData({ recurringOrder }),
-          ],
-        ),
-      ],
-    }),
+    callData: data,
+    data,
   }
 }
 
@@ -62,18 +66,22 @@ export const getExecuteScheduledOrderAction = ({
   jobId,
 }: ExecuteOrderParams): Execution => {
   const swapDetails = getSwapDetails()
+  const data = encodeFunctionData({
+    functionName: 'executeOrder',
+    abi,
+    args: [
+      BigInt(jobId),
+      swapDetails.sqrtPriceLimitX96,
+      swapDetails.amountOutMin,
+      swapDetails.fee,
+    ],
+  })
+
   return {
+    to: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
-    callData: encodeFunctionData({
-      functionName: 'executeOrder',
-      abi,
-      args: [
-        BigInt(jobId),
-        swapDetails.sqrtPriceLimitX96,
-        swapDetails.amountOutMin,
-        swapDetails.fee,
-      ],
-    }),
+    callData: data,
+    data,
   }
 }

@@ -75,9 +75,11 @@ describe('Cold storage Module', () => {
   it('should return requestTimelocked Execution', async () => {
     const requestTimelockedExecution = getRequestTimelockedExecution({
       execution: {
+        to: account.address,
         target: account.address,
         value: BigInt(0),
         callData: '0x',
+        data: '0x',
       },
       additionalWait: 100,
     })

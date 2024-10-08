@@ -71,9 +71,11 @@ describe('Ownable Executor Module', () => {
     const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountAction({
       ownedAccount: owners[1] as Address,
       execution: {
+        to: OWNABLE_EXECUTOR_ADDRESS,
         target: OWNABLE_EXECUTOR_ADDRESS,
         value: BigInt(0),
         callData: '0x',
+        data: '0x',
       },
     })
 
@@ -90,9 +92,11 @@ describe('Ownable Executor Module', () => {
         ownedAccount: owners[1] as Address,
         executions: [
           {
+            to: OWNABLE_EXECUTOR_ADDRESS,
             target: OWNABLE_EXECUTOR_ADDRESS,
             value: BigInt(0),
             callData: '0x',
+            data: '0x',
           },
         ],
       })

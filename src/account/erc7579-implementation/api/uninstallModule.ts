@@ -61,14 +61,19 @@ const _uninstallModule = async ({
         [prev, moduleData],
       )
     }
+
+    const data = encodeFunctionData({
+      functionName: 'uninstallModule',
+      abi: parseAbi(accountAbi),
+      args: [BigInt(moduleTypeIds[module.type]), module.module, moduleData],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'uninstallModule',
-        abi: parseAbi(accountAbi),
-        args: [BigInt(moduleTypeIds[module.type]), module.module, moduleData],
-      }),
+      callData: data,
+      data,
     })
   }
   return executions
@@ -98,21 +103,25 @@ const _uninstallFallback = async ({
   })
 
   if (isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'uninstallModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(moduleTypeIds[module.type]),
+        module.module,
+        encodePacked(
+          ['bytes4', 'bytes'],
+          [module.selector!, module.initData ?? '0x'],
+        ),
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'uninstallModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(moduleTypeIds[module.type]),
-          module.module,
-          encodePacked(
-            ['bytes4', 'bytes'],
-            [module.selector!, module.initData ?? '0x'],
-          ),
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
 

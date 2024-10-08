@@ -53,29 +53,33 @@ const _installModule = async ({
   }
 
   if (!isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'installModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(kernelModuleTypeIds[module.type]),
+        module.module,
+        withHook
+          ? encodePacked(
+              ['address', 'bytes'],
+              [
+                module.hook!,
+                encodeAbiParameters(
+                  [{ type: 'bytes' }, { type: 'bytes' }],
+                  [module.initData || '0x', '0x'],
+                ),
+              ],
+            )
+          : module.initData || '0x',
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'installModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(kernelModuleTypeIds[module.type]),
-          module.module,
-          withHook
-            ? encodePacked(
-                ['address', 'bytes'],
-                [
-                  module.hook!,
-                  encodeAbiParameters(
-                    [{ type: 'bytes' }, { type: 'bytes' }],
-                    [module.initData || '0x', '0x'],
-                  ),
-                ],
-              )
-            : module.initData || '0x',
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
   return executions
@@ -105,34 +109,38 @@ async function installFallback({
   })
 
   if (!isInstalled) {
+    const data = encodeFunctionData({
+      functionName: 'installModule',
+      abi: parseAbi(accountAbi),
+      args: [
+        BigInt(kernelModuleTypeIds[module.type]),
+        module.module,
+        encodePacked(
+          ['bytes4', 'address', 'bytes'],
+          [
+            module.selector,
+            module.hook,
+            encodeAbiParameters(
+              [{ type: 'bytes' }, { type: 'bytes' }],
+              [
+                encodePacked(
+                  ['bytes1', 'bytes'],
+                  [module.callType, module.initData || '0x'],
+                ),
+                '0x',
+              ],
+            ),
+          ],
+        ),
+      ],
+    })
+
     executions.push({
+      to: account.address,
       target: account.address,
       value: BigInt(0),
-      callData: encodeFunctionData({
-        functionName: 'installModule',
-        abi: parseAbi(accountAbi),
-        args: [
-          BigInt(kernelModuleTypeIds[module.type]),
-          module.module,
-          encodePacked(
-            ['bytes4', 'address', 'bytes'],
-            [
-              module.selector,
-              module.hook,
-              encodeAbiParameters(
-                [{ type: 'bytes' }, { type: 'bytes' }],
-                [
-                  encodePacked(
-                    ['bytes1', 'bytes'],
-                    [module.callType, module.initData || '0x'],
-                  ),
-                  '0x',
-                ],
-              ),
-            ],
-          ),
-        ],
-      }),
+      callData: data,
+      data,
     })
   }
 

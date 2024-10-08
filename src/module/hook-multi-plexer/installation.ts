@@ -23,6 +23,7 @@ export const getHookMultiPlexer = ({
   hookType,
 }: Params): Module => {
   return {
+    address: HOOK_MULTI_PLEXER_ADDRESS,
     module: HOOK_MULTI_PLEXER_ADDRESS,
     initData: encodeAbiParameters(
       [
