@@ -52,7 +52,7 @@ const _uninstallModule = async ({
       args: [
         BigInt(kernelModuleTypeIds[module.type]),
         module.module,
-        module.initData || '0x',
+        module.deInitData,
       ],
     })
 
@@ -100,7 +100,7 @@ const _uninstallFallback = async ({
         module.module,
         encodePacked(
           ['bytes4', 'bytes'],
-          [module.selector!, module.initData || '0x'],
+          [module.selector!, module.deInitData],
         ),
       ],
     })

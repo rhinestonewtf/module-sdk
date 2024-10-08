@@ -12,6 +12,8 @@ import { uninstallModule } from './api/uninstallModule'
 import { Module, ModuleType } from '../../module'
 import { encode1271Signature } from './api/encode1271Signature'
 import { encode1271Hash } from './api/encode1271Hash'
+import { encodeModuleInstallationData } from './api/encodeModuleInstallationData'
+import { encodeModuleUninstallationData } from './api/encodeModuleUninstallationData'
 
 export class SafeImplementation {
   getInstalledModules = async ({
@@ -76,5 +78,27 @@ export class SafeImplementation {
     hash,
   }: ERC1271HashParams): Hex => {
     return encode1271Hash({ account, chainId, validator, hash })
+  }
+
+  encodeModuleInstallationData = ({
+    account,
+    module,
+  }: {
+    account: Account
+    module: Module
+  }): Hex => {
+    return encodeModuleInstallationData({ account, module })
+  }
+
+  encodeModuleUninstallationData = async ({
+    client,
+    account,
+    module,
+  }: {
+    client: PublicClient
+    account: Account
+    module: Module
+  }): Promise<Hex> => {
+    return await encodeModuleUninstallationData({ client, account, module })
   }
 }
