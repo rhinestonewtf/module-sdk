@@ -10,6 +10,7 @@ export {
   encodeModuleInstallationData,
   encodeModuleUninstallationData,
   encodeValidatorNonce,
+  SafeHookType,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
