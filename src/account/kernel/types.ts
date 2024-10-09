@@ -2,6 +2,7 @@ import { CallType } from '../../module/types'
 import { Address, Hex } from 'viem'
 
 export type KernelModule = {
+  address: Address
   module: Address
   initData: Hex
   deInitData: Hex

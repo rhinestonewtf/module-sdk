@@ -14,6 +14,7 @@ import { encode1271Signature } from './api/encode1271Signature'
 import { encode1271Hash } from './api/encode1271Hash'
 import { encodeModuleInstallationData } from './api/encodeModuleInstallationData'
 import { encodeModuleUninstallationData } from './api/encodeModuleUninstallationData'
+import { encodeValidatorNonce } from './api/encodeValidatorNonce'
 
 export class KernelImplementation {
   getInstalledModules = async ({
@@ -100,5 +101,13 @@ export class KernelImplementation {
     module: KernelModule
   }): Promise<Hex> => {
     return await encodeModuleUninstallationData({ client, account, module })
+  }
+
+  encodeValidatorNonce = ({
+    validator,
+  }: {
+    validator: KernelModule
+  }): bigint => {
+    return encodeValidatorNonce({ validator })
   }
 }
