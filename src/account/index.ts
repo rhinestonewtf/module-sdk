@@ -8,6 +8,7 @@ export {
   encode1271Hash,
   encodeModuleInstallationData,
   encodeModuleUninstallationData,
+  encodeValidatorNonce,
 } from './api'
 
 export type { Account, AccountType, Execution, InitialModules } from './types'

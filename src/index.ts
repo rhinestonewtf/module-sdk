@@ -9,6 +9,7 @@ export {
   encode1271Hash,
   encodeModuleInstallationData,
   encodeModuleUninstallationData,
+  encodeValidatorNonce,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
