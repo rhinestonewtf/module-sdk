@@ -7,6 +7,7 @@ import {
 } from 'viem'
 import { Module } from '../../../module/types'
 import { getPreviousModule } from '../../../common'
+import { SafeHookType } from '../types'
 
 export const encodeModuleUninstallationData = async ({
   client,
@@ -33,7 +34,11 @@ export const encodeModuleUninstallationData = async ({
         parseAbiParameters(
           'uint8 hookType, bytes4 selector, bytes memory deInitData',
         ),
-        [module.hookType!, module.selector!, module.deInitData],
+        [
+          module.hookType ?? SafeHookType.GLOBAL,
+          module.hookType == SafeHookType.SIG ? module.selector! : '0x00000000',
+          module.deInitData,
+        ],
       )
 
     case 'fallback':
