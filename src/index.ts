@@ -7,6 +7,8 @@ export {
   uninstallModule,
   encode1271Signature,
   encode1271Hash,
+  encodeModuleInstallationData,
+  encodeModuleUninstallationData,
 } from './account'
 export type { Account, AccountType, Execution, InitialModules } from './account'
 
