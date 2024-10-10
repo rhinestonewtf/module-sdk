@@ -596,6 +596,7 @@ export const abi = [
     inputs: [
       { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
       { internalType: 'address[]', name: 'policies', type: 'address[]' },
+      { internalType: 'string[]', name: 'contents', type: 'string[]' },
     ],
     name: 'disableERC1271Policies',
     outputs: [],

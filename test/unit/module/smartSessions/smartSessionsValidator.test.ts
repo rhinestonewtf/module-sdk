@@ -17,6 +17,7 @@ import {
   getSmartSessionsValidator,
   getSudoPolicy,
   SMART_SESSIONS_ADDRESS,
+  getPermissionId,
 } from 'src/module/smart-sessions'
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts'
 import { mainnet } from 'viem/chains'
@@ -72,26 +73,7 @@ describe('Smart Sessions Polices', () => {
   })
 
   it('should correctly encode and decode the session signature in enable mode', async () => {
-    const permissionId = keccak256(toHex('permissionId'))
-    const sigHash = keccak256(toHex('sigHash'))
-    const permissionEnableHash = keccak256(toHex('permissionEnableHash'))
-
     const privateKey = generatePrivateKey()
-    const signer = privateKeyToAccount(privateKey)
-
-    const client = createWalletClient({
-      account: signer,
-      chain: mainnet,
-      transport: http(),
-    })
-
-    const signature = await client.signMessage({
-      message: { raw: sigHash },
-    })
-
-    const permissionEnableSig = await signer.signMessage({
-      message: { raw: permissionEnableHash },
-    })
 
     const account = getAccount({
       address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
@@ -123,6 +105,29 @@ describe('Smart Sessions Polices', () => {
         erc1271Policies: [],
       },
     }
+
+    const permissionId = getPermissionId({
+      session,
+    })
+
+    const sigHash = keccak256(toHex('sigHash'))
+    const permissionEnableHash = keccak256(toHex('permissionEnableHash'))
+
+    const signer = privateKeyToAccount(privateKey)
+
+    const client = createWalletClient({
+      account: signer,
+      chain: mainnet,
+      transport: http(),
+    })
+
+    const signature = await client.signMessage({
+      message: { raw: sigHash },
+    })
+
+    const permissionEnableSig = await signer.signMessage({
+      message: { raw: permissionEnableHash },
+    })
 
     const sessionDigest = keccak256(toHex('sessionDigest'))
 
@@ -176,26 +181,7 @@ describe('Smart Sessions Polices', () => {
   })
 
   it('should correctly encode and decode the session signature in enable mode for kernel', async () => {
-    const permissionId = keccak256(toHex('permissionId'))
-    const sigHash = keccak256(toHex('sigHash'))
-    const permissionEnableHash = keccak256(toHex('permissionEnableHash'))
-
     const privateKey = generatePrivateKey()
-    const signer = privateKeyToAccount(privateKey)
-
-    const client = createWalletClient({
-      account: signer,
-      chain: mainnet,
-      transport: http(),
-    })
-
-    const signature = await client.signMessage({
-      message: { raw: sigHash },
-    })
-
-    const permissionEnableSig = await signer.signMessage({
-      message: { raw: permissionEnableHash },
-    })
 
     const account = getAccount({
       address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
@@ -227,6 +213,28 @@ describe('Smart Sessions Polices', () => {
         erc1271Policies: [],
       },
     }
+    const permissionId = getPermissionId({
+      session,
+    })
+
+    const sigHash = keccak256(toHex('sigHash'))
+    const permissionEnableHash = keccak256(toHex('permissionEnableHash'))
+
+    const signer = privateKeyToAccount(privateKey)
+
+    const client = createWalletClient({
+      account: signer,
+      chain: mainnet,
+      transport: http(),
+    })
+
+    const signature = await client.signMessage({
+      message: { raw: sigHash },
+    })
+
+    const permissionEnableSig = await signer.signMessage({
+      message: { raw: permissionEnableHash },
+    })
 
     const sessionDigest = keccak256(toHex('sessionDigest'))
 

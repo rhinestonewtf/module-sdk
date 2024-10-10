@@ -1,13 +1,22 @@
 services:
   anvil:
     image: ghcr.io/foundry-rs/foundry:nightly-f6208d8db68f9acbe4ff8cd76958309efb61ea0b
-    ports: [ "8545:8545" ]
-    entrypoint: [ "anvil", "--fork-url", "https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}", "--host", "0.0.0.0", "--block-time", "0.1", "--silent"] 
+    ports: ['8545:8545']
+    entrypoint:
+      [
+        'anvil',
+        '--fork-url',
+        'https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}',
+        '--host',
+        '0.0.0.0',
+        '--silent',
+      ]
     platform: linux/x86_64
- 
+
   alto:
     image: ghcr.io/pimlicolabs/mock-alto-bundler:main
-    ports: [ "4337:4337" ]
+    ports: ['4337:4337']
     environment:
       - ANVIL_RPC=http://anvil:8545
       - SKIP_DEPLOYMENTS=true
+

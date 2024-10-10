@@ -1,4 +1,6 @@
-export const UNIVERSAL_ACTION_POLICY_ADDRESS =
+import { Address } from 'viem'
+
+export const UNIVERSAL_ACTION_POLICY_ADDRESS: Address =
   '0x148CD6c24F4dd23C396E081bBc1aB1D92eeDe2BF'
 
 export const MAX_RULES = 16
