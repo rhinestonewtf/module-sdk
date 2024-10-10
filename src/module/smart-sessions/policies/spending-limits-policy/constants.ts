@@ -1,2 +1,4 @@
-export const SPENDING_LIMITS_POLICY_ADDRESS =
+import { Address } from 'viem'
+
+export const SPENDING_LIMITS_POLICY_ADDRESS: Address =
   '0x8e58f4945e6ba2a11b184a9c20b6c765a0891b95'

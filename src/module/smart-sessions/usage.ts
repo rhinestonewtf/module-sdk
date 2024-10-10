@@ -25,19 +25,30 @@ import {
 import { LibZip } from 'solady'
 import { Account, AccountType, Execution } from '../../account'
 
-export const getPermissionId = async ({
-  client,
-  session,
-}: {
-  client: PublicClient
-  session: Session
-}) => {
-  return (await client.readContract({
-    address: SMART_SESSIONS_ADDRESS,
-    abi,
-    functionName: 'getPermissionId',
-    args: [session],
-  })) as string
+export const getPermissionId = ({ session }: { session: Session }): Hex => {
+  return keccak256(
+    encodeAbiParameters(
+      [
+        {
+          type: 'address',
+          name: 'sessionValidator',
+        },
+        {
+          type: 'bytes',
+          name: 'sessionValidatorInitData',
+        },
+        {
+          type: 'bytes32',
+          name: 'salt',
+        },
+      ],
+      [
+        session.sessionValidator,
+        session.sessionValidatorInitData,
+        session.salt,
+      ],
+    ),
+  )
 }
 
 export const getActionId = async ({
@@ -142,10 +153,9 @@ export const encodeSmartSessionSignature = ({
       }
 
       return encodePacked(
-        ['bytes1', 'bytes32', 'bytes'],
+        ['bytes1', 'bytes'],
         [
           mode,
-          permissionId,
           LibZip.flzCompress(
             encodeEnableSessionSignature({ enableSessionData, signature }),
           ) as Hex,
@@ -213,12 +223,16 @@ export const decodeSmartSessionSignature = ({
   account?: Account
 }) => {
   const mode = slice(signature, 0, 1)
-  const permissionId = slice(signature, 1, 33)
-  const compressedData = slice(signature, 33)
-  const data = LibZip.flzDecompress(compressedData) as Hex
+  let permissionId
+  let compressedData
+  let data
+
   switch (mode) {
     case SmartSessionMode.USE:
-      const signature = decodeAbiParameters(
+      permissionId = slice(signature, 1, 33)
+      compressedData = slice(signature, 33)
+      data = LibZip.flzDecompress(compressedData) as Hex
+      const decodedSignature = decodeAbiParameters(
         [
           {
             type: 'bytes',
@@ -229,10 +243,13 @@ export const decodeSmartSessionSignature = ({
       return {
         mode,
         permissionId,
-        signature,
+        signature: decodedSignature,
       }
     case SmartSessionMode.ENABLE:
     case SmartSessionMode.UNSAFE_ENABLE:
+      compressedData = slice(signature, 1)
+      data = LibZip.flzDecompress(compressedData) as Hex
+
       if (!account) {
         throw new Error('account is required for ENABLE mode decoding')
       }
@@ -260,8 +277,30 @@ export const decodeSmartSessionSignature = ({
         20 + permissionEnableSigSlice,
       )
       return {
-        mode,
-        permissionId,
+        mode: mode,
+        permissionId: keccak256(
+          encodeAbiParameters(
+            [
+              {
+                type: 'address',
+                name: 'sessionValidator',
+              },
+              {
+                type: 'bytes',
+                name: 'sessionValidatorInitData',
+              },
+              {
+                type: 'bytes32',
+                name: 'salt',
+              },
+            ],
+            [
+              enableSession.sessionToEnable.sessionValidator,
+              enableSession.sessionToEnable.sessionValidatorInitData,
+              enableSession.sessionToEnable.salt,
+            ],
+          ),
+        ),
         signature: decodedData[1],
         enableSessionData: {
           enableSession: {
@@ -481,14 +520,16 @@ export const getEnableERC1271PoliciesAction = ({
 export const getDisableERC1271PoliciesAction = ({
   permissionId,
   policies,
+  contents,
 }: {
   permissionId: Hex
   policies: Address[]
+  contents: string[]
 }): Execution => {
   const data = encodeFunctionData({
     abi,
     functionName: 'disableERC1271Policies',
-    args: [permissionId, policies],
+    args: [permissionId, policies, contents],
   })
 
   return {

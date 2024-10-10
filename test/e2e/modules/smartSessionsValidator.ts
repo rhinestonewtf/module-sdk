@@ -58,7 +58,7 @@ export const testSmartSessionsValidator = async ({
   account,
   publicClient,
 }: Params) => {
-  it.skip('should return true when checking smart session validator isInstalled', async () => {
+  it('should return true when checking smart session validator isInstalled', async () => {
     const isSmartSessionsInstalled = await isModuleInstalled({
       account,
       client: publicClient,
@@ -69,24 +69,22 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(isSmartSessionsInstalled).toBe(true)
-  }, 20000)
+  }, 30000)
 
-  it.skip('should return permissionId for a given session', async () => {
+  it('should return permissionId for a given session', async () => {
     const { smartSessions } = getInstallModuleData({ account })
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
+    })
 
     expect(permissionId).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should validate userOp using smart session using USE flow', async () => {
+  it('should validate userOp using smart session using USE flow', async () => {
     const { smartSessions } = getInstallModuleData({ account })
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
+    })
 
     const receipt = await sendUserOp({
       account,
@@ -123,9 +121,9 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should validate userOp using smart session using ENABLE flow', async () => {
+  it('should validate userOp using smart session using ENABLE flow', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -135,10 +133,9 @@ export const testSmartSessionsValidator = async ({
       salt: toHex(toBytes('44433', { size: 32 })),
     }
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session,
-    })) as Hex
+    })
 
     const sessionNonce = await getSessionNonce({
       client: publicClient,
@@ -233,9 +230,9 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should add new session for the account', async () => {
+  it('should add new session for the account', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
     const session: Session = {
@@ -253,15 +250,14 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should enable userOp policy', async () => {
+  it('should enable userOp policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
+    })
 
     const uniActionPolicy = getUniversalActionPolicy({
       paramRules: {
@@ -293,15 +289,14 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 2000000)
+  }, 3000000)
 
-  it.skip('should disable userOp policy', async () => {
+  it('should disable userOp policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
+    })
 
     const disableUserOpPolicyAction = getDisableUserOpPoliciesAction({
       permissionId,
@@ -314,15 +309,14 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 2000000)
+  }, 3000000)
 
-  it.skip('should enable action policy', async () => {
+  it('should enable action policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
+    })
 
     const spendingLimitsPolicy = getSpendingLimitsPolicy([
       {
@@ -353,16 +347,14 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should disable action policy', async () => {
+  it('should disable action policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
-
+    })
     const actionId = keccak256(
       encodePacked(['address', 'bytes4'], [account.address, '0x150b7a02']),
     )
@@ -386,16 +378,14 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 20000)
+  }, 30000)
 
-  it.skip('should enable ERC1271 policy', async () => {
+  it('should enable ERC1271 policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
-
+    })
     const enableERC1271PolicyAction = getEnableERC1271PoliciesAction({
       permissionId,
       erc1271Policies: {
@@ -415,19 +405,18 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 2000000)
+  }, 3000000)
 
-  it.skip('should disable ERC1271 policy', async () => {
+  it('should disable ERC1271 policy', async () => {
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
-
+    })
     const disableERC1271PolicyAction = getDisableERC1271PoliciesAction({
       permissionId,
       policies: [SUDO_POLICY_ADDRESS],
+      contents: ['0x'],
     })
 
     const receipt = await sendUserOp({
@@ -436,18 +425,16 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
-  }, 2000000)
+  }, 3000000)
 
   it.skip('should return true when checking is valid signature', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = (await getPermissionId({
-      client: publicClient,
+    const permissionId = getPermissionId({
       session: smartSessions.sessions[0],
-    })) as Hex
-
+    })
     const userOpHash = keccak256('0xuserOpHash')
 
     const typedData = {
@@ -490,5 +477,5 @@ export const testSmartSessionsValidator = async ({
     })) as boolean
 
     expect(valid).toBe(true)
-  }, 20000)
+  }, 30000)
 }

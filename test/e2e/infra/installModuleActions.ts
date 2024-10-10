@@ -275,8 +275,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   smartSessions: {
     sessions: [
       {
-        sessionValidator:
-          '0x6605F8785E09a245DD558e55F9A0f4A508434503' as Address,
+        sessionValidator: OWNABLE_VALIDATOR_ADDRESS,
         sessionValidatorInitData: encodeAbiParameters(
           [
             {
