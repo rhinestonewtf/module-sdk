@@ -111,13 +111,13 @@ const getERC7579Client = async (account: Account) => {
 export const getSmartClient = async (account: Account) => {
   switch (account.type) {
     case 'safe':
-      return getSafeClient(account)
+      return await getSafeClient(account)
     case 'kernel':
-      return getKernelClient(account)
+      return await getKernelClient(account)
     case 'erc7579-implementation':
       return getERC7579Client(account)
     case 'nexus':
-      return getNexusClient(account)
+      return await getNexusClient(account)
     default:
       throw new Error(`Unknown account type: ${account.type}`)
   }

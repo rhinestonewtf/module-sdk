@@ -32,13 +32,13 @@ export const sendUserOp = async ({
         entryPoint: ENTRYPOINT_ADDRESS_V07,
       })
 
-      return signUserOpHash(hash)
+      return await signUserOpHash(hash)
     }
   }
 
   if (getDummySignature) {
     smartClient.account.getDummySignature = async (): Promise<Hex> => {
-      return getDummySignature()
+      return await getDummySignature()
     }
   }
 
@@ -51,6 +51,8 @@ export const sendUserOp = async ({
     })),
     nonce,
   })
+
+  await publicClient.waitForTransactionReceipt({ hash })
 
   return hash
 }

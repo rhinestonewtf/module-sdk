@@ -1,4 +1,4 @@
-import { Account, isModuleInstalled } from 'src/account'
+import { Account, isModuleInstalled, encode1271Hash } from 'src/account'
 import {
   getModule,
   getOwnableValidatorMockSignature,
@@ -28,6 +28,9 @@ import {
   TestClient,
   toBytes,
   toHex,
+  fromHex,
+  slice,
+  concat,
   zeroAddress,
 } from 'viem'
 import { hashTypedData } from 'viem/experimental/solady'
@@ -124,6 +127,11 @@ export const testSmartSessionsValidator = async ({
   }, 30000)
 
   it('should validate userOp using smart session using ENABLE flow', async () => {
+
+  it('should validate userOp using smart session using ENABLE flow for safe', async () => {
+    if (account.type !== 'safe') {
+      return
+    }
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -173,9 +181,25 @@ export const testSmartSessionsValidator = async ({
 
     const permissionEnableHash = hashChainSessions(chainSessions)
 
-    const permissionEnableSig = await signer.signMessage({
-      message: { raw: permissionEnableHash },
+    const formattedHash = encode1271Hash({
+      account,
+      chainId: sepolia.id,
+      validator: account.address,
+      hash: permissionEnableHash,
     })
+
+    const permissionEnableSig = await signer.signMessage({
+      message: { raw: formattedHash },
+    })
+
+    let formattedSignature: Hex
+    const v = fromHex(slice(permissionEnableSig, 64, 65), 'number')
+    if (v < 30) {
+      formattedSignature = concat([
+        slice(permissionEnableSig, 0, 64),
+        toHex(v + 4),
+      ])
+    }
 
     const receipt = await sendUserOp({
       account,
@@ -201,9 +225,9 @@ export const testSmartSessionsValidator = async ({
               chainDigestIndex: 0,
               hashesAndChainIds: chainDigests,
               sessionToEnable: session,
-              permissionEnableSig,
+              permissionEnableSig: formattedSignature,
             },
-            validator: OWNABLE_VALIDATOR_ADDRESS,
+            validator: account.address,
             accountType: account.type,
           },
         })
@@ -220,9 +244,9 @@ export const testSmartSessionsValidator = async ({
               chainDigestIndex: 0,
               hashesAndChainIds: chainDigests,
               sessionToEnable: session,
-              permissionEnableSig,
+              permissionEnableSig: formattedSignature,
             },
-            validator: OWNABLE_VALIDATOR_ADDRESS,
+            validator: account.address,
             accountType: account.type,
           },
         })
