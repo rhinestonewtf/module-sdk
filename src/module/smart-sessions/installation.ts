@@ -16,7 +16,7 @@ export const getSmartSessionsValidator = ({
   return {
     address: SMART_SESSIONS_ADDRESS,
     module: SMART_SESSIONS_ADDRESS,
-    initData: sessions
+    initData: sessions?.length
       ? encodeAbiParameters(installSmartSessionsAbi, [sessions])
       : '0x',
     deInitData: '0x',
