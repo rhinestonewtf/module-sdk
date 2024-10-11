@@ -1,5 +1,5 @@
 import { Address, PublicClient } from 'viem'
-import { GRAPHQL_API_URL } from '../constants'
+import { GRAPHQL_API_URL, SENTINEL_ADDRESS } from '../constants'
 import { Account } from '../../account'
 
 const query = `
@@ -35,16 +35,53 @@ export const getInstalledModules = async ({
   })
 
   const responseBody = await response.json()
-
-  if (response.ok) {
-    return responseBody.data.SmartAccount_ModuleQuery.map(
-      (module: any) => module.module,
-    )
+  const modules = responseBody.data.SmartAccount_ModuleQuery.map(
+    (module: any) => module.moduleAddress,
+  )
+  // @Review: response.ok is still true even if:
+  // 1. Indexer does not support passed network
+  // 2. Smart account is not deployed or compatible
+  // This means that modules will be an empty array if something goes wrong
+  // @Recommendation: response.ok should be false if something goes wrong
+  if (response.ok && modules.length > 0) {
+    return modules
   } else {
-    throw new Error(
-      `Error: ${responseBody.errors
-        .map((error: any) => error.message)
-        .join(', ')}`,
-    )
+    const installedModules = await client.readContract({
+      address: account.address,
+      functionName: 'getValidatorsPaginated',
+      args: [SENTINEL_ADDRESS, 100n],  // @Review
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "cursor",
+              type: "address"
+            },
+            {
+              internalType: "uint256",
+              name: "size",
+              type: "uint256"
+            }
+          ],
+          name: "getValidatorsPaginated",
+          outputs: [
+            {
+              internalType: "address[]",
+              name: "array",
+              type: "address[]"
+            },
+            {
+              internalType: "address",
+              name: "next",
+              type: "address"
+            }
+          ],
+          stateMutability: "view",
+          type: "function"
+        }
+      ],
+    })
+    return installedModules[0] as Address[]
   }
 }
