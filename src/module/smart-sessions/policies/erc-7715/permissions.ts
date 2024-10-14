@@ -1,4 +1,5 @@
 import { ActionData, ERC7739Data, PolicyData } from '../../types'
+import { getSpendingLimitsPolicy } from '../spending-limits-policy'
 
 type ERC7715Permissions = {
   type: string
@@ -16,12 +17,29 @@ export const getPermissions = ({
 }: {
   permissions: ERC7715Permissions[]
 }): Policies => {
+  const userOpPolicies: PolicyData[] = []
+  const erc7739Policies: ERC7739Data = {
+    allowedERC7739Content: [],
+    erc1271Policies: [],
+  }
+  const actions: ActionData[] = []
+
+  for (const permission of permissions) {
+    switch (permission.type) {
+      case 'erc20-token-transfer':
+        const spendingLimitPolicy = getSpendingLimitsPolicy([
+          { token: permission.data.address, limit: permission.data.allowance },
+        ])
+        userOpPolicies.push({
+          policy: spendingLimitPolicy.address,
+          initData: spendingLimitPolicy.initData,
+        })
+    }
+  }
+
   return {
-    userOpPolicies: [],
-    erc7739Policies: {
-      allowedERC7739Content: [],
-      erc1271Policies: [],
-    },
-    actions: [],
+    userOpPolicies: userOpPolicies,
+    erc7739Policies: erc7739Policies,
+    actions: actions,
   }
 }
