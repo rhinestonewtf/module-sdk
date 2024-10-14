@@ -136,6 +136,7 @@ export {
   decodeSmartSessionSignature,
   isSessionEnabled,
   hashChainSessions,
+  getPermissions,
   SmartSessionMode,
   Session,
   SessionEIP712,
