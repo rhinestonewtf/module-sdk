@@ -12,6 +12,7 @@ export const getUniversalActionPolicy = (
   }
 
   return {
+    policy: UNIVERSAL_ACTION_POLICY_ADDRESS,
     address: UNIVERSAL_ACTION_POLICY_ADDRESS,
     initData: encodeAbiParameters(abi, [
       {
@@ -22,6 +23,5 @@ export const getUniversalActionPolicy = (
         },
       },
     ]),
-    deInitData: '0x',
   }
 }

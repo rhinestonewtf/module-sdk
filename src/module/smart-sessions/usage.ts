@@ -541,7 +541,7 @@ export const getDisableERC1271PoliciesAction = ({
   }
 }
 
-export const getEnableActionPolicies = ({
+export const getEnableActionPoliciesAction = ({
   permissionId,
   actionPolicies,
 }: {
@@ -563,7 +563,7 @@ export const getEnableActionPolicies = ({
   }
 }
 
-export const getDisableActionPolicies = ({
+export const getDisableActionPoliciesAction = ({
   permissionId,
   actionId,
   policies,
@@ -584,5 +584,77 @@ export const getDisableActionPolicies = ({
     value: BigInt(0),
     callData: data,
     data,
+  }
+}
+
+// todo: make session an array
+export const getSessionDetails = async ({
+  session,
+  chainId,
+  mode,
+  account,
+  client,
+}: {
+  session: Session
+  chainId: bigint
+  mode: SmartSessionModeType
+  account: Account
+  client: PublicClient
+}) => {
+  const permissionId = getPermissionId({
+    session,
+  })
+
+  const sessionNonce = await getSessionNonce({
+    client,
+    account,
+    permissionId,
+  })
+
+  const sessionDigest = await getSessionDigest({
+    client,
+    account,
+    session,
+    mode,
+    permissionId,
+  })
+
+  const chainDigests = [
+    {
+      chainId: chainId,
+      sessionDigest,
+    },
+  ]
+
+  const chainSessions: ChainSession[] = [
+    {
+      chainId: chainId,
+      session: {
+        ...session,
+        account: account.address,
+        smartSession: SMART_SESSIONS_ADDRESS,
+        mode,
+        nonce: sessionNonce,
+      },
+    },
+  ]
+
+  const permissionEnableHash = hashChainSessions(chainSessions)
+
+  return {
+    permissionEnableHash,
+    mode,
+    permissionId,
+    signature: '0x' as Hex,
+    enableSessionData: {
+      enableSession: {
+        chainDigestIndex: 0,
+        hashesAndChainIds: chainDigests,
+        sessionToEnable: session,
+        permissionEnableSig: '0x' as Hex,
+      },
+      validator: session.sessionValidator,
+      accountType: account.type,
+    },
   }
 }
