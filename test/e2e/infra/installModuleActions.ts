@@ -160,7 +160,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   })
 
   return [
-    // ...installSmartSessionsValidatorAction,
+    ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
     ...installWebAuthnValidatorAction,
     ...installOwnableExecutorAction,
@@ -309,6 +309,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
             ],
           },
         ],
+        chainId: BigInt(sepolia.id),
       },
     ],
     hook: zeroAddress,

@@ -52,7 +52,7 @@ export const sendUserOp = async ({
     nonce,
   })
 
-  await publicClient.waitForTransactionReceipt({ hash })
+  const receipt = await publicClient.waitForTransactionReceipt({ hash })
 
-  return hash
+  return receipt
 }

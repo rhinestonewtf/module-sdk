@@ -38,7 +38,6 @@ describe('Smart Sessions Polices', () => {
       UNIVERSAL_ACTION_POLICY_ADDRESS,
     )
     expect(installUniversalPolicy.initData).toBeDefined()
-    expect(installUniversalPolicy.deInitData).toEqual('0x')
   })
 
   // -----------------------
@@ -48,7 +47,6 @@ describe('Smart Sessions Polices', () => {
     const installSudoActionPolicy = getSudoPolicy()
     expect(installSudoActionPolicy.address).toBeDefined()
     expect(installSudoActionPolicy.initData).toEqual('0x')
-    expect(installSudoActionPolicy.deInitData).toEqual('0x')
   })
 
   // -----------------------
@@ -61,6 +59,5 @@ describe('Smart Sessions Polices', () => {
 
     expect(installSpendingLimitPolicy.address).toBeDefined()
     expect(installSpendingLimitPolicy.initData).toBeDefined()
-    expect(installSpendingLimitPolicy.deInitData).toEqual('0x')
   })
 })

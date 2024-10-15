@@ -7,14 +7,15 @@ import {
 } from 'src/module'
 import {
   encodeSmartSessionSignature,
-  getDisableActionPolicies,
+  getDisableActionPoliciesAction,
   getDisableERC1271PoliciesAction,
   getDisableUserOpPoliciesAction,
-  getEnableActionPolicies,
+  getEnableActionPoliciesAction,
   getEnableERC1271PoliciesAction,
   getEnableSessionsAction,
   getEnableUserOpPoliciesAction,
   getPermissionId,
+  getEnableSessionDetails,
   getSessionDigest,
   getSessionNonce,
   hashChainSessions,
@@ -127,6 +128,53 @@ export const testSmartSessionsValidator = async ({
   }, 30000)
 
   it('should validate userOp using smart session using ENABLE flow', async () => {
+    const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
+
+    const { smartSessions } = getInstallModuleData({ account })
+
+    const session: Session = {
+      ...smartSessions.sessions[0],
+      salt: toHex(toBytes('3344433', { size: 32 })),
+    }
+
+    const sessionDetails = await getEnableSessionDetails({
+      sessions: [session],
+      account,
+      client: publicClient,
+    })
+
+    sessionDetails.enableSessionData.enableSession.permissionEnableSig =
+      await signer.signMessage({
+        message: { raw: sessionDetails.permissionEnableHash },
+      })
+
+    const receipt = await sendUserOp({
+      account,
+      actions: [
+        {
+          target: session.actions[0].actionTarget,
+          value: BigInt(0),
+          callData: session.actions[0].actionTargetSelector,
+        },
+      ],
+      validator: SMART_SESSIONS_ADDRESS,
+      signUserOpHash: async (userOpHash) => {
+        sessionDetails.signature = await signer.signMessage({
+          message: { raw: userOpHash },
+        })
+        return encodeSmartSessionSignature(sessionDetails)
+      },
+      getDummySignature: async () => {
+        sessionDetails.signature = getOwnableValidatorMockSignature({
+          threshold: 1,
+        })
+        return encodeSmartSessionSignature(sessionDetails)
+      },
+    })
+
+    expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
+  }, 30000)
 
   it('should validate userOp using smart session using ENABLE flow for safe', async () => {
     if (account.type !== 'safe') {
@@ -254,6 +302,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 30000)
 
   it('should add new session for the account', async () => {
@@ -274,6 +323,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 30000)
 
   it('should enable userOp policy', async () => {
@@ -313,6 +363,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 3000000)
 
   it('should disable userOp policy', async () => {
@@ -333,6 +384,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 3000000)
 
   it('should enable action policy', async () => {
@@ -349,7 +401,7 @@ export const testSmartSessionsValidator = async ({
       },
     ])
 
-    const enableActionPolicyAction = getEnableActionPolicies({
+    const enableActionPolicyAction = getEnableActionPoliciesAction({
       permissionId,
       actionPolicies: [
         {
@@ -371,6 +423,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 30000)
 
   it('should disable action policy', async () => {
@@ -390,7 +443,7 @@ export const testSmartSessionsValidator = async ({
       },
     ])
 
-    const disableActionPolicyAction = getDisableActionPolicies({
+    const disableActionPolicyAction = getDisableActionPoliciesAction({
       permissionId,
       actionId,
       policies: [spendingLimitsPolicy.address],
@@ -402,6 +455,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 30000)
 
   it('should enable ERC1271 policy', async () => {
@@ -429,6 +483,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 3000000)
 
   it('should disable ERC1271 policy', async () => {
@@ -449,6 +504,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(receipt).toBeDefined()
+    expect(receipt.status).toBe('success')
   }, 3000000)
 
   it.skip('should return true when checking is valid signature', async () => {

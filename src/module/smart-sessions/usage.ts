@@ -541,7 +541,7 @@ export const getDisableERC1271PoliciesAction = ({
   }
 }
 
-export const getEnableActionPolicies = ({
+export const getEnableActionPoliciesAction = ({
   permissionId,
   actionPolicies,
 }: {
@@ -563,7 +563,7 @@ export const getEnableActionPolicies = ({
   }
 }
 
-export const getDisableActionPolicies = ({
+export const getDisableActionPoliciesAction = ({
   permissionId,
   actionId,
   policies,
@@ -584,5 +584,79 @@ export const getDisableActionPolicies = ({
     value: BigInt(0),
     callData: data,
     data,
+  }
+}
+
+export const getEnableSessionDetails = async ({
+  sessions,
+  sessionIndex,
+  account,
+  client,
+}: {
+  sessions: Session[]
+  sessionIndex?: number
+  account: Account
+  client: PublicClient
+}) => {
+  const chainDigests = []
+  const chainSessions: ChainSession[] = []
+  for (const session of sessions) {
+    const permissionId = getPermissionId({
+      session,
+    })
+
+    const sessionNonce = await getSessionNonce({
+      client,
+      account,
+      permissionId,
+    })
+
+    const sessionDigest = await getSessionDigest({
+      client,
+      account,
+      session,
+      mode: SmartSessionMode.ENABLE,
+      permissionId,
+    })
+
+    chainDigests.push({
+      chainId: session.chainId,
+      sessionDigest,
+    })
+
+    chainSessions.push({
+      chainId: session.chainId,
+      session: {
+        ...session,
+        account: account.address,
+        smartSession: SMART_SESSIONS_ADDRESS,
+        mode: 1,
+        nonce: sessionNonce,
+      },
+    })
+  }
+
+  const permissionEnableHash = hashChainSessions(chainSessions)
+
+  const sessionToEnable = sessions[sessionIndex || 0]
+  const permissionId = getPermissionId({
+    session: sessionToEnable,
+  })
+
+  return {
+    permissionEnableHash,
+    mode: SmartSessionMode.ENABLE,
+    permissionId,
+    signature: '0x' as Hex,
+    enableSessionData: {
+      enableSession: {
+        chainDigestIndex: sessionIndex || 0,
+        hashesAndChainIds: chainDigests,
+        sessionToEnable,
+        permissionEnableSig: '0x' as Hex,
+      },
+      validator: sessionToEnable.sessionValidator,
+      accountType: account.type,
+    },
   }
 }

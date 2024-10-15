@@ -4,10 +4,13 @@ import { Address, Hex } from 'viem'
 export type Session = {
   sessionValidator: Address
   sessionValidatorInitData: Hex
+  // todo: make this optional with default 0
   salt: Hex
+  // todo: make the below optional but require one of them to be defined
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
   actions: ActionData[]
+  chainId: bigint
 }
 
 export type SessionEIP712 = {
