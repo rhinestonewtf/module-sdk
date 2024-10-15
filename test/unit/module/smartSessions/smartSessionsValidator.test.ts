@@ -20,7 +20,7 @@ import {
   getPermissionId,
 } from 'src/module/smart-sessions'
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts'
-import { mainnet } from 'viem/chains'
+import { mainnet, sepolia } from 'viem/chains'
 import { getPublicClient } from 'test/utils/userOps/clients'
 import {
   encodeValidationData,
@@ -42,6 +42,7 @@ describe('Smart Sessions Polices', () => {
           allowedERC7739Content: [],
           erc1271Policies: [],
         },
+        chainId: BigInt(sepolia.id),
       },
     ]
 
@@ -104,6 +105,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
+      chainId: BigInt(sepolia.id),
     }
 
     const permissionId = getPermissionId({
@@ -158,6 +160,9 @@ describe('Smart Sessions Polices', () => {
       signature: encodedSig,
       account,
     })
+
+    decodedSig.enableSessionData!.enableSession.sessionToEnable.chainId =
+      BigInt(sepolia.id)
 
     expect(decodedSig.mode).toEqual(SmartSessionMode.ENABLE)
     expect(decodedSig.permissionId).toEqual(permissionId)
@@ -212,6 +217,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
+      chainId: BigInt(sepolia.id),
     }
     const permissionId = getPermissionId({
       session,
@@ -265,6 +271,9 @@ describe('Smart Sessions Polices', () => {
       signature: encodedSig,
       account,
     })
+
+    decodedSig.enableSessionData!.enableSession.sessionToEnable.chainId =
+      BigInt(sepolia.id)
 
     expect(decodedSig.mode).toEqual(SmartSessionMode.ENABLE)
     expect(decodedSig.permissionId).toEqual(permissionId)
@@ -338,6 +347,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
+      chainId: BigInt(sepolia.id),
     }
 
     const sessionDigest = keccak256(toHex('sessionDigest'))

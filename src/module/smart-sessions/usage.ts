@@ -650,7 +650,7 @@ export const getEnableSessionDetails = async ({
     signature: '0x' as Hex,
     enableSessionData: {
       enableSession: {
-        chainDigestIndex: 0,
+        chainDigestIndex: sessionIndex || 0,
         hashesAndChainIds: chainDigests,
         sessionToEnable,
         permissionEnableSig: '0x' as Hex,
