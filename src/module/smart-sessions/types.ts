@@ -10,6 +10,7 @@ export type Session = {
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
   actions: ActionData[]
+  chainId: bigint
 }
 
 export type SessionEIP712 = {

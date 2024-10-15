@@ -587,73 +587,75 @@ export const getDisableActionPoliciesAction = ({
   }
 }
 
-// todo: make session an array
-export const getSessionDetails = async ({
-  session,
-  chainId,
-  mode,
+export const getEnableSessionDetails = async ({
+  sessions,
+  sessionIndex,
   account,
   client,
 }: {
-  session: Session
-  chainId: bigint
-  mode: SmartSessionModeType
+  sessions: Session[]
+  sessionIndex?: number
   account: Account
   client: PublicClient
 }) => {
-  const permissionId = getPermissionId({
-    session,
-  })
+  const chainDigests = []
+  const chainSessions: ChainSession[] = []
+  for (const session of sessions) {
+    const permissionId = getPermissionId({
+      session,
+    })
 
-  const sessionNonce = await getSessionNonce({
-    client,
-    account,
-    permissionId,
-  })
+    const sessionNonce = await getSessionNonce({
+      client,
+      account,
+      permissionId,
+    })
 
-  const sessionDigest = await getSessionDigest({
-    client,
-    account,
-    session,
-    mode,
-    permissionId,
-  })
+    const sessionDigest = await getSessionDigest({
+      client,
+      account,
+      session,
+      mode: SmartSessionMode.ENABLE,
+      permissionId,
+    })
 
-  const chainDigests = [
-    {
-      chainId: chainId,
+    chainDigests.push({
+      chainId: session.chainId,
       sessionDigest,
-    },
-  ]
+    })
 
-  const chainSessions: ChainSession[] = [
-    {
-      chainId: chainId,
+    chainSessions.push({
+      chainId: session.chainId,
       session: {
         ...session,
         account: account.address,
         smartSession: SMART_SESSIONS_ADDRESS,
-        mode,
+        mode: 1,
         nonce: sessionNonce,
       },
-    },
-  ]
+    })
+  }
 
   const permissionEnableHash = hashChainSessions(chainSessions)
 
+  const sessionToEnable = sessions[sessionIndex || 0]
+  const permissionId = getPermissionId({
+    session: sessionToEnable,
+  })
+
   return {
     permissionEnableHash,
-    mode,
+    mode: SmartSessionMode.ENABLE,
     permissionId,
     signature: '0x' as Hex,
     enableSessionData: {
       enableSession: {
         chainDigestIndex: 0,
         hashesAndChainIds: chainDigests,
-        sessionToEnable: session,
+        sessionToEnable,
         permissionEnableSig: '0x' as Hex,
       },
-      validator: session.sessionValidator,
+      validator: sessionToEnable.sessionValidator,
       accountType: account.type,
     },
   }

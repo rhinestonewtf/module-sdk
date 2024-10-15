@@ -137,6 +137,7 @@ export {
   isSessionEnabled,
   hashChainSessions,
   getPermissions,
+  getEnableSessionDetails,
   SmartSessionMode,
   Session,
   SessionEIP712,
