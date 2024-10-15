@@ -62,6 +62,9 @@ export {
   getDeadmanSwitch,
   getDeadmanSwitchConfig,
   getDeadmanSwitchValidatorMockSignature,
+  getDeadmanSwitchTimeout,
+  getDeadmanSwitchNominee,
+  isDeadmanSwitchActive
 } from './deadman-switch'
 
 export {

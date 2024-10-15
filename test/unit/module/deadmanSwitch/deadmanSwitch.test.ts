@@ -1,10 +1,14 @@
-import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
+import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig,  getDeadmanSwitchTimeout,
+  getDeadmanSwitchNominee,
+  isDeadmanSwitchActive } from 'src'
 import { Address, zeroAddress } from 'viem'
 import { getDeadmanSwitch } from 'src'
 import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
+
+
 
 describe('Deadman switch Module', () => {
   // Setup
@@ -53,5 +57,32 @@ describe('Deadman switch Module', () => {
     expect(lastAccess).toEqual(0)
     expect(timeout).toEqual(0)
     expect(nominee).toEqual(zeroAddress)
+  })
+
+    it('should get deadman switch timeout', async () => {
+    const timeout = await getDeadmanSwitchTimeout({
+      account,
+      client,
+    })
+
+    expect(timeout).toEqual(0)
+  })
+
+  it('should get deadman switch nominee', async () => {
+    const nomineeAddress = await getDeadmanSwitchNominee({
+      account,
+      client,
+    })
+
+    expect(nomineeAddress).toEqual(zeroAddress)
+  })
+
+  it('should check if deadman switch is active', async () => {
+    const isActive = await isDeadmanSwitchActive({
+      account,
+      client,
+    })
+
+    expect(isActive).toEqual(false)
   })
 })
