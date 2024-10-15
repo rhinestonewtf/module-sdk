@@ -90,7 +90,7 @@ export const isSessionEnabled = async ({
   return (await client.readContract({
     address: SMART_SESSIONS_ADDRESS,
     abi,
-    functionName: 'isSessionEnabled',
+    functionName: 'isPermissionEnabled',
     args: [permissionId, account.address],
   })) as boolean
 }
@@ -112,7 +112,7 @@ export const getSessionDigest = async ({
     address: SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'getSessionDigest',
-    args: [permissionId, account.address, session, mode],
+    args: [permissionId, account.address, session, Number(mode)],
   })) as Hex
 }
 

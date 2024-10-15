@@ -112,9 +112,9 @@ describe('Test erc7579 reference implementation', () => {
     testClient,
   })
 
-  // testSmartSessionsValidator({
-  //   account,
-  //   publicClient,
-  //   testClient,
-  // })
+  testSmartSessionsValidator({
+    account,
+    publicClient,
+    testClient,
+  })
 })

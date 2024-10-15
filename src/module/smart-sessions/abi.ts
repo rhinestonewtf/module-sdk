@@ -308,829 +308,1075 @@ export const encodeEnableSessionSignatureAbi = [
 
 export const abi = [
   {
-    inputs: [{ internalType: 'uint256', name: 'index', type: 'uint256' }],
-    name: 'AssociatedArray_OutOfBounds',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: 'index', type: 'uint256' }],
-    name: 'AssociatedArray_OutOfBounds',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'uint64', name: 'providedChainId', type: 'uint64' },
-    ],
-    name: 'ChainIdMismatch',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'uint64', name: 'providedChainId', type: 'uint64' },
-    ],
-    name: 'ChainIdMismatch',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: 'index', type: 'uint256' }],
-    name: 'HashIndexOutOfBounds',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes32', name: 'providedHash', type: 'bytes32' },
-      { internalType: 'bytes32', name: 'computedHash', type: 'bytes32' },
-    ],
-    name: 'HashMismatch',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'bytes32', name: 'providedHash', type: 'bytes32' },
-      { internalType: 'bytes32', name: 'computedHash', type: 'bytes32' },
-    ],
-    name: 'HashMismatch',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidActionId', type: 'error' },
-  { inputs: [], name: 'InvalidCallTarget', type: 'error' },
-  { inputs: [], name: 'InvalidData', type: 'error' },
-  {
-    inputs: [
-      { internalType: 'address', name: 'account', type: 'address' },
-      { internalType: 'bytes32', name: 'hash', type: 'bytes32' },
-    ],
-    name: 'InvalidEnableSignature',
-    type: 'error',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'contract ISessionValidator',
-        name: 'sessionValidator',
-        type: 'address',
-      },
-    ],
-    name: 'InvalidISessionValidator',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-    ],
-    name: 'InvalidPermissionId',
-    type: 'error',
-  },
-  { inputs: [], name: 'InvalidSelfCall', type: 'error' },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-    ],
-    name: 'InvalidSession',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'sessionValidator', type: 'address' },
-      { internalType: 'address', name: 'account', type: 'address' },
-      { internalType: 'bytes32', name: 'userOpHash', type: 'bytes32' },
-    ],
-    name: 'InvalidSessionKeySignature',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'sender', type: 'address' }],
-    name: 'InvalidUserOpSender',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-    ],
-    name: 'NoPoliciesSet',
-    type: 'error',
-  },
-  { inputs: [], name: 'PartlyEnabledActions', type: 'error' },
-  { inputs: [], name: 'PartlyEnabledPolicies', type: 'error' },
-  { inputs: [], name: 'PermissionPartlyEnabled', type: 'error' },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'policy', type: 'address' },
-    ],
-    name: 'PolicyViolation',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'SignerNotFound',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'SignerNotFound',
-    type: 'error',
-  },
-  { inputs: [], name: 'UnsupportedExecutionType', type: 'error' },
-  {
-    inputs: [{ internalType: 'address', name: 'policy', type: 'address' }],
-    name: 'UnsupportedPolicy',
-    type: 'error',
-  },
-  {
-    inputs: [{ internalType: 'address', name: 'policy', type: 'address' }],
-    name: 'UnsupportedPolicy',
-    type: 'error',
-  },
-  {
-    inputs: [
-      { internalType: 'enum SmartSessionMode', name: 'mode', type: 'uint8' },
-    ],
-    name: 'UnsupportedSmartSessionMode',
-    type: 'error',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'PermissionId',
-        name: 'permissionId',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'uint256',
-        name: 'newValue',
-        type: 'uint256',
-      },
-    ],
-    name: 'NonceIterated',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'PermissionId',
-        name: 'permissionId',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'enum PolicyType',
-        name: 'policyType',
-        type: 'uint8',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'policy',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'smartAccount',
-        type: 'address',
-      },
-    ],
-    name: 'PolicyDisabled',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'PermissionId',
-        name: 'permissionId',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'enum PolicyType',
-        name: 'policyType',
-        type: 'uint8',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'policy',
-        type: 'address',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'smartAccount',
-        type: 'address',
-      },
-    ],
-    name: 'PolicyEnabled',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'PermissionId',
-        name: 'permissionId',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'account',
-        type: 'address',
-      },
-    ],
-    name: 'SessionCreated',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: 'PermissionId',
-        name: 'permissionId',
-        type: 'bytes32',
-      },
-      {
-        indexed: false,
-        internalType: 'address',
-        name: 'smartAccount',
-        type: 'address',
-      },
-    ],
-    name: 'SessionRemoved',
-    type: 'event',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'ActionId', name: 'actionId', type: 'bytes32' },
-      { internalType: 'address[]', name: 'policies', type: 'address[]' },
-    ],
-    name: 'disableActionPolicies',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
-  },
-  {
+    name: 'areActionsEnabled',
     inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address[]', name: 'policies', type: 'address[]' },
-      { internalType: 'string[]', name: 'contents', type: 'string[]' },
-    ],
-    name: 'disableERC1271Policies',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address[]', name: 'policies', type: 'address[]' },
-    ],
-    name: 'disableUserOpPolicies',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'eip712Domain',
-    outputs: [
-      { internalType: 'bytes1', name: 'fields', type: 'bytes1' },
-      { internalType: 'string', name: 'name', type: 'string' },
-      { internalType: 'string', name: 'version', type: 'string' },
-      { internalType: 'uint256', name: 'chainId', type: 'uint256' },
-      { internalType: 'address', name: 'verifyingContract', type: 'address' },
-      { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-      { internalType: 'uint256[]', name: 'extensions', type: 'uint256[]' },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
       {
-        components: [
-          {
-            internalType: 'bytes4',
-            name: 'actionTargetSelector',
-            type: 'bytes4',
-          },
-          { internalType: 'address', name: 'actionTarget', type: 'address' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'actionPolicies',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct ActionData[]',
-        name: 'actionPolicies',
-        type: 'tuple[]',
-      },
-    ],
-    name: 'enableActionPolicies',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      {
-        components: [
-          {
-            internalType: 'string[]',
-            name: 'allowedERC7739Content',
-            type: 'string[]',
-          },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'erc1271Policies',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct ERC7739Data',
-        name: 'erc1271Policies',
-        type: 'tuple',
-      },
-    ],
-    name: 'enableERC1271Policies',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: 'contract ISessionValidator',
-            name: 'sessionValidator',
-            type: 'address',
-          },
-          {
-            internalType: 'bytes',
-            name: 'sessionValidatorInitData',
-            type: 'bytes',
-          },
-          { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'userOpPolicies',
-            type: 'tuple[]',
-          },
-          {
-            components: [
-              {
-                internalType: 'string[]',
-                name: 'allowedERC7739Content',
-                type: 'string[]',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'erc1271Policies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ERC7739Data',
-            name: 'erc7739Policies',
-            type: 'tuple',
-          },
-          {
-            components: [
-              {
-                internalType: 'bytes4',
-                name: 'actionTargetSelector',
-                type: 'bytes4',
-              },
-              {
-                internalType: 'address',
-                name: 'actionTarget',
-                type: 'address',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'actionPolicies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ActionData[]',
-            name: 'actions',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct Session[]',
-        name: 'sessions',
-        type: 'tuple[]',
-      },
-    ],
-    name: 'enableSessions',
-    outputs: [
-      {
-        internalType: 'PermissionId[]',
-        name: 'permissionIds',
-        type: 'bytes32[]',
-      },
-    ],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      {
-        components: [
-          { internalType: 'address', name: 'policy', type: 'address' },
-          { internalType: 'bytes', name: 'initData', type: 'bytes' },
-        ],
-        internalType: 'struct PolicyData[]',
-        name: 'userOpPolicies',
-        type: 'tuple[]',
-      },
-    ],
-    name: 'enableUserOpPolicies',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-    ],
-    name: 'getNonce',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: 'contract ISessionValidator',
-            name: 'sessionValidator',
-            type: 'address',
-          },
-          {
-            internalType: 'bytes',
-            name: 'sessionValidatorInitData',
-            type: 'bytes',
-          },
-          { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'userOpPolicies',
-            type: 'tuple[]',
-          },
-          {
-            components: [
-              {
-                internalType: 'string[]',
-                name: 'allowedERC7739Content',
-                type: 'string[]',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'erc1271Policies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ERC7739Data',
-            name: 'erc7739Policies',
-            type: 'tuple',
-          },
-          {
-            components: [
-              {
-                internalType: 'bytes4',
-                name: 'actionTargetSelector',
-                type: 'bytes4',
-              },
-              {
-                internalType: 'address',
-                name: 'actionTarget',
-                type: 'address',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'actionPolicies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ActionData[]',
-            name: 'actions',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct Session',
-        name: 'session',
-        type: 'tuple',
-      },
-    ],
-    name: 'getPermissionId',
-    outputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-    ],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-      {
-        components: [
-          {
-            internalType: 'contract ISessionValidator',
-            name: 'sessionValidator',
-            type: 'address',
-          },
-          {
-            internalType: 'bytes',
-            name: 'sessionValidatorInitData',
-            type: 'bytes',
-          },
-          { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'userOpPolicies',
-            type: 'tuple[]',
-          },
-          {
-            components: [
-              {
-                internalType: 'string[]',
-                name: 'allowedERC7739Content',
-                type: 'string[]',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'erc1271Policies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ERC7739Data',
-            name: 'erc7739Policies',
-            type: 'tuple',
-          },
-          {
-            components: [
-              {
-                internalType: 'bytes4',
-                name: 'actionTargetSelector',
-                type: 'bytes4',
-              },
-              {
-                internalType: 'address',
-                name: 'actionTarget',
-                type: 'address',
-              },
-              {
-                components: [
-                  { internalType: 'address', name: 'policy', type: 'address' },
-                  { internalType: 'bytes', name: 'initData', type: 'bytes' },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'actionPolicies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ActionData[]',
-            name: 'actions',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct Session',
-        name: 'data',
-        type: 'tuple',
-      },
-      { internalType: 'enum SmartSessionMode', name: 'mode', type: 'uint8' },
-    ],
-    name: 'getSessionDigest',
-    outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'address', name: 'smartAccount', type: 'address' },
-    ],
-    name: 'isInitialized',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [{ internalType: 'uint256', name: 'typeID', type: 'uint256' }],
-    name: 'isModuleType',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-    stateMutability: 'pure',
-    type: 'function',
-  },
-  {
-    inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
-      {
-        components: [
-          { internalType: 'address', name: 'policy', type: 'address' },
-          { internalType: 'bytes', name: 'initData', type: 'bytes' },
-        ],
-        internalType: 'struct PolicyData[]',
-        name: 'userOpPolicies',
-        type: 'tuple[]',
-      },
-      {
-        components: [
-          { internalType: 'address', name: 'policy', type: 'address' },
-          { internalType: 'bytes', name: 'initData', type: 'bytes' },
-        ],
-        internalType: 'struct PolicyData[]',
-        name: 'erc1271Policies',
-        type: 'tuple[]',
-      },
-      {
-        components: [
-          {
-            internalType: 'bytes4',
-            name: 'actionTargetSelector',
-            type: 'bytes4',
-          },
-          { internalType: 'address', name: 'actionTarget', type: 'address' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'actionPolicies',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct ActionData[]',
         name: 'actions',
         type: 'tuple[]',
+        internalType: 'struct ActionData[]',
+        components: [
+          {
+            name: 'actionTargetSelector',
+            type: 'bytes4',
+            internalType: 'bytes4',
+          },
+          { name: 'actionTarget', type: 'address', internalType: 'address' },
+          {
+            name: 'actionPolicies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+        ],
       },
     ],
-    name: 'isPermissionEnabled',
-    outputs: [{ internalType: 'bool', name: 'isEnabled', type: 'bool' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
-    type: 'function',
   },
   {
+    type: 'function',
+    name: 'areERC1271PoliciesEnabled',
     inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
-      { internalType: 'address', name: 'account', type: 'address' },
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'erc1271Policies',
+        type: 'tuple[]',
+        internalType: 'struct PolicyData[]',
+        components: [
+          { name: 'policy', type: 'address', internalType: 'address' },
+          { name: 'initData', type: 'bytes', internalType: 'bytes' },
+        ],
+      },
     ],
-    name: 'isSessionEnabled',
-    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
-    type: 'function',
   },
   {
+    type: 'function',
+    name: 'areUserOpPoliciesEnabled',
     inputs: [
-      { internalType: 'address', name: 'sender', type: 'address' },
-      { internalType: 'bytes32', name: 'hash', type: 'bytes32' },
-      { internalType: 'bytes', name: 'signature', type: 'bytes' },
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'userOpPolicies',
+        type: 'tuple[]',
+        internalType: 'struct PolicyData[]',
+        components: [
+          { name: 'policy', type: 'address', internalType: 'address' },
+          { name: 'initData', type: 'bytes', internalType: 'bytes' },
+        ],
+      },
     ],
-    name: 'isValidSignatureWithSender',
-    outputs: [{ internalType: 'bytes4', name: 'result', type: 'bytes4' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
     stateMutability: 'view',
-    type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes', name: 'data', type: 'bytes' }],
-    name: 'onInstall',
+    type: 'function',
+    name: 'disableActionId',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
+    ],
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
   },
   {
-    inputs: [{ internalType: 'bytes', name: '', type: 'bytes' }],
-    name: 'onUninstall',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
-  },
-  {
+    name: 'disableActionPolicies',
     inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
+      { name: 'policies', type: 'address[]', internalType: 'address[]' },
     ],
-    name: 'removeSession',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
   },
   {
+    type: 'function',
+    name: 'disableERC1271Policies',
     inputs: [
-      { internalType: 'PermissionId', name: 'permissionId', type: 'bytes32' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'policies', type: 'address[]', internalType: 'address[]' },
+      { name: 'contents', type: 'string[]', internalType: 'string[]' },
     ],
-    name: 'revokeEnableSignature',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
   },
   {
-    inputs: [],
-    name: 'supportsNestedTypedDataSign',
-    outputs: [{ internalType: 'bytes32', name: 'result', type: 'bytes32' }],
-    stateMutability: 'view',
     type: 'function',
+    name: 'disableUserOpPolicies',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'policies', type: 'address[]', internalType: 'address[]' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
+    type: 'function',
+    name: 'enableActionPolicies',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'actionPolicies',
+        type: 'tuple[]',
+        internalType: 'struct ActionData[]',
+        components: [
+          {
+            name: 'actionTargetSelector',
+            type: 'bytes4',
+            internalType: 'bytes4',
+          },
+          { name: 'actionTarget', type: 'address', internalType: 'address' },
+          {
+            name: 'actionPolicies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+        ],
+      },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'enableERC1271Policies',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'erc1271Policies',
+        type: 'tuple',
+        internalType: 'struct ERC7739Data',
+        components: [
+          {
+            name: 'allowedERC7739Content',
+            type: 'string[]',
+            internalType: 'string[]',
+          },
+          {
+            name: 'erc1271Policies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+        ],
+      },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'enableSessions',
     inputs: [
       {
+        name: 'sessions',
+        type: 'tuple[]',
+        internalType: 'struct Session[]',
         components: [
-          { internalType: 'address', name: 'sender', type: 'address' },
-          { internalType: 'uint256', name: 'nonce', type: 'uint256' },
-          { internalType: 'bytes', name: 'initCode', type: 'bytes' },
-          { internalType: 'bytes', name: 'callData', type: 'bytes' },
           {
-            internalType: 'bytes32',
-            name: 'accountGasLimits',
-            type: 'bytes32',
+            name: 'sessionValidator',
+            type: 'address',
+            internalType: 'contract ISessionValidator',
           },
           {
-            internalType: 'uint256',
-            name: 'preVerificationGas',
-            type: 'uint256',
+            name: 'sessionValidatorInitData',
+            type: 'bytes',
+            internalType: 'bytes',
           },
-          { internalType: 'bytes32', name: 'gasFees', type: 'bytes32' },
-          { internalType: 'bytes', name: 'paymasterAndData', type: 'bytes' },
-          { internalType: 'bytes', name: 'signature', type: 'bytes' },
+          { name: 'salt', type: 'bytes32', internalType: 'bytes32' },
+          {
+            name: 'userOpPolicies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+          {
+            name: 'erc7739Policies',
+            type: 'tuple',
+            internalType: 'struct ERC7739Data',
+            components: [
+              {
+                name: 'allowedERC7739Content',
+                type: 'string[]',
+                internalType: 'string[]',
+              },
+              {
+                name: 'erc1271Policies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'actions',
+            type: 'tuple[]',
+            internalType: 'struct ActionData[]',
+            components: [
+              {
+                name: 'actionTargetSelector',
+                type: 'bytes4',
+                internalType: 'bytes4',
+              },
+              {
+                name: 'actionTarget',
+                type: 'address',
+                internalType: 'address',
+              },
+              {
+                name: 'actionPolicies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
         ],
-        internalType: 'struct PackedUserOperation',
+      },
+    ],
+    outputs: [
+      {
+        name: 'permissionIds',
+        type: 'bytes32[]',
+        internalType: 'PermissionId[]',
+      },
+    ],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'enableUserOpPolicies',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'userOpPolicies',
+        type: 'tuple[]',
+        internalType: 'struct PolicyData[]',
+        components: [
+          { name: 'policy', type: 'address', internalType: 'address' },
+          { name: 'initData', type: 'bytes', internalType: 'bytes' },
+        ],
+      },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'getActionPolicies',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
+    ],
+    outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getERC1271Policies',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getEnabledActions',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [{ name: '', type: 'bytes32[]', internalType: 'bytes32[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getEnabledERC7739Content',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [{ name: '', type: 'bytes32[]', internalType: 'bytes32[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getNonce',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getPermissionId',
+    inputs: [
+      {
+        name: 'session',
+        type: 'tuple',
+        internalType: 'struct Session',
+        components: [
+          {
+            name: 'sessionValidator',
+            type: 'address',
+            internalType: 'contract ISessionValidator',
+          },
+          {
+            name: 'sessionValidatorInitData',
+            type: 'bytes',
+            internalType: 'bytes',
+          },
+          { name: 'salt', type: 'bytes32', internalType: 'bytes32' },
+          {
+            name: 'userOpPolicies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+          {
+            name: 'erc7739Policies',
+            type: 'tuple',
+            internalType: 'struct ERC7739Data',
+            components: [
+              {
+                name: 'allowedERC7739Content',
+                type: 'string[]',
+                internalType: 'string[]',
+              },
+              {
+                name: 'erc1271Policies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'actions',
+            type: 'tuple[]',
+            internalType: 'struct ActionData[]',
+            components: [
+              {
+                name: 'actionTargetSelector',
+                type: 'bytes4',
+                internalType: 'bytes4',
+              },
+              {
+                name: 'actionTarget',
+                type: 'address',
+                internalType: 'address',
+              },
+              {
+                name: 'actionPolicies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    outputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    name: 'getSessionDigest',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+      {
+        name: 'data',
+        type: 'tuple',
+        internalType: 'struct Session',
+        components: [
+          {
+            name: 'sessionValidator',
+            type: 'address',
+            internalType: 'contract ISessionValidator',
+          },
+          {
+            name: 'sessionValidatorInitData',
+            type: 'bytes',
+            internalType: 'bytes',
+          },
+          { name: 'salt', type: 'bytes32', internalType: 'bytes32' },
+          {
+            name: 'userOpPolicies',
+            type: 'tuple[]',
+            internalType: 'struct PolicyData[]',
+            components: [
+              { name: 'policy', type: 'address', internalType: 'address' },
+              { name: 'initData', type: 'bytes', internalType: 'bytes' },
+            ],
+          },
+          {
+            name: 'erc7739Policies',
+            type: 'tuple',
+            internalType: 'struct ERC7739Data',
+            components: [
+              {
+                name: 'allowedERC7739Content',
+                type: 'string[]',
+                internalType: 'string[]',
+              },
+              {
+                name: 'erc1271Policies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
+          {
+            name: 'actions',
+            type: 'tuple[]',
+            internalType: 'struct ActionData[]',
+            components: [
+              {
+                name: 'actionTargetSelector',
+                type: 'bytes4',
+                internalType: 'bytes4',
+              },
+              {
+                name: 'actionTarget',
+                type: 'address',
+                internalType: 'address',
+              },
+              {
+                name: 'actionPolicies',
+                type: 'tuple[]',
+                internalType: 'struct PolicyData[]',
+                components: [
+                  {
+                    name: 'policy',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      { name: 'mode', type: 'uint8', internalType: 'enum SmartSessionMode' },
+    ],
+    outputs: [{ name: '', type: 'bytes32', internalType: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getSessionValidatorAndConfig',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [
+      { name: 'sessionValidator', type: 'address', internalType: 'address' },
+      { name: 'sessionValidatorData', type: 'bytes', internalType: 'bytes' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getUserOpPolicies',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isActionIdEnabled',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isActionPolicyEnabled',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
+      { name: 'policy', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isERC1271PolicyEnabled',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'policy', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isERC7739ContentEnabled',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'content', type: 'string', internalType: 'string' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isISessionValidatorSet',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isInitialized',
+    inputs: [
+      { name: 'smartAccount', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isModuleType',
+    inputs: [{ name: 'typeID', type: 'uint256', internalType: 'uint256' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'pure',
+  },
+  {
+    type: 'function',
+    name: 'isPermissionEnabled',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isUserOpPolicyEnabled',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'policy', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'isValidSignatureWithSender',
+    inputs: [
+      { name: 'sender', type: 'address', internalType: 'address' },
+      { name: 'hash', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'signature', type: 'bytes', internalType: 'bytes' },
+    ],
+    outputs: [{ name: 'result', type: 'bytes4', internalType: 'bytes4' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'onInstall',
+    inputs: [{ name: 'data', type: 'bytes', internalType: 'bytes' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'onUninstall',
+    inputs: [{ name: '', type: 'bytes', internalType: 'bytes' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'removeSession',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'revokeEnableSignature',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'supportsNestedTypedDataSign',
+    inputs: [],
+    outputs: [{ name: 'result', type: 'bytes32', internalType: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'validateUserOp',
+    inputs: [
+      {
         name: 'userOp',
         type: 'tuple',
+        internalType: 'struct PackedUserOperation',
+        components: [
+          { name: 'sender', type: 'address', internalType: 'address' },
+          { name: 'nonce', type: 'uint256', internalType: 'uint256' },
+          { name: 'initCode', type: 'bytes', internalType: 'bytes' },
+          { name: 'callData', type: 'bytes', internalType: 'bytes' },
+          {
+            name: 'accountGasLimits',
+            type: 'bytes32',
+            internalType: 'bytes32',
+          },
+          {
+            name: 'preVerificationGas',
+            type: 'uint256',
+            internalType: 'uint256',
+          },
+          { name: 'gasFees', type: 'bytes32', internalType: 'bytes32' },
+          { name: 'paymasterAndData', type: 'bytes', internalType: 'bytes' },
+          { name: 'signature', type: 'bytes', internalType: 'bytes' },
+        ],
       },
-      { internalType: 'bytes32', name: 'userOpHash', type: 'bytes32' },
+      { name: 'userOpHash', type: 'bytes32', internalType: 'bytes32' },
     ],
-    name: 'validateUserOp',
-    outputs: [{ internalType: 'ValidationData', name: 'vd', type: 'uint256' }],
+    outputs: [{ name: 'vd', type: 'uint256', internalType: 'ValidationData' }],
     stateMutability: 'nonpayable',
-    type: 'function',
   },
-]
+  {
+    type: 'event',
+    name: 'ActionIdDisabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'actionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'ActionId',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'NonceIterated',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'account',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'newValue',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'PolicyDisabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'policyType',
+        type: 'uint8',
+        indexed: false,
+        internalType: 'enum PolicyType',
+      },
+      {
+        name: 'policy',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'PolicyEnabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'policyType',
+        type: 'uint8',
+        indexed: false,
+        internalType: 'enum PolicyType',
+      },
+      {
+        name: 'policy',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'SessionCreated',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'account',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'SessionRemoved',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'SessionValidatorDisabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'sessionValidator',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'SessionValidatorEnabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'sessionValidator',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'error',
+    name: 'AssociatedArray_OutOfBounds',
+    inputs: [{ name: 'index', type: 'uint256', internalType: 'uint256' }],
+  },
+  {
+    type: 'error',
+    name: 'ChainIdMismatch',
+    inputs: [
+      { name: 'providedChainId', type: 'uint64', internalType: 'uint64' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'ChainIdMismatch',
+    inputs: [
+      { name: 'providedChainId', type: 'uint64', internalType: 'uint64' },
+    ],
+  },
+  { type: 'error', name: 'ForbiddenValidationData', inputs: [] },
+  {
+    type: 'error',
+    name: 'HashIndexOutOfBounds',
+    inputs: [{ name: 'index', type: 'uint256', internalType: 'uint256' }],
+  },
+  {
+    type: 'error',
+    name: 'HashMismatch',
+    inputs: [
+      { name: 'providedHash', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'computedHash', type: 'bytes32', internalType: 'bytes32' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'HashMismatch',
+    inputs: [
+      { name: 'providedHash', type: 'bytes32', internalType: 'bytes32' },
+      { name: 'computedHash', type: 'bytes32', internalType: 'bytes32' },
+    ],
+  },
+  { type: 'error', name: 'InvalidActionId', inputs: [] },
+  { type: 'error', name: 'InvalidCallTarget', inputs: [] },
+  { type: 'error', name: 'InvalidData', inputs: [] },
+  {
+    type: 'error',
+    name: 'InvalidEnableSignature',
+    inputs: [
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'hash', type: 'bytes32', internalType: 'bytes32' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'InvalidISessionValidator',
+    inputs: [
+      {
+        name: 'sessionValidator',
+        type: 'address',
+        internalType: 'contract ISessionValidator',
+      },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'InvalidPermissionId',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+  },
+  { type: 'error', name: 'InvalidSelfCall', inputs: [] },
+  {
+    type: 'error',
+    name: 'InvalidSession',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'InvalidSessionKeySignature',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'sessionValidator', type: 'address', internalType: 'address' },
+      { name: 'account', type: 'address', internalType: 'address' },
+      { name: 'userOpHash', type: 'bytes32', internalType: 'bytes32' },
+    ],
+  },
+  { type: 'error', name: 'InvalidTarget', inputs: [] },
+  {
+    type: 'error',
+    name: 'InvalidUserOpSender',
+    inputs: [{ name: 'sender', type: 'address', internalType: 'address' }],
+  },
+  { type: 'error', name: 'NoExecutionsInBatch', inputs: [] },
+  {
+    type: 'error',
+    name: 'NoPoliciesSet',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+    ],
+  },
+  { type: 'error', name: 'PartlyEnabledActions', inputs: [] },
+  { type: 'error', name: 'PartlyEnabledPolicies', inputs: [] },
+  {
+    type: 'error',
+    name: 'PolicyViolation',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'policy', type: 'address', internalType: 'address' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'SignerNotFound',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'SignerNotFound',
+    inputs: [
+      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      { name: 'account', type: 'address', internalType: 'address' },
+    ],
+  },
+  {
+    type: 'error',
+    name: 'SmartSessionModuleAlreadyInstalled',
+    inputs: [{ name: 'account', type: 'address', internalType: 'address' }],
+  },
+  { type: 'error', name: 'UnsupportedExecutionType', inputs: [] },
+  {
+    type: 'error',
+    name: 'UnsupportedPolicy',
+    inputs: [{ name: 'policy', type: 'address', internalType: 'address' }],
+  },
+  {
+    type: 'error',
+    name: 'UnsupportedPolicy',
+    inputs: [{ name: 'policy', type: 'address', internalType: 'address' }],
+  },
+  {
+    type: 'error',
+    name: 'UnsupportedSmartSessionMode',
+    inputs: [
+      { name: 'mode', type: 'uint8', internalType: 'enum SmartSessionMode' },
+    ],
+  },
+] as const
