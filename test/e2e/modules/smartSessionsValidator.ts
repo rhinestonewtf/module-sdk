@@ -19,6 +19,12 @@ import {
   getSessionDigest,
   getSessionNonce,
   hashChainSessions,
+  isSessionEnabled,
+  getSpendingLimitsPolicy,
+  getUniversalActionPolicy,
+  UNIVERSAL_ACTION_POLICY_ADDRESS,
+  ParamCondition,
+  SUDO_POLICY_ADDRESS,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -35,7 +41,6 @@ import {
   zeroAddress,
 } from 'viem'
 import { hashTypedData } from 'viem/experimental/solady'
-
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ChainSession,
@@ -44,13 +49,6 @@ import {
 } from 'src/module/smart-sessions/types'
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
-import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
-import {
-  getUniversalActionPolicy,
-  UNIVERSAL_ACTION_POLICY_ADDRESS,
-} from 'src/module/smart-sessions/policies/universal-action-policy'
-import { ParamCondition } from 'src/module/smart-sessions/policies/universal-action-policy/types'
-import { SUDO_POLICY_ADDRESS } from 'src/module/smart-sessions/policies/sudo-policy'
 
 type Params = {
   account: Account
@@ -82,6 +80,19 @@ export const testSmartSessionsValidator = async ({
     })
 
     expect(permissionId).toBeDefined()
+  }, 30000)
+
+  it('should check if a specific session is enabled', async () => {
+    const { smartSessions } = getInstallModuleData({ account })
+    const permissionId = getPermissionId({
+      session: smartSessions.sessions[0],
+    })
+    const isEnabled = await isSessionEnabled({
+      client: publicClient,
+      account,
+      permissionId,
+    })
+    expect(isEnabled).toBe(true)
   }, 30000)
 
   it('should validate userOp using smart session using USE flow', async () => {
