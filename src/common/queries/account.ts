@@ -1,6 +1,7 @@
 import { Address, PublicClient } from 'viem'
 import { GRAPHQL_API_URL, SENTINEL_ADDRESS } from '../constants'
 import { Account } from '../../account'
+import { isSmartAccountDeployed } from 'permissionless'
 
 const query = `
     query ($smartAccount: String, $chainId: Int) {
@@ -21,6 +22,17 @@ export const getInstalledModules = async ({
   const variables = {
     smartAccount: account.address,
     chainId: await client.getChainId(),
+  }
+
+  const isDeployed = await isSmartAccountDeployed(
+    // Review: getting ts error here but works if we ignore
+    // @ts-ignore
+    client,
+    account.address,
+  )
+
+  if (!isDeployed) {
+    return []
   }
 
   const response = await fetch(GRAPHQL_API_URL, {
