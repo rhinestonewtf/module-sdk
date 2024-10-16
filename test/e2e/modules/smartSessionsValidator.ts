@@ -151,7 +151,7 @@ export const testSmartSessionsValidator = async ({
     const sessionDetails = await getEnableSessionDetails({
       sessions: [session],
       account,
-      client: publicClient,
+      clients: [publicClient],
     })
 
     sessionDetails.enableSessionData.enableSession.permissionEnableSig =
