@@ -589,13 +589,15 @@ export const getDisableActionPoliciesAction = ({
 export const getEnableSessionDetails = async ({
   sessions,
   sessionIndex,
+  enableMode,
   account,
-  client,
+  clients,
 }: {
   sessions: Session[]
   sessionIndex?: number
+  enableMode?: SmartSessionModeType
   account: Account
-  client: PublicClient
+  clients: PublicClient[]
 }) => {
   const chainDigests = []
   const chainSessions: ChainSession[] = []
@@ -603,6 +605,14 @@ export const getEnableSessionDetails = async ({
     const permissionId = getPermissionId({
       session,
     })
+
+    const client = clients.find(
+      (c) => BigInt(c.chain?.id ?? 0) === session.chainId,
+    )
+
+    if (!client) {
+      throw new Error(`Client not found for chainId ${session.chainId}`)
+    }
 
     const sessionNonce = await getSessionNonce({
       client,
@@ -614,7 +624,7 @@ export const getEnableSessionDetails = async ({
       client,
       account,
       session,
-      mode: SmartSessionMode.ENABLE,
+      mode: enableMode || SmartSessionMode.ENABLE,
       permissionId,
     })
 
@@ -629,7 +639,7 @@ export const getEnableSessionDetails = async ({
         ...session,
         account: account.address,
         smartSession: SMART_SESSIONS_ADDRESS,
-        mode: 1,
+        mode: Number(enableMode) || Number(SmartSessionMode.ENABLE),
         nonce: sessionNonce,
       },
     })
@@ -644,7 +654,7 @@ export const getEnableSessionDetails = async ({
 
   return {
     permissionEnableHash,
-    mode: SmartSessionMode.ENABLE,
+    mode: enableMode || SmartSessionMode.ENABLE,
     permissionId,
     signature: '0x' as Hex,
     enableSessionData: {
