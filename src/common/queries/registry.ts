@@ -1,5 +1,5 @@
 import { PublicClient } from 'viem'
-import { GRAPHQL_API_URL } from '../constants'
+import { INDEXER_URL } from '../constants'
 
 const query = `
   query ($chainId: Int) {
@@ -19,7 +19,7 @@ export const getRegistryModules = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(GRAPHQL_API_URL, {
+  const response = await fetch(INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
