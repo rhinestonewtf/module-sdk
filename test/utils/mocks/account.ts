@@ -1,7 +1,8 @@
 import { Account } from 'src/account/types'
 
 export const MockAccountDeployed: Account = {
-  address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
+  // address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
+  address: '0x0579bCB9b3B9678A991F553531c27f4ea4863bE4',
   deployedOnChains: [11155111],
   type: 'erc7579-implementation',
 }
@@ -13,7 +14,7 @@ export const MockKernelAccountDeployed: Account = {
 }
 
 export const MockSafeAccountDeployed: Account = {
-  address: '0xc2b17e73603dccc195118a36f3203134fd7985f5',
+  address: '0x2b22106d8Aade2C3E546749bC027D5a21195FfED',
   deployedOnChains: [11155111],
   type: 'safe',
 }
