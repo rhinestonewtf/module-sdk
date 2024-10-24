@@ -97,36 +97,32 @@ export const getDeleteAutoSavingConfigAction = async ({
   }
 }
 
-export const getAutoSaveAction = async ({
+export const getAutoSaveAction = ({
   token,
   amountReceived,
 }: {
   token: Address
   amountReceived: number
-}): Promise<Execution> => {
+}): Execution => {
   const swapDetails = getSwapDetails()
-  try {
-    const data = encodeFunctionData({
-      functionName: 'autoSave',
-      abi,
-      args: [
-        token,
-        BigInt(amountReceived),
-        swapDetails.sqrtPriceLimitX96,
-        swapDetails.amountOutMin,
-        swapDetails.fee,
-      ],
-    })
+  const data = encodeFunctionData({
+    functionName: 'autoSave',
+    abi,
+    args: [
+      token,
+      BigInt(amountReceived),
+      swapDetails.sqrtPriceLimitX96,
+      swapDetails.amountOutMin,
+      swapDetails.fee,
+    ],
+  })
 
-    return {
-      to: AUTO_SAVINGS_ADDRESS,
-      target: AUTO_SAVINGS_ADDRESS,
-      value: BigInt(0),
-      callData: data,
-      data,
-    }
-  } catch {
-    throw new Error(`Failed to create autosave action for token ${token}`)
+  return {
+    to: AUTO_SAVINGS_ADDRESS,
+    target: AUTO_SAVINGS_ADDRESS,
+    value: BigInt(0),
+    callData: data,
+    data,
   }
 }
 
