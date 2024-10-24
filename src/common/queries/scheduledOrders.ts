@@ -1,5 +1,5 @@
 import { Address, PublicClient } from 'viem'
-import { GRAPHQL_API_URL } from '../constants'
+import { INDEXER_URL } from '../constants'
 import { Account } from '../../account'
 
 const query = `
@@ -29,7 +29,7 @@ export const getScheduledOrders = async ({
     chainId: client.chain?.id,
   }
 
-  const response = await fetch(GRAPHQL_API_URL, {
+  const response = await fetch(INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export const getScheduledOrderByJobId = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(GRAPHQL_API_URL, {
+  const response = await fetch(INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
