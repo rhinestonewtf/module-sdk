@@ -131,6 +131,7 @@ export {
   getSpendingLimitsPolicy,
   getSudoPolicy,
   getUniversalActionPolicy,
+  getTimeFramePolicy,
   encodeSmartSessionSignature,
   encodeUseOrEnableSmartSessionSignature,
   decodeSmartSessionSignature,
