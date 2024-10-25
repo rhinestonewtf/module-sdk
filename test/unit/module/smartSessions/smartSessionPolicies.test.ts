@@ -1,4 +1,5 @@
-import { getUsageLimitPolicy } from 'src/module'
+import { getValueLimitPolicy } from 'src/module/smart-sessions/policies/value-limit-policy'
+import { getUsageLimitPolicy } from 'src/module/smart-sessions/policies/usage-limit-policy'
 import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import {
@@ -73,4 +74,18 @@ describe('Smart Sessions Polices', () => {
     expect(installUsageLimitPolicy.address).toBeDefined()
     expect(installUsageLimitPolicy.initData).toBeDefined()
   })
+  // -----------------------
+  // Value Limit policy
+  // -----------------------
+  it('should get install spending limit policy', async () => {
+    const installValueLimitPolicy = getValueLimitPolicy({
+      valueLimit: BigInt(1000),
+      limitUsed: BigInt(0),
+      
+    })
+
+    expect(installValueLimitPolicy.address).toBeDefined()
+    expect(installValueLimitPolicy.initData).toBeDefined()
+  })  
+  
 })

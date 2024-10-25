@@ -1,6 +1,6 @@
 import { USAGE_LIMIT_POLICY_ADDRESS } from './constants'
 import { Policy } from '../types'
-import { Address, encodeAbiParameters } from 'viem'
+import { encodeAbiParameters } from 'viem'
 
 type Params = {
   limit: bigint
