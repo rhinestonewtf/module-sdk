@@ -1,3 +1,4 @@
+import { getTimeFramePolicy,getUsageLimitPolicy,getValueLimitPolicy } from 'src/module'
 import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import {
@@ -59,5 +60,42 @@ describe('Smart Sessions Polices', () => {
 
     expect(installSpendingLimitPolicy.address).toBeDefined()
     expect(installSpendingLimitPolicy.initData).toBeDefined()
+  })
+
+  // -----------------------
+  // Usage Limit policy
+  // -----------------------
+  it('should get install spending limit policy', async () => {
+    const installUsageLimitPolicy = getUsageLimitPolicy({
+      limit: BigInt(1000),
+    })
+
+    expect(installUsageLimitPolicy.address).toBeDefined()
+    expect(installUsageLimitPolicy.initData).toBeDefined()
+  })
+  // -----------------------
+  // Value Limit policy
+  // -----------------------
+  it('should get install spending limit policy', async () => {
+    const installValueLimitPolicy = getValueLimitPolicy({
+      valueLimit: BigInt(1000),
+      limitUsed: BigInt(0),
+      
+    })
+
+    expect(installValueLimitPolicy.address).toBeDefined()
+    expect(installValueLimitPolicy.initData).toBeDefined()
+  })  
+  // -----------------------
+  // Time frame policy
+  // -----------------------
+  it('should get install time frame policy', async () => {
+    const installTimeFramePolicy = getTimeFramePolicy({
+      validAfter: Date.now(),
+      validUntil: Date.now() + 60 * 1000,
+    })
+
+    expect(installTimeFramePolicy.address).toBeDefined()
+    expect(installTimeFramePolicy.initData).toBeDefined()
   })
 })
