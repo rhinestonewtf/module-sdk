@@ -3,7 +3,7 @@ import { Policy } from '../types'
 import { encodeAbiParameters } from 'viem'
 
 type Params = {
-  valueLimit: bigint,
+  valueLimit: bigint
   limitUsed: bigint
 }
 
@@ -11,6 +11,6 @@ export const getValueLimitPolicy = (params: Params): Policy => {
   return {
     policy: VALUE_LIMIT_POLICY_ADDRESS,
     address: VALUE_LIMIT_POLICY_ADDRESS,
-    initData: encodeAbiParameters([{ type: 'uint256' }, {type: 'uint256'}], [params.valueLimit, params.limitUsed]),
+    initData: encodeAbiParameters([{ type: 'uint256' }], [params.valueLimit]),
   }
 }

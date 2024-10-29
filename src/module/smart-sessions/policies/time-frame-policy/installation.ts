@@ -1,6 +1,6 @@
 import { TIME_FRAME_POLICY_ADDRESS } from './constants'
 import { Policy } from '../types'
-import { encodeAbiParameters } from 'viem'
+import { encodePacked } from 'viem'
 
 type Params = {
   validUntil: number
@@ -11,9 +11,9 @@ export const getTimeFramePolicy = (param: Params): Policy => {
   return {
     policy: TIME_FRAME_POLICY_ADDRESS,
     address: TIME_FRAME_POLICY_ADDRESS,
-    initData: encodeAbiParameters(
-      [{ type: 'uint48' }, { type: 'uint48' }],
-      [param.validAfter, param.validUntil],
+    initData: encodePacked(
+      ['uint128', 'uint128'],
+      [BigInt(param.validUntil), BigInt(param.validAfter)],
     ),
   }
 }
