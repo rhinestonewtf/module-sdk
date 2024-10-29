@@ -1,5 +1,4 @@
-import { getValueLimitPolicy } from 'src/module/smart-sessions/policies/value-limit-policy'
-import { getUsageLimitPolicy } from 'src/module/smart-sessions/policies/usage-limit-policy'
+import { getTimeFramePolicy,getUsageLimitPolicy,getValueLimitPolicy } from 'src/module'
 import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import {
@@ -87,5 +86,16 @@ describe('Smart Sessions Polices', () => {
     expect(installValueLimitPolicy.address).toBeDefined()
     expect(installValueLimitPolicy.initData).toBeDefined()
   })  
-  
+  // -----------------------
+  // Time frame policy
+  // -----------------------
+  it('should get install time frame policy', async () => {
+    const installTimeFramePolicy = getTimeFramePolicy({
+      validAfter: Date.now(),
+      validUntil: Date.now() + 60 * 1000,
+    })
+
+    expect(installTimeFramePolicy.address).toBeDefined()
+    expect(installTimeFramePolicy.initData).toBeDefined()
+  })
 })

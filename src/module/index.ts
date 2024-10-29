@@ -133,6 +133,7 @@ export {
   getUniversalActionPolicy,
   getUsageLimitPolicy,
   getValueLimitPolicy,
+  getTimeFramePolicy,
   encodeSmartSessionSignature,
   encodeUseOrEnableSmartSessionSignature,
   decodeSmartSessionSignature,
