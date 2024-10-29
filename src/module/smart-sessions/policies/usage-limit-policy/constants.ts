@@ -1,4 +1,4 @@
 import { Address } from 'viem'
 
 export const USAGE_LIMIT_POLICY_ADDRESS: Address =
-  '0xafd9caa519374c06DaFD086D5FB3e0cC761E66c7'
+  '0x1F34eF8311345A3A4a4566aF321b313052F51493'
