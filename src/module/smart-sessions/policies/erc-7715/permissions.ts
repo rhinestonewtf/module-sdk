@@ -1,5 +1,8 @@
 import { ActionData, ERC7739Data, PolicyData } from '../../types'
 import { getSpendingLimitsPolicy } from '../spending-limits-policy'
+import { getTimeFramePolicy } from '../time-frame-policy'
+import { getUsageLimitPolicy } from '../usage-limit-policy'
+import { getValueLimitPolicy } from '../value-limit-policy'
 
 type ERC7715Permissions = {
   type: string
@@ -26,6 +29,15 @@ export const getPermissions = ({
 
   for (const permission of permissions) {
     switch (permission.type) {
+      case 'native-token-transfer':
+        const valueLimitPolicy = getValueLimitPolicy({
+          limit: permission.data.allowance,
+        })
+        userOpPolicies.push({
+          policy: valueLimitPolicy.address,
+          initData: valueLimitPolicy.initData,
+        })
+        break
       case 'erc20-token-transfer':
         const spendingLimitPolicy = getSpendingLimitsPolicy([
           { token: permission.data.address, limit: permission.data.allowance },
@@ -34,6 +46,26 @@ export const getPermissions = ({
           policy: spendingLimitPolicy.address,
           initData: spendingLimitPolicy.initData,
         })
+        break
+      case 'usage-limit':
+        const usageLimitPolicy = getUsageLimitPolicy({
+          limit: permission.data.limit,
+        })
+        userOpPolicies.push({
+          policy: usageLimitPolicy.address,
+          initData: usageLimitPolicy.initData,
+        })
+        break
+      case 'timeframe':
+        const timeFramePolicy = getTimeFramePolicy({
+          validUntil: permission.data.validUntil,
+          validAfter: permission.data.validAfter,
+        })
+        userOpPolicies.push({
+          policy: timeFramePolicy.address,
+          initData: timeFramePolicy.initData,
+        })
+        break
     }
   }
 
