@@ -5,6 +5,7 @@ import {
   encodeFunctionData,
   encodePacked,
   parseAbi,
+  zeroAddress,
 } from 'viem'
 import { isModuleInstalled } from './isModuleInstalled'
 import { accountAbi } from '../constants/abis'
@@ -48,10 +49,6 @@ const _installModule = async ({
   const executions: Execution[] = []
   const isInstalled = await isModuleInstalled({ client, account, module })
 
-  if (withHook && !module.hook) {
-    throw new Error(`Hook is required for module type ${module.type}`)
-  }
-
   if (!isInstalled) {
     const data = encodeFunctionData({
       functionName: 'installModule',
@@ -63,7 +60,7 @@ const _installModule = async ({
           ? encodePacked(
               ['address', 'bytes'],
               [
-                module.hook!,
+                module.hook ?? zeroAddress,
                 encodeAbiParameters(
                   [{ type: 'bytes' }, { type: 'bytes' }],
                   [module.initData || '0x', '0x'],
@@ -94,7 +91,7 @@ async function installFallback({
   account: Account
   module: KernelModule
 }): Promise<Execution[]> {
-  if (!module.hook || !module.selector || !module.callType) {
+  if (!module.selector || !module.callType) {
     throw new Error(
       `Hook, selector and callType are required for module type ${module.type}`,
     )
@@ -119,7 +116,7 @@ async function installFallback({
           ['bytes4', 'address', 'bytes'],
           [
             module.selector,
-            module.hook,
+            module.hook ?? zeroAddress,
             encodeAbiParameters(
               [{ type: 'bytes' }, { type: 'bytes' }],
               [

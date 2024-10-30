@@ -1,5 +1,5 @@
 import { Account } from '../../types'
-import { Hex, encodePacked, encodeAbiParameters } from 'viem'
+import { Hex, encodePacked, encodeAbiParameters, zeroAddress } from 'viem'
 import { KernelModule } from '../types'
 
 export const encodeModuleInstallationData = ({
@@ -15,7 +15,7 @@ export const encodeModuleInstallationData = ({
       return encodePacked(
         ['address', 'bytes'],
         [
-          module.hook!,
+          module.hook ?? zeroAddress,
           encodeAbiParameters(
             [{ type: 'bytes' }, { type: 'bytes' }],
             [module.initData, '0x'],
@@ -29,7 +29,7 @@ export const encodeModuleInstallationData = ({
         ['bytes4', 'address', 'bytes'],
         [
           module.selector!,
-          module.hook!,
+          module.hook ?? zeroAddress,
           encodeAbiParameters(
             [{ type: 'bytes' }, { type: 'bytes' }],
             [
