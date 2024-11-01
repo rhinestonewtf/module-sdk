@@ -592,12 +592,14 @@ export const getEnableSessionDetails = async ({
   enableMode,
   account,
   clients,
+  enableValidatorAddress,
 }: {
   sessions: Session[]
   sessionIndex?: number
   enableMode?: SmartSessionModeType
   account: Account
   clients: PublicClient[]
+  enableValidatorAddress?: Address
 }) => {
   const chainDigests = []
   const chainSessions: ChainSession[] = []
@@ -664,7 +666,7 @@ export const getEnableSessionDetails = async ({
         sessionToEnable,
         permissionEnableSig: '0x' as Hex,
       },
-      validator: sessionToEnable.sessionValidator,
+      validator: enableValidatorAddress ?? sessionToEnable.sessionValidator,
       accountType: account.type,
     },
   }
