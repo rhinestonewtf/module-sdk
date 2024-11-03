@@ -403,7 +403,7 @@ export const formatPermissionEnableSig = ({
     case 'kernel':
       return encodePacked(
         ['bytes1', 'address', 'bytes'],
-        ['0x01', validator, signature],
+        ['0x00', validator, signature],
       )
     default:
       throw new Error(`Unsupported account type: ${accountType}`)
