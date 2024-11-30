@@ -3,4 +3,7 @@ export { getDeadmanSwitch } from './installation'
 export {
   getDeadmanSwitchConfig,
   getDeadmanSwitchValidatorMockSignature,
+  getDeadmanSwitchTimeout,
+  getDeadmanSwitchNominee,
+  isDeadmanSwitchActive,
 } from './usage'
