@@ -336,7 +336,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
       ],
       ERC7739Context: [
         { name: 'appDomainSeparator', type: 'bytes32' },
-        { name: 'contentName', type: 'string[]' },
+        { name: 'contentNames', type: 'string[]' },
       ],
       ERC7739Data: [
         { name: 'allowedERC7739Content', type: 'ERC7739Context[]' },
