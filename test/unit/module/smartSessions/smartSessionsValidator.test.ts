@@ -42,7 +42,7 @@ describe('Smart Sessions Polices', () => {
           allowedERC7739Content: [],
           erc1271Policies: [],
         },
-        permit4337Paymaster: false,
+        permitERC4337Paymaster: false,
         chainId: BigInt(sepolia.id),
       },
     ]
@@ -106,7 +106,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
-      permit4337Paymaster: false,
+      permitERC4337Paymaster: false,
       chainId: BigInt(sepolia.id),
     }
 
@@ -219,7 +219,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
-      permit4337Paymaster: false,
+      permitERC4337Paymaster: false,
       chainId: BigInt(sepolia.id),
     }
     const permissionId = getPermissionId({
@@ -350,7 +350,7 @@ describe('Smart Sessions Polices', () => {
         allowedERC7739Content: [],
         erc1271Policies: [],
       },
-      permit4337Paymaster: false,
+      permitERC4337Paymaster: false,
       chainId: BigInt(sepolia.id),
     }
 
