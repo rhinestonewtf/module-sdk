@@ -217,16 +217,7 @@ export const decodeSmartSessionSignature = ({
   switch (mode) {
     case SmartSessionMode.USE:
       permissionId = slice(signature, 1, 33)
-      compressedData = slice(signature, 33)
-      data = LibZip.flzDecompress(compressedData) as Hex
-      const decodedSignature = decodeAbiParameters(
-        [
-          {
-            type: 'bytes',
-          },
-        ],
-        data,
-      )[0]
+      const decodedSignature = slice(signature, 33)
       return {
         mode,
         permissionId,
