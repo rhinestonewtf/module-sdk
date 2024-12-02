@@ -1,4 +1,4 @@
 import { Address } from 'viem'
 
 export const SMART_SESSIONS_ADDRESS: Address =
-  '0xDDFF43A42726df11E34123f747bDce0f755F784d'
+  '0x1081dc0e40e4c0580e6167b7dffbbf2e4d17986d'
