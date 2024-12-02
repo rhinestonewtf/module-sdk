@@ -10,7 +10,7 @@ export type Session = {
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
   actions: ActionData[]
-  permit4337Paymaster: boolean
+  permitERC4337Paymaster: boolean
   chainId: bigint
 }
 
@@ -46,7 +46,7 @@ export type ERC7739Data = {
 
 export type ERC7739Context = {
   appDomainSeparator: Hex
-  contentNames: string[]
+  contentName: string[]
 }
 
 export type ActionData = {

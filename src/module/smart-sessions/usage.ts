@@ -132,20 +132,7 @@ export const encodeSmartSessionSignature = ({
     case SmartSessionMode.USE:
       return encodePacked(
         ['bytes1', 'bytes32', 'bytes'],
-        [
-          mode,
-          permissionId,
-          LibZip.flzCompress(
-            encodeAbiParameters(
-              [
-                {
-                  type: 'bytes',
-                },
-              ],
-              [signature],
-            ),
-          ) as Hex,
-        ],
+        [mode, permissionId, signature],
       )
     case SmartSessionMode.ENABLE:
     case SmartSessionMode.UNSAFE_ENABLE:
@@ -336,7 +323,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
       ],
       ERC7739Context: [
         { name: 'appDomainSeparator', type: 'bytes32' },
-        { name: 'contentNames', type: 'string[]' },
+        { name: 'contentName', type: 'string[]' },
       ],
       ERC7739Data: [
         { name: 'allowedERC7739Content', type: 'ERC7739Context[]' },
@@ -604,6 +591,9 @@ export const getEnableSessionDetails = async ({
   account,
   clients,
   enableValidatorAddress,
+  permitGenericPolicy = false,
+  permitAdminAccess = false,
+  ignoreSecurityAttestations = false,
 }: {
   sessions: Session[]
   sessionIndex?: number
@@ -611,6 +601,9 @@ export const getEnableSessionDetails = async ({
   account: Account
   clients: PublicClient[]
   enableValidatorAddress?: Address
+  permitGenericPolicy?: boolean
+  permitAdminAccess?: boolean
+  ignoreSecurityAttestations?: boolean
 }) => {
   const chainDigests = []
   const chainSessions: ChainSession[] = []
@@ -651,10 +644,10 @@ export const getEnableSessionDetails = async ({
       session: {
         ...session,
         signedPermissions: {
-          permitGenericPolicy: false,
-          permitAdminAccess: false,
-          ignoreSecurityAttestations: false,
-          permitERC4337Paymaster: false,
+          permitGenericPolicy: permitGenericPolicy,
+          permitAdminAccess: permitAdminAccess,
+          ignoreSecurityAttestations: ignoreSecurityAttestations,
+          permitERC4337Paymaster: session.permitERC4337Paymaster,
           userOpPolicies: session.userOpPolicies,
           erc7739Policies: session.erc7739Policies,
           actions: session.actions,

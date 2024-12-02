@@ -32,7 +32,7 @@ export const installSmartSessionsAbi = [
               },
               {
                 internalType: 'string[]',
-                name: 'contentNames',
+                name: 'contentName',
                 type: 'string[]',
               },
             ],
@@ -81,7 +81,7 @@ export const installSmartSessionsAbi = [
         name: 'actions',
         type: 'tuple[]',
       },
-      { internalType: 'bool', name: 'permit4337Paymaster', type: 'bool' },
+      { internalType: 'bool', name: 'permitERC4337Paymaster', type: 'bool' },
     ],
     internalType: 'struct Session[]',
     name: 'sessions',
@@ -144,7 +144,7 @@ export const enableSessionAbi = {
                 },
                 {
                   internalType: 'string[]',
-                  name: 'contentNames',
+                  name: 'contentName',
                   type: 'string[]',
                 },
               ],
@@ -193,7 +193,7 @@ export const enableSessionAbi = {
           name: 'actions',
           type: 'tuple[]',
         },
-        { internalType: 'bool', name: 'permit4337Paymaster', type: 'bool' },
+        { internalType: 'bool', name: 'permitERC4337Paymaster', type: 'bool' },
       ],
       internalType: 'struct Session',
       name: 'sessionToEnable',
@@ -359,7 +359,7 @@ export const abi = [
             internalType: 'bytes32',
           },
           {
-            name: 'contentNames',
+            name: 'contentName',
             type: 'string[]',
             internalType: 'string[]',
           },
@@ -451,7 +451,7 @@ export const abi = [
                 internalType: 'bytes32',
               },
               {
-                name: 'contentNames',
+                name: 'contentName',
                 type: 'string[]',
                 internalType: 'string[]',
               },
@@ -525,7 +525,7 @@ export const abi = [
                     internalType: 'bytes32',
                   },
                   {
-                    name: 'contentNames',
+                    name: 'contentName',
                     type: 'string[]',
                     internalType: 'string[]',
                   },
@@ -585,7 +585,7 @@ export const abi = [
             ],
           },
           {
-            name: 'permit4337Paymaster',
+            name: 'permitERC4337Paymaster',
             type: 'bool',
             internalType: 'bool',
           },
@@ -774,7 +774,7 @@ export const abi = [
                     internalType: 'bytes32',
                   },
                   {
-                    name: 'contentNames',
+                    name: 'contentName',
                     type: 'string[]',
                     internalType: 'string[]',
                   },
@@ -834,7 +834,7 @@ export const abi = [
             ],
           },
           {
-            name: 'permit4337Paymaster',
+            name: 'permitERC4337Paymaster',
             type: 'bool',
             internalType: 'bool',
           },
@@ -905,7 +905,7 @@ export const abi = [
                     internalType: 'bytes32',
                   },
                   {
-                    name: 'contentNames',
+                    name: 'contentName',
                     type: 'string[]',
                     internalType: 'string[]',
                   },
@@ -965,7 +965,7 @@ export const abi = [
             ],
           },
           {
-            name: 'permit4337Paymaster',
+            name: 'permitERC4337Paymaster',
             type: 'bool',
             internalType: 'bool',
           },
@@ -1197,7 +1197,7 @@ export const abi = [
   },
   {
     type: 'function',
-    name: 'setPermit4337Paymaster',
+    name: 'setpermitERC4337Paymaster',
     inputs: [
       {
         name: 'permissionId',
@@ -1298,7 +1298,7 @@ export const abi = [
   },
   {
     type: 'event',
-    name: 'PermissionIdPermit4337Paymaster',
+    name: 'PermissionIdpermitERC4337Paymaster',
     inputs: [
       {
         name: 'permissionId',
