@@ -115,7 +115,7 @@ export {
   getSessionDigest,
   getSessionNonce,
   getSpendingLimitsPolicy,
-  getSudoPolicy,  
+  getSudoPolicy,
   getUniversalActionPolicy,
   getUsageLimitPolicy,
   getValueLimitPolicy,
@@ -138,6 +138,18 @@ export {
   ChainDigest,
   ChainSession,
   CallType,
+  ACCOUNT_LOCKER_HOOK,
+  ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+  ACCOUNT_LOCKER_TARGET_EXECUTOR,
+  getAccountLockerHook,
+  getAccountLockerSourceExecutor,
+  getAccountLockerTargetExecutor,
+  getUnlockFundsAction,
+  getDepositToAcrossAction,
+  getRegisterApprovalSpendAction,
+  ApprovalSpend,
+  CrossChainOrder,
+  WithdrawRequest,
 } from './module'
 
 export type { ModuleType, Module, SigHookInit } from './module'
