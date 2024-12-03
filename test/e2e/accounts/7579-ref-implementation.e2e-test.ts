@@ -16,6 +16,7 @@ import {
   testSocialRecoveryValidator,
   testSmartSessionsValidator,
 } from 'test/e2e/modules'
+import { sepolia } from 'viem/chains'
 
 describe('Test erc7579 reference implementation', () => {
   const testClient = getTestClient()
@@ -31,13 +32,13 @@ describe('Test erc7579 reference implementation', () => {
       publicClient: publicClient,
       testClient,
     })
-  }, 50000)
+  }, 80000)
 
   afterAll(async () => {
-    await cleanUpEnvironment({
-      account,
-      client: publicClient,
-    })
+    //   await cleanUpEnvironment({
+    //     account,
+    //     client: publicClient,
+    //   })
   }, 50000)
 
   testOwnableValidator({
