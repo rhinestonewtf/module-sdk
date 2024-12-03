@@ -21,7 +21,7 @@ describe('Test erc7579 reference implementation', () => {
   const testClient = getTestClient()
   const publicClient = getPublicClient()
   const account = getAccount({
-    address: '0x7227dcfb0c5ec7a5f539f97b18be261c49687ed6',
+    address: '0x0579bCB9b3B9678A991F553531c27f4ea4863bE4',
     type: 'erc7579-implementation',
   })
 
@@ -31,7 +31,7 @@ describe('Test erc7579 reference implementation', () => {
       publicClient: publicClient,
       testClient,
     })
-  }, 50000)
+  }, 80000)
 
   afterAll(async () => {
     await cleanUpEnvironment({

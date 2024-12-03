@@ -39,6 +39,8 @@ import {
   slice,
   concat,
   zeroAddress,
+  http,
+  createPublicClient,
 } from 'viem'
 import { hashTypedData } from 'viem/experimental/solady'
 import { getInstallModuleData, sendUserOp } from '../infra'
@@ -49,6 +51,7 @@ import {
 } from 'src/module/smart-sessions/types'
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
+import { RPC_URL } from 'test/utils/userOps/constants/contracts'
 
 type Params = {
   account: Account
@@ -148,10 +151,15 @@ export const testSmartSessionsValidator = async ({
       salt: toHex(toBytes('3344433', { size: 32 })),
     }
 
+    const sepoliaPublicClient = createPublicClient({
+      transport: http(RPC_URL),
+      chain: sepolia,
+    })
+
     const sessionDetails = await getEnableSessionDetails({
       sessions: [session],
       account,
-      clients: [publicClient],
+      clients: [sepoliaPublicClient],
     })
 
     sessionDetails.enableSessionData.enableSession.permissionEnableSig =
