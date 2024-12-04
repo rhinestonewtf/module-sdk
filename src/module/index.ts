@@ -154,21 +154,6 @@ export {
 } from './smart-sessions'
 
 export {
-  ACCOUNT_LOCKER_HOOK,
-  ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-  ACCOUNT_LOCKER_TARGET_EXECUTOR,
-  getAccountLockerHook,
-  getAccountLockerSourceExecutor,
-  getAccountLockerTargetExecutor,
-  getUnlockFundsAction,
-  getDepositToAcrossAction,
-  getRegisterApprovalSpendAction,
-  ApprovalSpend,
-  CrossChainOrder,
-  WithdrawRequest,
-} from './omni-account'
-
-export {
   fetchRegistryModules,
   getTrustAttestersAction,
   findTrustedAttesters,
