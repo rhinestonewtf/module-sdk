@@ -5,6 +5,7 @@ import {
   SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
   SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   SMART_SESSIONS_ADDRESS,
+  UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
 } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
@@ -160,7 +161,18 @@ export const getUnInstallModuleActions = async ({
     }),
   })
 
+  // unInstall universal email recovery executor
+  const unInstallUniversalEmailRecoveryExecutorAction = await uninstallModule({
+    client,
+    account,
+    module: getModule({
+      type: 'executor',
+      module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+    }),
+  })
+
   return [
+    ...unInstallUniversalEmailRecoveryExecutorAction,
     ...unInstallHookMultiPlexerHookAction,
     ...unInstallScheduledTransfersExecutorAction,
     ...unInstallScheduledOrdersExecutorAction,

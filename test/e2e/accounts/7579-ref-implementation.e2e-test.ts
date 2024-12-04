@@ -14,6 +14,7 @@ import {
   testScheduledTransfersExecutor,
   testHookMultiPlexer,
   testSocialRecoveryValidator,
+  testUniversalEmailRecoveryExecutor,
   testSmartSessionsValidator,
 } from 'test/e2e/modules'
 
@@ -71,6 +72,12 @@ describe('Test erc7579 reference implementation', () => {
   })
 
   testSocialRecoveryValidator({
+    account,
+    publicClient,
+    testClient,
+  })
+
+  testUniversalEmailRecoveryExecutor({
     account,
     publicClient,
     testClient,
