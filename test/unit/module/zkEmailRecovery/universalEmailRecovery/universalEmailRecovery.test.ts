@@ -40,15 +40,16 @@ import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../../utils/mocks/account'
+import { OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
 
 describe('Universal Email Recovery Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
 
-  const validator = '0x2483DA3A338895199E5e538530213157e931Bf06'
+  const validator = OWNABLE_VALIDATOR_ADDRESS
   const isInstalledContext = toHex(0)
-  const initialSelector = toFunctionSelector('addOwner(address)')
+  const initialSelector = toFunctionSelector('function addOwner(address)')
   const guardians = [
     getAddress('0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3'),
     getAddress('0x9FF36a253C70b65122B47c70F2AfaF65F2957118'),

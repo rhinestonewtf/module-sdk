@@ -12,16 +12,17 @@ import {
   Address,
   encodeAbiParameters,
   encodePacked,
+  getAddress,
   Hex,
   PublicClient,
   toBytes,
+  toFunctionSelector,
   toHex,
   zeroAddress,
 } from 'viem'
 import { CallType } from 'src/module/types'
 import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
-import { encodeValidationData } from 'src/module/ownable-validator/usage'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import { privateKeyToAccount } from 'viem/accounts'
 import { getOwnableExecutor } from 'src/module/ownable-executor'
@@ -34,6 +35,7 @@ import {
 import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
 import { getDeadmanSwitch } from 'src/module/deadman-switch'
 import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
+import { getUniversalEmailRecoveryExecutor } from 'src/module/zk-email-recovery/universal-email-recovery'
 import { sepolia } from 'viem/chains'
 
 type Params = {
@@ -56,6 +58,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     scheduledTransfersExecutor,
     hookMultiPlexer,
     smartSessions,
+    universalEmailRecoveryExecutor,
   } = getInstallModuleData({
     account,
   })
@@ -159,6 +162,13 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     module: getSmartSessionsValidator(smartSessions),
   })
 
+  // install universal email recovery executor
+  const installUniversalEmailRecoveryAction = await installModule({
+    client,
+    account,
+    module: getUniversalEmailRecoveryExecutor(universalEmailRecoveryExecutor),
+  })
+
   return [
     ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
@@ -173,6 +183,7 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     ...installScheduledOrdersExecutorAction,
     ...installScheduledTransfersExecutorAction,
     ...installHookMultiplexerAction,
+    ...installUniversalEmailRecoveryAction,
   ]
 }
 
@@ -312,6 +323,20 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
         chainId: BigInt(sepolia.id),
       },
     ],
+    hook: zeroAddress,
+  },
+  universalEmailRecoveryExecutor: {
+    validator: OWNABLE_VALIDATOR_ADDRESS,
+    isInstalledContext: toHex(0),
+    initialSelector: toFunctionSelector('function addOwner(address)'),
+    guardians: [
+      getAddress('0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3'),
+      getAddress('0x9FF36a253C70b65122B47c70F2AfaF65F2957118'),
+    ],
+    weights: [1n, 2n],
+    threshold: 2n,
+    delay: 60n * 60n * 6n, // 6 hours
+    expiry: 2n * 7n * 24n * 60n * 60n, // 2 days
     hook: zeroAddress,
   },
 })
