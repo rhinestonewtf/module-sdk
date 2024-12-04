@@ -166,7 +166,9 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
   const installUniversalEmailRecoveryAction = await installModule({
     client,
     account,
-    module: getUniversalEmailRecoveryExecutor(universalEmailRecoveryExecutor),
+    module: await getUniversalEmailRecoveryExecutor(
+      universalEmailRecoveryExecutor,
+    ),
   })
 
   return [
@@ -337,6 +339,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     threshold: 2n,
     delay: 60n * 60n * 6n, // 6 hours
     expiry: 2n * 7n * 24n * 60n * 60n, // 2 days
+    chainId: sepolia.id,
     hook: zeroAddress,
   },
 })

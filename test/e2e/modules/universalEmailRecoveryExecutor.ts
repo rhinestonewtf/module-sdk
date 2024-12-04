@@ -23,7 +23,7 @@ import {
   toFunctionSelector,
   toHex,
 } from 'viem'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
+import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
 import { sendUserOp } from '../infra'
 import { SENTINEL_ADDRESS } from 'src/common'
 
@@ -43,7 +43,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+        module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
       }),
     })
 
@@ -54,7 +54,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
     const newGuardian = getAddress('0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c')
     const weight = 1n
 
-    const execution = getAddGuardianAction({
+    const execution = await getAddGuardianAction({
+      client: publicClient,
       guardian: newGuardian,
       weight,
     })
@@ -85,7 +86,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
       '0x206f270A1eBB6Dd3Bc97581376168014FD6eE57c',
     )
 
-    const execution = getRemoveGuardianAction({
+    const execution = await getRemoveGuardianAction({
+      client: publicClient,
       guardian: guardianToRemove,
     })
 
@@ -113,7 +115,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
   it('should change threshold', async () => {
     const newThreshold = 1n
 
-    const execution = getChangeThresholdAction({
+    const execution = await getChangeThresholdAction({
+      client: publicClient,
       threshold: newThreshold,
     })
 
@@ -134,7 +137,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
     const delay = 86400n // 1 day
     const expiry = 604800n // 1 week
 
-    const execution = getUpdateRecoveryConfigAction({
+    const execution = await getUpdateRecoveryConfigAction({
+      client: publicClient,
       delay,
       expiry,
     })
@@ -160,7 +164,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
       'function setValidator(address,ValidatorId,bytes)',
     )
 
-    const execution = getAllowValidatorRecoveryAction({
+    const execution = await getAllowValidatorRecoveryAction({
+      client: publicClient,
       validator,
       isInstalledContext,
       recoverySelector,
@@ -193,7 +198,8 @@ export const testUniversalEmailRecoveryExecutor = async ({
       'function setValidator(address,ValidatorId,bytes)',
     )
 
-    const execution = getDisallowValidatorRecoveryAction({
+    const execution = await getDisallowValidatorRecoveryAction({
+      client: publicClient,
       validator,
       prevValidator,
       recoverySelector,

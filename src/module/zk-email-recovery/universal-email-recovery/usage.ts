@@ -1,4 +1,4 @@
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from './constants'
+import { getModuleAddress } from './constants'
 import { Execution } from '../../../account/types'
 import {
   Address,
@@ -36,9 +36,10 @@ export const getRecoveryConfig = async ({
   account: Account
   client: PublicClient
 }): Promise<{ delay: bigint; expiry: bigint }> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getRecoveryConfig',
       args: [account.address],
@@ -55,9 +56,10 @@ export const getRecoveryRequest = async ({
   account: Account
   client: PublicClient
 }): Promise<readonly [bigint, bigint, bigint, Hex]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getRecoveryRequest',
       args: [account.address],
@@ -77,9 +79,10 @@ export const getPreviousRecoveryRequest = async ({
   previousGuardianInitiated: Address
   cancelRecoveryCooldown: bigint
 }> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getPreviousRecoveryRequest',
       args: [account.address],
@@ -99,9 +102,10 @@ export const isActivated = async ({
   account: Account
   client: PublicClient
 }): Promise<boolean> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'isActivated',
       args: [account.address],
@@ -120,9 +124,10 @@ export const canStartRecoveryRequest = async ({
   client: PublicClient
   validator: Address
 }): Promise<boolean> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'canStartRecoveryRequest',
       args: [account.address, validator],
@@ -132,15 +137,18 @@ export const canStartRecoveryRequest = async ({
   }
 }
 
-export const getAllowValidatorRecoveryAction = ({
+export const getAllowValidatorRecoveryAction = async ({
+  client,
   validator,
   isInstalledContext,
   recoverySelector,
 }: {
+  client: PublicClient
   validator: Address
   isInstalledContext: Hex
   recoverySelector: Hex
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'allowValidatorRecovery',
     abi,
@@ -148,23 +156,26 @@ export const getAllowValidatorRecoveryAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getDisallowValidatorRecoveryAction = ({
+export const getDisallowValidatorRecoveryAction = async ({
+  client,
   validator,
   prevValidator,
   recoverySelector,
 }: {
+  client: PublicClient
   validator: Address
   prevValidator: Address
   recoverySelector: Hex
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'disallowValidatorRecovery',
     abi,
@@ -172,8 +183,8 @@ export const getDisallowValidatorRecoveryAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
@@ -187,9 +198,10 @@ export const getAllowedValidators = async ({
   account: Account
   client: PublicClient
 }): Promise<readonly Address[]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getAllowedValidators',
       args: [account.address],
@@ -206,9 +218,10 @@ export const getAllowedSelectors = async ({
   account: Account
   client: PublicClient
 }): Promise<readonly Hex[]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getAllowedSelectors',
       args: [account.address],
@@ -223,9 +236,10 @@ export const acceptanceCommandTemplates = async ({
 }: {
   client: PublicClient
 }): Promise<readonly (readonly string[])[]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'acceptanceCommandTemplates',
     })
@@ -239,9 +253,10 @@ export const recoveryCommandTemplates = async ({
 }: {
   client: PublicClient
 }): Promise<readonly (readonly string[])[]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'recoveryCommandTemplates',
     })
@@ -259,9 +274,10 @@ export const extractRecoveredAccountFromAcceptanceCommand = async ({
   commandParams: Hex[]
   templateIdx: bigint
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'extractRecoveredAccountFromAcceptanceCommand',
       args: [commandParams, templateIdx],
@@ -280,9 +296,10 @@ export const extractRecoveredAccountFromRecoveryCommand = async ({
   commandParams: Hex[]
   templateIdx: bigint
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'extractRecoveredAccountFromRecoveryCommand',
       args: [commandParams, templateIdx],
@@ -299,9 +316,10 @@ export const computeAcceptanceTemplateId = async ({
   client: PublicClient
   templateIdx: bigint
 }): Promise<bigint> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'computeAcceptanceTemplateId',
       args: [templateIdx],
@@ -318,9 +336,10 @@ export const computeRecoveryTemplateId = async ({
   client: PublicClient
   templateIdx: bigint
 }): Promise<bigint> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'computeRecoveryTemplateId',
       args: [templateIdx],
@@ -335,9 +354,10 @@ export const getVerifier = async ({
 }: {
   client: PublicClient
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'verifier',
     })
@@ -351,9 +371,10 @@ export const getDkim = async ({
 }: {
   client: PublicClient
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'dkim',
     })
@@ -367,9 +388,10 @@ export const getEmailAuthImplementation = async ({
 }: {
   client: PublicClient
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'emailAuthImplementation',
     })
@@ -378,13 +400,16 @@ export const getEmailAuthImplementation = async ({
   }
 }
 
-export const getUpdateRecoveryConfigAction = ({
+export const getUpdateRecoveryConfigAction = async ({
+  client,
   delay,
   expiry,
 }: {
+  client: PublicClient
   delay: bigint
   expiry: bigint
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'updateRecoveryConfig',
     abi,
@@ -392,21 +417,24 @@ export const getUpdateRecoveryConfigAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getHandleAcceptanceAction = ({
+export const getHandleAcceptanceAction = async ({
+  client,
   emailAuthMsg,
   templateIdx,
 }: {
+  client: PublicClient
   emailAuthMsg: EmailAuthMsg
   templateIdx: bigint
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'handleAcceptance',
     abi,
@@ -414,21 +442,24 @@ export const getHandleAcceptanceAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getHandleRecoveryAction = ({
+export const getHandleRecoveryAction = async ({
+  client,
   emailAuthMsg,
   templateIdx,
 }: {
+  client: PublicClient
   emailAuthMsg: EmailAuthMsg
   templateIdx: bigint
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'handleRecovery',
     abi,
@@ -436,21 +467,24 @@ export const getHandleRecoveryAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getCompleteRecoveryAction = ({
+export const getCompleteRecoveryAction = async ({
+  client,
   account,
   recoveryData,
 }: {
+  client: PublicClient
   account: Address
   recoveryData: Hex
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'completeRecovery',
     abi,
@@ -458,34 +492,42 @@ export const getCompleteRecoveryAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getCancelRecoveryAction = (): Execution => {
+export const getCancelRecoveryAction = async ({
+  client,
+}: {
+  client: PublicClient
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'cancelRecovery',
     abi,
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getCancelExpiredRecoveryAction = ({
+export const getCancelExpiredRecoveryAction = async ({
+  client,
   account,
 }: {
+  client: PublicClient
   account: Address
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'cancelExpiredRecovery',
     abi,
@@ -493,8 +535,8 @@ export const getCancelExpiredRecoveryAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
@@ -510,9 +552,10 @@ export const computeEmailAuthAddress = async ({
   recoveredAccount: Address
   accountSalt: Hex
 }): Promise<Address> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'computeEmailAuthAddress',
       args: [recoveredAccount, accountSalt],
@@ -534,9 +577,10 @@ export const getGuardianConfig = async ({
   acceptedWeight: bigint
   threshold: bigint
 }> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getGuardianConfig',
       args: [account.address],
@@ -560,9 +604,10 @@ export const getGuardian = async ({
   client: PublicClient
   guardian: Address
 }): Promise<{ status: number; weight: bigint }> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getGuardian',
       args: [account.address, guardian],
@@ -579,9 +624,10 @@ export const getAllGuardians = async ({
   account: Account
   client: PublicClient
 }): Promise<readonly Address[]> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'getAllGuardians',
       args: [account.address],
@@ -600,9 +646,10 @@ export const hasGuardianVoted = async ({
   client: PublicClient
   guardian: Address
 }): Promise<boolean> => {
+  const address = getModuleAddress(await client.getChainId())
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address,
       abi,
       functionName: 'hasGuardianVoted',
       args: [account.address, guardian],
@@ -612,13 +659,16 @@ export const hasGuardianVoted = async ({
   }
 }
 
-export const getAddGuardianAction = ({
+export const getAddGuardianAction = async ({
+  client,
   guardian,
   weight,
 }: {
+  client: PublicClient
   guardian: Address
   weight: bigint
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'addGuardian',
     abi,
@@ -626,19 +676,22 @@ export const getAddGuardianAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getRemoveGuardianAction = ({
+export const getRemoveGuardianAction = async ({
+  client,
   guardian,
 }: {
+  client: PublicClient
   guardian: Address
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'removeGuardian',
     abi,
@@ -646,19 +699,22 @@ export const getRemoveGuardianAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,
   }
 }
 
-export const getChangeThresholdAction = ({
+export const getChangeThresholdAction = async ({
+  client,
   threshold,
 }: {
+  client: PublicClient
   threshold: bigint
-}): Execution => {
+}): Promise<Execution> => {
+  const address = getModuleAddress(await client.getChainId())
   const data = encodeFunctionData({
     functionName: 'changeThreshold',
     abi,
@@ -666,8 +722,8 @@ export const getChangeThresholdAction = ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: address,
+    target: address,
     value: 0n,
     callData: data,
     data,

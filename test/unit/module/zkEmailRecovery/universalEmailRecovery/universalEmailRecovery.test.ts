@@ -1,6 +1,7 @@
 import { getAddress, toFunctionSelector, toHex, zeroAddress } from 'viem'
+import { sepolia } from 'viem/chains'
 import { getUniversalEmailRecoveryExecutor } from 'src/module/zk-email-recovery/universal-email-recovery/installation'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
+import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
 import {
   acceptanceCommandTemplates,
   canStartRecoveryRequest,
@@ -69,13 +70,14 @@ describe('Universal Email Recovery Module', () => {
       threshold,
       delay,
       expiry,
+      chainId: sepolia.id,
     })
 
     expect(installUniversalEmailModule.address).toEqual(
-      UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
     )
     expect(installUniversalEmailModule.module).toEqual(
-      UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
     )
     expect(installUniversalEmailModule.initData).toBeDefined()
     expect(installUniversalEmailModule.deInitData).toEqual('0x')
@@ -132,28 +134,30 @@ describe('Universal Email Recovery Module', () => {
     expect(canStart).toEqual(false)
   })
 
-  it('Should get allow validator recovery action', () => {
-    const action = getAllowValidatorRecoveryAction({
+  it('Should get allow validator recovery action', async () => {
+    const action = await getAllowValidatorRecoveryAction({
+      client,
       validator,
       isInstalledContext,
       recoverySelector: initialSelector,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get disallow validator recovery action', () => {
+  it('Should get disallow validator recovery action', async () => {
     const prevValidator = '0xD990393C670dCcE8b4d8F858FB98c9912dBFAa06'
-    const action = getDisallowValidatorRecoveryAction({
+    const action = await getDisallowValidatorRecoveryAction({
+      client,
       validator,
       prevValidator,
       recoverySelector: initialSelector,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -271,19 +275,20 @@ describe('Universal Email Recovery Module', () => {
     expect(emailAuthImplementation).toEqual(expectedEmailAuth)
   })
 
-  it('Should get update recovery config action', () => {
-    const action = getUpdateRecoveryConfigAction({
+  it('Should get update recovery config action', async () => {
+    const action = await getUpdateRecoveryConfigAction({
+      client,
       delay,
       expiry,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get handle acceptance action', () => {
+  it('Should get handle acceptance action', async () => {
     const emailAuthMsg: EmailAuthMsg = {
       templateId: 1n,
       commandParams: [
@@ -307,18 +312,19 @@ describe('Universal Email Recovery Module', () => {
       },
     }
 
-    const action = getHandleAcceptanceAction({
+    const action = await getHandleAcceptanceAction({
+      client,
       emailAuthMsg,
       templateIdx: 0n,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get handle recovery action', () => {
+  it('Should get handle recovery action', async () => {
     const emailAuthMsg: EmailAuthMsg = {
       templateId: 1n,
       commandParams: [
@@ -342,44 +348,47 @@ describe('Universal Email Recovery Module', () => {
       },
     }
 
-    const action = getHandleRecoveryAction({
+    const action = await getHandleRecoveryAction({
+      client,
       emailAuthMsg,
       templateIdx: 0n,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get complete recovery action', () => {
-    const action = getCompleteRecoveryAction({
+  it('Should get complete recovery action', async () => {
+    const action = await getCompleteRecoveryAction({
+      client,
       account: account.address,
       recoveryData: '0x',
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get cancel recovery action', () => {
-    const action = getCancelRecoveryAction()
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+  it('Should get cancel recovery action', async () => {
+    const action = await getCancelRecoveryAction({ client })
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get cancel expired recovery action', () => {
-    const action = getCancelExpiredRecoveryAction({
+  it('Should get cancel expired recovery action', async () => {
+    const action = await getCancelExpiredRecoveryAction({
+      client,
       account: account.address,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -436,35 +445,38 @@ describe('Universal Email Recovery Module', () => {
     expect(hasVoted).toEqual(false)
   })
 
-  it('Should get add guardian action', () => {
-    const action = getAddGuardianAction({
+  it('Should get add guardian action', async () => {
+    const action = await getAddGuardianAction({
+      client,
       guardian: guardians[0],
       weight: weights[0],
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get remove guardian action', () => {
-    const action = getRemoveGuardianAction({
+  it('Should get remove guardian action', async () => {
+    const action = await getRemoveGuardianAction({
+      client,
       guardian: guardians[0],
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
   })
 
-  it('Should get change threshold action', () => {
-    const action = getChangeThresholdAction({
-      threshold: threshold,
+  it('Should get change threshold action', async () => {
+    const action = await getChangeThresholdAction({
+      client,
+      threshold,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
+    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA)
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
