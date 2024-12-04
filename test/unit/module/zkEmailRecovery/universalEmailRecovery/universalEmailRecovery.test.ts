@@ -179,14 +179,26 @@ describe('Universal Email Recovery Module', () => {
     const templates = await acceptanceCommandTemplates({
       client,
     })
-    expect(templates).toEqual([])
+    expect(templates).toEqual([
+      ['Accept', 'guardian', 'request', 'for', '{ethAddr}'],
+    ])
   })
 
   it('Should get recovery command templates', async () => {
     const templates = await recoveryCommandTemplates({
       client,
     })
-    expect(templates).toEqual([])
+    expect(templates).toEqual([
+      [
+        'Recover',
+        'account',
+        '{ethAddr}',
+        'using',
+        'recovery',
+        'hash',
+        '{string}',
+      ],
+    ])
   })
 
   it('Should extract recovered account from acceptance command', async () => {
@@ -210,40 +222,53 @@ describe('Universal Email Recovery Module', () => {
   })
 
   it('Should compute acceptance template id', async () => {
+    const expectedId =
+      78246708611299769969691317804450782728492512111741514614578044794817483451845n
     const id = await computeAcceptanceTemplateId({
       client,
       templateIdx: 0n,
     })
-    expect(id).toEqual(0n)
+    expect(id).toEqual(expectedId)
   })
 
   it('Should compute recovery template id', async () => {
+    const expectedId =
+      41597252099594059824363833791590872545117890762070757419930713588231239964259n
     const id = await computeRecoveryTemplateId({
       client,
       templateIdx: 0n,
     })
-    expect(id).toEqual(0n)
+    expect(id).toEqual(expectedId)
   })
 
   it('Should get verifier', async () => {
+    const expectedVerifier = getAddress(
+      '0x0D5C8bcae3A3589F2CFbb04895933717aA5098e1',
+    )
     const verifier = await getVerifier({
       client,
     })
-    expect(verifier).toEqual(zeroAddress)
+    expect(verifier).toEqual(expectedVerifier)
   })
 
   it('Should get DKIM', async () => {
+    const expectedDkim = getAddress(
+      '0x1D2B1F8cF98382e53C7735F05ef84d51FEd8Eff6',
+    )
     const dkim = await getDkim({
       client,
     })
-    expect(dkim).toEqual(zeroAddress)
+    expect(dkim).toEqual(expectedDkim)
   })
 
   it('Should get email auth implementation', async () => {
+    const expectedEmailAuth = getAddress(
+      '0xCa4d16459b7AC7b348016244f1fA49d3f87b6F3F',
+    )
     const emailAuthImplementation = await getEmailAuthImplementation({
       client,
     })
-    expect(emailAuthImplementation).toEqual(zeroAddress)
+    expect(emailAuthImplementation).toEqual(expectedEmailAuth)
   })
 
   it('Should get update recovery config action', () => {
@@ -361,13 +386,16 @@ describe('Universal Email Recovery Module', () => {
   })
 
   it('Should compute email auth address', async () => {
+    const expectedEmailAuthAddress = getAddress(
+      '0x81e375B511FA247B22D09519f37ddaa661cbd59a',
+    )
     const emailAuthAddress = await computeEmailAuthAddress({
       client,
       recoveredAccount: account.address,
       accountSalt:
         '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
     })
-    expect(emailAuthAddress).toEqual(zeroAddress)
+    expect(emailAuthAddress).toEqual(expectedEmailAuthAddress)
   })
 
   it('Should get guardian config', async () => {
