@@ -331,7 +331,7 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
       ],
       SignedSession: [
         { name: 'account', type: 'address' },
-        { name: 'signedPermissions', type: 'SignedPermissions' },
+        { name: 'permissions', type: 'SignedPermissions' },
         { name: 'sessionValidator', type: 'address' },
         { name: 'sessionValidatorInitData', type: 'bytes' },
         { name: 'salt', type: 'bytes32' },
@@ -634,7 +634,7 @@ export const getEnableSessionDetails = async ({
       chainId: session.chainId,
       session: {
         ...session,
-        signedPermissions: {
+        permissions: {
           permitGenericPolicy: permitGenericPolicy,
           permitAdminAccess: permitAdminAccess,
           ignoreSecurityAttestations: ignoreSecurityAttestations,

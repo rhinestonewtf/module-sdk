@@ -26,7 +26,7 @@ export type SignedPermissions = {
 
 export type SignedSession = {
   account: Address
-  signedPermissions: SignedPermissions
+  permissions: SignedPermissions
   sessionValidator: Address
   sessionValidatorInitData: Hex
   salt: Hex

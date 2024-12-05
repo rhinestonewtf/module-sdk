@@ -241,7 +241,7 @@ export const testSmartSessionsValidator = async ({
         chainId: BigInt(sepolia.id),
         session: {
           ...session,
-          signedPermissions: {
+          permissions: {
             permitGenericPolicy: false,
             permitAdminAccess: false,
             ignoreSecurityAttestations: false,
