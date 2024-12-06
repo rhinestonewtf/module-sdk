@@ -39,9 +39,9 @@ export const accountLockerSourceExecutorAbi = [
     name: 'handleAcross',
     inputs: [
       {
-        name: 'order',
+        name: 'payload',
         type: 'tuple',
-        internalType: 'struct CrossChainOrder',
+        internalType: 'struct OriginModulePayload',
         components: [
           {
             name: 'settlementContract',

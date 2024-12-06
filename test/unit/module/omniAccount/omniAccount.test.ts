@@ -40,11 +40,9 @@ describe('Omni Account Module', () => {
   })
   it('should get the unlock funds action', async () => {
     const unlockFunds = getUnlockFundsAction({
-      account: MockAccountDeployed.address,
-      userSignature: '0x',
       orchestratorSignature: '0x',
       request: {
-        timestamp: Date.now(),
+        timestamp: BigInt(Date.now()),
         tokenAddress: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
         orchestrator: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
         amount: BigInt(100),
