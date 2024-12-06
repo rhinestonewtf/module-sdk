@@ -14,20 +14,10 @@ export const getAccountLockerHook = (
   return {
     module: ACCOUNT_LOCKER_HOOK,
     address: ACCOUNT_LOCKER_HOOK,
-    initData: isOmniMode
-      ? encodeAbiParameters(
-          [
-            { name: 'hookType', type: 'uint256' },
-            { name: 'hookId', type: 'bytes4' },
-            { name: 'data', type: 'bytes' },
-          ],
-          [
-            0n,
-            '0x00000000',
-            encodeAbiParameters([{ name: 'value', type: 'bool' }], [true]),
-          ],
-        )
-      : '0x',
+    initData: encodeAbiParameters(
+      [{ name: 'enableOmniLock', type: 'bool' }],
+      [isOmniMode],
+    ),
     deInitData: '0x',
     additionalContext: '0x',
     hook,
@@ -63,17 +53,7 @@ export const getAccountLockerTargetExecutor = (
   return {
     module: ACCOUNT_LOCKER_TARGET_EXECUTOR,
     address: ACCOUNT_LOCKER_TARGET_EXECUTOR,
-    initData:
-      moduleType === 'executor'
-        ? '0x'
-        : encodeAbiParameters(
-            [
-              { name: 'selector', type: 'bytes4' },
-              { name: 'flags', type: 'bytes1' },
-              { name: 'data', type: 'bytes' },
-            ],
-            ['0x3a5be8cb', '0x00', '0x'],
-          ),
+    initData: '0x',
     deInitData: '0x',
     additionalContext: '0x',
     hook,
