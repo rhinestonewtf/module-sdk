@@ -540,7 +540,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt.status).toBe('success')
   }, 3000000)
 
-  it.skip('should return true when checking is valid signature', async () => {
+  it('should return true when checking is valid signature', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -550,7 +550,7 @@ export const testSmartSessionsValidator = async ({
     })
     const userOpHash = keccak256('0xuserOpHash')
 
-    const typedData = {
+    const hashedData = hashTypedData({
       domain: {
         name: 'SmartSession',
         version: '1',
@@ -572,9 +572,7 @@ export const testSmartSessionsValidator = async ({
         verifyingContract: SMART_SESSIONS_ADDRESS,
         chainId: sepolia.id,
       },
-    } as const
-
-    const hashedData = hashTypedData(typedData)
+    })
 
     let signature = await signer.signMessage({ message: { raw: hashedData } })
 
