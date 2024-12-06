@@ -1,7 +1,7 @@
-import { Address, encodeFunctionData, Hex } from 'viem'
+import { encodeFunctionData, Hex } from 'viem'
 import { accountLockerSourceExecutorAbi } from './abis'
 import { ACCOUNT_LOCKER_SOURCE_EXECUTOR } from './constants'
-import { ApprovalSpend, CrossChainOrder, WithdrawRequest } from './types'
+import { ApprovalSpend, OriginModulePayload, WithdrawRequest } from './types'
 import { Execution } from '../../account'
 
 export const getUnlockFundsAction = ({
@@ -27,22 +27,15 @@ export const getUnlockFundsAction = ({
 }
 
 export const getDepositToAcrossAction = ({
-  account,
-  userSignature,
-  orchestratorSignature,
-  order,
+  originModulePayload,
 }: {
-  account: Address
-  userSignature: Hex
-  orchestratorSignature: Hex
-  order: CrossChainOrder
+  originModulePayload: OriginModulePayload
 }): Execution => {
-  // const data = encodeFunctionData({
-  //   functionName: 'depositToAcross',
-  //   abi: accountLockerSourceExecutorAbi,
-  //   args: [account, userSignature, orchestratorSignature, order],
-  // })
-  const data = '0x'
+  const data = encodeFunctionData({
+    functionName: 'handleAcross',
+    abi: accountLockerSourceExecutorAbi,
+    args: [originModulePayload],
+  })
   return {
     to: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     target: ACCOUNT_LOCKER_SOURCE_EXECUTOR,

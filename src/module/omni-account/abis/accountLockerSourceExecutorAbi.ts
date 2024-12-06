@@ -44,37 +44,172 @@ export const accountLockerSourceExecutorAbi = [
         internalType: 'struct OriginModulePayload',
         components: [
           {
-            name: 'settlementContract',
-            type: 'address',
-            internalType: 'address',
+            name: 'order',
+            type: 'tuple',
+            internalType: 'struct Order',
+            components: [
+              {
+                name: 'settlement',
+                type: 'tuple',
+                internalType: 'struct Settlement',
+                components: [
+                  {
+                    name: 'orchestrator',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'recipient',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'settlementContract',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'targetAccount',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'targetChainId',
+                    type: 'uint64',
+                    internalType: 'uint64',
+                  },
+                  {
+                    name: 'fillDeadline',
+                    type: 'uint32',
+                    internalType: 'uint32',
+                  },
+                  {
+                    name: 'lastDepositId',
+                    type: 'uint256',
+                    internalType: 'uint256',
+                  },
+                ],
+              },
+              {
+                name: 'acrossTransfer',
+                type: 'tuple',
+                internalType: 'struct AcrossTransfer',
+                components: [
+                  {
+                    name: 'originModule',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'originAccount',
+                    type: 'address',
+                    internalType: 'address',
+                  },
+                  {
+                    name: 'originChainId',
+                    type: 'uint64',
+                    internalType: 'uint64',
+                  },
+                  {
+                    name: 'initiateDeadline',
+                    type: 'uint32',
+                    internalType: 'uint32',
+                  },
+                  {
+                    name: 'maxFee',
+                    type: 'uint256',
+                    internalType: 'uint256',
+                  },
+                  {
+                    name: 'depositId',
+                    type: 'uint256',
+                    internalType: 'uint256',
+                  },
+                  {
+                    name: 'originTransfer',
+                    type: 'tuple',
+                    internalType: 'struct TokenTransfer',
+                    components: [
+                      {
+                        name: 'tokenAddress',
+                        type: 'address',
+                        internalType: 'address',
+                      },
+                      {
+                        name: 'amount',
+                        type: 'uint256',
+                        internalType: 'uint256',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'targetTransfer',
+                    type: 'tuple',
+                    internalType: 'struct TokenTransfer',
+                    components: [
+                      {
+                        name: 'tokenAddress',
+                        type: 'address',
+                        internalType: 'address',
+                      },
+                      {
+                        name: 'amount',
+                        type: 'uint256',
+                        internalType: 'uint256',
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                name: 'smartDigests',
+                type: 'tuple',
+                internalType: 'struct SmartDigest',
+                components: [
+                  {
+                    name: 'acrossTransferDigests',
+                    type: 'tuple',
+                    internalType: 'struct IndexChainDigest',
+                    components: [
+                      {
+                        name: 'digestIndex',
+                        type: 'uint256',
+                        internalType: 'uint256',
+                      },
+                      {
+                        name: 'chainDataDigests',
+                        type: 'bytes32[]',
+                        internalType: 'bytes32[]',
+                      },
+                    ],
+                  },
+                  {
+                    name: 'executionDigest',
+                    type: 'bytes32',
+                    internalType: 'bytes32',
+                  },
+                  {
+                    name: 'userOpDigest',
+                    type: 'bytes32',
+                    internalType: 'bytes32',
+                  },
+                ],
+              },
+              { name: 'userSig', type: 'bytes', internalType: 'bytes' },
+            ],
           },
           {
-            name: 'swapper',
-            type: 'address',
-            internalType: 'address',
-          },
-          {
-            name: 'nonce',
+            name: 'auctionFee',
             type: 'uint256',
             internalType: 'uint256',
           },
           {
-            name: 'originChainId',
-            type: 'uint32',
-            internalType: 'uint32',
+            name: 'orchestratorSig',
+            type: 'bytes',
+            internalType: 'bytes',
           },
           {
-            name: 'initiateDeadline',
-            type: 'uint32',
-            internalType: 'uint32',
-          },
-          {
-            name: 'fillDeadline',
-            type: 'uint32',
-            internalType: 'uint32',
-          },
-          {
-            name: 'orderData',
+            name: 'acrossMessagePayload',
             type: 'bytes',
             internalType: 'bytes',
           },
