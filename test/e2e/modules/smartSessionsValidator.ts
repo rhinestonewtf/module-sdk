@@ -25,6 +25,7 @@ import {
   UNIVERSAL_ACTION_POLICY_ADDRESS,
   ParamCondition,
   SUDO_POLICY_ADDRESS,
+  getTimeFramePolicy,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -162,6 +163,8 @@ export const testSmartSessionsValidator = async ({
       clients: [sepoliaPublicClient],
     })
 
+    console.log(sessionDetails)
+
     sessionDetails.enableSessionData.enableSession.permissionEnableSig =
       await signer.signMessage({
         message: { raw: sessionDetails.permissionEnableHash },
@@ -238,9 +241,17 @@ export const testSmartSessionsValidator = async ({
         chainId: BigInt(sepolia.id),
         session: {
           ...session,
+          permissions: {
+            permitGenericPolicy: false,
+            permitAdminAccess: false,
+            ignoreSecurityAttestations: false,
+            permitERC4337Paymaster: session.permitERC4337Paymaster,
+            userOpPolicies: session.userOpPolicies,
+            erc7739Policies: session.erc7739Policies,
+            actions: session.actions,
+          },
           account: account.address,
           smartSession: SMART_SESSIONS_ADDRESS,
-          mode: 1,
           nonce: sessionNonce,
         },
       },
@@ -352,26 +363,17 @@ export const testSmartSessionsValidator = async ({
       session: smartSessions.sessions[0],
     })
 
-    const uniActionPolicy = getUniversalActionPolicy({
-      paramRules: {
-        length: 0,
-        rules: new Array(16).fill({
-          condition: ParamCondition.EQUAL,
-          isLimited: false,
-          offset: 0,
-          ref: toHex(toBytes('0x', { size: 32 })),
-          usage: { limit: BigInt(0), used: BigInt(0) },
-        }),
-      },
-      valueLimitPerUse: BigInt(100),
+    const timeFramePolicy = getTimeFramePolicy({
+      validUntil: 2733119702,
+      validAfter: 1733119692,
     })
 
     const enableUserOpPolicyAction = getEnableUserOpPoliciesAction({
       permissionId,
       userOpPolicies: [
         {
-          policy: uniActionPolicy.address,
-          initData: uniActionPolicy.initData,
+          policy: timeFramePolicy.address,
+          initData: timeFramePolicy.initData,
         },
       ],
     })
@@ -486,7 +488,13 @@ export const testSmartSessionsValidator = async ({
     const enableERC1271PolicyAction = getEnableERC1271PoliciesAction({
       permissionId,
       erc1271Policies: {
-        allowedERC7739Content: ['0x'],
+        allowedERC7739Content: [
+          {
+            appDomainSeparator:
+              '0x681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a',
+            contentName: ['0x'],
+          },
+        ],
         erc1271Policies: [
           {
             policy: SUDO_POLICY_ADDRESS,
@@ -514,7 +522,13 @@ export const testSmartSessionsValidator = async ({
     const disableERC1271PolicyAction = getDisableERC1271PoliciesAction({
       permissionId,
       policies: [SUDO_POLICY_ADDRESS],
-      contents: ['0x'],
+      contents: [
+        {
+          appDomainSeparator:
+            '0x681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a',
+          contentName: ['0x'],
+        },
+      ],
     })
 
     const receipt = await sendUserOp({
@@ -526,7 +540,7 @@ export const testSmartSessionsValidator = async ({
     expect(receipt.status).toBe('success')
   }, 3000000)
 
-  it.skip('should return true when checking is valid signature', async () => {
+  it('should return true when checking is valid signature', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -536,7 +550,7 @@ export const testSmartSessionsValidator = async ({
     })
     const userOpHash = keccak256('0xuserOpHash')
 
-    const typedData = {
+    const hashedData = hashTypedData({
       domain: {
         name: 'SmartSession',
         version: '1',
@@ -558,9 +572,7 @@ export const testSmartSessionsValidator = async ({
         verifyingContract: SMART_SESSIONS_ADDRESS,
         chainId: sepolia.id,
       },
-    } as const
-
-    const hashedData = hashTypedData(typedData)
+    })
 
     let signature = await signer.signMessage({ message: { raw: hashedData } })
 

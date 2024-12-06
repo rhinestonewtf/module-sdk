@@ -10,20 +10,28 @@ export type Session = {
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
   actions: ActionData[]
+  permitERC4337Paymaster: boolean
   chainId: bigint
 }
 
-export type SessionEIP712 = {
-  account: Address
-  smartSession: Address
-  mode: number
-  nonce: bigint
-  sessionValidator: Address
-  sessionValidatorInitData: Hex
-  salt: Hex
+export type SignedPermissions = {
+  permitGenericPolicy: boolean
+  permitAdminAccess: boolean
+  ignoreSecurityAttestations: boolean
+  permitERC4337Paymaster: boolean
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
   actions: ActionData[]
+}
+
+export type SignedSession = {
+  account: Address
+  permissions: SignedPermissions
+  sessionValidator: Address
+  sessionValidatorInitData: Hex
+  salt: Hex
+  smartSession: Address
+  nonce: bigint
 }
 
 export type PolicyData = {
@@ -32,8 +40,13 @@ export type PolicyData = {
 }
 
 export type ERC7739Data = {
-  allowedERC7739Content: string[]
+  allowedERC7739Content: ERC7739Context[]
   erc1271Policies: PolicyData[]
+}
+
+export type ERC7739Context = {
+  appDomainSeparator: Hex
+  contentName: string[]
 }
 
 export type ActionData = {
@@ -71,5 +84,5 @@ export type ChainDigest = {
 
 export type ChainSession = {
   chainId: bigint
-  session: SessionEIP712
+  session: SignedSession
 }

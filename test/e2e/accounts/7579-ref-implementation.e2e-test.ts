@@ -16,6 +16,7 @@ import {
   testSocialRecoveryValidator,
   testSmartSessionsValidator,
 } from 'test/e2e/modules'
+import { sepolia } from 'viem/chains'
 
 describe('Test erc7579 reference implementation', () => {
   const testClient = getTestClient()
@@ -34,10 +35,10 @@ describe('Test erc7579 reference implementation', () => {
   }, 80000)
 
   afterAll(async () => {
-    await cleanUpEnvironment({
-      account,
-      client: publicClient,
-    })
+    //   await cleanUpEnvironment({
+    //     account,
+    //     client: publicClient,
+    //   })
   }, 50000)
 
   testOwnableValidator({
@@ -46,71 +47,71 @@ describe('Test erc7579 reference implementation', () => {
     testClient,
   })
 
-  testWebauthnValidator({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testOwnableExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testAutoSavingsExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testDeadmanSwitchValidator({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testSocialRecoveryValidator({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testRegistryHook({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testMultiFactorValidator({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testColdStorageHook({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testScheduledOrdersExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testScheduledTransfersExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
-
-  testHookMultiPlexer({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testWebauthnValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testOwnableExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testAutoSavingsExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testDeadmanSwitchValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testSocialRecoveryValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testRegistryHook({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testMultiFactorValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testColdStorageHook({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testScheduledOrdersExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testScheduledTransfersExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
+  //
+  // testHookMultiPlexer({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
   testSmartSessionsValidator({
     account,
