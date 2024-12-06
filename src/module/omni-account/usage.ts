@@ -5,20 +5,16 @@ import { ApprovalSpend, CrossChainOrder, WithdrawRequest } from './types'
 import { Execution } from '../../account'
 
 export const getUnlockFundsAction = ({
-  account,
-  userSignature,
   orchestratorSignature,
   request,
 }: {
-  account: Address
-  userSignature: Hex
   orchestratorSignature: Hex
   request: WithdrawRequest
 }): Execution => {
   const data = encodeFunctionData({
-    functionName: 'unlockFunds',
+    functionName: 'unlockFundsForAccount',
     abi: accountLockerSourceExecutorAbi,
-    args: [account, userSignature, orchestratorSignature, request],
+    args: [orchestratorSignature, request],
   })
 
   return {

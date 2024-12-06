@@ -36,23 +36,8 @@ export const accountLockerSourceExecutorAbi = [
   },
   {
     type: 'function',
-    name: 'depositToAcross',
+    name: 'handleAcross',
     inputs: [
-      {
-        name: 'account',
-        type: 'address',
-        internalType: 'address',
-      },
-      {
-        name: 'userSignature',
-        type: 'bytes',
-        internalType: 'bytes',
-      },
-      {
-        name: 'orchestratorSignature',
-        type: 'bytes',
-        internalType: 'bytes',
-      },
       {
         name: 'order',
         type: 'tuple',
@@ -256,18 +241,8 @@ export const accountLockerSourceExecutorAbi = [
   },
   {
     type: 'function',
-    name: 'unlockFunds',
+    name: 'unlockFundsForAccount',
     inputs: [
-      {
-        name: 'account',
-        type: 'address',
-        internalType: 'address',
-      },
-      {
-        name: 'userSignature',
-        type: 'bytes',
-        internalType: 'bytes',
-      },
       {
         name: 'orchestratorSignature',
         type: 'bytes',

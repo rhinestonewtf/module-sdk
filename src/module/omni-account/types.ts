@@ -1,7 +1,7 @@
 import { Address, Hex } from 'viem'
 
 export type WithdrawRequest = {
-  timestamp: number
+  timestamp: bigint
   tokenAddress: Address
   orchestrator: Address
   amount: bigint
