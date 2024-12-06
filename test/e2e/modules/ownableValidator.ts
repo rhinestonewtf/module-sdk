@@ -281,4 +281,18 @@ export const testOwnableValidator = async ({
 
     expect(receipt).toBeDefined()
   }, 20000)
+  it('should lower threshold to 1', async () => {
+    const threshold = 1
+    const setThresholdAction = getSetOwnableValidatorThresholdAction({
+      threshold,
+    }) as Execution
+
+    await sendUserOp({ account, actions: [setThresholdAction] })
+
+    const newThreshold = await getOwnableValidatorThreshold({
+      account,
+      client: publicClient,
+    })
+    expect(newThreshold).toEqual(threshold)
+  }, 20000)
 }
