@@ -37,11 +37,12 @@ export const getDepositToAcrossAction = ({
   orchestratorSignature: Hex
   order: CrossChainOrder
 }): Execution => {
-  const data = encodeFunctionData({
-    functionName: 'depositToAcross',
-    abi: accountLockerSourceExecutorAbi,
-    args: [account, userSignature, orchestratorSignature, order],
-  })
+  // const data = encodeFunctionData({
+  //   functionName: 'depositToAcross',
+  //   abi: accountLockerSourceExecutorAbi,
+  //   args: [account, userSignature, orchestratorSignature, order],
+  // })
+  const data = '0x'
   return {
     to: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     target: ACCOUNT_LOCKER_SOURCE_EXECUTOR,

@@ -1,3 +1,3 @@
 export const MockClient = {
-  rpcUrl: 'https://rpc.ankr.com/eth_sepolia',
+  rpcUrl: 'https://sepolia.drpc.org',
 }

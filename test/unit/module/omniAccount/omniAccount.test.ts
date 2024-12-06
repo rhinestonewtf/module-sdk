@@ -42,7 +42,7 @@ describe('Omni Account Module', () => {
     const unlockFunds = getUnlockFundsAction({
       orchestratorSignature: '0x',
       request: {
-        timestamp: BigInt(Date.now()),
+        timestamp: Date.now(),
         tokenAddress: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
         orchestrator: '0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238',
         amount: BigInt(100),
