@@ -18,6 +18,24 @@ export type ParamRule = {
   usage: LimitUsage
 }
 
+export type RawActionConfig = {
+  valueLimitPerUse: bigint
+  paramRules: RawParamRules
+}
+
+export type RawParamRules = {
+  length: bigint
+  rules: RawParamRule[]
+}
+
+export type RawParamRule = {
+  condition: ParamCondition
+  offset: bigint
+  isLimited: boolean
+  ref: Hex
+  usage: LimitUsage
+}
+
 export type LimitUsage = {
   limit: bigint
   used: bigint
