@@ -3,8 +3,8 @@ import { Module } from '../types'
 import { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
 
 export type WebauthnCredential = {
-  pubKeyX: number | bigint
-  pubKeyY: number | bigint
+  pubKeyX: bigint
+  pubKeyY: bigint
   authenticatorId: string
   hook?: Address
 }
@@ -37,8 +37,8 @@ export const getWebAuthnValidator = (
       ],
       [
         {
-          pubKeyX: typeof webAuthnCredential.pubKeyX === 'bigint' ? webAuthnCredential.pubKeyX : BigInt(webAuthnCredential.pubKeyX),
-          pubKeyY: typeof webAuthnCredential.pubKeyY === 'bigint' ? webAuthnCredential.pubKeyY : BigInt(webAuthnCredential.pubKeyY),
+          pubKeyX: webAuthnCredential.pubKeyX,
+          pubKeyY: webAuthnCredential.pubKeyY,
         },
         keccak256(toHex(webAuthnCredential.authenticatorId)),
       ],

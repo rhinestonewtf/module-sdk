@@ -8,8 +8,8 @@ import { toHex } from 'viem'
 describe('Webauthn Validator Module', () => {
   // Setup
   const credentials = {
-    pubKeyX: 123,
-    pubKeyY: 456,
+    pubKeyX: 123n,
+    pubKeyY: 456n,
     authenticatorId: 'authenticatorId',
   }
 
