@@ -3,7 +3,15 @@ import {
   getWebAuthnValidator,
   getWebauthnValidatorSignature,
 } from 'src/module'
-import { toHex, concatHex, toBytes } from 'viem'
+import { toHex, concatHex, toBytes, type Hex } from 'viem'
+
+function serializePublicKey(x: bigint, y: bigint, prefix?: number, asBytes: boolean = false): Hex | Uint8Array {
+  let hexKey = concatHex([toHex(x, { size: 32 }), toHex(y, { size: 32 })])
+  if (prefix) {
+    hexKey = concatHex([toHex(prefix, { size: 1 }), hexKey])
+  }
+  return asBytes ? toBytes(hexKey) : hexKey
+}
 
 describe('Webauthn Validator Module', () => {
   // Setup
@@ -32,11 +40,7 @@ describe('Webauthn Validator Module', () => {
   })
 
   it('should get install webauthn validator module with packed P256Credential', async () => {
-    const pubKey = concatHex([
-      toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 }),
-    ])
-
+    const pubKey = serializePublicKey(credentials.pubKey.x, credentials.pubKey.y)
     const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKey,
       authenticatorId: credentials.authenticatorId,
@@ -50,13 +54,7 @@ describe('Webauthn Validator Module', () => {
   })
 
   it('should get install webauthn validator module with packed P256Credential as Uint8Array', async () => {
-    const pubKey = toBytes(
-      concatHex([
-        toHex(credentials.pubKey.x, { size: 32 }),
-        toHex(credentials.pubKey.y, { size: 32 }),
-      ]),
-    )
-
+    const pubKey = serializePublicKey(credentials.pubKey.x, credentials.pubKey.y, undefined, true)
     const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKey,
       authenticatorId: credentials.authenticatorId,
@@ -70,11 +68,7 @@ describe('Webauthn Validator Module', () => {
   })
 
   it('should get install webauthn validator module with prefix-packed P256Credential', async () => {
-    const pubKey = concatHex([
-      toHex(4, { size: 1 }),
-      toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 }),
-    ])
+    const pubKey = serializePublicKey(credentials.pubKey.x, credentials.pubKey.y, 4)
     const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKey,
       authenticatorId: credentials.authenticatorId,
@@ -88,12 +82,7 @@ describe('Webauthn Validator Module', () => {
   })
 
   it('should throw error on install webauthn validator module with non-P256 pubkey', async () => {
-    const pubKey = concatHex([
-      toHex(1, { size: 1 }),
-      toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 }),
-    ])
-
+    const pubKey = serializePublicKey(credentials.pubKey.x, credentials.pubKey.y, 1)
     expect(() =>
       getWebAuthnValidator({
         pubKey,
@@ -103,15 +92,21 @@ describe('Webauthn Validator Module', () => {
   })
 
   it('should return encoded signature from webauthn data', async () => {
-    const signature = getWebauthnValidatorSignature({
+    const webauthn = {
       authenticatorData: toHex('authenticatorData'),
       clientDataJSON: 'clientDataHash',
-      responseTypeLocation: BigInt(0),
-      r: BigInt(10),
-      s: BigInt(5),
+      typeIndex: 0,
+    }
+    const signature = {
+      r: 10n,
+      s: 5n,
+    }
+    const validatorSignature = getWebauthnValidatorSignature({
+      webauthn,
+      signature,
       usePrecompiled: true,
     })
 
-    expect(signature).toBeTruthy()
+    expect(validatorSignature).toBeTruthy()
   })
 })
