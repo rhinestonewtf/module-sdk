@@ -3,7 +3,7 @@ import {
   getWebAuthnValidator,
   getWebauthnValidatorSignature,
 } from 'src/module'
-import { toHex, concatHex } from 'viem'
+import { toHex, concatHex, toBytes } from 'viem'
 
 describe('Webauthn Validator Module', () => {
   // Setup
@@ -34,8 +34,28 @@ describe('Webauthn Validator Module', () => {
   it('should get install webauthn validator module with packed P256Credential', async () => {
     const pubKey = concatHex([
       toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 })
+      toHex(credentials.pubKey.y, { size: 32 }),
     ])
+
+    const installWebauthnValidatorModule = getWebAuthnValidator({
+      pubKey,
+      authenticatorId: credentials.authenticatorId,
+    })
+
+    expect(installWebauthnValidatorModule.module).toEqual(
+      WEBAUTHN_VALIDATOR_ADDRESS,
+    )
+    expect(installWebauthnValidatorModule.initData).toBeDefined()
+    expect(installWebauthnValidatorModule.type).toEqual('validator')
+  })
+
+  it('should get install webauthn validator module with packed P256Credential as Uint8Array', async () => {
+    const pubKey = toBytes(
+      concatHex([
+        toHex(credentials.pubKey.x, { size: 32 }),
+        toHex(credentials.pubKey.y, { size: 32 }),
+      ]),
+    )
 
     const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKey,
@@ -53,13 +73,13 @@ describe('Webauthn Validator Module', () => {
     const pubKey = concatHex([
       toHex(4, { size: 1 }),
       toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 })
+      toHex(credentials.pubKey.y, { size: 32 }),
     ])
     const installWebauthnValidatorModule = getWebAuthnValidator({
       pubKey,
       authenticatorId: credentials.authenticatorId,
     })
-    
+
     expect(installWebauthnValidatorModule.module).toEqual(
       WEBAUTHN_VALIDATOR_ADDRESS,
     )
@@ -71,14 +91,15 @@ describe('Webauthn Validator Module', () => {
     const pubKey = concatHex([
       toHex(1, { size: 1 }),
       toHex(credentials.pubKey.x, { size: 32 }),
-      toHex(credentials.pubKey.y, { size: 32 })
+      toHex(credentials.pubKey.y, { size: 32 }),
     ])
-    
-    expect(() => 
+
+    expect(() =>
       getWebAuthnValidator({
-      pubKey,
-      authenticatorId: credentials.authenticatorId,
-    })).toThrow('Only uncompressed public keys are supported')
+        pubKey,
+        authenticatorId: credentials.authenticatorId,
+      }),
+    ).toThrow('Only uncompressed public keys are supported')
   })
 
   it('should return encoded signature from webauthn data', async () => {

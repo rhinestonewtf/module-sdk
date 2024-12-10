@@ -3,7 +3,7 @@ import { Module } from '../types'
 import { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
 
 export type WebauthnCredential = {
-  pubKey: Hex | PublicKey,
+  pubKey: PublicKey | Hex | Uint8Array,
   authenticatorId: string
   hook?: Address
 }
@@ -33,8 +33,8 @@ export const getWebAuthnValidator = (
   let pubKeyX: bigint
   let pubKeyY: bigint
 
-  // Distinguish between PublicKey and Hex encoded public key
-  if (typeof webAuthnCredential.pubKey === 'string') {
+  // Distinguish between PublicKey and Hex / byte encoded public key
+  if (typeof webAuthnCredential.pubKey === 'string' || webAuthnCredential.pubKey instanceof Uint8Array) {
     // It's a P256Credential
     const { x, y, prefix } = parsePublicKey(webAuthnCredential.pubKey)
     pubKeyX = x
