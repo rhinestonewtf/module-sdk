@@ -4,7 +4,7 @@ import { parseSignature } from './utils'
 
 export type WebauthnValidatorSignature = {
   webauthn: WebAuthnData
-  signature: WebauthnSignature | Hex
+  signature: WebauthnSignature | Hex | Uint8Array
   usePrecompiled: boolean
 }
 
@@ -16,7 +16,7 @@ export const getWebauthnValidatorSignature = ({
   const { authenticatorData, clientDataJSON, typeIndex } = webauthn
   let r: bigint
   let s: bigint
-  if (typeof signature === 'string') {
+  if (typeof signature === 'string' || signature instanceof Uint8Array) {
     const parsedSignature = parseSignature(signature)
     r = parsedSignature.r
     s = parsedSignature.s

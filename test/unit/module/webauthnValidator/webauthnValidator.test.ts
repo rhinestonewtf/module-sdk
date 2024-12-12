@@ -13,6 +13,12 @@ function serializePublicKey(x: bigint, y: bigint, prefix?: number, asBytes: bool
   return asBytes ? toBytes(hexKey) : hexKey
 }
 
+
+function serializeSignature(r: bigint, s: bigint, asBytes: boolean = false): Hex | Uint8Array {
+  const hexSignature = concatHex([toHex(r, { size: 32 }), toHex(s, { size: 32 })])
+  return asBytes ? toBytes(hexSignature) : hexSignature
+}
+
 describe('Webauthn Validator Module', () => {
   // Setup
   const credentials = {
@@ -101,6 +107,40 @@ describe('Webauthn Validator Module', () => {
       r: 10n,
       s: 5n,
     }
+    const validatorSignature = getWebauthnValidatorSignature({
+      webauthn,
+      signature,
+      usePrecompiled: true,
+    })
+
+    expect(validatorSignature).toBeTruthy()
+  })
+
+  it('should return encoded signature from webauthn data with hex signature', async () => {
+    const webauthn = {
+      authenticatorData: toHex('authenticatorData'),
+      clientDataJSON: 'clientDataHash',
+      typeIndex: 0,
+    }
+    const signature = serializeSignature(10n, 5n)
+    
+    const validatorSignature = getWebauthnValidatorSignature({
+      webauthn,
+      signature,
+      usePrecompiled: true,
+    })
+
+    expect(validatorSignature).toBeTruthy()
+  })
+
+  it('should return encoded signature from webauthn data with bytes signature', async () => {
+    const webauthn = {
+      authenticatorData: toHex('authenticatorData'),
+      clientDataJSON: 'clientDataHash',
+      typeIndex: 0,
+    }
+    const signature = serializeSignature(10n, 5n, true)
+    
     const validatorSignature = getWebauthnValidatorSignature({
       webauthn,
       signature,
