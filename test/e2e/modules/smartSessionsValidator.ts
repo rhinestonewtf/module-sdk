@@ -25,6 +25,7 @@ import {
   UNIVERSAL_ACTION_POLICY_ADDRESS,
   ParamCondition,
   SUDO_POLICY_ADDRESS,
+  isValidSignature,
   getTimeFramePolicy,
 } from 'src/module/smart-sessions'
 import {
@@ -542,51 +543,101 @@ export const testSmartSessionsValidator = async ({
 
   it('should return true when checking is valid signature', async () => {
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
-
     const { smartSessions } = getInstallModuleData({ account })
 
-    const permissionId = getPermissionId({
-      session: smartSessions.sessions[0],
-    })
-    const userOpHash = keccak256('0xuserOpHash')
+    const session = smartSessions.sessions[0]
+    const permissionId = getPermissionId({ session })
 
-    const hashedData = hashTypedData({
+    // Setup content parameters
+    const appDomainSeparator =
+      '0x681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a'
+    const contents = '0x'
+    const contentsType = 'TestMessage(string message)'
+
+    // Enable ERC1271 policies first
+    const enableERC1271PolicyAction = getEnableERC1271PoliciesAction({
+      permissionId,
+      erc1271Policies: {
+        allowedERC7739Content: [
+          {
+            appDomainSeparator,
+            contentName: [contents],
+          },
+        ],
+        erc1271Policies: [
+          {
+            policy: SUDO_POLICY_ADDRESS,
+            initData: '0x',
+          },
+        ],
+      },
+    })
+
+    // Enable the policies first
+    await sendUserOp({
+      actions: [enableERC1271PolicyAction],
+      account,
+    })
+
+    // Generate test message and hash
+    const messageHash = hashTypedData({
       domain: {
-        name: 'SmartSession',
+        name: 'Ether Mail',
         version: '1',
-        chainId: sepolia.id,
-        verifyingContract: SMART_SESSIONS_ADDRESS,
+        chainId: 1,
+        verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       },
       types: {
-        Permit: [{ name: 'hash', type: 'bytes' }],
+        Person: [
+          { name: 'name', type: 'string' },
+          { name: 'wallet', type: 'address' },
+        ],
+        Mail: [
+          { name: 'from', type: 'Person' },
+          { name: 'to', type: 'Person' },
+          { name: 'contents', type: 'string' },
+        ],
       },
-      primaryType: 'Permit',
+      primaryType: 'Mail',
       message: {
-        hash: userOpHash,
+        from: {
+          name: 'Cow',
+          wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+        },
+        to: {
+          name: 'Bob',
+          wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+        },
+        contents: 'Hello, Bob!',
       },
       extensions: [],
       fields: '0x0f',
       verifierDomain: {
-        name: 'SmartSession',
+        name: 'Smart Account',
         version: '1',
-        verifyingContract: SMART_SESSIONS_ADDRESS,
-        chainId: sepolia.id,
+        verifyingContract: '0x1234567890abcdef1234567890abcdef12345678',
+        chainId: 1,
       },
     })
 
-    let signature = await signer.signMessage({ message: { raw: hashedData } })
+    // Sign the message
+    const signature = await signer.signMessage({
+      message: { raw: messageHash },
+    })
 
-    signature = encodePacked(['bytes32', 'bytes'], [permissionId, signature])
+    // Validate the signature
+    const isValid = await isValidSignature({
+      client: publicClient,
+      account,
+      sender: signer.address,
+      hash: messageHash,
+      permissionId,
+      signature,
+      appDomainSeparator,
+      contents,
+      contentsType,
+    })
 
-    const valid = (await publicClient.verifyMessage({
-      address: account.address,
-      message: { raw: userOpHash },
-      signature: encodePacked(
-        ['address', 'bytes'],
-        [SMART_SESSIONS_ADDRESS, signature],
-      ),
-    })) as boolean
-
-    expect(valid).toBe(true)
+    expect(isValid).toBe(true)
   }, 30000)
 }

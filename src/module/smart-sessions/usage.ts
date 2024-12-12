@@ -79,6 +79,62 @@ export const getSessionNonce = async ({
   })) as bigint
 }
 
+export const isValidSignature = async ({
+  client,
+  account,
+  sender,
+  hash,
+  permissionId,
+  signature,
+  appDomainSeparator,
+  contents,
+  contentsType,
+}: {
+  client: PublicClient
+  account: Account
+  sender: Address
+  hash: Hex
+  permissionId: Hex
+  signature: Hex
+  appDomainSeparator: Hex
+  contents: Hex
+  contentsType: string
+}) => {
+  // Format signature following ERC-7739 specification
+  // ERC7739 = abi.encodePacked(signatureForSessionValidator,
+  //                           _DOMAIN_SEP_B,
+  //                           contents,
+  //                           contentsType,
+  //                           uint16(contentsType.length))
+  const erc7739Signature = encodePacked(
+    ['bytes', 'bytes32', 'bytes', 'string', 'uint16'],
+    [
+      signature,
+      appDomainSeparator,
+      contents,
+      contentsType,
+      contentsType.length,
+    ],
+  )
+
+  // Wrap with permissionId
+  const wrappedSignature = encodePacked(
+    ['bytes32', 'bytes'],
+    [permissionId, erc7739Signature],
+  )
+
+  // Call isValidSignatureWithSender
+  const result = (await client.readContract({
+    address: SMART_SESSIONS_ADDRESS,
+    abi,
+    functionName: 'isValidSignatureWithSender',
+    args: [sender, hash, wrappedSignature],
+  })) as Hex
+
+  // Check against ERC1271 magic value
+  return result === '0x1626ba7e'
+}
+
 export const isSessionEnabled = async ({
   client,
   account,
