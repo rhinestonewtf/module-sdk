@@ -6,6 +6,12 @@ export type WebauthnCredential = {
   hook?: Address
 }
 
+export type WebauthnValidatorSignature = {
+  webauthn: WebAuthnData
+  signature: WebauthnSignature | Hex | Uint8Array
+  usePrecompiled: boolean
+}
+
 export type WebAuthnData = {
   authenticatorData: Hex
   clientDataJSON: string

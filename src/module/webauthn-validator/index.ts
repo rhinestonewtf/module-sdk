@@ -4,3 +4,10 @@ export {
   getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,
 } from './usage'
+export type {
+  WebauthnValidatorSignature,
+  WebauthnCredential,
+  WebAuthnData,
+  WebauthnSignature,
+  PublicKey as WebauthnPublicKey,
+} from './types'

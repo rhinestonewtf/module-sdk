@@ -1,12 +1,7 @@
 import { encodeAbiParameters, Hex } from 'viem'
-import { WebAuthnData, WebauthnSignature } from './types'
+import { WebauthnValidatorSignature } from './types'
 import { parseSignature } from './utils'
 
-export type WebauthnValidatorSignature = {
-  webauthn: WebAuthnData
-  signature: WebauthnSignature | Hex | Uint8Array
-  usePrecompiled: boolean
-}
 
 export const getWebauthnValidatorSignature = ({
   webauthn,
