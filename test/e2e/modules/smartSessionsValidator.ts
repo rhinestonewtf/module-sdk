@@ -559,7 +559,6 @@ export const testSmartSessionsValidator = async ({
     // Setup content parameters
     const appDomainSeparator =
       '0x681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a'
-    const contents = '0x123'
     const contentsType = 'TestMessage(string message)'
 
     // Enable ERC1271 policies first
@@ -569,7 +568,7 @@ export const testSmartSessionsValidator = async ({
         allowedERC7739Content: [
           {
             appDomainSeparator,
-            contentName: [contents],
+            contentName: ['TestMessage'],
           },
         ],
         erc1271Policies: [
@@ -592,15 +591,13 @@ export const testSmartSessionsValidator = async ({
       encodePacked(
         ['string'],
         [
-          'TypedDataSign(bytes contents,string name,string version,uint256 chainId,address verifyingContract,bytes32 salt)TestMessage(string message)',
+          'TypedDataSign(TestMessage contents,string name,string version,uint256 chainId,address verifyingContract,bytes32 salt)TestMessage(string message)',
         ],
       ),
     )
 
     // Original struct hash
-    const structHash = keccak256(
-      encodePacked(['string', 'string'], ['message', 'Hello World']),
-    )
+    const structHash = keccak256(encodePacked(['string'], ['Hello World']))
 
     // Final hash according to ERC-7739
     const hash = keccak256(
