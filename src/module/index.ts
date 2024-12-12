@@ -45,6 +45,11 @@ export {
   getWebAuthnValidator,
   getWebauthnValidatorSignature,
   getWebauthnValidatorMockSignature,
+  WebauthnValidatorSignature,
+  WebauthnCredential,
+  WebAuthnData,
+  WebauthnSignature,
+  WebauthnPublicKey,
 } from './webauthn-validator'
 
 export {

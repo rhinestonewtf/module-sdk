@@ -1,20 +1,24 @@
 import { encodeAbiParameters, Hex } from 'viem'
+import { WebauthnValidatorSignature } from './types'
+import { parseSignature } from './utils'
+
 
 export const getWebauthnValidatorSignature = ({
-  authenticatorData,
-  clientDataJSON,
-  responseTypeLocation,
-  r,
-  s,
+  webauthn,
+  signature,
   usePrecompiled,
-}: {
-  authenticatorData: Hex
-  clientDataJSON: string
-  responseTypeLocation: bigint
-  r: bigint
-  s: bigint
-  usePrecompiled: boolean
-}) => {
+}: WebauthnValidatorSignature) => {
+  const { authenticatorData, clientDataJSON, typeIndex } = webauthn
+  let r: bigint
+  let s: bigint
+  if (typeof signature === 'string' || signature instanceof Uint8Array) {
+    const parsedSignature = parseSignature(signature)
+    r = parsedSignature.r
+    s = parsedSignature.s
+  } else {
+    r = signature.r
+    s = signature.s
+  }
   return encodeAbiParameters(
     [
       { type: 'bytes', name: 'authenticatorData' },
@@ -42,9 +46,9 @@ export const getWebauthnValidatorSignature = ({
     [
       authenticatorData,
       clientDataJSON,
-      BigInt(responseTypeLocation),
-      BigInt(r),
-      BigInt(s),
+      typeof typeIndex === 'bigint' ? typeIndex : BigInt(typeIndex),
+      r,
+      s,
       usePrecompiled,
     ],
   )
