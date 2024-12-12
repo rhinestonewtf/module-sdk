@@ -41,6 +41,7 @@ import {
   slice,
   concat,
   zeroAddress,
+  encodeAbiParameters,
   http,
   createPublicClient,
 } from 'viem'
@@ -607,15 +608,15 @@ export const testSmartSessionsValidator = async ({
           '0x1901',
           appDomainSeparator,
           keccak256(
-            encodePacked(
+            encodeAbiParameters(
               [
-                'bytes32',
-                'bytes32',
-                'bytes32',
-                'bytes32',
-                'uint256',
-                'address',
-                'bytes32',
+                { name: 'a', type: 'bytes32' },
+                { name: 'b', type: 'bytes32' },
+                { name: 'c', type: 'bytes32' },
+                { name: 'd', type: 'bytes32' },
+                { name: 'e', type: 'uint256' },
+                { name: 'f', type: 'address' },
+                { name: 'g', type: 'bytes32' },
               ],
               [
                 typedDataSignTypehash,
