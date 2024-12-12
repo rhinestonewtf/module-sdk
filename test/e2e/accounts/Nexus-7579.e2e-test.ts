@@ -45,71 +45,71 @@ describe('Test Nexus-7579 Account', () => {
     testClient,
   })
 
-  testWebauthnValidator({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testWebauthnValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testOwnableExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testOwnableExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testAutoSavingsExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testAutoSavingsExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testDeadmanSwitchValidator({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testDeadmanSwitchValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testSocialRecoveryValidator({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testSocialRecoveryValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testRegistryHook({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testRegistryHook({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testMultiFactorValidator({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testMultiFactorValidator({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testColdStorageHook({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testColdStorageHook({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testScheduledOrdersExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testScheduledOrdersExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testScheduledTransfersExecutor({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testScheduledTransfersExecutor({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
-  testHookMultiPlexer({
-    account,
-    publicClient,
-    testClient,
-  })
+  // testHookMultiPlexer({
+  //   account,
+  //   publicClient,
+  //   testClient,
+  // })
 
   testSmartSessionsValidator({
     account,

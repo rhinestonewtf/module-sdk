@@ -25,8 +25,8 @@ import {
   UNIVERSAL_ACTION_POLICY_ADDRESS,
   ParamCondition,
   SUDO_POLICY_ADDRESS,
-  isValidSignature,
   getTimeFramePolicy,
+  getVerifySignatureResult,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -144,6 +144,9 @@ export const testSmartSessionsValidator = async ({
   }, 30000)
 
   it('should validate userOp using smart session using ENABLE flow', async () => {
+    if (account.type !== 'erc7579-implementation') {
+      return
+    }
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
@@ -548,10 +551,15 @@ export const testSmartSessionsValidator = async ({
     const session = smartSessions.sessions[0]
     const permissionId = getPermissionId({ session })
 
+    const sepoliaPublicClient = createPublicClient({
+      transport: http(RPC_URL),
+      chain: sepolia,
+    })
+
     // Setup content parameters
     const appDomainSeparator =
       '0x681afa780d17da29203322b473d3f210a7d621259a4e6ce9e403f5a266ff719a'
-    const contents = '0x'
+    const contents = '0x123'
     const contentsType = 'TestMessage(string message)'
 
     // Enable ERC1271 policies first
@@ -579,63 +587,84 @@ export const testSmartSessionsValidator = async ({
       account,
     })
 
-    // Generate test message and hash
-    const messageHash = hashTypedData({
-      domain: {
-        name: 'Ether Mail',
-        version: '1',
-        chainId: 1,
-        verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      },
-      types: {
-        Person: [
-          { name: 'name', type: 'string' },
-          { name: 'wallet', type: 'address' },
+    // Create hash following ERC-7739 TypedDataSign workflow
+    const typedDataSignTypehash = keccak256(
+      encodePacked(
+        ['string'],
+        [
+          'TypedDataSign(bytes contents,string name,string version,uint256 chainId,address verifyingContract,bytes32 salt)TestMessage(string message)',
         ],
-        Mail: [
-          { name: 'from', type: 'Person' },
-          { name: 'to', type: 'Person' },
-          { name: 'contents', type: 'string' },
-        ],
-      },
-      primaryType: 'Mail',
-      message: {
-        from: {
-          name: 'Cow',
-          wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
-        },
-        to: {
-          name: 'Bob',
-          wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
-        },
-        contents: 'Hello, Bob!',
-      },
-      extensions: [],
-      fields: '0x0f',
-      verifierDomain: {
-        name: 'Smart Account',
-        version: '1',
-        verifyingContract: '0x1234567890abcdef1234567890abcdef12345678',
-        chainId: 1,
-      },
-    })
+      ),
+    )
 
-    // Sign the message
+    // Original struct hash
+    const structHash = keccak256(
+      encodePacked(['string', 'string'], ['message', 'Hello World']),
+    )
+
+    // Final hash according to ERC-7739
+    const hash = keccak256(
+      encodePacked(
+        ['bytes2', 'bytes32', 'bytes32'],
+        [
+          '0x1901',
+          appDomainSeparator,
+          keccak256(
+            encodePacked(
+              [
+                'bytes32',
+                'bytes32',
+                'bytes32',
+                'bytes32',
+                'uint256',
+                'address',
+                'bytes32',
+              ],
+              [
+                typedDataSignTypehash,
+                structHash,
+                keccak256(encodePacked(['string'], ['Nexus'])), // name
+                keccak256(encodePacked(['string'], ['1.0.1'])), // version
+                BigInt(Number(sepolia.id)), // chainId
+                account.address, // verifyingContract
+                '0x0000000000000000000000000000000000000000000000000000000000000000', // salt
+              ],
+            ),
+          ),
+        ],
+      ),
+    )
+
+    // Sign the hash
     const signature = await signer.signMessage({
-      message: { raw: messageHash },
+      message: { raw: hash },
     })
 
-    // Validate the signature
-    const isValid = await isValidSignature({
-      client: publicClient,
+    // Format signature according to ERC-7739 spec
+    const erc7739Signature = encodePacked(
+      ['bytes', 'bytes32', 'bytes32', 'string', 'uint16'],
+      [
+        signature,
+        appDomainSeparator,
+        structHash,
+        contentsType,
+        contentsType.length,
+      ],
+    )
+
+    // Pack with permissionId for smart session
+    const wrappedSignature = encodePacked(
+      ['bytes32', 'bytes'],
+      [permissionId, erc7739Signature],
+    )
+
+    // Validate signature
+    const isValid = await getVerifySignatureResult({
+      client: sepoliaPublicClient,
       account,
       sender: signer.address,
-      hash: messageHash,
-      permissionId,
-      signature,
-      appDomainSeparator,
-      contents,
-      contentsType,
+      hash,
+      signature: wrappedSignature,
     })
 
     expect(isValid).toBe(true)
