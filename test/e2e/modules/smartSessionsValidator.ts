@@ -24,6 +24,7 @@ import {
   getUniversalActionPolicy,
   UNIVERSAL_ACTION_POLICY_ADDRESS,
   ParamCondition,
+  getAccountEIP712Domain,
   SUDO_POLICY_ADDRESS,
   getTimeFramePolicy,
   getVerifySignatureResult,
@@ -569,7 +570,7 @@ export const testSmartSessionsValidator = async ({
         allowedERC7739Content: [
           {
             appDomainSeparator,
-            contentName: ['TestMessage'],
+            contentName: ['TestMessage(string message)'],
           },
         ],
         erc1271Policies: [
@@ -587,6 +588,28 @@ export const testSmartSessionsValidator = async ({
       account,
     })
 
+    const isContentEnabled = await sepoliaPublicClient.readContract({
+      address: SMART_SESSIONS_ADDRESS,
+      abi: [
+        {
+          inputs: [
+            { name: 'account', type: 'address' },
+            { name: 'permissionId', type: 'bytes32' },
+            { name: 'appDomainSeparator', type: 'bytes32' },
+            { name: 'content', type: 'string' },
+          ],
+          name: 'isERC7739ContentEnabled',
+          outputs: [{ type: 'bool' }],
+          stateMutability: 'view',
+          type: 'function',
+        },
+      ],
+      functionName: 'isERC7739ContentEnabled',
+      args: [account.address, permissionId, appDomainSeparator, contentsType],
+    })
+
+    console.log('Is content enabled:', isContentEnabled)
+
     // Create hash following ERC-7739 TypedDataSign workflow
     const typedDataSignTypehash = keccak256(
       encodePacked(
@@ -599,6 +622,9 @@ export const testSmartSessionsValidator = async ({
 
     // Original struct hash
     const structHash = keccak256(encodePacked(['string'], ['Hello World']))
+
+    let { name, version, chainId, verifyingContract, salt } =
+      await getAccountEIP712Domain({ client: sepoliaPublicClient, account })
 
     // Final hash according to ERC-7739
     const hash = keccak256(
@@ -621,11 +647,11 @@ export const testSmartSessionsValidator = async ({
               [
                 typedDataSignTypehash,
                 structHash,
-                keccak256(encodePacked(['string'], ['Nexus'])), // name
-                keccak256(encodePacked(['string'], ['1.0.1'])), // version
-                BigInt(Number(sepolia.id)), // chainId
-                account.address, // verifyingContract
-                '0x0000000000000000000000000000000000000000000000000000000000000000', // salt
+                keccak256(encodePacked(['string'], [name])), // name
+                keccak256(encodePacked(['string'], [version])), // version
+                BigInt(Number(chainId)), // chainId
+                verifyingContract, // verifyingContract
+                salt, // salt
               ],
             ),
           ),

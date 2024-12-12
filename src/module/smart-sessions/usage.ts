@@ -92,19 +92,81 @@ export const getVerifySignatureResult = async ({
   hash: Hex
   signature: Hex
 }) => {
+  let calldata = encodeFunctionData({
+    abi,
+    functionName: 'isValidSignatureWithSender',
+    args: [sender, hash, signature],
+  })
   const { data } = await client.call({
     account: account.address,
     to: SMART_SESSIONS_ADDRESS,
-    data: encodeFunctionData({
-      abi,
-      functionName: 'isValidSignatureWithSender',
-      args: [sender, hash, signature],
-    }),
+    data: calldata,
   })
 
-  console.log('data', data)
+  return (
+    data ===
+    '0x1626ba7e00000000000000000000000000000000000000000000000000000000'
+  )
+}
 
-  return data === '0x1626ba7e'
+export const getAccountEIP712Domain = async ({
+  client,
+  account,
+}: {
+  client: PublicClient
+  account: Account
+}) => {
+  let data = await client.readContract({
+    address: account.address,
+    abi: [
+      {
+        type: 'function',
+        name: 'eip712Domain',
+        inputs: [],
+        outputs: [
+          {
+            type: 'bytes1',
+            name: 'fields,',
+          },
+          {
+            type: 'string',
+            name: 'name',
+          },
+          {
+            type: 'string',
+            name: 'version',
+          },
+          {
+            type: 'uint256',
+            name: 'chainId',
+          },
+          {
+            type: 'address',
+            name: 'verifyingContract',
+          },
+          {
+            type: 'bytes32',
+            name: 'salt',
+          },
+          {
+            type: 'uint256[]',
+            name: 'extensions',
+          },
+        ],
+        stateMutability: 'view',
+        constant: true,
+      },
+    ],
+    functionName: 'eip712Domain',
+    args: [],
+  })
+  return {
+    name: data[1],
+    version: data[2],
+    chainId: data[3],
+    verifyingContract: data[4],
+    salt: data[5],
+  }
 }
 
 export const isSessionEnabled = async ({
