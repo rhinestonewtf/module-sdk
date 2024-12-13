@@ -229,7 +229,6 @@ export const encodeSmartSessionSignature = ({
       if (!enableSessionData) {
         throw new Error('enableSession is required for ENABLE mode')
       }
-
       return encodePacked(
         ['bytes1', 'bytes'],
         [
@@ -476,7 +475,9 @@ export const formatPermissionEnableSig = ({
 }) => {
   switch (accountType) {
     case 'erc7579-implementation':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'nexus':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'safe':
       return encodePacked(['address', 'bytes'], [validator, signature])
     case 'kernel':

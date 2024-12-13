@@ -28,6 +28,7 @@ import {
   SUDO_POLICY_ADDRESS,
   getTimeFramePolicy,
   getVerifySignatureResult,
+  SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -146,9 +147,9 @@ export const testSmartSessionsValidator = async ({
   }, 30000)
 
   it('should validate userOp using smart session using ENABLE flow', async () => {
-    if (account.type !== 'erc7579-implementation') {
-      return
-    }
+    // if (account.type !== 'erc7579-implementation') {
+    //   return
+    // }
     const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
     const { smartSessions } = getInstallModuleData({ account })
