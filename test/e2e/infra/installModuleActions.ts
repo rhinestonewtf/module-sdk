@@ -35,6 +35,7 @@ import { getHookMultiPlexer } from 'src/module/hook-multi-plexer'
 import { getDeadmanSwitch } from 'src/module/deadman-switch'
 import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
 import { sepolia } from 'viem/chains'
+import { getSmartSessionsCompatibilityFallback } from 'src/module/smart-sessions'
 
 type Params = {
   account: Account
@@ -159,9 +160,20 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     module: getSmartSessionsValidator(smartSessions),
   })
 
+  // Only install fallback for erc7579-implementation accounts
+  const installSmartSessionsFallbackAction =
+    account.type === 'erc7579-implementation'
+      ? await installModule({
+          client,
+          account,
+          module: getSmartSessionsCompatibilityFallback(),
+        })
+      : []
+
   return [
     ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
+    ...installSmartSessionsFallbackAction,
     // ...installWebAuthnValidatorAction,
     // ...installOwnableExecutorAction,
     // ...installSocialRecoveryAction,

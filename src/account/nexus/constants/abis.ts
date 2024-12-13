@@ -10,7 +10,7 @@ export const bootstrapAbi = [
 
 export const accountAbi = [
   'function getActiveHook() external view returns (address hook)',
-  'function getValidatorPaginated(address cursor,uint256 size) returns (address[] memory, address)',
+  'function getValidatorsPaginated(address cursor,uint256 size) returns (address[] memory, address)',
   'function getExecutorsPaginated(address cursor,uint256 size) returns (address[] memory, address)',
   'function installModule(uint256 moduleTypeId,address module,bytes calldata initData)',
   'function uninstallModule(uint256 moduleTypeId,address module,bytes calldata deInitData)',

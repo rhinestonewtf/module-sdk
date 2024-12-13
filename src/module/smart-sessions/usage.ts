@@ -79,6 +79,96 @@ export const getSessionNonce = async ({
   })) as bigint
 }
 
+export const getVerifySignatureResult = async ({
+  client,
+  account,
+  sender,
+  hash,
+  signature,
+}: {
+  client: PublicClient
+  account: Account
+  sender: Address
+  hash: Hex
+  signature: Hex
+}) => {
+  let calldata = encodeFunctionData({
+    abi,
+    functionName: 'isValidSignatureWithSender',
+    args: [sender, hash, signature],
+  })
+  const { data } = await client.call({
+    account: account.address,
+    to: SMART_SESSIONS_ADDRESS,
+    data: calldata,
+  })
+
+  return (
+    data ===
+    '0x1626ba7e00000000000000000000000000000000000000000000000000000000'
+  )
+}
+
+export const getAccountEIP712Domain = async ({
+  client,
+  account,
+}: {
+  client: PublicClient
+  account: Account
+}) => {
+  let data = await client.readContract({
+    address: account.address,
+    abi: [
+      {
+        type: 'function',
+        name: 'eip712Domain',
+        inputs: [],
+        outputs: [
+          {
+            type: 'bytes1',
+            name: 'fields,',
+          },
+          {
+            type: 'string',
+            name: 'name',
+          },
+          {
+            type: 'string',
+            name: 'version',
+          },
+          {
+            type: 'uint256',
+            name: 'chainId',
+          },
+          {
+            type: 'address',
+            name: 'verifyingContract',
+          },
+          {
+            type: 'bytes32',
+            name: 'salt',
+          },
+          {
+            type: 'uint256[]',
+            name: 'extensions',
+          },
+        ],
+        stateMutability: 'view',
+        constant: true,
+      },
+    ],
+    functionName: 'eip712Domain',
+    args: [],
+  })
+  return {
+    name: data[1],
+    version: data[2],
+    chainId: data[3],
+    verifyingContract: data[4],
+    salt: data[5],
+  }
+}
+
 export const isSessionEnabled = async ({
   client,
   account,
@@ -139,7 +229,6 @@ export const encodeSmartSessionSignature = ({
       if (!enableSessionData) {
         throw new Error('enableSession is required for ENABLE mode')
       }
-
       return encodePacked(
         ['bytes1', 'bytes'],
         [
@@ -386,7 +475,9 @@ export const formatPermissionEnableSig = ({
 }) => {
   switch (accountType) {
     case 'erc7579-implementation':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'nexus':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'safe':
       return encodePacked(['address', 'bytes'], [validator, signature])
     case 'kernel':

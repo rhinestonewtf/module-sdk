@@ -40,7 +40,7 @@
     "tsc-alias": "^1.8.10",
     "typescript": "^5.3.3",
     "utf-8-validate": "^6.0.3",
-    "viem": "^2.4.1",
+    "viem": "^2.16.3",
     "ws": "^8.16.0"
   },
   "dependencies": {

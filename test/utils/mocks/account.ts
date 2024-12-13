@@ -20,7 +20,7 @@ export const MockSafeAccountDeployed: Account = {
 }
 
 export const MockNexusAccountDeployed: Account = {
-  address: '0xD13D10447C8684D7793715272A57C2E35ae63823',
+  address: '0x0000000000781492f9942b873C29635420c31e7f',
   deployedOnChains: [11155111],
   type: 'nexus',
 }
