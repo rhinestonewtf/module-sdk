@@ -170,8 +170,6 @@ export const testSmartSessionsValidator = async ({
       clients: [sepoliaPublicClient],
     })
 
-    console.log(sessionDetails)
-
     sessionDetails.enableSessionData.enableSession.permissionEnableSig =
       await signer.signMessage({
         message: { raw: sessionDetails.permissionEnableHash },
