@@ -1,4 +1,4 @@
 import { Address } from 'viem'
 
 export const SUDO_POLICY_ADDRESS: Address =
-  '0x8e54fe5d28f8d08c427f914df4b624e702f6f031'
+  '0x0000003111cD8e92337C100F22B7A9dbf8DEE301'
