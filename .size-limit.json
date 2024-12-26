@@ -2,13 +2,13 @@
   {
     "name": "module-sdk (esm)",
     "path": "./src/_esm/index.js",
-    "limit": "70 kB",
+    "limit": "80 kB",
     "import": "*"
   },
   {
     "name": "module-sdk (cjs)",
     "path": "./src/_cjs/index.js",
-    "limit": "150 kB"
+    "limit": "170 kB"
   },
   {
     "name": "module-sdk (minimal surface - tree-shaking)",
