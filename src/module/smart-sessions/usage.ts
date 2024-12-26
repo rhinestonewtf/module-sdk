@@ -16,6 +16,7 @@ import {
   ActionData,
   ChainSession,
   EnableSessionData,
+  ERC7739Context,
   ERC7739Data,
   PolicyData,
   Session,
@@ -78,6 +79,96 @@ export const getSessionNonce = async ({
   })) as bigint
 }
 
+export const getVerifySignatureResult = async ({
+  client,
+  account,
+  sender,
+  hash,
+  signature,
+}: {
+  client: PublicClient
+  account: Account
+  sender: Address
+  hash: Hex
+  signature: Hex
+}) => {
+  let calldata = encodeFunctionData({
+    abi,
+    functionName: 'isValidSignatureWithSender',
+    args: [sender, hash, signature],
+  })
+  const { data } = await client.call({
+    account: account.address,
+    to: SMART_SESSIONS_ADDRESS,
+    data: calldata,
+  })
+
+  return (
+    data ===
+    '0x1626ba7e00000000000000000000000000000000000000000000000000000000'
+  )
+}
+
+export const getAccountEIP712Domain = async ({
+  client,
+  account,
+}: {
+  client: PublicClient
+  account: Account
+}) => {
+  let data = await client.readContract({
+    address: account.address,
+    abi: [
+      {
+        type: 'function',
+        name: 'eip712Domain',
+        inputs: [],
+        outputs: [
+          {
+            type: 'bytes1',
+            name: 'fields,',
+          },
+          {
+            type: 'string',
+            name: 'name',
+          },
+          {
+            type: 'string',
+            name: 'version',
+          },
+          {
+            type: 'uint256',
+            name: 'chainId',
+          },
+          {
+            type: 'address',
+            name: 'verifyingContract',
+          },
+          {
+            type: 'bytes32',
+            name: 'salt',
+          },
+          {
+            type: 'uint256[]',
+            name: 'extensions',
+          },
+        ],
+        stateMutability: 'view',
+        constant: true,
+      },
+    ],
+    functionName: 'eip712Domain',
+    args: [],
+  })
+  return {
+    name: data[1],
+    version: data[2],
+    chainId: data[3],
+    verifyingContract: data[4],
+    salt: data[5],
+  }
+}
+
 export const isSessionEnabled = async ({
   client,
   account,
@@ -131,27 +222,13 @@ export const encodeSmartSessionSignature = ({
     case SmartSessionMode.USE:
       return encodePacked(
         ['bytes1', 'bytes32', 'bytes'],
-        [
-          mode,
-          permissionId,
-          LibZip.flzCompress(
-            encodeAbiParameters(
-              [
-                {
-                  type: 'bytes',
-                },
-              ],
-              [signature],
-            ),
-          ) as Hex,
-        ],
+        [mode, permissionId, signature],
       )
     case SmartSessionMode.ENABLE:
     case SmartSessionMode.UNSAFE_ENABLE:
       if (!enableSessionData) {
         throw new Error('enableSession is required for ENABLE mode')
       }
-
       return encodePacked(
         ['bytes1', 'bytes'],
         [
@@ -229,16 +306,7 @@ export const decodeSmartSessionSignature = ({
   switch (mode) {
     case SmartSessionMode.USE:
       permissionId = slice(signature, 1, 33)
-      compressedData = slice(signature, 33)
-      data = LibZip.flzDecompress(compressedData) as Hex
-      const decodedSignature = decodeAbiParameters(
-        [
-          {
-            type: 'bytes',
-          },
-        ],
-        data,
-      )[0]
+      const decodedSignature = slice(signature, 33)
       return {
         mode,
         permissionId,
@@ -333,31 +401,41 @@ export const hashChainSessions = (chainSessions: ChainSession[]): Hex => {
         { name: 'actionTarget', type: 'address' },
         { name: 'actionPolicies', type: 'PolicyData[]' },
       ],
+      ERC7739Context: [
+        { name: 'appDomainSeparator', type: 'bytes32' },
+        { name: 'contentName', type: 'string[]' },
+      ],
       ERC7739Data: [
-        { name: 'allowedERC7739Content', type: 'string[]' },
+        { name: 'allowedERC7739Content', type: 'ERC7739Context[]' },
         { name: 'erc1271Policies', type: 'PolicyData[]' },
       ],
-      SessionEIP712: [
-        { name: 'account', type: 'address' },
-        { name: 'smartSession', type: 'address' },
-        { name: 'mode', type: 'uint8' },
-        { name: 'sessionValidator', type: 'address' },
-        { name: 'salt', type: 'bytes32' },
-        { name: 'sessionValidatorInitData', type: 'bytes' },
+      SignedPermissions: [
+        { name: 'permitGenericPolicy', type: 'bool' },
+        { name: 'permitAdminAccess', type: 'bool' },
+        { name: 'ignoreSecurityAttestations', type: 'bool' },
+        { name: 'permitERC4337Paymaster', type: 'bool' },
         { name: 'userOpPolicies', type: 'PolicyData[]' },
         { name: 'erc7739Policies', type: 'ERC7739Data' },
         { name: 'actions', type: 'ActionData[]' },
+      ],
+      SignedSession: [
+        { name: 'account', type: 'address' },
+        { name: 'permissions', type: 'SignedPermissions' },
+        { name: 'sessionValidator', type: 'address' },
+        { name: 'sessionValidatorInitData', type: 'bytes' },
+        { name: 'salt', type: 'bytes32' },
+        { name: 'smartSession', type: 'address' },
         { name: 'nonce', type: 'uint256' },
       ],
-      ChainSessionEIP712: [
+      ChainSession: [
         { name: 'chainId', type: 'uint64' },
-        { name: 'session', type: 'SessionEIP712' },
+        { name: 'session', type: 'SignedSession' },
       ],
-      MultiChainSessionEIP712: [
-        { name: 'sessionsAndChainIds', type: 'ChainSessionEIP712[]' },
+      MultiChainSession: [
+        { name: 'sessionsAndChainIds', type: 'ChainSession[]' },
       ],
     },
-    primaryType: 'MultiChainSessionEIP712',
+    primaryType: 'MultiChainSession',
     message: {
       sessionsAndChainIds: chainSessions,
     },
@@ -397,7 +475,9 @@ export const formatPermissionEnableSig = ({
 }) => {
   switch (accountType) {
     case 'erc7579-implementation':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'nexus':
+      return encodePacked(['address', 'bytes'], [validator, signature])
     case 'safe':
       return encodePacked(['address', 'bytes'], [validator, signature])
     case 'kernel':
@@ -523,7 +603,7 @@ export const getDisableERC1271PoliciesAction = ({
 }: {
   permissionId: Hex
   policies: Address[]
-  contents: string[]
+  contents: ERC7739Context[]
 }): Execution => {
   const data = encodeFunctionData({
     abi,
@@ -593,6 +673,9 @@ export const getEnableSessionDetails = async ({
   account,
   clients,
   enableValidatorAddress,
+  permitGenericPolicy = false,
+  permitAdminAccess = false,
+  ignoreSecurityAttestations = false,
 }: {
   sessions: Session[]
   sessionIndex?: number
@@ -600,6 +683,9 @@ export const getEnableSessionDetails = async ({
   account: Account
   clients: PublicClient[]
   enableValidatorAddress?: Address
+  permitGenericPolicy?: boolean
+  permitAdminAccess?: boolean
+  ignoreSecurityAttestations?: boolean
 }) => {
   const chainDigests = []
   const chainSessions: ChainSession[] = []
@@ -639,9 +725,17 @@ export const getEnableSessionDetails = async ({
       chainId: session.chainId,
       session: {
         ...session,
+        permissions: {
+          permitGenericPolicy: permitGenericPolicy,
+          permitAdminAccess: permitAdminAccess,
+          ignoreSecurityAttestations: ignoreSecurityAttestations,
+          permitERC4337Paymaster: session.permitERC4337Paymaster,
+          userOpPolicies: session.userOpPolicies,
+          erc7739Policies: session.erc7739Policies,
+          actions: session.actions,
+        },
         account: account.address,
         smartSession: SMART_SESSIONS_ADDRESS,
-        mode: Number(enableMode) || Number(SmartSessionMode.ENABLE),
         nonce: sessionNonce,
       },
     })

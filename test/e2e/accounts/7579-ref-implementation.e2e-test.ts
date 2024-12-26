@@ -17,6 +17,7 @@ import {
   testUniversalEmailRecoveryExecutor,
   testSmartSessionsValidator,
 } from 'test/e2e/modules'
+import { sepolia } from 'viem/chains'
 
 describe('Test erc7579 reference implementation', () => {
   const testClient = getTestClient()

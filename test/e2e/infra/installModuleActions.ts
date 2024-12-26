@@ -37,6 +37,7 @@ import { getDeadmanSwitch } from 'src/module/deadman-switch'
 import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
 import { getUniversalEmailRecoveryExecutor } from 'src/module/zk-email-recovery/universal-email-recovery'
 import { sepolia } from 'viem/chains'
+import { getSmartSessionsCompatibilityFallback } from 'src/module/smart-sessions'
 
 type Params = {
   account: Account
@@ -162,18 +163,26 @@ export const getInstallModuleActions = async ({ account, client }: Params) => {
     module: getSmartSessionsValidator(smartSessions),
   })
 
+  // Only install fallback for erc7579-implementation accounts
+  const installSmartSessionsFallbackAction =
+    account.type === 'erc7579-implementation'
+      ? await installModule({
+          client,
+          account,
+          module: getSmartSessionsCompatibilityFallback(),
+        })
+      : []
   // install universal email recovery executor
   const installUniversalEmailRecoveryAction = await installModule({
     client,
     account,
-    module: await getUniversalEmailRecoveryExecutor(
-      universalEmailRecoveryExecutor,
-    ),
+    module: getUniversalEmailRecoveryExecutor(universalEmailRecoveryExecutor),
   })
 
   return [
     ...installSmartSessionsValidatorAction,
     ...installOwnableValidatorAction,
+    ...installSmartSessionsFallbackAction,
     ...installWebAuthnValidatorAction,
     ...installOwnableExecutorAction,
     ...installSocialRecoveryAction,
@@ -201,8 +210,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     hook: zeroAddress,
   },
   webAuthnValidator: {
-    pubKeyX: 123,
-    pubKeyY: 456,
+    pubKey: { x: 123n, y: 456n },
     authenticatorId: 'authenticatorId',
     hook: zeroAddress,
   },
@@ -322,6 +330,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
             ],
           },
         ],
+        permitERC4337Paymaster: false,
         chainId: BigInt(sepolia.id),
       },
     ],

@@ -24,10 +24,23 @@ export const installSmartSessionsAbi = [
       {
         components: [
           {
-            internalType: 'string[]',
+            components: [
+              {
+                internalType: 'bytes32',
+                name: 'appDomainSeparator',
+                type: 'bytes32',
+              },
+              {
+                internalType: 'string[]',
+                name: 'contentName',
+                type: 'string[]',
+              },
+            ],
+            internalType: 'struct ERC7739Context[]',
             name: 'allowedERC7739Content',
-            type: 'string[]',
+            type: 'tuple[]',
           },
+
           {
             components: [
               { internalType: 'address', name: 'policy', type: 'address' },
@@ -68,6 +81,7 @@ export const installSmartSessionsAbi = [
         name: 'actions',
         type: 'tuple[]',
       },
+      { internalType: 'bool', name: 'permitERC4337Paymaster', type: 'bool' },
     ],
     internalType: 'struct Session[]',
     name: 'sessions',
@@ -95,7 +109,7 @@ export const enableSessionAbi = {
           type: 'bytes32',
         },
       ],
-      name: 'chainData', // Giving a name to the tuple[]
+      name: 'hashesAndChainIds',
     },
     {
       components: [
@@ -122,10 +136,23 @@ export const enableSessionAbi = {
         {
           components: [
             {
-              internalType: 'string[]',
+              components: [
+                {
+                  internalType: 'bytes32',
+                  name: 'appDomainSeparator',
+                  type: 'bytes32',
+                },
+                {
+                  internalType: 'string[]',
+                  name: 'contentName',
+                  type: 'string[]',
+                },
+              ],
+              internalType: 'struct ERC7739Context[]',
               name: 'allowedERC7739Content',
-              type: 'string[]',
+              type: 'tuple[]',
             },
+
             {
               components: [
                 { internalType: 'address', name: 'policy', type: 'address' },
@@ -166,143 +193,24 @@ export const enableSessionAbi = {
           name: 'actions',
           type: 'tuple[]',
         },
+        { internalType: 'bool', name: 'permitERC4337Paymaster', type: 'bool' },
       ],
       internalType: 'struct Session',
-      name: 'session',
+      name: 'sessionToEnable',
       type: 'tuple',
     },
     {
       type: 'bytes',
-      name: 'signature',
+      name: 'permissionEnableSig',
     },
   ],
   internalType: 'struct EnableSession',
   name: 'enableSession',
   type: 'tuple',
-}
+} as const
 
 export const encodeEnableSessionSignatureAbi = [
-  {
-    components: [
-      {
-        type: 'uint8',
-        name: 'chainDigestIndex',
-      },
-      {
-        type: 'tuple[]',
-        components: [
-          {
-            internalType: 'uint64',
-            name: 'chainId',
-            type: 'uint64',
-          },
-          {
-            internalType: 'bytes32',
-            name: 'sessionDigest',
-            type: 'bytes32',
-          },
-        ],
-        name: 'hashesAndChainIds',
-      },
-      {
-        components: [
-          {
-            internalType: 'contract ISessionValidator',
-            name: 'sessionValidator',
-            type: 'address',
-          },
-          {
-            internalType: 'bytes',
-            name: 'sessionValidatorInitData',
-            type: 'bytes',
-          },
-          { internalType: 'bytes32', name: 'salt', type: 'bytes32' },
-          {
-            components: [
-              { internalType: 'address', name: 'policy', type: 'address' },
-              { internalType: 'bytes', name: 'initData', type: 'bytes' },
-            ],
-            internalType: 'struct PolicyData[]',
-            name: 'userOpPolicies',
-            type: 'tuple[]',
-          },
-          {
-            components: [
-              {
-                internalType: 'string[]',
-                name: 'allowedERC7739Content',
-                type: 'string[]',
-              },
-              {
-                components: [
-                  {
-                    internalType: 'address',
-                    name: 'policy',
-                    type: 'address',
-                  },
-                  {
-                    internalType: 'bytes',
-                    name: 'initData',
-                    type: 'bytes',
-                  },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'erc1271Policies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ERC7739Data',
-            name: 'erc7739Policies',
-            type: 'tuple',
-          },
-          {
-            components: [
-              {
-                internalType: 'bytes4',
-                name: 'actionTargetSelector',
-                type: 'bytes4',
-              },
-              {
-                internalType: 'address',
-                name: 'actionTarget',
-                type: 'address',
-              },
-              {
-                components: [
-                  {
-                    internalType: 'address',
-                    name: 'policy',
-                    type: 'address',
-                  },
-                  {
-                    internalType: 'bytes',
-                    name: 'initData',
-                    type: 'bytes',
-                  },
-                ],
-                internalType: 'struct PolicyData[]',
-                name: 'actionPolicies',
-                type: 'tuple[]',
-              },
-            ],
-            internalType: 'struct ActionData[]',
-            name: 'actions',
-            type: 'tuple[]',
-          },
-        ],
-        internalType: 'struct Session',
-        name: 'sessionToEnable',
-        type: 'tuple',
-      },
-      {
-        type: 'bytes',
-        name: 'permissionEnableSig',
-      },
-    ],
-    internalType: 'struct EnableSession',
-    name: 'enableSession',
-    type: 'tuple',
-  },
+  enableSessionAbi,
   { type: 'bytes' },
 ] as const
 
@@ -312,7 +220,11 @@ export const abi = [
     name: 'areActionsEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'actions',
         type: 'tuple[]',
@@ -323,13 +235,21 @@ export const abi = [
             type: 'bytes4',
             internalType: 'bytes4',
           },
-          { name: 'actionTarget', type: 'address', internalType: 'address' },
+          {
+            name: 'actionTarget',
+            type: 'address',
+            internalType: 'address',
+          },
           {
             name: 'actionPolicies',
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -344,7 +264,11 @@ export const abi = [
     name: 'areERC1271PoliciesEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'erc1271Policies',
         type: 'tuple[]',
@@ -363,7 +287,11 @@ export const abi = [
     name: 'areUserOpPoliciesEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'userOpPolicies',
         type: 'tuple[]',
@@ -381,7 +309,11 @@ export const abi = [
     type: 'function',
     name: 'disableActionId',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
     ],
     outputs: [],
@@ -391,7 +323,11 @@ export const abi = [
     type: 'function',
     name: 'disableActionPolicies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
       { name: 'policies', type: 'address[]', internalType: 'address[]' },
     ],
@@ -402,9 +338,33 @@ export const abi = [
     type: 'function',
     name: 'disableERC1271Policies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
-      { name: 'policies', type: 'address[]', internalType: 'address[]' },
-      { name: 'contents', type: 'string[]', internalType: 'string[]' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'policies',
+        type: 'address[]',
+        internalType: 'address[]',
+      },
+      {
+        name: 'contexts',
+        type: 'tuple[]',
+        internalType: 'struct ERC7739Context[]',
+        components: [
+          {
+            name: 'appDomainSeparator',
+            type: 'bytes32',
+            internalType: 'bytes32',
+          },
+          {
+            name: 'contentName',
+            type: 'string[]',
+            internalType: 'string[]',
+          },
+        ],
+      },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
@@ -413,7 +373,11 @@ export const abi = [
     type: 'function',
     name: 'disableUserOpPolicies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'policies', type: 'address[]', internalType: 'address[]' },
     ],
     outputs: [],
@@ -423,7 +387,11 @@ export const abi = [
     type: 'function',
     name: 'enableActionPolicies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'actionPolicies',
         type: 'tuple[]',
@@ -434,13 +402,21 @@ export const abi = [
             type: 'bytes4',
             internalType: 'bytes4',
           },
-          { name: 'actionTarget', type: 'address', internalType: 'address' },
+          {
+            name: 'actionTarget',
+            type: 'address',
+            internalType: 'address',
+          },
           {
             name: 'actionPolicies',
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -454,7 +430,11 @@ export const abi = [
     type: 'function',
     name: 'enableERC1271Policies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'erc1271Policies',
         type: 'tuple',
@@ -462,15 +442,31 @@ export const abi = [
         components: [
           {
             name: 'allowedERC7739Content',
-            type: 'string[]',
-            internalType: 'string[]',
+            type: 'tuple[]',
+            internalType: 'struct ERC7739Context[]',
+            components: [
+              {
+                name: 'appDomainSeparator',
+                type: 'bytes32',
+                internalType: 'bytes32',
+              },
+              {
+                name: 'contentName',
+                type: 'string[]',
+                internalType: 'string[]',
+              },
+            ],
           },
           {
             name: 'erc1271Policies',
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -505,7 +501,11 @@ export const abi = [
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -516,8 +516,20 @@ export const abi = [
             components: [
               {
                 name: 'allowedERC7739Content',
-                type: 'string[]',
-                internalType: 'string[]',
+                type: 'tuple[]',
+                internalType: 'struct ERC7739Context[]',
+                components: [
+                  {
+                    name: 'appDomainSeparator',
+                    type: 'bytes32',
+                    internalType: 'bytes32',
+                  },
+                  {
+                    name: 'contentName',
+                    type: 'string[]',
+                    internalType: 'string[]',
+                  },
+                ],
               },
               {
                 name: 'erc1271Policies',
@@ -529,7 +541,11 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
@@ -559,10 +575,19 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
+          },
+          {
+            name: 'permitERC4337Paymaster',
+            type: 'bool',
+            internalType: 'bool',
           },
         ],
       },
@@ -580,7 +605,11 @@ export const abi = [
     type: 'function',
     name: 'enableUserOpPolicies',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       {
         name: 'userOpPolicies',
         type: 'tuple[]',
@@ -599,7 +628,11 @@ export const abi = [
     name: 'getActionPolicies',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
     ],
     outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
@@ -610,7 +643,11 @@ export const abi = [
     name: 'getERC1271Policies',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
     stateMutability: 'view',
@@ -620,7 +657,11 @@ export const abi = [
     name: 'getEnabledActions',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [{ name: '', type: 'bytes32[]', internalType: 'bytes32[]' }],
     stateMutability: 'view',
@@ -630,19 +671,58 @@ export const abi = [
     name: 'getEnabledERC7739Content',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
-    outputs: [{ name: '', type: 'bytes32[]', internalType: 'bytes32[]' }],
+    outputs: [
+      {
+        name: 'enabledERC7739ContentHashes',
+        type: 'tuple[]',
+        internalType: 'struct ERC7739ContextHashes[]',
+        components: [
+          {
+            name: 'appDomainSeparator',
+            type: 'bytes32',
+            internalType: 'bytes32',
+          },
+          {
+            name: 'contentNameHashes',
+            type: 'bytes32[]',
+            internalType: 'bytes32[]',
+          },
+        ],
+      },
+    ],
     stateMutability: 'view',
   },
   {
     type: 'function',
     name: 'getNonce',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
     ],
     outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getPermissionIDs',
+    inputs: [{ name: 'account', type: 'address', internalType: 'address' }],
+    outputs: [
+      {
+        name: 'permissionIds',
+        type: 'bytes32[]',
+        internalType: 'PermissionId[]',
+      },
+    ],
     stateMutability: 'view',
   },
   {
@@ -670,7 +750,11 @@ export const abi = [
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -681,8 +765,20 @@ export const abi = [
             components: [
               {
                 name: 'allowedERC7739Content',
-                type: 'string[]',
-                internalType: 'string[]',
+                type: 'tuple[]',
+                internalType: 'struct ERC7739Context[]',
+                components: [
+                  {
+                    name: 'appDomainSeparator',
+                    type: 'bytes32',
+                    internalType: 'bytes32',
+                  },
+                  {
+                    name: 'contentName',
+                    type: 'string[]',
+                    internalType: 'string[]',
+                  },
+                ],
               },
               {
                 name: 'erc1271Policies',
@@ -694,7 +790,11 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
@@ -724,16 +824,29 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
+          },
+          {
+            name: 'permitERC4337Paymaster',
+            type: 'bool',
+            internalType: 'bool',
           },
         ],
       },
     ],
     outputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     stateMutability: 'pure',
   },
@@ -741,7 +854,11 @@ export const abi = [
     type: 'function',
     name: 'getSessionDigest',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
       {
         name: 'data',
@@ -764,7 +881,11 @@ export const abi = [
             type: 'tuple[]',
             internalType: 'struct PolicyData[]',
             components: [
-              { name: 'policy', type: 'address', internalType: 'address' },
+              {
+                name: 'policy',
+                type: 'address',
+                internalType: 'address',
+              },
               { name: 'initData', type: 'bytes', internalType: 'bytes' },
             ],
           },
@@ -775,8 +896,20 @@ export const abi = [
             components: [
               {
                 name: 'allowedERC7739Content',
-                type: 'string[]',
-                internalType: 'string[]',
+                type: 'tuple[]',
+                internalType: 'struct ERC7739Context[]',
+                components: [
+                  {
+                    name: 'appDomainSeparator',
+                    type: 'bytes32',
+                    internalType: 'bytes32',
+                  },
+                  {
+                    name: 'contentName',
+                    type: 'string[]',
+                    internalType: 'string[]',
+                  },
+                ],
               },
               {
                 name: 'erc1271Policies',
@@ -788,7 +921,11 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
@@ -818,14 +955,27 @@ export const abi = [
                     type: 'address',
                     internalType: 'address',
                   },
-                  { name: 'initData', type: 'bytes', internalType: 'bytes' },
+                  {
+                    name: 'initData',
+                    type: 'bytes',
+                    internalType: 'bytes',
+                  },
                 ],
               },
             ],
           },
+          {
+            name: 'permitERC4337Paymaster',
+            type: 'bool',
+            internalType: 'bool',
+          },
         ],
       },
-      { name: 'mode', type: 'uint8', internalType: 'enum SmartSessionMode' },
+      {
+        name: 'mode',
+        type: 'uint8',
+        internalType: 'enum SmartSessionMode',
+      },
     ],
     outputs: [{ name: '', type: 'bytes32', internalType: 'bytes32' }],
     stateMutability: 'view',
@@ -835,11 +985,23 @@ export const abi = [
     name: 'getSessionValidatorAndConfig',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [
-      { name: 'sessionValidator', type: 'address', internalType: 'address' },
-      { name: 'sessionValidatorData', type: 'bytes', internalType: 'bytes' },
+      {
+        name: 'sessionValidator',
+        type: 'address',
+        internalType: 'address',
+      },
+      {
+        name: 'sessionValidatorData',
+        type: 'bytes',
+        internalType: 'bytes',
+      },
     ],
     stateMutability: 'view',
   },
@@ -848,7 +1010,11 @@ export const abi = [
     name: 'getUserOpPolicies',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [{ name: '', type: 'address[]', internalType: 'address[]' }],
     stateMutability: 'view',
@@ -858,7 +1024,11 @@ export const abi = [
     name: 'isActionIdEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -869,7 +1039,11 @@ export const abi = [
     name: 'isActionPolicyEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'actionId', type: 'bytes32', internalType: 'ActionId' },
       { name: 'policy', type: 'address', internalType: 'address' },
     ],
@@ -881,7 +1055,11 @@ export const abi = [
     name: 'isERC1271PolicyEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'policy', type: 'address', internalType: 'address' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -892,7 +1070,16 @@ export const abi = [
     name: 'isERC7739ContentEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'appDomainSeparator',
+        type: 'bytes32',
+        internalType: 'bytes32',
+      },
       { name: 'content', type: 'string', internalType: 'string' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -902,7 +1089,11 @@ export const abi = [
     type: 'function',
     name: 'isISessionValidatorSet',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -928,7 +1119,11 @@ export const abi = [
     type: 'function',
     name: 'isPermissionEnabled',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -939,7 +1134,11 @@ export const abi = [
     name: 'isUserOpPolicyEnabled',
     inputs: [
       { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'policy', type: 'address', internalType: 'address' },
     ],
     outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
@@ -974,7 +1173,11 @@ export const abi = [
     type: 'function',
     name: 'removeSession',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
@@ -983,17 +1186,28 @@ export const abi = [
     type: 'function',
     name: 'revokeEnableSignature',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
     outputs: [],
     stateMutability: 'nonpayable',
   },
   {
     type: 'function',
-    name: 'supportsNestedTypedDataSign',
-    inputs: [],
-    outputs: [{ name: 'result', type: 'bytes32', internalType: 'bytes32' }],
-    stateMutability: 'view',
+    name: 'setpermitERC4337Paymaster',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
+      { name: 'enabled', type: 'bool', internalType: 'bool' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -1019,7 +1233,11 @@ export const abi = [
             internalType: 'uint256',
           },
           { name: 'gasFees', type: 'bytes32', internalType: 'bytes32' },
-          { name: 'paymasterAndData', type: 'bytes', internalType: 'bytes' },
+          {
+            name: 'paymasterAndData',
+            type: 'bytes',
+            internalType: 'bytes',
+          },
           { name: 'signature', type: 'bytes', internalType: 'bytes' },
         ],
       },
@@ -1074,6 +1292,31 @@ export const abi = [
         type: 'uint256',
         indexed: false,
         internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'PermissionIdpermitERC4337Paymaster',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        indexed: false,
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'smartAccount',
+        type: 'address',
+        indexed: false,
+        internalType: 'address',
+      },
+      {
+        name: 'enabled',
+        type: 'bool',
+        indexed: false,
+        internalType: 'bool',
       },
     ],
     anonymous: false,
@@ -1237,14 +1480,22 @@ export const abi = [
     type: 'error',
     name: 'ChainIdMismatch',
     inputs: [
-      { name: 'providedChainId', type: 'uint64', internalType: 'uint64' },
+      {
+        name: 'providedChainId',
+        type: 'uint64',
+        internalType: 'uint64',
+      },
     ],
   },
   {
     type: 'error',
     name: 'ChainIdMismatch',
     inputs: [
-      { name: 'providedChainId', type: 'uint64', internalType: 'uint64' },
+      {
+        name: 'providedChainId',
+        type: 'uint64',
+        internalType: 'uint64',
+      },
     ],
   },
   { type: 'error', name: 'ForbiddenValidationData', inputs: [] },
@@ -1257,7 +1508,11 @@ export const abi = [
     type: 'error',
     name: 'HashMismatch',
     inputs: [
-      { name: 'providedHash', type: 'bytes32', internalType: 'bytes32' },
+      {
+        name: 'providedHash',
+        type: 'bytes32',
+        internalType: 'bytes32',
+      },
       { name: 'computedHash', type: 'bytes32', internalType: 'bytes32' },
     ],
   },
@@ -1265,7 +1520,11 @@ export const abi = [
     type: 'error',
     name: 'HashMismatch',
     inputs: [
-      { name: 'providedHash', type: 'bytes32', internalType: 'bytes32' },
+      {
+        name: 'providedHash',
+        type: 'bytes32',
+        internalType: 'bytes32',
+      },
       { name: 'computedHash', type: 'bytes32', internalType: 'bytes32' },
     ],
   },
@@ -1291,11 +1550,16 @@ export const abi = [
       },
     ],
   },
+  { type: 'error', name: 'InvalidMode', inputs: [] },
   {
     type: 'error',
     name: 'InvalidPermissionId',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
   },
   { type: 'error', name: 'InvalidSelfCall', inputs: [] },
@@ -1303,15 +1567,27 @@ export const abi = [
     type: 'error',
     name: 'InvalidSession',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
   },
   {
     type: 'error',
     name: 'InvalidSessionKeySignature',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
-      { name: 'sessionValidator', type: 'address', internalType: 'address' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
+      {
+        name: 'sessionValidator',
+        type: 'address',
+        internalType: 'address',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
       { name: 'userOpHash', type: 'bytes32', internalType: 'bytes32' },
     ],
@@ -1327,16 +1603,35 @@ export const abi = [
     type: 'error',
     name: 'NoPoliciesSet',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
     ],
   },
   { type: 'error', name: 'PartlyEnabledActions', inputs: [] },
   { type: 'error', name: 'PartlyEnabledPolicies', inputs: [] },
   {
     type: 'error',
+    name: 'PaymasterValidationNotEnabled',
+    inputs: [
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
+    ],
+  },
+  {
+    type: 'error',
     name: 'PolicyViolation',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'policy', type: 'address', internalType: 'address' },
     ],
   },
@@ -1344,7 +1639,11 @@ export const abi = [
     type: 'error',
     name: 'SignerNotFound',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
     ],
   },
@@ -1352,7 +1651,11 @@ export const abi = [
     type: 'error',
     name: 'SignerNotFound',
     inputs: [
-      { name: 'permissionId', type: 'bytes32', internalType: 'PermissionId' },
+      {
+        name: 'permissionId',
+        type: 'bytes32',
+        internalType: 'PermissionId',
+      },
       { name: 'account', type: 'address', internalType: 'address' },
     ],
   },
@@ -1369,14 +1672,13 @@ export const abi = [
   },
   {
     type: 'error',
-    name: 'UnsupportedPolicy',
-    inputs: [{ name: 'policy', type: 'address', internalType: 'address' }],
-  },
-  {
-    type: 'error',
     name: 'UnsupportedSmartSessionMode',
     inputs: [
-      { name: 'mode', type: 'uint8', internalType: 'enum SmartSessionMode' },
+      {
+        name: 'mode',
+        type: 'uint8',
+        internalType: 'enum SmartSessionMode',
+      },
     ],
   },
 ] as const
