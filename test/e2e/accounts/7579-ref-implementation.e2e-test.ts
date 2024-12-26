@@ -35,10 +35,10 @@ describe('Test erc7579 reference implementation', () => {
   }, 80000)
 
   afterAll(async () => {
-    //   await cleanUpEnvironment({
-    //     account,
-    //     client: publicClient,
-    //   })
+    await cleanUpEnvironment({
+      account,
+      client: publicClient,
+    })
   }, 50000)
 
   testOwnableValidator({

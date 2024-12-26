@@ -52,8 +52,6 @@ export const sendUserOp = async ({
     nonce,
   })
 
-  console.log(hash)
-
   const receipt = await publicClient.waitForTransactionReceipt({ hash })
 
   return receipt
