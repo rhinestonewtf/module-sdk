@@ -1,17 +1,31 @@
-import { Address, encodeAbiParameters, keccak256, toHex } from 'viem'
+import { encodeAbiParameters, keccak256, toHex } from 'viem'
 import { Module } from '../types'
 import { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
+import { parsePublicKey } from './utils'
+import { WebauthnCredential } from './types'
 
-export type WebauthnCredential = {
-  pubKeyX: number
-  pubKeyY: number
-  authenticatorId: string
-  hook?: Address
-}
 
 export const getWebAuthnValidator = (
   webAuthnCredential: WebauthnCredential,
 ): Module => {
+  let pubKeyX: bigint
+  let pubKeyY: bigint
+
+  // Distinguish between PublicKey and Hex / byte encoded public key
+  if (typeof webAuthnCredential.pubKey === 'string' || webAuthnCredential.pubKey instanceof Uint8Array) {
+    // It's a P256Credential
+    const { x, y, prefix } = parsePublicKey(webAuthnCredential.pubKey)
+    pubKeyX = x
+    pubKeyY = y
+    if (prefix && prefix !== 4) {
+      throw new Error('Only uncompressed public keys are supported')
+    }
+  } else {
+    // It's already a PublicKey
+    pubKeyX = webAuthnCredential.pubKey.x
+    pubKeyY = webAuthnCredential.pubKey.y
+  }
+
   return {
     address: WEBAUTHN_VALIDATOR_ADDRESS,
     module: WEBAUTHN_VALIDATOR_ADDRESS,
@@ -37,8 +51,8 @@ export const getWebAuthnValidator = (
       ],
       [
         {
-          pubKeyX: BigInt(webAuthnCredential.pubKeyX),
-          pubKeyY: BigInt(webAuthnCredential.pubKeyY),
+          pubKeyX,
+          pubKeyY,
         },
         keccak256(toHex(webAuthnCredential.authenticatorId)),
       ],
