@@ -210,8 +210,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     hook: zeroAddress,
   },
   webAuthnValidator: {
-    pubKeyX: 123,
-    pubKeyY: 456,
+    pubKey: { x: 123n, y: 456n },
     authenticatorId: 'authenticatorId',
     hook: zeroAddress,
   },
