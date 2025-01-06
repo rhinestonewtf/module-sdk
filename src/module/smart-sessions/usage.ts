@@ -268,16 +268,7 @@ export const encodeUseOrEnableSmartSessionSignature = async ({
         [
           SmartSessionMode.USE,
           permissionId,
-          LibZip.flzCompress(
-            encodeAbiParameters(
-              [
-                {
-                  type: 'bytes',
-                },
-              ],
-              [signature],
-            ),
-          ) as Hex,
+          signature,
         ],
       )
     : encodePacked(
