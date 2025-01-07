@@ -25,6 +25,7 @@ import {
 } from './types'
 import { LibZip } from 'solady'
 import { Account, AccountType, Execution } from '../../account'
+import { isAccount } from 'src/account/utils'
 
 export const getPermissionId = ({ session }: { session: Session }): Hex => {
   return keccak256(
@@ -167,29 +168,6 @@ export const getAccountEIP712Domain = async ({
     verifyingContract: data[4],
     salt: data[5],
   }
-}
-
-export function isAccount(obj: unknown): obj is Account { 
-  const account = obj as Account;
-  return (
-      typeof obj === 'object' &&
-      obj !== null &&
-      typeof account.address === 'string' &&
-      account.address.startsWith('0x') &&
-      (account.initCode === undefined || 
-        account.initCode !== undefined && 
-        typeof account.initCode === 'string' && 
-        account.address.startsWith('0x')) &&
-      typeof account.type === 'string' &&
-      isAccountType(account.type) &&
-      Array.isArray(account.deployedOnChains) &&
-      account.deployedOnChains.every(chainId => typeof chainId === 'number')
-  );
-}
-
-function isAccountType(value: unknown): value is AccountType {
-  const validTypes: AccountType[] = ['erc7579-implementation', 'kernel', 'safe', 'nexus'];
-  return typeof value === 'string' && validTypes.includes(value as AccountType);
 }
 
 export const isSessionEnabled = async ({

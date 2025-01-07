@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "package.json": "^2.0.1",
     "solady": "^0.0.235"
   }
 }
