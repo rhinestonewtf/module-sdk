@@ -68,14 +68,14 @@ export const getSessionNonce = async ({
   permissionId,
 }: {
   client: PublicClient
-  account: Account
+  account: Account | Address
   permissionId: Hex
 }) => {
   return (await client.readContract({
     address: SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'getNonce',
-    args: [permissionId, account.address],
+    args: [permissionId, isAccount(account) ? account.address : account],
   })) as bigint
 }
 
@@ -169,20 +169,43 @@ export const getAccountEIP712Domain = async ({
   }
 }
 
+export function isAccount(obj: unknown): obj is Account { 
+  const account = obj as Account;
+  return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      typeof account.address === 'string' &&
+      account.address.startsWith('0x') &&
+      (account.initCode === undefined || 
+        account.initCode !== undefined && 
+        typeof account.initCode === 'string' && 
+        account.address.startsWith('0x')) &&
+      typeof account.type === 'string' &&
+      isAccountType(account.type) &&
+      Array.isArray(account.deployedOnChains) &&
+      account.deployedOnChains.every(chainId => typeof chainId === 'number')
+  );
+}
+
+function isAccountType(value: unknown): value is AccountType {
+  const validTypes: AccountType[] = ['erc7579-implementation', 'kernel', 'safe', 'nexus'];
+  return typeof value === 'string' && validTypes.includes(value as AccountType);
+}
+
 export const isSessionEnabled = async ({
   client,
   account,
   permissionId,
 }: {
   client: PublicClient
-  account: Account
+  account: Account | Address
   permissionId: Hex
 }) => {
   return (await client.readContract({
     address: SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'isPermissionEnabled',
-    args: [permissionId, account.address],
+    args: [permissionId, isAccount(account) ? account.address : account],
   })) as boolean
 }
 
