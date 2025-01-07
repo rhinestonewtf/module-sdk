@@ -10,7 +10,7 @@ export function isAccount(obj: unknown): obj is Account {
       (account.initCode === undefined || 
         account.initCode !== undefined && 
         typeof account.initCode === 'string' && 
-        account.address.startsWith('0x')) &&
+        account.initCode.startsWith('0x')) &&
       typeof account.type === 'string' &&
       isAccountType(account.type) &&
       Array.isArray(account.deployedOnChains) &&
