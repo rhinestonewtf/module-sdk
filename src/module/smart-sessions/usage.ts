@@ -25,6 +25,7 @@ import {
 } from './types'
 import { LibZip } from 'solady'
 import { Account, AccountType, Execution } from '../../account'
+import { isAccount } from 'src/account/utils'
 
 export const getPermissionId = ({ session }: { session: Session }): Hex => {
   return keccak256(
@@ -68,14 +69,14 @@ export const getSessionNonce = async ({
   permissionId,
 }: {
   client: PublicClient
-  account: Account
+  account: Account | Address
   permissionId: Hex
 }) => {
   return (await client.readContract({
     address: SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'getNonce',
-    args: [permissionId, account.address],
+    args: [permissionId, isAccount(account) ? account.address : account],
   })) as bigint
 }
 
@@ -175,14 +176,14 @@ export const isSessionEnabled = async ({
   permissionId,
 }: {
   client: PublicClient
-  account: Account
+  account: Account | Address
   permissionId: Hex
 }) => {
   return (await client.readContract({
     address: SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'isPermissionEnabled',
-    args: [permissionId, account.address],
+    args: [permissionId, isAccount(account) ? account.address : account],
   })) as boolean
 }
 
