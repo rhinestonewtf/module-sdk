@@ -1,10 +1,14 @@
 import { isAccount } from '../../../src/account/utils';
 import { Account } from '../../../src/account/types';
+import { Address, getAddress } from 'viem';
 
 describe('isAccount', () => {
+    
+    const testAddress: Address = getAddress('0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC');
+
     test('should return true for a valid Account object', () => {
         const validAccount: Account = {
-            address: '0x1234567890abcdef',
+            address: testAddress,
             type: 'kernel',
             deployedOnChains: [1, 2, 3]
         };
@@ -22,7 +26,7 @@ describe('isAccount', () => {
 
     test('should return false for an object with an invalid type', () => {
         const invalidAccount = {
-            address: '0x1234567890abcdef',
+            address: testAddress,
             type: 'invalid-type',
             deployedOnChains: [1, 2, 3]
         };
@@ -31,7 +35,7 @@ describe('isAccount', () => {
 
     test('should return false for an object with an invalid deployedOnChains', () => {
         const invalidAccount = {
-            address: '0x1234567890abcdef',
+            address: testAddress,
             type: 'kernel',
             deployedOnChains: ['1', '2', '3']
         };
@@ -47,7 +51,7 @@ describe('isAccount', () => {
 
     test('should return true for a valid Account object with initCode', () => {
         const validAccount: Account = {
-            address: '0x1234567890abcdef',
+            address: testAddress,
             type: 'kernel',
             deployedOnChains: [1, 2, 3],
             initCode: '0xabcdef'
@@ -57,7 +61,7 @@ describe('isAccount', () => {
 
     test('should return false for an object with an invalid initCode', () => {
         const invalidAccount = {
-            address: '0x1234567890abcdef',
+            address: testAddress,
             type: 'kernel',
             deployedOnChains: [1, 2, 3],
             initCode: 'abcdef'

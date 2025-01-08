@@ -1,12 +1,12 @@
 import { Account, AccountType } from './types';
+import { isAddress } from 'viem';
 
 export function isAccount(obj: unknown): obj is Account { 
   const account = obj as Account;
   return (
       typeof obj === 'object' &&
       obj !== null &&
-      typeof account.address === 'string' &&
-      account.address.startsWith('0x') &&
+      isAddress(account.address) &&
       (account.initCode === undefined || 
         account.initCode !== undefined && 
         typeof account.initCode === 'string' && 
