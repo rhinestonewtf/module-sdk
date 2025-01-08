@@ -11,5 +11,6 @@ export {
   encodeValidatorNonce,
 } from './api'
 export { SafeHookType } from './safe/types'
+export { isAccount } from './utils'
 
 export type { Account, AccountType, Execution, InitialModules } from './types'
