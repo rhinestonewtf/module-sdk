@@ -43,4 +43,3 @@ export const findTrustedAttesters = async ({
     args: [accountAddress],
   })) as Address[]
 }
-

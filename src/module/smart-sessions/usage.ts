@@ -265,11 +265,7 @@ export const encodeUseOrEnableSmartSessionSignature = async ({
   return sessionEnabled
     ? encodePacked(
         ['bytes1', 'bytes32', 'bytes'],
-        [
-          SmartSessionMode.USE,
-          permissionId,
-          signature,
-        ],
+        [SmartSessionMode.USE, permissionId, signature],
       )
     : encodePacked(
         ['bytes1', 'bytes'],

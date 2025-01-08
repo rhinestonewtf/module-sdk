@@ -1,2 +1,2 @@
-export * from './constants';
-export * from './installation';
+export * from './constants'
+export * from './installation'
