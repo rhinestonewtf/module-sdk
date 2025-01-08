@@ -1,11 +1,9 @@
 import { isAccount } from '../../../src/account/utils'
 import { Account } from '../../../src/account/types'
-import { Address, getAddress } from 'viem'
+import { Address } from 'viem'
 
 describe('isAccount', () => {
-  const testAddress: Address = getAddress(
-    '0xa5cc3c03994DB5b0d9A5eEdD10CabaB0813678AC',
-  )
+  const testAddress: Address = '0xa5cc3c03994dB5b0d9A5eEdD10CabaB0813678AC'
 
   test('should return true for a valid Account object', () => {
     const validAccount: Account = {

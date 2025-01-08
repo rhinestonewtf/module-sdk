@@ -6,7 +6,7 @@ export function isAccount(obj: unknown): obj is Account {
   return (
     typeof obj === 'object' &&
     obj !== null &&
-    isAddress(account.address) &&
+    isAddress(account.address, { strict: false }) &&
     (account.initCode === undefined ||
       (account.initCode !== undefined &&
         typeof account.initCode === 'string' &&
