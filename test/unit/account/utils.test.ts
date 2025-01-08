@@ -69,3 +69,4 @@ describe('isAccount', () => {
         expect(isAccount(invalidAccount)).toBe(false);
     });
 });
+
