@@ -24,8 +24,7 @@ import {
   SmartSessionModeType,
 } from './types'
 import { LibZip } from 'solady'
-import { Account, AccountType, Execution } from '../../account'
-import { isAccount } from 'src/account/utils'
+import { Account, AccountType, Execution, isAccount } from '../../account'
 
 export const getPermissionId = ({ session }: { session: Session }): Hex => {
   return keccak256(
