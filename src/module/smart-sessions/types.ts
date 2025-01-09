@@ -1,7 +1,7 @@
 import { AccountType } from '../../account'
 import { Address, Hex } from 'viem'
 
-export type Session = {
+type BaseSession = {
   sessionValidator: Address
   sessionValidatorInitData: Hex
   // todo: make this optional with default 0
@@ -9,10 +9,19 @@ export type Session = {
   // todo: make the below optional but require one of them to be defined
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
-  actions: ActionData[]
+  actions: [ActionData, ...ActionData[]]
   permitERC4337Paymaster: boolean
   chainId: bigint
 }
+
+export type Session =
+  | (BaseSession & {
+      permitERC4337Paymaster: false
+    })
+  | (BaseSession & {
+      permitERC4337Paymaster: true
+      userOpPolicies: [PolicyData, ...PolicyData[]]
+    })
 
 export type SignedPermissions = {
   permitGenericPolicy: boolean

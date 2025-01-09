@@ -13,7 +13,6 @@ import { Session, SmartSessionMode } from 'src/module/smart-sessions/types'
 import {
   decodeSmartSessionSignature,
   encodeSmartSessionSignature,
-  getSessionDigest,
   getSmartSessionsValidator,
   getSudoPolicy,
   SMART_SESSIONS_ADDRESS,
@@ -21,7 +20,6 @@ import {
 } from 'src/module/smart-sessions'
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts'
 import { mainnet, sepolia } from 'viem/chains'
-import { getPublicClient } from 'test/utils/userOps/clients'
 import {
   encodeValidationData,
   getOwnableValidatorMockSignature,
@@ -37,7 +35,13 @@ describe('Smart Sessions Polices', () => {
         sessionValidatorInitData: '0x',
         salt: toHex(toBytes(1, { size: 32 })),
         userOpPolicies: [],
-        actions: [],
+        actions: [
+          {
+            actionTarget: zeroAddress,
+            actionTargetSelector: '0x9cfd7cff' as Hex,
+            actionPolicies: [],
+          },
+        ],
         erc7739Policies: {
           allowedERC7739Content: [],
           erc1271Policies: [],
