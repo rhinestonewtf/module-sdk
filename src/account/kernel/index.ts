@@ -106,7 +106,7 @@ export class KernelImplementation {
   encodeValidatorNonce = ({
     validator,
   }: {
-    validator: KernelModule
+    validator: KernelModule | Address
   }): bigint => {
     return encodeValidatorNonce({ validator })
   }

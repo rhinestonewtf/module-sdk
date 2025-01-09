@@ -1,4 +1,4 @@
-import { Hex, PublicClient } from 'viem'
+import { Address } from 'viem'
 import { Account } from '../types'
 import { getAccountImplementation } from './getAccountImplementation'
 import { Module } from '../../module/types'
@@ -8,7 +8,7 @@ export const encodeValidatorNonce = ({
   validator,
 }: {
   account: Account
-  validator: Module
+  validator: Module | Address
 }): bigint => {
   const accountImplementation = getAccountImplementation({ account })
   return accountImplementation.encodeValidatorNonce({

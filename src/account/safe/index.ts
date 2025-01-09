@@ -103,7 +103,11 @@ export class SafeImplementation {
     return await encodeModuleUninstallationData({ client, account, module })
   }
 
-  encodeValidatorNonce = ({ validator }: { validator: Module }): bigint => {
+  encodeValidatorNonce = ({
+    validator,
+  }: {
+    validator: Module | Address
+  }): bigint => {
     return encodeValidatorNonce({ validator })
   }
 }

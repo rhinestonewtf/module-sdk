@@ -1,3 +1,4 @@
+import { Module, ModuleType } from '../module/types'
 import { Account, AccountType } from './types'
 import { isAddress } from 'viem'
 
@@ -26,4 +27,25 @@ function isAccountType(value: unknown): value is AccountType {
     'nexus',
   ]
   return typeof value === 'string' && validTypes.includes(value as AccountType)
+}
+
+export function isModule(object: unknown): object is Module {
+  const module = object as Module
+  return (
+    typeof object === 'object' &&
+    object !== null &&
+    isAddress(module.address, { strict: false }) &&
+    typeof module.initData === 'string' &&
+    module.initData.startsWith('0x') &&
+    typeof module.deInitData === 'string' &&
+    module.deInitData.startsWith('0x') &&
+    typeof module.additionalContext === 'string' &&
+    module.additionalContext.startsWith('0x') &&
+    isModuleType(module.type)
+  )
+}
+
+const isModuleType = (value: unknown): value is ModuleType => {
+  const validTypes: ModuleType[] = ['validator', 'executor', 'fallback', 'hook']
+  return typeof value === 'string' && validTypes.includes(value as ModuleType)
 }
