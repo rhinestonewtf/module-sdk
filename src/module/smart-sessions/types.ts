@@ -9,7 +9,7 @@ type BaseSession = {
   // todo: make the below optional but require one of them to be defined
   userOpPolicies: PolicyData[]
   erc7739Policies: ERC7739Data
-  actions: ActionData[]
+  actions: [ActionData, ...ActionData[]]
   permitERC4337Paymaster: boolean
   chainId: bigint
 }
@@ -17,12 +17,10 @@ type BaseSession = {
 export type Session =
   | (BaseSession & {
       permitERC4337Paymaster: false
-      actions: [ActionData, ...ActionData[]]
     })
   | (BaseSession & {
       permitERC4337Paymaster: true
       userOpPolicies: [PolicyData, ...PolicyData[]]
-      actions: [ActionData, ...ActionData[]]
     })
 
 export type SignedPermissions = {
