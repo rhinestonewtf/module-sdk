@@ -35,11 +35,13 @@ describe('Smart Sessions Polices', () => {
         sessionValidatorInitData: '0x',
         salt: toHex(toBytes(1, { size: 32 })),
         userOpPolicies: [],
-        actions: [{
-          actionTarget: zeroAddress,
-          actionTargetSelector: '0x9cfd7cff' as Hex,
-          actionPolicies: [],
-        }],
+        actions: [
+          {
+            actionTarget: zeroAddress,
+            actionTargetSelector: '0x9cfd7cff' as Hex,
+            actionPolicies: [],
+          },
+        ],
         erc7739Policies: {
           allowedERC7739Content: [],
           erc1271Policies: [],

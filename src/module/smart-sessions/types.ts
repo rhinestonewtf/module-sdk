@@ -15,8 +15,15 @@ type BaseSession = {
 }
 
 export type Session =
-  | (BaseSession & { permitERC4337Paymaster: false; actions: [ActionData, ...ActionData[]] })
-  | (BaseSession & { permitERC4337Paymaster: true; userOpPolicies: [PolicyData, ...PolicyData[]] ; actions: [ActionData, ...ActionData[]] });
+  | (BaseSession & {
+      permitERC4337Paymaster: false
+      actions: [ActionData, ...ActionData[]]
+    })
+  | (BaseSession & {
+      permitERC4337Paymaster: true
+      userOpPolicies: [PolicyData, ...PolicyData[]]
+      actions: [ActionData, ...ActionData[]]
+    })
 
 export type SignedPermissions = {
   permitGenericPolicy: boolean
