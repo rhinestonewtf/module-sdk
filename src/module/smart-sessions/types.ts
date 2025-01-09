@@ -7,12 +7,12 @@ type BaseSession = {
   // todo: make this optional with default 0
   salt: Hex
   // todo: make the below optional but require one of them to be defined
-  userOpPolicies: PolicyData[] 
-  erc7739Policies: ERC7739Data 
+  userOpPolicies: PolicyData[]
+  erc7739Policies: ERC7739Data
   actions: ActionData[]
-  permitERC4337Paymaster: Boolean
+  permitERC4337Paymaster: boolean
   chainId: bigint
-};
+}
 
 export type Session =
   | (BaseSession & { permitERC4337Paymaster: false; actions: [ActionData, ...ActionData[]] })
