@@ -1,9 +1,14 @@
-import { pad } from 'viem'
+import { Address, pad } from 'viem'
 import { Module } from '../../../module/types'
+import { isModule } from '../../../account/utils'
 
-export const encodeValidatorNonce = ({ validator }: { validator: Module }) => {
+export const encodeValidatorNonce = ({
+  validator,
+}: {
+  validator: Module | Address
+}) => {
   return BigInt(
-    pad(validator.address, {
+    pad(isModule(validator) ? validator.address : validator, {
       dir: 'right',
       size: 24,
     }),
