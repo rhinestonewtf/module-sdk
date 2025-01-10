@@ -5,7 +5,7 @@ import { parseSignature } from './utils'
 export const getWebauthnValidatorSignature = ({
   webauthn,
   signature,
-  usePrecompiled,
+  usePrecompiled = false,
 }: WebauthnValidatorSignature) => {
   const { authenticatorData, clientDataJSON, typeIndex } = webauthn
   let r: bigint

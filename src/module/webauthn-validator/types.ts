@@ -9,7 +9,7 @@ export type WebauthnCredential = {
 export type WebauthnValidatorSignature = {
   webauthn: WebAuthnData
   signature: WebauthnSignature | Hex | Uint8Array
-  usePrecompiled: boolean
+  usePrecompiled?: boolean
 }
 
 export type WebAuthnData = {
