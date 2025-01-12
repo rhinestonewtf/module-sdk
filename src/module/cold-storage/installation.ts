@@ -6,13 +6,10 @@ import {
   PublicClient,
 } from 'viem'
 import { Module } from '../types'
-import {
-  COLD_STORAGE_HOOK_ADDRESS,
-  COLD_STORAGE_FLASHLOAN_ADDRESS,
-} from './constants'
 import { Account } from '../../account'
 import { getInstalledModules } from '../../account'
 import { CallType } from '../../module/types'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -33,13 +30,13 @@ export const getColdStorageHook = async ({
 }: Params): Promise<Module> => {
   const installedModules = await getInstalledModules({ account, client })
 
-  const initData = installedModules.includes(COLD_STORAGE_HOOK_ADDRESS)
+  const initData = installedModules.includes(GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS)
     ? '0x'
     : encodePacked(['uint128', 'address'], [BigInt(waitPeriod), owner])
 
   return {
-    address: COLD_STORAGE_HOOK_ADDRESS,
-    module: COLD_STORAGE_HOOK_ADDRESS,
+    address: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
+    module: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
     initData,
     deInitData: '0x',
     additionalContext: '0x',
@@ -64,8 +61,8 @@ export const getAllowedCallbackSenders = ({
   hook,
 }: FlashloanParams): Module => {
   return {
-    address: COLD_STORAGE_FLASHLOAN_ADDRESS,
-    module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+    address: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
+    module: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
     initData: encodeAbiParameters(
       [{ internalType: 'address[]', name: 'addresses', type: 'address[]' }],
       [addresses],
