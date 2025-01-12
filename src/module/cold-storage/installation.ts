@@ -30,7 +30,9 @@ export const getColdStorageHook = async ({
 }: Params): Promise<Module> => {
   const installedModules = await getInstalledModules({ account, client })
 
-  const initData = installedModules.includes(GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS)
+  const initData = installedModules.includes(
+    GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
+  )
     ? '0x'
     : encodePacked(['uint128', 'address'], [BigInt(waitPeriod), owner])
 
