@@ -15,7 +15,7 @@ import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import { getColdStorageHook, getAllowedCallbackSenders } from 'src/module'
 import { CallType } from 'src/module/types'
-import { GLOBAL_CONSTANTS, setGlobalConstants } from 'src/constants'
+import { GLOBAL_CONSTANTS, setGlobalConstants } from 'src'
 
 describe('Cold storage Module', () => {
   // Setup

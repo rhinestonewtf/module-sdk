@@ -9,7 +9,7 @@ import { Module } from '../types'
 import { Account } from '../../account'
 import { getInstalledModules } from '../../account'
 import { CallType } from '../../module/types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   account: Account
