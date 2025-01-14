@@ -1,11 +1,7 @@
 import { Address, PublicClient } from 'viem'
 import { USAGE_LIMIT_POLICY_ADDRESS } from './constants'
 import { abi } from './abi'
-
-type UsageLimitConfig = {
-  limit: bigint
-  used: bigint
-}
+import { UsageLimitConfig } from './types'
 
 export const getUsageLimitConfig = async ({
   client,

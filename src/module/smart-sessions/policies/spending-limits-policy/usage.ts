@@ -1,12 +1,7 @@
 import { Address, Hex, PublicClient } from 'viem'
 import { SPENDING_LIMITS_POLICY_ADDRESS } from './constants'
 import { abi } from './abi'
-
-type SpendingLimitPolicyData = {
-  alreadySpent: string
-  approvedAmount: string
-  spendingLimit: string
-}
+import { SpendingLimitPolicyData } from './types'
 
 export const getPolicyData = async ({
   client,
