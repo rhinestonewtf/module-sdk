@@ -1,10 +1,10 @@
-import { Address, PublicClient } from "viem";
-import { VALUE_LIMIT_POLICY_ADDRESS } from "./constants";
-import { abi } from "./abi";
+import { Address, PublicClient } from 'viem'
+import { VALUE_LIMIT_POLICY_ADDRESS } from './constants'
+import { abi } from './abi'
 
 type ValueLimitConfig = {
-    valueLimit: bigint;
-    limitUsed: bigint;
+  valueLimit: bigint
+  limitUsed: bigint
 }
 
 export const getValueLimitConfig = async ({
@@ -13,15 +13,15 @@ export const getValueLimitConfig = async ({
   multiplexer,
   userOpSender,
 }: {
-  client: PublicClient;
-  configId: bigint; 
-  multiplexer: Address; 
-  userOpSender: Address;
+  client: PublicClient
+  configId: bigint
+  multiplexer: Address
+  userOpSender: Address
 }) => {
-    return (await client.readContract({
-      address: VALUE_LIMIT_POLICY_ADDRESS as Address,
-      abi: abi,
-      functionName: "valueLimitConfigs",
-      args: [configId, multiplexer, userOpSender],
-    })) as ValueLimitConfig
-};
+  return (await client.readContract({
+    address: VALUE_LIMIT_POLICY_ADDRESS as Address,
+    abi: abi,
+    functionName: 'valueLimitConfigs',
+    args: [configId, multiplexer, userOpSender],
+  })) as ValueLimitConfig
+}

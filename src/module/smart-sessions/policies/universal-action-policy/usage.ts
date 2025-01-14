@@ -1,38 +1,38 @@
-import { Address, PublicClient } from "viem";
-import { UNIVERSAL_ACTION_POLICY_ADDRESS } from "./constants";
-import { abi } from "./abi";
+import { Address, PublicClient } from 'viem'
+import { UNIVERSAL_ACTION_POLICY_ADDRESS } from './constants'
+import { abi } from './abi'
 
 enum ParamCondition {
-  EQUAL = "EQUAL",
-  GREATER_THAN = "GREATER_THAN",
-  LESS_THAN = "LESS_THAN",
-  GREATER_THAN_OR_EQUAL = "GREATER_THAN_OR_EQUAL",
-  LESS_THAN_OR_EQUAL = "LESS_THAN_OR_EQUAL",
-  NOT_EQUAL = "NOT_EQUAL",
-  IN_RANGE = "IN_RANGE",
+  EQUAL = 'EQUAL',
+  GREATER_THAN = 'GREATER_THAN',
+  LESS_THAN = 'LESS_THAN',
+  GREATER_THAN_OR_EQUAL = 'GREATER_THAN_OR_EQUAL',
+  LESS_THAN_OR_EQUAL = 'LESS_THAN_OR_EQUAL',
+  NOT_EQUAL = 'NOT_EQUAL',
+  IN_RANGE = 'IN_RANGE',
 }
 
 type LimitUsage = {
-  limit: number;
-  used: number;
+  limit: number
+  used: number
 }
 
 type ParamRule = {
-  condition: ParamCondition;
-  offset: number;
-  isLimited: boolean;
-  ref: string; 
-  usage: LimitUsage;
+  condition: ParamCondition
+  offset: number
+  isLimited: boolean
+  ref: string
+  usage: LimitUsage
 }
 
 type ParamRules = {
-  length: number;
-  rules: ParamRule[]; 
+  length: number
+  rules: ParamRule[]
 }
 
 type ActionConfig = {
-  valueLimitPerUse: number;
-  paramRules: ParamRules;
+  valueLimitPerUse: number
+  paramRules: ParamRules
 }
 
 export const getActionConfig = async ({
@@ -41,15 +41,15 @@ export const getActionConfig = async ({
   multiplexer,
   userOpSender,
 }: {
-  client: PublicClient;
-  configId: bigint; 
-  multiplexer: Address; 
-  userOpSender: Address; 
+  client: PublicClient
+  configId: bigint
+  multiplexer: Address
+  userOpSender: Address
 }) => {
-    return (await client.readContract({
-      address: UNIVERSAL_ACTION_POLICY_ADDRESS,
-      abi: abi,
-      functionName: 'actionConfigs',
-      args: [configId, multiplexer, userOpSender],
-    })) as ActionConfig;
-};
+  return (await client.readContract({
+    address: UNIVERSAL_ACTION_POLICY_ADDRESS,
+    abi: abi,
+    functionName: 'actionConfigs',
+    args: [configId, multiplexer, userOpSender],
+  })) as ActionConfig
+}

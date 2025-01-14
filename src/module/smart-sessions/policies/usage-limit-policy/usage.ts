@@ -1,10 +1,10 @@
-import { Address, PublicClient } from "viem";
-import { USAGE_LIMIT_POLICY_ADDRESS } from "./constants";
-import { abi } from "./abi";
+import { Address, PublicClient } from 'viem'
+import { USAGE_LIMIT_POLICY_ADDRESS } from './constants'
+import { abi } from './abi'
 
 type UsageLimitConfig = {
-    limit: bigint;
-    used: bigint;
+  limit: bigint
+  used: bigint
 }
 
 export const getUsageLimitConfig = async ({
@@ -13,15 +13,15 @@ export const getUsageLimitConfig = async ({
   multiplexer,
   smartAccount,
 }: {
-  client: PublicClient;
-  configId: bigint;
-  multiplexer: Address; 
-  smartAccount: Address;
+  client: PublicClient
+  configId: bigint
+  multiplexer: Address
+  smartAccount: Address
 }) => {
-    return (await client.readContract({
-      address: USAGE_LIMIT_POLICY_ADDRESS as Address,
-      abi: abi,
-      functionName: "usageLimitConfigs",
-      args: [configId, multiplexer, smartAccount],
-    })) as UsageLimitConfig;
-};
+  return (await client.readContract({
+    address: USAGE_LIMIT_POLICY_ADDRESS as Address,
+    abi: abi,
+    functionName: 'usageLimitConfigs',
+    args: [configId, multiplexer, smartAccount],
+  })) as UsageLimitConfig
+}
