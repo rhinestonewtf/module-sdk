@@ -1,7 +1,7 @@
 import { Address, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
-import { AUTO_SAVINGS_ADDRESS } from './constants'
 import { swapRouterAddresses } from '../utils/uniswap'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   chainId: number
@@ -24,8 +24,8 @@ export const getAutoSavingsExecutor = ({
   }
 
   return {
-    address: AUTO_SAVINGS_ADDRESS,
-    module: AUTO_SAVINGS_ADDRESS,
+    address: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    module: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
     initData: encodeAbiParameters(
       [
         { internalType: 'address', name: 'swapRouter', type: 'address' },

@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
-import { INDEXER_URL } from '../constants'
 import { Account } from '../../account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 const query = `
     query ($smartAccount: String, $chainId: Int) {
@@ -29,7 +29,7 @@ export const getScheduledTransfers = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(INDEXER_URL, {
+  const response = await fetch(GLOBAL_CONSTANTS.INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export const getScheduledTransferByJobId = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(INDEXER_URL, {
+  const response = await fetch(GLOBAL_CONSTANTS.INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

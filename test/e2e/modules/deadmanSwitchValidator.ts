@@ -1,12 +1,10 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
-import {
-  DEADMAN_SWITCH_ADDRESS,
-  getDeadmanSwitchConfig,
-} from 'src/module/deadman-switch'
+import { getDeadmanSwitchConfig } from 'src/module/deadman-switch'
 import { getAddress, PublicClient, TestClient } from 'viem'
 import { getInstallModuleData } from '../infra'
 import { DeadmanSwitchConfigType } from 'src/module/deadman-switch/usage'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -24,7 +22,7 @@ export const testDeadmanSwitchValidator = async ({
       client: publicClient,
       module: getModule({
         type: 'validator',
-        module: DEADMAN_SWITCH_ADDRESS,
+        module: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
       }),
     })
 

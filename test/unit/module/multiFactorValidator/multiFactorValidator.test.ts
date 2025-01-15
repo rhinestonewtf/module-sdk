@@ -3,7 +3,6 @@ import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import {
-  MULTI_FACTOR_VALIDATOR_ADDRESS,
   getMultiFactorValidator,
   getRemoveMFAValidatorAction,
   getSetMFAValidatorAction,
@@ -12,6 +11,7 @@ import {
 import { getSetMFAThresholdAction } from 'src'
 import { Validator } from 'src/module'
 import { Address, encodePacked, Hex, slice } from 'viem'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('MultiFactor Validator Module', () => {
   // Setup
@@ -52,7 +52,7 @@ describe('MultiFactor Validator Module', () => {
     const installHookMultiPlexerModule = getMultiFactorValidator(mfaData)
 
     expect(installHookMultiPlexerModule.module).toEqual(
-      MULTI_FACTOR_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     )
     expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('validator')
@@ -63,7 +63,9 @@ describe('MultiFactor Validator Module', () => {
       threshold: 2,
     })
 
-    expect(setThresholdExecution.target).toEqual(MULTI_FACTOR_VALIDATOR_ADDRESS)
+    expect(setThresholdExecution.target).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    )
     expect(setThresholdExecution.value).toEqual(BigInt(0))
     expect(setThresholdExecution.callData).toBeDefined()
   })
@@ -75,7 +77,9 @@ describe('MultiFactor Validator Module', () => {
       newValidatorData,
     })
 
-    expect(setValidatorExecution.target).toEqual(MULTI_FACTOR_VALIDATOR_ADDRESS)
+    expect(setValidatorExecution.target).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    )
     expect(setValidatorExecution.value).toEqual(BigInt(0))
     expect(setValidatorExecution.callData).toBeDefined()
   })
@@ -87,7 +91,7 @@ describe('MultiFactor Validator Module', () => {
     })
 
     expect(removeValidatorExecution.target).toEqual(
-      MULTI_FACTOR_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     )
     expect(removeValidatorExecution.value).toEqual(BigInt(0))
     expect(removeValidatorExecution.callData).toBeDefined()

@@ -1,7 +1,7 @@
-import { DEADMAN_SWITCH_ADDRESS } from './constants'
 import { Address, Hex, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export type DeadmanSwitchConfigType = [number, number, Address]
 
@@ -14,7 +14,7 @@ export const getDeadmanSwitchConfig = async ({
 }): Promise<DeadmanSwitchConfigType> => {
   try {
     const config = (await client.readContract({
-      address: DEADMAN_SWITCH_ADDRESS,
+      address: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
       abi,
       functionName: 'config',
       args: [account.address],

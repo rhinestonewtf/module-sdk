@@ -5,15 +5,13 @@ import {
 } from 'src/module'
 import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spending-limits-policy'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
-import {
-  getUniversalActionPolicy,
-  UNIVERSAL_ACTION_POLICY_ADDRESS,
-} from 'src/module/smart-sessions/policies/universal-action-policy'
+import { getUniversalActionPolicy } from 'src/module/smart-sessions/policies/universal-action-policy'
 import {
   ActionConfig,
   ParamCondition,
 } from 'src/module/smart-sessions/policies/universal-action-policy/types'
 import { zeroAddress } from 'viem'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Smart Sessions Polices', () => {
   // -----------------------
@@ -40,7 +38,7 @@ describe('Smart Sessions Polices', () => {
     const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
 
     expect(installUniversalPolicy.address).toEqual(
-      UNIVERSAL_ACTION_POLICY_ADDRESS,
+      GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
     )
     expect(installUniversalPolicy.initData).toBeDefined()
   })

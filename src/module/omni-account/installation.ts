@@ -1,10 +1,6 @@
 import { Address, encodeAbiParameters } from 'viem'
-import {
-  ACCOUNT_LOCKER_HOOK,
-  ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-  ACCOUNT_LOCKER_TARGET_EXECUTOR,
-} from './constants'
 import { Module } from '../types'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getAccountLockerHook = (
   { isOmniMode, hook }: { hook?: Address; isOmniMode: boolean } = {
@@ -12,8 +8,8 @@ export const getAccountLockerHook = (
   },
 ): Module => {
   return {
-    module: ACCOUNT_LOCKER_HOOK,
-    address: ACCOUNT_LOCKER_HOOK,
+    module: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_HOOK,
+    address: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_HOOK,
     initData: encodeAbiParameters(
       [{ name: 'enableOmniLock', type: 'bool' }],
       [isOmniMode],
@@ -31,8 +27,8 @@ export const getAccountLockerSourceExecutor = ({
   hook?: Address
 } = {}): Module => {
   return {
-    module: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-    address: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    module: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    address: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     initData: '0x',
     deInitData: '0x',
     additionalContext: '0x',
@@ -51,8 +47,8 @@ export const getAccountLockerTargetExecutor = (
   } = { moduleType: 'executor' },
 ): Module => {
   return {
-    module: ACCOUNT_LOCKER_TARGET_EXECUTOR,
-    address: ACCOUNT_LOCKER_TARGET_EXECUTOR,
+    module: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_TARGET_EXECUTOR,
+    address: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_TARGET_EXECUTOR,
     initData: '0x',
     deInitData: '0x',
     additionalContext: '0x',

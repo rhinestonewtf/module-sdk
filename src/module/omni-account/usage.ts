@@ -1,6 +1,6 @@
 import { encodeFunctionData, Hex } from 'viem'
 import { accountLockerSourceExecutorAbi } from './abis'
-import { ACCOUNT_LOCKER_SOURCE_EXECUTOR } from './constants'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 import { ApprovalSpend, OriginModulePayload, WithdrawRequest } from './types'
 import { Execution } from '../../account'
 
@@ -18,8 +18,8 @@ export const getUnlockFundsAction = ({
   })
 
   return {
-    to: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-    target: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    to: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    target: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     value: BigInt(0),
     data,
     callData: data,
@@ -37,8 +37,8 @@ export const getDepositToAcrossAction = ({
     args: [originModulePayload],
   })
   return {
-    to: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-    target: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    to: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    target: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     value: BigInt(0),
     data,
     callData: data,
@@ -58,8 +58,8 @@ export const getRegisterApprovalSpendAction = ({
     args: [approvalSpend, orchestratorSignature],
   })
   return {
-    to: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-    target: ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    to: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    target: GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     value: BigInt(0),
     data,
     callData: data,

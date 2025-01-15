@@ -1,7 +1,6 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import { Address, PublicClient, TestClient } from 'viem'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import {
   getAddSocialRecoveryGuardianAction,
   getSocialRecoveryGuardians,
@@ -9,6 +8,7 @@ import {
   getSetSocialRecoveryThresholdAction,
 } from 'src/module/social-recovery/usage'
 import { sendUserOp } from '../infra'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -26,7 +26,7 @@ export const testSocialRecoveryValidator = async ({
       client: publicClient,
       module: getModule({
         type: 'validator',
-        module: SOCIAL_RECOVERY_ADDRESS,
+        module: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
       }),
     })
 

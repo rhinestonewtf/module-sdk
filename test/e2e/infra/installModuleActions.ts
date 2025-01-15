@@ -5,7 +5,6 @@ import {
   getScheduledOrdersExecutor,
   getScheduledTransfersExecutor,
   getSmartSessionsValidator,
-  OWNABLE_VALIDATOR_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
 import {
@@ -21,7 +20,6 @@ import {
   zeroAddress,
 } from 'viem'
 import { CallType } from 'src/module/types'
-import { REGISTRY_ADDRESS } from 'src/module/registry'
 import { SafeHookType } from 'src/account/safe/types'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -38,6 +36,7 @@ import { getMultiFactorValidator } from 'src/module/multi-factor-validator'
 import { getUniversalEmailRecoveryExecutor } from 'src/module/zk-email-recovery/universal-email-recovery'
 import { sepolia } from 'viem/chains'
 import { getSmartSessionsCompatibilityFallback } from 'src/module/smart-sessions'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -224,7 +223,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     hook: zeroAddress,
   },
   registryHook: {
-    registryAddress: REGISTRY_ADDRESS as Address,
+    registryAddress: GLOBAL_CONSTANTS.REGISTRY_ADDRESS as Address,
   },
   autoSavingExecutor: {
     chainId: sepolia.id as number,
@@ -249,7 +248,10 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
       {
         packedValidatorAndId: encodePacked(
           ['bytes12', 'address'],
-          ['0x000000000000000000000000', OWNABLE_VALIDATOR_ADDRESS],
+          [
+            '0x000000000000000000000000',
+            GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+          ],
         ),
         data: '0x41414141' as Hex,
       },
@@ -296,7 +298,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
   smartSessions: {
     sessions: [
       {
-        sessionValidator: OWNABLE_VALIDATOR_ADDRESS,
+        sessionValidator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
         sessionValidatorInitData: encodeAbiParameters(
           [
             {
@@ -337,7 +339,7 @@ export const getInstallModuleData = ({ account }: Pick<Params, 'account'>) => ({
     hook: zeroAddress,
   },
   universalEmailRecoveryExecutor: {
-    validator: OWNABLE_VALIDATOR_ADDRESS,
+    validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     isInstalledContext: toHex(0),
     initialSelector: toFunctionSelector('function addOwner(address)'),
     guardians: [

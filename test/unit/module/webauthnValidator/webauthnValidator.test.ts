@@ -1,9 +1,6 @@
-import {
-  WEBAUTHN_VALIDATOR_ADDRESS,
-  getWebAuthnValidator,
-  getWebauthnValidatorSignature,
-} from 'src/module'
+import { getWebAuthnValidator, getWebauthnValidatorSignature } from 'src/module'
 import { toHex, concatHex, toBytes, type Hex } from 'viem'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 function serializePublicKey(
   x: bigint,
@@ -50,7 +47,7 @@ describe('Webauthn Validator Module', () => {
     })
 
     expect(installWebauthnValidatorModule.module).toEqual(
-      WEBAUTHN_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     )
     expect(installWebauthnValidatorModule.initData).toBeDefined()
     expect(installWebauthnValidatorModule.type).toEqual('validator')
@@ -67,7 +64,7 @@ describe('Webauthn Validator Module', () => {
     })
 
     expect(installWebauthnValidatorModule.module).toEqual(
-      WEBAUTHN_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     )
     expect(installWebauthnValidatorModule.initData).toBeDefined()
     expect(installWebauthnValidatorModule.type).toEqual('validator')
@@ -86,7 +83,7 @@ describe('Webauthn Validator Module', () => {
     })
 
     expect(installWebauthnValidatorModule.module).toEqual(
-      WEBAUTHN_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     )
     expect(installWebauthnValidatorModule.initData).toBeDefined()
     expect(installWebauthnValidatorModule.type).toEqual('validator')
@@ -104,7 +101,7 @@ describe('Webauthn Validator Module', () => {
     })
 
     expect(installWebauthnValidatorModule.module).toEqual(
-      WEBAUTHN_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     )
     expect(installWebauthnValidatorModule.initData).toBeDefined()
     expect(installWebauthnValidatorModule.type).toEqual('validator')

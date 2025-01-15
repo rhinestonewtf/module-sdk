@@ -1,7 +1,7 @@
 import { Address, encodeAbiParameters, Hex } from 'viem'
 import { Module } from '../types'
-import { HOOK_MULTI_PLEXER_ADDRESS } from './constants'
 import { SigHookInit } from './types'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   globalHooks: Address[]
@@ -23,8 +23,8 @@ export const getHookMultiPlexer = ({
   hookType,
 }: Params): Module => {
   return {
-    address: HOOK_MULTI_PLEXER_ADDRESS,
-    module: HOOK_MULTI_PLEXER_ADDRESS,
+    address: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+    module: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
     initData: encodeAbiParameters(
       [
         { internalType: 'address[]', name: 'globalHooks', type: 'address[]' },

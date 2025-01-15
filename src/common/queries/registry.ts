@@ -1,5 +1,5 @@
 import { PublicClient } from 'viem'
-import { INDEXER_URL } from '../constants'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 const query = `
   query ($chainId: Int) {
@@ -19,7 +19,7 @@ export const getRegistryModules = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(INDEXER_URL, {
+  const response = await fetch(GLOBAL_CONSTANTS.INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
