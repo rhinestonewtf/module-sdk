@@ -1,101 +1,25 @@
 export const abi = [
   {
     type: 'function',
-    name: 'checkAction',
+    name: 'usageLimitConfigs',
     inputs: [
-      { name: 'id', type: 'bytes32', internalType: 'ConfigId' },
-      { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'target', type: 'address', internalType: 'address' },
-      { name: 'value', type: 'uint256', internalType: 'uint256' },
-      { name: 'callData', type: 'bytes', internalType: 'bytes' },
+      { name: 'id', type: 'uint256', internalType: 'uint256' },
+      { name: 'msgSender', type: 'address', internalType: 'address' },
+      { name: 'userOpSender', type: 'address', internalType: 'address' },
     ],
-    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'initializeWithMultiplexer',
-    inputs: [
-      { name: 'account', type: 'address', internalType: 'address' },
-      { name: 'configId', type: 'bytes32', internalType: 'ConfigId' },
-      { name: 'initData', type: 'bytes', internalType: 'bytes' },
-    ],
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    name: 'supportsInterface',
-    inputs: [{ name: 'interfaceID', type: 'bytes4', internalType: 'bytes4' }],
-    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
-    stateMutability: 'pure',
-  },
-  {
-    type: 'event',
-    name: 'PolicySet',
-    inputs: [
-      { name: 'id', type: 'bytes32', indexed: false, internalType: 'ConfigId' },
+    outputs: [
       {
-        name: 'multiplexer',
-        type: 'address',
-        indexed: false,
-        internalType: 'address',
-      },
-      {
-        name: 'account',
-        type: 'address',
-        indexed: false,
-        internalType: 'address',
+        name: '',
+        type: 'tuple',
+        internalType: 'struct UsageLimitPolicy.UsageLimitConfig',
+        components: [
+          { name: 'limit', type: 'uint128', internalType: 'uint128' },
+          { name: 'used', type: 'uint128', internalType: 'uint128' },
+        ],
       },
     ],
-    anonymous: false,
-  },
-  {
-    type: 'event',
-    name: 'TokenSpent',
-    inputs: [
-      { name: 'id', type: 'bytes32', indexed: false, internalType: 'ConfigId' },
-      {
-        name: 'multiplexer',
-        type: 'address',
-        indexed: false,
-        internalType: 'address',
-      },
-      {
-        name: 'token',
-        type: 'address',
-        indexed: false,
-        internalType: 'address',
-      },
-      {
-        name: 'account',
-        type: 'address',
-        indexed: false,
-        internalType: 'address',
-      },
-      {
-        name: 'amount',
-        type: 'uint256',
-        indexed: false,
-        internalType: 'uint256',
-      },
-      {
-        name: 'remaining',
-        type: 'uint256',
-        indexed: false,
-        internalType: 'uint256',
-      },
-    ],
-    anonymous: false,
-  },
-  {
-    type: 'error',
-    name: 'InvalidLimit',
-    inputs: [{ name: 'limit', type: 'uint256', internalType: 'uint256' }],
-  },
-  {
-    type: 'error',
-    name: 'InvalidTokenAddress',
-    inputs: [{ name: 'token', type: 'address', internalType: 'address' }],
+    stateMutability: 'view',
   },
 ]
+
+
