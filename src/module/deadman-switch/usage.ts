@@ -1,7 +1,7 @@
 import { Address, Hex, PublicClient } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export type DeadmanSwitchConfigType = [number, number, Address]
 

@@ -3,7 +3,7 @@ import { abi } from './abi'
 import { Execution } from '../../account'
 import { Account } from '../../account'
 import { HookType } from './types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getHooks = async ({
   account,

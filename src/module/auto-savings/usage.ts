@@ -1,5 +1,5 @@
 import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 import { abi } from './abi'
 import { Execution } from '../../account'
 import { SENTINEL_ADDRESS } from '../../common/constants'

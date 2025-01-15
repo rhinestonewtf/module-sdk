@@ -11,7 +11,7 @@ import { Execution } from '../../account'
 import { Account } from '../../account'
 import { moduleTypeIds } from '../types'
 import { SENTINEL_ADDRESS } from '../../common/constants'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   waitPeriod: number

@@ -10,7 +10,7 @@ import {
 import { abi } from './abi'
 import { Account } from '../../account'
 import { Validator } from './types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getSetMFAThresholdAction = ({
   threshold,

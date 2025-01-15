@@ -1,6 +1,6 @@
 import { encodeFunctionData, Hex } from 'viem'
 import { accountLockerSourceExecutorAbi } from './abis'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 import { ApprovalSpend, OriginModulePayload, WithdrawRequest } from './types'
 import { Execution } from '../../account'
 

@@ -24,7 +24,7 @@ import {
 } from './types'
 import { LibZip } from 'solady'
 import { Account, AccountType, Execution, isAccount } from '../../account'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getPermissionId = ({ session }: { session: Session }): Hex => {
   return keccak256(

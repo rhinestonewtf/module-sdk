@@ -2,7 +2,7 @@ import { encodeAbiParameters, keccak256, toHex } from 'viem'
 import { Module } from '../types'
 import { parsePublicKey } from './utils'
 import { WebauthnCredential } from './types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getWebAuthnValidator = (
   webAuthnCredential: WebauthnCredential,
