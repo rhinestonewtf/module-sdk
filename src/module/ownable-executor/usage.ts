@@ -10,7 +10,7 @@ import {
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
 import { Account } from '../../account'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getAddOwnableExecutorOwnerAction = async ({
   owner,

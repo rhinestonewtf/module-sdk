@@ -1,5 +1,5 @@
 import { PublicClient } from 'viem'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 const query = `
   query ($chainId: Int) {

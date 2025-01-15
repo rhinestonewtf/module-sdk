@@ -1,7 +1,7 @@
 import { Address, encodeAbiParameters, encodePacked } from 'viem'
 import { Module } from '../types'
 import { Validator } from './types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getMultiFactorValidator = ({
   threshold,

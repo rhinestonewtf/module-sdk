@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
 import { Account } from '../../account'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 const query = `
     query ($smartAccount: String, $chainId: Int) {

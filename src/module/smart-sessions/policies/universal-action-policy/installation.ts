@@ -3,7 +3,7 @@ import { Policy } from '../types'
 import { encodeAbiParameters } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getUniversalActionPolicy = (
   actionConfig: ActionConfig,

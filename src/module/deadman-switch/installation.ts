@@ -2,7 +2,7 @@ import { Address, encodePacked, PublicClient } from 'viem'
 import { Module } from '../types'
 import { abi } from './abi'
 import { Account } from '../../account'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getDeadmanSwitch = async ({
   moduleType,

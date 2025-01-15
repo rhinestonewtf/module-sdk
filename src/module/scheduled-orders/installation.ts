@@ -1,7 +1,7 @@
 import { Address, Hex, encodePacked } from 'viem'
 import { Module } from '../types'
 import { swapRouterAddresses } from '../utils/uniswap'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   chainId: number

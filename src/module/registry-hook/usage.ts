@@ -1,7 +1,7 @@
 import { Execution } from '../../account'
 import { encodeFunctionData, Address } from 'viem'
 import { abi } from './abi'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getSetRegistryAction = ({
   registryAddress,

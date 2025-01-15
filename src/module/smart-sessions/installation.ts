@@ -4,7 +4,7 @@ import { Session } from './types'
 import { installSmartSessionsAbi } from './abi'
 import { SmartSessionMode } from './types'
 import { CallType } from '../../module/types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   sessions?: Session[]

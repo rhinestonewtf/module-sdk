@@ -2,7 +2,7 @@ import { Address, encodeFunctionData, PublicClient } from 'viem'
 import { getRegistryModules } from '../../common/queries'
 import { Execution } from '../../account/types'
 import { abi } from './abi'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const fetchRegistryModules = ({ client }: { client: PublicClient }) =>
   getRegistryModules({ client })
