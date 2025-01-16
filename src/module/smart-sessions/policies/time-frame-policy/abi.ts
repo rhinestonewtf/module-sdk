@@ -7,9 +7,7 @@ export const abi = [
       { name: 'multiplexer', type: 'address', internalType: 'address' },
       { name: 'smartAccount', type: 'address', internalType: 'address' },
     ],
-    outputs: [
-      { name: '', type: 'uint256', internalType: 'uint256' },
-    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
     stateMutability: 'view',
   },
-];
+]

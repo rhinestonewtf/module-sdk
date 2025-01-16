@@ -21,4 +21,3 @@ export const abi = [
     stateMutability: 'view',
   },
 ]
-
