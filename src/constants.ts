@@ -76,14 +76,20 @@ export let GLOBAL_CONSTANTS = {
   ...DEFAULT_CONSTANTS,
 }
 
+export type Constants = typeof GLOBAL_CONSTANTS
+
 export const setGlobalConstants = (
-  overrides: Partial<typeof DEFAULT_CONSTANTS>,
+  overrides: Partial<Constants>,
 ): void => {
   GLOBAL_CONSTANTS = { ...GLOBAL_CONSTANTS, ...overrides }
 }
 
 export const getModifiedConstants = (
-  overrides?: Partial<typeof DEFAULT_CONSTANTS>,
-): typeof GLOBAL_CONSTANTS => {
+  overrides?: Partial<Constants>,
+): Constants => {
   return { ...GLOBAL_CONSTANTS, ...overrides }
+}
+
+export const restoreGlobalConstants = (): void => {
+  GLOBAL_CONSTANTS = { ...DEFAULT_CONSTANTS }
 }
