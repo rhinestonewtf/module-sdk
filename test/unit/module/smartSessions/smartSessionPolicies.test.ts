@@ -24,7 +24,8 @@ describe('Smart Sessions Polices', () => {
   // -----------------------
   // Universal Action Policy
   // -----------------------
-  it.skip('should get install universal action policy', async () => { //skipping as it used the abi for the old contract
+  it.skip('should get install universal action policy', async () => {
+    //skipping as it used the abi for the old contract
     // Setup
     const actionConfigData: ActionConfig = {
       valueLimitPerUse: BigInt(1000),
@@ -112,7 +113,7 @@ describe('Policy Getter Tests', () => {
   beforeAll(() => {
     client = createPublicClient({
       chain: sepolia,
-      transport: http("https://rpc.sepolia.ethpandaops.io"),
+      transport: http('https://rpc.sepolia.ethpandaops.io'),
     })
     //client = getPublicClient(sepolia) //default RPC url timeout when testing
   })

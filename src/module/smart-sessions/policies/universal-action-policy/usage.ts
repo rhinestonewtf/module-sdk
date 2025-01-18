@@ -3,7 +3,8 @@ import { UNIVERSAL_ACTION_POLICY_ADDRESS } from './constants'
 import { abi } from './abi'
 import { ActionConfig } from './types'
 
-const testContractAddress: Address ='0x081C52B15BE96D6A1C729B0a34c8B4bef3da9238'
+const testContractAddress: Address =
+  '0x081C52B15BE96D6A1C729B0a34c8B4bef3da9238'
 
 export const getActionConfig = async ({
   client,

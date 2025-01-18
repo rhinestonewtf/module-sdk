@@ -20,6 +20,11 @@ export const getPolicyData = async ({
     address: SPENDING_LIMITS_POLICY_ADDRESS,
     abi: abi,
     functionName: 'getPolicyData',
-    args: [toHex(configId, { size: 32 }) as Hex, multiplexer, token, userOpSender],
+    args: [
+      toHex(configId, { size: 32 }) as Hex,
+      multiplexer,
+      token,
+      userOpSender,
+    ],
   })) as SpendingLimitPolicyData
 }
