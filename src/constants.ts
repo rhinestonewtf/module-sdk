@@ -81,9 +81,7 @@ export let GLOBAL_CONSTANTS = {
 
 export type Constants = typeof GLOBAL_CONSTANTS
 
-export const setGlobalConstants = (
-  overrides: Partial<Constants>,
-): void => {
+export const setGlobalConstants = (overrides: Partial<Constants>): void => {
   GLOBAL_CONSTANTS = { ...GLOBAL_CONSTANTS, ...overrides }
 }
 
