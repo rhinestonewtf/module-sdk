@@ -1,8 +1,8 @@
-import { Address, PublicClient } from 'viem'
+import { Address, Hex, PublicClient, toHex } from 'viem'
 import { TIME_FRAME_POLICY_ADDRESS } from './constants'
 import { abi } from './abi'
 
-export const getTimeFramePolicy = async ({
+export const getTimeFramePolicyData = async ({
   client,
   configId,
   multiplexer,
@@ -17,6 +17,6 @@ export const getTimeFramePolicy = async ({
     address: TIME_FRAME_POLICY_ADDRESS,
     abi: abi,
     functionName: 'getTimeFrameConfig',
-    args: [configId, multiplexer, smartAccount],
+    args: [toHex(configId, { size: 32 }) as Hex, multiplexer, smartAccount],
   })) as bigint
 }

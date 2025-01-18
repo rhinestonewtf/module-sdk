@@ -1,4 +1,4 @@
-import { Address, Hex, PublicClient } from 'viem'
+import { Address, Hex, PublicClient, toHex } from 'viem'
 import { SPENDING_LIMITS_POLICY_ADDRESS } from './constants'
 import { abi } from './abi'
 import { SpendingLimitPolicyData } from './types'
@@ -11,7 +11,7 @@ export const getPolicyData = async ({
   userOpSender,
 }: {
   client: PublicClient
-  configId: Hex
+  configId: bigint
   multiplexer: Address
   token: Address
   userOpSender: Address
@@ -20,6 +20,6 @@ export const getPolicyData = async ({
     address: SPENDING_LIMITS_POLICY_ADDRESS,
     abi: abi,
     functionName: 'getPolicyData',
-    args: [configId, multiplexer, token, userOpSender],
+    args: [toHex(configId, { size: 32 }) as Hex, multiplexer, token, userOpSender],
   })) as SpendingLimitPolicyData
 }
