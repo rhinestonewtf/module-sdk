@@ -40,7 +40,9 @@ describe('Constants Module', () => {
   })
 
   test('restoreGlobalConstants should reset GLOBAL_CONSTANTS to DEFAULT_CONSTANTS', () => {
-    const overrides = { ACCOUNT_LOCKER_HOOK: '0xabcdef1234567890' as Address} as Partial<Constants>
+    const overrides = {
+      ACCOUNT_LOCKER_HOOK: '0xabcdef1234567890' as Address,
+    } as Partial<Constants>
     setGlobalConstants(overrides)
     restoreGlobalConstants()
     expect(GLOBAL_CONSTANTS).toEqual(DEFAULT_CONSTANTS)
