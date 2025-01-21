@@ -1,11 +1,8 @@
-import { Address, Hex, PublicClient, toHex } from 'viem'
-import { UNIVERSAL_ACTION_POLICY_ADDRESS } from './constants'
+import { Address, PublicClient } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
 import { bigIntToBytes32 } from '../utils'
-
-const testContractAddress: Address =
-  '0x081C52B15BE96D6A1C729B0a34c8B4bef3da9238' // TODO: Update the value for UNIVERSAL_ACTION_POLICY_ADDRESS
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getActionConfig = async ({
   client,
@@ -19,7 +16,7 @@ export const getActionConfig = async ({
   userOpSender: Address
 }) => {
   return (await client.readContract({
-    address: testContractAddress,
+    address: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
     abi: abi,
     functionName: 'actionConfigs',
     args: [bigIntToBytes32(configId), multiplexer, userOpSender],

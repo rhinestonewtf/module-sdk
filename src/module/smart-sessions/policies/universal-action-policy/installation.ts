@@ -1,6 +1,6 @@
 import { MAX_RULES } from './constants'
 import { Policy } from '../types'
-import { Abi, encodeAbiParameters } from 'viem'
+import { encodeAbiParameters } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
 import { GLOBAL_CONSTANTS } from '../../../../constants'
