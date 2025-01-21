@@ -15,7 +15,7 @@ export const getUniversalActionPolicy = (
   return {
     policy: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
     address: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
-    initData: encodeAbiParameters(abi as Abi, [
+    initData: encodeAbiParameters(abi, [
       {
         valueLimitPerUse: actionConfig.valueLimitPerUse,
         paramRules: {
