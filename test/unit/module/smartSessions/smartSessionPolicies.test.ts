@@ -98,7 +98,7 @@ describe('Smart Sessions Polices', () => {
     })
 
     it.skip('getPolicyData Test', async () => {
-      // skipping as the abi is not updated
+      // skipping due to invalid token address
       const result = await getPolicyData({
         client: client,
         configId: BigInt(1),
@@ -132,7 +132,6 @@ describe('Smart Sessions Polices', () => {
         smartAccount: zeroAddress,
       })
       expect(result).toBeDefined()
-      console.log(result)
     })
   })
 
