@@ -220,4 +220,5 @@ export {
   GLOBAL_CONSTANTS,
   setGlobalConstants,
   getModifiedConstants,
+  restoreGlobalConstants,
 } from './constants'

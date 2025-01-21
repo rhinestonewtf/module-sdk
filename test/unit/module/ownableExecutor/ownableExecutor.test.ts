@@ -11,7 +11,7 @@ import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
-import { GLOBAL_CONSTANTS } from 'src'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Ownable Executor Module', () => {
   // Setup
