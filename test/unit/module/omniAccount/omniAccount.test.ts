@@ -1,8 +1,5 @@
 import { getAccount } from 'src/account'
 import {
-  ACCOUNT_LOCKER_HOOK,
-  ACCOUNT_LOCKER_SOURCE_EXECUTOR,
-  ACCOUNT_LOCKER_TARGET_EXECUTOR,
   getAccountLockerHook,
   getAccountLockerSourceExecutor,
   getAccountLockerTargetExecutor,
@@ -11,12 +8,15 @@ import {
   getUnlockFundsAction,
 } from 'src/module'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Omni Account Module', () => {
   it('should get install account locker hook', async () => {
     const installAccountLockerHook = getAccountLockerHook()
 
-    expect(installAccountLockerHook.module).toEqual(ACCOUNT_LOCKER_HOOK)
+    expect(installAccountLockerHook.module).toEqual(
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_HOOK,
+    )
     expect(installAccountLockerHook.initData).toBeDefined()
     expect(installAccountLockerHook.type).toEqual('hook')
   })
@@ -24,7 +24,7 @@ describe('Omni Account Module', () => {
     const installAccountLockerSourceExecutor = getAccountLockerSourceExecutor()
 
     expect(installAccountLockerSourceExecutor.module).toEqual(
-      ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
     )
     expect(installAccountLockerSourceExecutor.initData).toEqual('0x')
     expect(installAccountLockerSourceExecutor.type).toEqual('executor')
@@ -33,7 +33,7 @@ describe('Omni Account Module', () => {
     const installAccountLockerTargetExecutor = getAccountLockerTargetExecutor()
 
     expect(installAccountLockerTargetExecutor.module).toEqual(
-      ACCOUNT_LOCKER_TARGET_EXECUTOR,
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_TARGET_EXECUTOR,
     )
     expect(installAccountLockerTargetExecutor.initData).toEqual('0x')
     expect(installAccountLockerTargetExecutor.type).toEqual('executor')
@@ -50,7 +50,9 @@ describe('Omni Account Module', () => {
       },
     })
 
-    expect(unlockFunds.target).toEqual(ACCOUNT_LOCKER_SOURCE_EXECUTOR)
+    expect(unlockFunds.target).toEqual(
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    )
     expect(unlockFunds.value).toEqual(BigInt(0))
     expect(unlockFunds.callData).toBeDefined()
   })
@@ -112,7 +114,9 @@ describe('Omni Account Module', () => {
       },
     })
 
-    expect(depositToAcross.target).toEqual(ACCOUNT_LOCKER_SOURCE_EXECUTOR)
+    expect(depositToAcross.target).toEqual(
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    )
     expect(depositToAcross.value).toEqual(BigInt(0))
     expect(depositToAcross.callData).toBeDefined()
   })
@@ -126,7 +130,9 @@ describe('Omni Account Module', () => {
       orchestratorSignature: '0x',
     })
 
-    expect(registerApprovalSpend.target).toEqual(ACCOUNT_LOCKER_SOURCE_EXECUTOR)
+    expect(registerApprovalSpend.target).toEqual(
+      GLOBAL_CONSTANTS.ACCOUNT_LOCKER_SOURCE_EXECUTOR,
+    )
     expect(registerApprovalSpend.value).toEqual(BigInt(0))
     expect(registerApprovalSpend.callData).toBeDefined()
   })

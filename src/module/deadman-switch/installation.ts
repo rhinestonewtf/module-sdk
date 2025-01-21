@@ -1,8 +1,8 @@
 import { Address, encodePacked, PublicClient } from 'viem'
 import { Module } from '../types'
-import { DEADMAN_SWITCH_ADDRESS } from './constants'
 import { abi } from './abi'
 import { Account } from '../../account'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getDeadmanSwitch = async ({
   moduleType,
@@ -20,15 +20,15 @@ export const getDeadmanSwitch = async ({
   client: PublicClient
 }): Promise<Module> => {
   const isInitialized = (await client.readContract({
-    address: DEADMAN_SWITCH_ADDRESS,
+    address: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
     abi,
     functionName: 'isInitialized',
     args: [account.address],
   })) as boolean
 
   return {
-    address: DEADMAN_SWITCH_ADDRESS,
-    module: DEADMAN_SWITCH_ADDRESS,
+    address: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
+    module: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
     initData: isInitialized
       ? '0x'
       : encodePacked(['address', 'uint48'], [nominee, timeout]),

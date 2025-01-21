@@ -1,9 +1,9 @@
 import { Address, encodeFunctionData, Hex, PublicClient } from 'viem'
-import { HOOK_MULTI_PLEXER_ADDRESS } from './constants'
 import { abi } from './abi'
 import { Execution } from '../../account'
 import { Account } from '../../account'
 import { HookType } from './types'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getHooks = async ({
   account,
@@ -14,7 +14,7 @@ export const getHooks = async ({
 }): Promise<Address[]> => {
   try {
     const hooks = (await client.readContract({
-      address: HOOK_MULTI_PLEXER_ADDRESS,
+      address: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
       abi,
       functionName: 'getHooks',
       args: [account.address],
@@ -44,8 +44,8 @@ export const getAddHookAction = ({
     })
 
     return {
-      to: HOOK_MULTI_PLEXER_ADDRESS,
-      target: HOOK_MULTI_PLEXER_ADDRESS,
+      to: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+      target: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
       callData: data,
       data,
@@ -72,8 +72,8 @@ export const getRemoveHookAction = ({
     })
 
     return {
-      to: HOOK_MULTI_PLEXER_ADDRESS,
-      target: HOOK_MULTI_PLEXER_ADDRESS,
+      to: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+      target: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
       value: BigInt(0),
       callData: data,
       data,

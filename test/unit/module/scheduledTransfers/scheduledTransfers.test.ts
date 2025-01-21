@@ -4,10 +4,10 @@ import {
 } from 'src/module'
 import {
   getCreateScheduledTransferAction,
-  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   getExecuteScheduledTransferAction,
 } from 'src/module'
 import { ERC20Token } from 'src'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('ScheduledTransfers Module', () => {
   // Setup
@@ -25,7 +25,7 @@ describe('ScheduledTransfers Module', () => {
     })
 
     expect(installScheduledTransfersModule.module).toEqual(
-      SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     )
     expect(installScheduledTransfersModule.initData).toBeDefined()
     expect(installScheduledTransfersModule.type).toEqual('executor')
@@ -44,7 +44,7 @@ describe('ScheduledTransfers Module', () => {
     })
 
     expect(createScheduledTransferExecution.target).toEqual(
-      SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     )
     expect(createScheduledTransferExecution.value).toEqual(BigInt(0))
     expect(createScheduledTransferExecution.callData).toBeDefined()
@@ -53,7 +53,9 @@ describe('ScheduledTransfers Module', () => {
   it('should disable scheduled transfer', async () => {
     const toggleTransfer = getToggleScheduledTransferAction({ jobId: 1 })
 
-    expect(toggleTransfer.target).toEqual(SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS)
+    expect(toggleTransfer.target).toEqual(
+      GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    )
     expect(toggleTransfer.value).toEqual(BigInt(0))
     expect(toggleTransfer.callData).toBeDefined()
   })
@@ -61,7 +63,9 @@ describe('ScheduledTransfers Module', () => {
   it('should get execute transfer action', async () => {
     const executeTransfer = getExecuteScheduledTransferAction({ jobId: 1 })
 
-    expect(executeTransfer.target).toEqual(SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS)
+    expect(executeTransfer.target).toEqual(
+      GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    )
     expect(executeTransfer.value).toEqual(BigInt(0))
     expect(executeTransfer.callData).toBeDefined()
   })

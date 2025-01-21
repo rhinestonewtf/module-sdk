@@ -1,6 +1,6 @@
 import { Address, encodePacked } from 'viem'
 import { Module } from '../types'
-import { REGISTRY_HOOK_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getRegistryHook = ({
   registryAddress,
@@ -8,8 +8,8 @@ export const getRegistryHook = ({
   registryAddress: Address
 }): Module => {
   return {
-    address: REGISTRY_HOOK_ADDRESS,
-    module: REGISTRY_HOOK_ADDRESS,
+    address: GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
+    module: GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
     initData: encodePacked(['address'], [registryAddress]),
     deInitData: '0x',
     additionalContext: '0x',

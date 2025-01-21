@@ -1,6 +1,6 @@
 import { Address, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
-import { SOCIAL_RECOVERY_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getSocialRecoveryValidator = ({
   threshold,
@@ -12,8 +12,8 @@ export const getSocialRecoveryValidator = ({
   hook?: Address
 }): Module => {
   return {
-    address: SOCIAL_RECOVERY_ADDRESS,
-    module: SOCIAL_RECOVERY_ADDRESS,
+    address: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    module: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
     initData: encodeAbiParameters(
       [
         { name: 'threshold', type: 'uint256' },

@@ -1,10 +1,5 @@
 import { Account, isModuleInstalled, encode1271Hash } from 'src/account'
-import {
-  getModule,
-  getOwnableValidatorMockSignature,
-  OWNABLE_VALIDATOR_ADDRESS,
-  SMART_SESSIONS_ADDRESS,
-} from 'src/module'
+import { getModule, getOwnableValidatorMockSignature } from 'src/module'
 import {
   encodeSmartSessionSignature,
   getDisableActionPoliciesAction,
@@ -21,14 +16,10 @@ import {
   hashChainSessions,
   isSessionEnabled,
   getSpendingLimitsPolicy,
-  getUniversalActionPolicy,
-  UNIVERSAL_ACTION_POLICY_ADDRESS,
-  ParamCondition,
   getAccountEIP712Domain,
   SUDO_POLICY_ADDRESS,
   getTimeFramePolicy,
   getVerifySignatureResult,
-  SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
 } from 'src/module/smart-sessions'
 import {
   Address,
@@ -42,12 +33,10 @@ import {
   fromHex,
   slice,
   concat,
-  zeroAddress,
   encodeAbiParameters,
   http,
   createPublicClient,
 } from 'viem'
-import { hashTypedData } from 'viem/experimental/solady'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
   ChainSession,
@@ -57,6 +46,7 @@ import {
 import { privateKeyToAccount } from 'viem/accounts'
 import { sepolia } from 'viem/chains'
 import { RPC_URL } from 'test/utils/userOps/constants/contracts'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -74,7 +64,7 @@ export const testSmartSessionsValidator = async ({
       client: publicClient,
       module: getModule({
         type: 'validator',
-        module: SMART_SESSIONS_ADDRESS,
+        module: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
       }),
     })
 
@@ -118,7 +108,7 @@ export const testSmartSessionsValidator = async ({
           callData: smartSessions.sessions[0].actions[0].actionTargetSelector,
         },
       ],
-      validator: SMART_SESSIONS_ADDRESS,
+      validator: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
       signUserOpHash: async (userOpHash) => {
         const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
@@ -184,7 +174,7 @@ export const testSmartSessionsValidator = async ({
           callData: session.actions[0].actionTargetSelector,
         },
       ],
-      validator: SMART_SESSIONS_ADDRESS,
+      validator: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
       signUserOpHash: async (userOpHash) => {
         sessionDetails.signature = await signer.signMessage({
           message: { raw: userOpHash },
@@ -256,7 +246,7 @@ export const testSmartSessionsValidator = async ({
             actions: session.actions,
           },
           account: account.address,
-          smartSession: SMART_SESSIONS_ADDRESS,
+          smartSession: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
           nonce: sessionNonce,
         },
       },
@@ -293,7 +283,7 @@ export const testSmartSessionsValidator = async ({
           callData: smartSessions.sessions[0].actions[0].actionTargetSelector,
         },
       ],
-      validator: SMART_SESSIONS_ADDRESS,
+      validator: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
       signUserOpHash: async (userOpHash) => {
         const signature = await signer.signMessage({
           message: { raw: userOpHash },
@@ -401,7 +391,7 @@ export const testSmartSessionsValidator = async ({
 
     const disableUserOpPolicyAction = getDisableUserOpPoliciesAction({
       permissionId,
-      userOpPolicies: [UNIVERSAL_ACTION_POLICY_ADDRESS],
+      userOpPolicies: [GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS],
     })
 
     const receipt = await sendUserOp({
@@ -588,7 +578,7 @@ export const testSmartSessionsValidator = async ({
     })
 
     const isContentEnabled = await sepoliaPublicClient.readContract({
-      address: SMART_SESSIONS_ADDRESS,
+      address: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
       abi: [
         {
           inputs: [

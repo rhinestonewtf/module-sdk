@@ -5,16 +5,13 @@ import {
   Hex,
   PublicClient,
 } from 'viem'
-import {
-  COLD_STORAGE_HOOK_ADDRESS,
-  COLD_STORAGE_FLASHLOAN_ADDRESS,
-} from './constants'
 import { abi } from './abi'
 import { abi as flashloanAbi } from './flashloanAbi'
 import { Execution } from '../../account'
 import { Account } from '../../account'
 import { moduleTypeIds } from '../types'
 import { SENTINEL_ADDRESS } from '../../common/constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   waitPeriod: number
@@ -30,8 +27,8 @@ export const getColdStorageSetWaitPeriodAction = ({
   })
 
   return {
-    to: COLD_STORAGE_HOOK_ADDRESS,
-    target: COLD_STORAGE_HOOK_ADDRESS,
+    to: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
+    target: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -49,7 +46,7 @@ export const getColdStorageExecutionTime = async ({
 }): Promise<Number> => {
   try {
     const executionTimestamp = (await client.readContract({
-      address: COLD_STORAGE_HOOK_ADDRESS,
+      address: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
       abi,
       functionName: 'checkHash',
       args: [account.address, executionHash],
@@ -80,8 +77,8 @@ export const getRequestTimelockedExecution = ({
   })
 
   return {
-    to: COLD_STORAGE_HOOK_ADDRESS,
-    target: COLD_STORAGE_HOOK_ADDRESS,
+    to: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
+    target: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -116,8 +113,8 @@ export const getRequestTimelockedModuleConfigExecution = ({
   })
 
   return {
-    to: COLD_STORAGE_HOOK_ADDRESS,
-    target: COLD_STORAGE_HOOK_ADDRESS,
+    to: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
+    target: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
     value: BigInt(0),
     callData: callData,
     data: callData,
@@ -140,8 +137,8 @@ export const getFlashloanAddAddressAction = ({
   })
 
   return {
-    to: COLD_STORAGE_FLASHLOAN_ADDRESS,
-    target: COLD_STORAGE_FLASHLOAN_ADDRESS,
+    to: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
+    target: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -179,8 +176,8 @@ export const getFlashloanRemoveAddressAction = async ({
   })
 
   return {
-    to: COLD_STORAGE_FLASHLOAN_ADDRESS,
-    target: COLD_STORAGE_FLASHLOAN_ADDRESS,
+    to: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
+    target: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -196,7 +193,7 @@ export const getFlashloanWhitelist = async ({
 }): Promise<Address[]> => {
   try {
     const whitelistAddresses = (await client.readContract({
-      address: COLD_STORAGE_FLASHLOAN_ADDRESS,
+      address: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
       abi: flashloanAbi,
       functionName: 'getWhitelist',
       args: [account.address],

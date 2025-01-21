@@ -1,8 +1,8 @@
 import { Address, encodeFunctionData, PublicClient } from 'viem'
 import { getRegistryModules } from '../../common/queries'
 import { Execution } from '../../account/types'
-import { REGISTRY_ADDRESS } from './constants'
 import { abi } from './abi'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const fetchRegistryModules = ({ client }: { client: PublicClient }) =>
   getRegistryModules({ client })
@@ -21,8 +21,8 @@ export const getTrustAttestersAction = ({
   })
 
   return {
-    to: REGISTRY_ADDRESS,
-    target: REGISTRY_ADDRESS,
+    to: GLOBAL_CONSTANTS.REGISTRY_ADDRESS,
+    target: GLOBAL_CONSTANTS.REGISTRY_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -37,7 +37,7 @@ export const findTrustedAttesters = async ({
   accountAddress: Address
 }) => {
   return (await client.readContract({
-    address: REGISTRY_ADDRESS,
+    address: GLOBAL_CONSTANTS.REGISTRY_ADDRESS,
     abi,
     functionName: 'findTrustedAttesters',
     args: [accountAddress],

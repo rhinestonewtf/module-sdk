@@ -1,7 +1,6 @@
 import { getAddress, toFunctionSelector, toHex, zeroAddress } from 'viem'
 import { sepolia } from 'viem/chains'
 import { getUniversalEmailRecoveryExecutor } from 'src/module/zk-email-recovery/universal-email-recovery/installation'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
 import {
   acceptanceCommandTemplates,
   canStartRecoveryRequest,
@@ -41,14 +40,14 @@ import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../../utils/mocks/account'
-import { OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Universal Email Recovery Module', () => {
   // Setup
   const client = getClient(MockClient)
   const account = getAccount(MockAccountDeployed)
 
-  const validator = OWNABLE_VALIDATOR_ADDRESS
+  const validator = GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS
   const isInstalledContext = toHex(0)
   const initialSelector = toFunctionSelector('function addOwner(address)')
   const guardians = [
@@ -74,10 +73,10 @@ describe('Universal Email Recovery Module', () => {
     })
 
     expect(installUniversalEmailModule.address).toEqual(
-      UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(installUniversalEmailModule.module).toEqual(
-      UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(installUniversalEmailModule.initData).toBeDefined()
     expect(installUniversalEmailModule.deInitData).toEqual('0x')
@@ -141,8 +140,10 @@ describe('Universal Email Recovery Module', () => {
       isInstalledContext,
       recoverySelector: initialSelector,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -156,8 +157,10 @@ describe('Universal Email Recovery Module', () => {
       prevValidator,
       recoverySelector: initialSelector,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -281,8 +284,10 @@ describe('Universal Email Recovery Module', () => {
       delay,
       expiry,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -317,8 +322,10 @@ describe('Universal Email Recovery Module', () => {
       emailAuthMsg,
       templateIdx: 0n,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -353,8 +360,10 @@ describe('Universal Email Recovery Module', () => {
       emailAuthMsg,
       templateIdx: 0n,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -366,8 +375,10 @@ describe('Universal Email Recovery Module', () => {
       account: account.address,
       recoveryData: '0x',
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -375,8 +386,10 @@ describe('Universal Email Recovery Module', () => {
 
   it('Should get cancel recovery action', async () => {
     const action = await getCancelRecoveryAction({ client })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -387,8 +400,10 @@ describe('Universal Email Recovery Module', () => {
       client,
       account: account.address,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -451,8 +466,10 @@ describe('Universal Email Recovery Module', () => {
       guardian: guardians[0],
       weight: weights[0],
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -463,8 +480,10 @@ describe('Universal Email Recovery Module', () => {
       client,
       guardian: guardians[0],
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()
@@ -475,8 +494,10 @@ describe('Universal Email Recovery Module', () => {
       client,
       threshold,
     })
-    expect(action.to).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
-    expect(action.target).toEqual(UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.to).toEqual(GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS)
+    expect(action.target).toEqual(
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
     expect(action.data).toBeDefined()

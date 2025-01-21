@@ -1,26 +1,9 @@
 import { uninstallModule } from 'src/account'
-import {
-  getModule,
-  OWNABLE_VALIDATOR_ADDRESS,
-  SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
-  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
-  SMART_SESSIONS_ADDRESS,
-  UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-} from 'src/module'
+import { getModule } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
-import { OWNABLE_EXECUTOR_ADDRESS } from 'src/module/ownable-executor'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
-import { AUTO_SAVINGS_ADDRESS } from 'src/module/auto-savings'
-import {
-  COLD_STORAGE_FLASHLOAN_ADDRESS,
-  COLD_STORAGE_HOOK_ADDRESS,
-} from 'src/module/cold-storage'
 import { SafeHookType } from 'src/account/safe/types'
-import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
-import { DEADMAN_SWITCH_ADDRESS } from 'src/module/deadman-switch'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from 'src/module/multi-factor-validator'
-import { WEBAUTHN_VALIDATOR_ADDRESS } from 'src/module/webauthn-validator'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -37,7 +20,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: OWNABLE_VALIDATOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     }),
   })
 
@@ -47,7 +30,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: WEBAUTHN_VALIDATOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     }),
   })
 
@@ -57,7 +40,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: OWNABLE_EXECUTOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
     }),
   })
 
@@ -67,7 +50,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: SOCIAL_RECOVERY_ADDRESS,
+      module: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
     }),
   })
 
@@ -77,7 +60,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: AUTO_SAVINGS_ADDRESS,
+      module: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
     }),
   })
 
@@ -87,7 +70,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: DEADMAN_SWITCH_ADDRESS,
+      module: GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
     }),
   })
 
@@ -97,7 +80,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: MULTI_FACTOR_VALIDATOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     }),
   })
 
@@ -107,7 +90,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: COLD_STORAGE_HOOK_ADDRESS,
+      module: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
     }),
   })
 
@@ -117,7 +100,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'fallback',
-      module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+      module: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
       functionSig: '0x00000000' as Hex,
       selector: '0x00000000' as Hex,
     }),
@@ -128,7 +111,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     }),
   })
 
@@ -137,7 +120,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+      module: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     }),
   })
 
@@ -146,7 +129,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'hook',
-      module: HOOK_MULTI_PLEXER_ADDRESS,
+      module: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
       hookType: SafeHookType.GLOBAL,
       selector: '0x00000000' as Hex,
     }),
@@ -157,7 +140,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'validator',
-      module: SMART_SESSIONS_ADDRESS,
+      module: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     }),
   })
 
@@ -167,7 +150,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
     }),
   })
 

@@ -1,7 +1,7 @@
 import { Execution } from '../../account'
 import { encodeFunctionData, Address } from 'viem'
 import { abi } from './abi'
-import { REGISTRY_HOOK_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getSetRegistryAction = ({
   registryAddress,
@@ -15,8 +15,8 @@ export const getSetRegistryAction = ({
   })
 
   return {
-    to: REGISTRY_HOOK_ADDRESS,
-    target: REGISTRY_HOOK_ADDRESS,
+    to: GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
+    target: GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
