@@ -73,10 +73,10 @@ describe('Universal Email Recovery Module', () => {
     })
 
     expect(installUniversalEmailModule.address).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(installUniversalEmailModule.module).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(installUniversalEmailModule.initData).toBeDefined()
     expect(installUniversalEmailModule.deInitData).toEqual('0x')
@@ -141,10 +141,10 @@ describe('Universal Email Recovery Module', () => {
       recoverySelector: initialSelector,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -160,10 +160,10 @@ describe('Universal Email Recovery Module', () => {
       recoverySelector: initialSelector,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -254,7 +254,7 @@ describe('Universal Email Recovery Module', () => {
 
   it('Should get verifier', async () => {
     const expectedVerifier = getAddress(
-      '0x0D5C8bcae3A3589F2CFbb04895933717aA5098e1',
+      '0x3E5f29a7cCeb30D5FCD90078430CA110c2985716',
     )
     const verifier = await getVerifier({
       client,
@@ -264,7 +264,7 @@ describe('Universal Email Recovery Module', () => {
 
   it('Should get DKIM', async () => {
     const expectedDkim = getAddress(
-      '0x1D2B1F8cF98382e53C7735F05ef84d51FEd8Eff6',
+      '0x3D3935B3C030893f118a84C92C66dF1B9E4169d6',
     )
     const dkim = await getDkim({
       client,
@@ -274,7 +274,7 @@ describe('Universal Email Recovery Module', () => {
 
   it('Should get email auth implementation', async () => {
     const expectedEmailAuth = getAddress(
-      '0xCa4d16459b7AC7b348016244f1fA49d3f87b6F3F',
+      '0x2721a8eB83Ef105f7B30DAB4e8A4da97cD54f970',
     )
     const emailAuthImplementation = await getEmailAuthImplementation({
       client,
@@ -289,10 +289,10 @@ describe('Universal Email Recovery Module', () => {
       expiry,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -329,10 +329,10 @@ describe('Universal Email Recovery Module', () => {
       templateIdx: 0n,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -369,10 +369,10 @@ describe('Universal Email Recovery Module', () => {
       templateIdx: 0n,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -386,10 +386,10 @@ describe('Universal Email Recovery Module', () => {
       recoveryData: '0x',
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -399,10 +399,10 @@ describe('Universal Email Recovery Module', () => {
   it('Should get cancel recovery action', async () => {
     const action = await getCancelRecoveryAction({ client })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -415,10 +415,10 @@ describe('Universal Email Recovery Module', () => {
       account: account.address,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -427,13 +427,13 @@ describe('Universal Email Recovery Module', () => {
 
   it('Should compute email auth address', async () => {
     const expectedEmailAuthAddress = getAddress(
-      '0x81e375B511FA247B22D09519f37ddaa661cbd59a',
+      '0x4D27E1D29b6757c63BB452F2B7808489f8395DFD',
     )
     const emailAuthAddress = await computeEmailAuthAddress({
       client,
       recoveredAccount: account.address,
       accountSalt:
-        '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        '0x1b749df8845eee7644992f2d5c240a0b70fadb9129c6569df0c76abaded15ae6',
     })
     expect(emailAuthAddress).toEqual(expectedEmailAuthAddress)
   })
@@ -483,10 +483,10 @@ describe('Universal Email Recovery Module', () => {
       weight: weights[0],
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -499,10 +499,10 @@ describe('Universal Email Recovery Module', () => {
       guardian: guardians[0],
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
@@ -515,10 +515,10 @@ describe('Universal Email Recovery Module', () => {
       threshold,
     })
     expect(action.to).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.target).toEqual(
-      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     )
     expect(action.value).toEqual(0n)
     expect(action.callData).toBeDefined()
