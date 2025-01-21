@@ -52,7 +52,7 @@ describe('Smart Sessions Polices', () => {
         },
       }
       const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
-      
+
       expect(installUniversalPolicy.address).toEqual(
         GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
       )
