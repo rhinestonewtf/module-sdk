@@ -23,7 +23,7 @@ import {
   toFunctionSelector,
   toHex,
 } from 'viem'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
+import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
 import { sendUserOp } from '../infra'
 import { SENTINEL_ADDRESS } from 'src/common'
 
@@ -43,7 +43,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+        module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       }),
     })
 
