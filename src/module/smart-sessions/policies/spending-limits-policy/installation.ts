@@ -1,6 +1,6 @@
 import { Policy } from '../types'
 import { Address, encodeAbiParameters } from 'viem'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 type Params = {
   token: Address

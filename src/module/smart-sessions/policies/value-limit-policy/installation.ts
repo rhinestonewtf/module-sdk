@@ -1,4 +1,4 @@
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 import { Policy } from '../types'
 import { encodeAbiParameters } from 'viem'
 

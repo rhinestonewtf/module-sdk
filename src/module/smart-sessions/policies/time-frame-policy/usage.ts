@@ -2,7 +2,7 @@ import { Address, PublicClient } from 'viem'
 import { abi } from './abi'
 import { TimeFrameConfig } from './types'
 import { bigIntToBytes32 } from '../utils'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getTimeFramePolicyData = async ({
   client,
