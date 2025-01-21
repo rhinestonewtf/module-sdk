@@ -1,5 +1,4 @@
 import { getOwnableValidator } from 'src/module'
-import { OWNABLE_VALIDATOR_ADDRESS } from 'src'
 import { Address } from 'viem'
 import {
   getAddOwnableValidatorOwnerAction,
@@ -13,6 +12,7 @@ import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
 import { getOwnableValidatorThreshold } from 'src/module'
 import { Execution } from 'src/account'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('Ownable Validator Module', () => {
   // Setup
@@ -31,7 +31,7 @@ describe('Ownable Validator Module', () => {
     })
 
     expect(installOwnableValidatorModule.module).toEqual(
-      OWNABLE_VALIDATOR_ADDRESS,
+      GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     )
     expect(installOwnableValidatorModule.initData).toBeDefined()
     expect(installOwnableValidatorModule.type).toEqual('validator')
@@ -42,7 +42,9 @@ describe('Ownable Validator Module', () => {
       threshold: 3,
     })
 
-    expect(setThresholdExecution.target).toEqual(OWNABLE_VALIDATOR_ADDRESS)
+    expect(setThresholdExecution.target).toEqual(
+      GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    )
     expect(setThresholdExecution.value).toEqual(BigInt(0))
     expect(setThresholdExecution.callData).toBeDefined()
   })
@@ -54,7 +56,9 @@ describe('Ownable Validator Module', () => {
       owner: owners[0],
     })) as Execution
 
-    expect(addOwnerExecution.target).toEqual(OWNABLE_VALIDATOR_ADDRESS)
+    expect(addOwnerExecution.target).toEqual(
+      GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    )
     expect(addOwnerExecution.value).toEqual(BigInt(0))
     expect(addOwnerExecution.callData).toBeDefined()
   })

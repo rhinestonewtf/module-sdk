@@ -1,6 +1,7 @@
 import { Account, isModuleInstalled } from 'src/account'
-import { getModule, WEBAUTHN_VALIDATOR_ADDRESS } from 'src/module'
+import { getModule } from 'src/module'
 import { PublicClient, TestClient } from 'viem'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -18,7 +19,7 @@ export const testWebauthnValidator = async ({
       client: publicClient,
       module: getModule({
         type: 'validator',
-        module: WEBAUTHN_VALIDATOR_ADDRESS,
+        module: GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
       }),
     })
 

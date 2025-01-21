@@ -3,11 +3,11 @@ import {
   getCreateScheduledTransferAction,
   getModule,
   getToggleScheduledTransferAction,
-  SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
 } from 'src/module'
 import { ERC20Token } from 'src/module/scheduled-orders/types'
 import { PublicClient, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -25,7 +25,7 @@ export const testScheduledTransfersExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+        module: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
       }),
     })
 

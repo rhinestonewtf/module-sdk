@@ -15,7 +15,6 @@ import {
   encodeSmartSessionSignature,
   getSmartSessionsValidator,
   getSudoPolicy,
-  SMART_SESSIONS_ADDRESS,
   getPermissionId,
 } from 'src/module/smart-sessions'
 import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts'
@@ -23,9 +22,9 @@ import { mainnet, sepolia } from 'viem/chains'
 import {
   encodeValidationData,
   getOwnableValidatorMockSignature,
-  OWNABLE_VALIDATOR_ADDRESS,
 } from 'src/module'
 import { getAccount } from 'src/account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Smart Sessions Polices', () => {
   it('should get install smart sessions', async () => {
@@ -52,7 +51,9 @@ describe('Smart Sessions Polices', () => {
     ]
 
     const installSmartSession = getSmartSessionsValidator({ sessions })
-    expect(installSmartSession.module).toEqual(SMART_SESSIONS_ADDRESS)
+    expect(installSmartSession.module).toEqual(
+      GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    )
     expect(installSmartSession.initData).toBeDefined()
     expect(installSmartSession.deInitData).toEqual('0x')
   })
@@ -87,7 +88,7 @@ describe('Smart Sessions Polices', () => {
     })
 
     const session: Session = {
-      sessionValidator: OWNABLE_VALIDATOR_ADDRESS as Address,
+      sessionValidator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS as Address,
       sessionValidatorInitData: encodeValidationData({
         threshold: 1,
         owners: [privateKeyToAccount(privateKey).address],
@@ -157,7 +158,7 @@ describe('Smart Sessions Polices', () => {
           sessionToEnable: session,
           permissionEnableSig,
         },
-        validator: OWNABLE_VALIDATOR_ADDRESS,
+        validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
         accountType: account.type,
       },
     })
@@ -186,7 +187,7 @@ describe('Smart Sessions Polices', () => {
       decodedSig.enableSessionData?.enableSession.permissionEnableSig,
     ).toEqual(permissionEnableSig)
     expect(keccak256(decodedSig.enableSessionData?.validator!)).toEqual(
-      keccak256(OWNABLE_VALIDATOR_ADDRESS),
+      keccak256(GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS),
     )
     expect(decodedSig.enableSessionData?.accountType).toEqual(account.type)
   })
@@ -200,7 +201,7 @@ describe('Smart Sessions Polices', () => {
     })
 
     const session: Session = {
-      sessionValidator: OWNABLE_VALIDATOR_ADDRESS as Address,
+      sessionValidator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS as Address,
       sessionValidatorInitData: encodeValidationData({
         threshold: 1,
         owners: [privateKeyToAccount(privateKey).address],
@@ -269,7 +270,7 @@ describe('Smart Sessions Polices', () => {
           sessionToEnable: session,
           permissionEnableSig,
         },
-        validator: OWNABLE_VALIDATOR_ADDRESS,
+        validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
         accountType: account.type,
       },
     })
@@ -298,7 +299,7 @@ describe('Smart Sessions Polices', () => {
       decodedSig.enableSessionData?.enableSession.permissionEnableSig,
     ).toEqual(permissionEnableSig)
     expect(keccak256(decodedSig.enableSessionData?.validator!)).toEqual(
-      keccak256(OWNABLE_VALIDATOR_ADDRESS),
+      keccak256(GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS),
     )
     expect(decodedSig.enableSessionData?.accountType).toEqual(account.type)
   })
@@ -331,7 +332,7 @@ describe('Smart Sessions Polices', () => {
     })
 
     const session: Session = {
-      sessionValidator: OWNABLE_VALIDATOR_ADDRESS as Address,
+      sessionValidator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS as Address,
       sessionValidatorInitData: encodeValidationData({
         threshold: 1,
         owners: [privateKeyToAccount(privateKey).address],
@@ -378,7 +379,7 @@ describe('Smart Sessions Polices', () => {
           sessionToEnable: session,
           permissionEnableSig,
         },
-        validator: OWNABLE_VALIDATOR_ADDRESS,
+        validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
         accountType: account.type,
       },
     })

@@ -1,5 +1,5 @@
 import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
-import { AUTO_SAVINGS_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from '../../constants'
 import { abi } from './abi'
 import { Execution } from '../../account'
 import { SENTINEL_ADDRESS } from '../../common/constants'
@@ -25,8 +25,8 @@ export const getSetAutoSavingConfigAction = ({
   })
 
   return {
-    to: AUTO_SAVINGS_ADDRESS,
-    target: AUTO_SAVINGS_ADDRESS,
+    to: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    target: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -42,7 +42,7 @@ export const getAutoSavingTokens = async ({
 }): Promise<Address[]> => {
   try {
     const tokens = (await client.readContract({
-      address: AUTO_SAVINGS_ADDRESS,
+      address: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
       abi,
       functionName: 'getTokens',
       args: [account.address],
@@ -86,8 +86,8 @@ export const getDeleteAutoSavingConfigAction = async ({
     })
 
     return {
-      to: AUTO_SAVINGS_ADDRESS,
-      target: AUTO_SAVINGS_ADDRESS,
+      to: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+      target: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
       value: BigInt(0),
       callData: data,
       data,
@@ -118,8 +118,8 @@ export const getAutoSaveAction = ({
   })
 
   return {
-    to: AUTO_SAVINGS_ADDRESS,
-    target: AUTO_SAVINGS_ADDRESS,
+    to: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    target: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -139,7 +139,7 @@ export const getAutoSavingAccountTokenConfig = async ({
 }): Promise<ConfigType> => {
   try {
     const config = (await client.readContract({
-      address: AUTO_SAVINGS_ADDRESS,
+      address: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
       abi,
       functionName: 'config',
       args: [account.address, token],

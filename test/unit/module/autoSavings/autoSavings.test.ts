@@ -1,4 +1,4 @@
-import { AUTO_SAVINGS_ADDRESS, getAutoSavingsExecutor } from 'src/module'
+import { getAutoSavingsExecutor } from 'src/module'
 import { Address, zeroAddress } from 'viem'
 import {
   getSetAutoSavingConfigAction,
@@ -12,6 +12,7 @@ import { MockClient } from '../../../utils/mocks/client'
 import { Execution, getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
 import { sepolia } from 'viem/chains'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Auto Savings Module', () => {
   // Setup
@@ -32,7 +33,9 @@ describe('Auto Savings Module', () => {
       configs,
     })
 
-    expect(installAutoSavingsModule.module).toEqual(AUTO_SAVINGS_ADDRESS)
+    expect(installAutoSavingsModule.module).toEqual(
+      GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    )
     expect(installAutoSavingsModule.initData).toBeDefined()
     expect(installAutoSavingsModule.type).toEqual('executor')
   })
@@ -43,7 +46,9 @@ describe('Auto Savings Module', () => {
       config: configs[0],
     })
 
-    expect(setConfigExecution.target).toEqual(AUTO_SAVINGS_ADDRESS)
+    expect(setConfigExecution.target).toEqual(
+      GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    )
     expect(setConfigExecution.value).toEqual(BigInt(0))
     expect(setConfigExecution.callData).toBeDefined()
   })
@@ -76,7 +81,9 @@ describe('Auto Savings Module', () => {
       amountReceived: 100,
     })) as Execution
 
-    expect(autoSaveExecution.target).toEqual(AUTO_SAVINGS_ADDRESS)
+    expect(autoSaveExecution.target).toEqual(
+      GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
+    )
     expect(autoSaveExecution.value).toEqual(BigInt(0))
     expect(autoSaveExecution.callData).toBeDefined()
   })

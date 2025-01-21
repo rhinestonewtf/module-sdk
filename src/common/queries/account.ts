@@ -1,6 +1,6 @@
 import { Address, PublicClient } from 'viem'
-import { INDEXER_URL } from '../constants'
 import { Account } from '../../account'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 const query = `
     query ($smartAccount: String, $chainId: Int) {
@@ -23,7 +23,7 @@ export const getInstalledModules = async ({
     chainId: await client.getChainId(),
   }
 
-  const response = await fetch(INDEXER_URL, {
+  const response = await fetch(GLOBAL_CONSTANTS.INDEXER_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

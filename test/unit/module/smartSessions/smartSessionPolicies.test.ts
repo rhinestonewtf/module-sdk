@@ -7,10 +7,7 @@ import { getSpendingLimitsPolicy } from 'src/module/smart-sessions/policies/spen
 import { getPolicyData } from 'src/module/smart-sessions/policies/spending-limits-policy/usage'
 import { getSudoPolicy } from 'src/module/smart-sessions/policies/sudo-policy'
 import { getTimeFramePolicyData } from 'src/module/smart-sessions/policies/time-frame-policy/usage'
-import {
-  getUniversalActionPolicy,
-  UNIVERSAL_ACTION_POLICY_ADDRESS,
-} from 'src/module/smart-sessions/policies/universal-action-policy'
+import { getUniversalActionPolicy } from 'src/module/smart-sessions/policies/universal-action-policy'
 import {
   ActionConfig,
   ParamCondition,
@@ -20,6 +17,7 @@ import { getUsageLimitConfig } from 'src/module/smart-sessions/policies/usage-li
 import { getValueLimitConfig } from 'src/module/smart-sessions/policies/value-limit-policy/usage'
 import { createPublicClient, http, PublicClient, zeroAddress } from 'viem'
 import { sepolia } from 'viem/chains'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Smart Sessions Polices', () => {
   let client: PublicClient
@@ -55,9 +53,8 @@ describe('Smart Sessions Polices', () => {
         },
       }
       const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
-
       expect(installUniversalPolicy.address).toEqual(
-        UNIVERSAL_ACTION_POLICY_ADDRESS,
+        GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
       )
       expect(installUniversalPolicy.initData).toBeDefined()
     })

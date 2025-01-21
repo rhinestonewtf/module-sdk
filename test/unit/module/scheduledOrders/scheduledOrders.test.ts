@@ -1,9 +1,9 @@
 import { getScheduledOrdersExecutor } from 'src'
-import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from 'src/module'
 import { getCreateScheduledOrderAction } from 'src'
 import { getExecuteScheduledOrderAction } from 'src'
 import { ERC20Token } from 'src'
 import { sepolia } from 'viem/chains'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('ScheduledOrders Module', () => {
   // Setup
@@ -27,7 +27,7 @@ describe('ScheduledOrders Module', () => {
     })
 
     expect(installScheduledOrdersModule.module).toEqual(
-      SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     )
     expect(installScheduledOrdersModule.initData).toBeDefined()
     expect(installScheduledOrdersModule.type).toEqual('executor')
@@ -50,7 +50,7 @@ describe('ScheduledOrders Module', () => {
     })
 
     expect(createScheduledOrderExecution.target).toEqual(
-      SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     )
     expect(createScheduledOrderExecution.value).toEqual(BigInt(0))
     expect(createScheduledOrderExecution.callData).toBeDefined()
@@ -59,7 +59,9 @@ describe('ScheduledOrders Module', () => {
   it('should get execute order action', async () => {
     const executeOrder = getExecuteScheduledOrderAction({ jobId: 1 })
 
-    expect(executeOrder.target).toEqual(SCHEDULED_ORDERS_EXECUTOR_ADDRESS)
+    expect(executeOrder.target).toEqual(
+      GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    )
     expect(executeOrder.value).toEqual(BigInt(0))
     expect(executeOrder.callData).toBeDefined()
   })

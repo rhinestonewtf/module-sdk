@@ -1,7 +1,7 @@
 import { getRegistryHook } from 'src/module'
-import { REGISTRY_HOOK_ADDRESS } from 'src'
 import { Address } from 'viem'
 import { getSetRegistryAction } from 'src'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('Registry hook Module', () => {
   // Setup
@@ -13,7 +13,9 @@ describe('Registry hook Module', () => {
       registryAddress,
     })
 
-    expect(installOwnableExecutorModule.module).toEqual(REGISTRY_HOOK_ADDRESS)
+    expect(installOwnableExecutorModule.module).toEqual(
+      GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
+    )
     expect(installOwnableExecutorModule.initData).toBeDefined()
     expect(installOwnableExecutorModule.type).toEqual('hook')
   })
@@ -23,7 +25,9 @@ describe('Registry hook Module', () => {
       registryAddress,
     })
 
-    expect(setRegistryExecution.target).toEqual(REGISTRY_HOOK_ADDRESS)
+    expect(setRegistryExecution.target).toEqual(
+      GLOBAL_CONSTANTS.REGISTRY_HOOK_ADDRESS,
+    )
     expect(setRegistryExecution.value).toEqual(BigInt(0))
     expect(setRegistryExecution.callData).toBeDefined()
   })

@@ -1,9 +1,6 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
-import {
-  AUTO_SAVINGS_ADDRESS,
-  getAutoSavingAccountTokenConfig,
-} from 'src/module/auto-savings'
+import { getAutoSavingAccountTokenConfig } from 'src/module/auto-savings'
 import { getAddress, PublicClient, TestClient, zeroAddress } from 'viem'
 import { getInstallModuleData, sendUserOp } from '../infra'
 import {
@@ -12,6 +9,7 @@ import {
   getSetAutoSavingConfigAction,
   getAutoSavingTokens,
 } from 'src/module/auto-savings/usage'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -29,7 +27,7 @@ export const testAutoSavingsExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: AUTO_SAVINGS_ADDRESS,
+        module: GLOBAL_CONSTANTS.AUTO_SAVINGS_ADDRESS,
       }),
     })
 

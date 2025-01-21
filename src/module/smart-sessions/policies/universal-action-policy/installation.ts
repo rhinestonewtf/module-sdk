@@ -1,8 +1,9 @@
-import { MAX_RULES, UNIVERSAL_ACTION_POLICY_ADDRESS } from './constants'
+import { MAX_RULES } from './constants'
 import { Policy } from '../types'
 import { Abi, encodeAbiParameters } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getUniversalActionPolicy = (
   actionConfig: ActionConfig,
@@ -12,9 +13,9 @@ export const getUniversalActionPolicy = (
   }
 
   return {
-    policy: UNIVERSAL_ACTION_POLICY_ADDRESS,
-    address: UNIVERSAL_ACTION_POLICY_ADDRESS,
-    initData: encodeAbiParameters(abi as Abi, [
+    policy: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
+    address: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
+    initData: encodeAbiParameters(abi, [
       {
         valueLimitPerUse: actionConfig.valueLimitPerUse,
         paramRules: {

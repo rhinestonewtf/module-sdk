@@ -152,8 +152,7 @@ export {
   ApprovalSpend,
   CrossChainOrder,
   WithdrawRequest,
-  UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
-  UNIVERSAL_EMAIL_RECOVERY_ADDRESS__BASE,
+  UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
   MAX_VALIDATORS,
   MAX_NUMBER_OF_GUARDIANS,
   MINIMUM_RECOVERY_WINDOW,
@@ -215,3 +214,11 @@ export {
   getScheduledOrders,
   getScheduledOrderByJobId,
 } from './common'
+
+export {
+  DEFAULT_CONSTANTS,
+  GLOBAL_CONSTANTS,
+  setGlobalConstants,
+  getModifiedConstants,
+  restoreGlobalConstants,
+} from './constants'

@@ -1,7 +1,7 @@
 import { Address, encodeAbiParameters, encodePacked } from 'viem'
 import { Module } from '../types'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 import { Validator } from './types'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getMultiFactorValidator = ({
   threshold,
@@ -13,8 +13,8 @@ export const getMultiFactorValidator = ({
   hook?: Address
 }): Module => {
   return {
-    address: MULTI_FACTOR_VALIDATOR_ADDRESS,
-    module: MULTI_FACTOR_VALIDATOR_ADDRESS,
+    address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    module: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     initData: encodePacked(
       ['uint8', 'bytes'],
       [

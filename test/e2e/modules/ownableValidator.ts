@@ -1,9 +1,7 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
-import { getModule, OWNABLE_VALIDATOR_ADDRESS } from 'src/module'
+import { getModule } from 'src/module'
 import {
   Address,
-  concat,
-  encodePacked,
   getAddress,
   Hex,
   PublicClient,
@@ -30,6 +28,7 @@ import {
 import { anvil } from 'viem/chains'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 import { getOwnableValidatorMockSignature } from 'src/module'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -47,7 +46,7 @@ export const testOwnableValidator = async ({
       client: publicClient,
       module: getModule({
         type: 'validator',
-        module: OWNABLE_VALIDATOR_ADDRESS,
+        module: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       }),
     })
 
@@ -186,7 +185,7 @@ export const testOwnableValidator = async ({
           callData: '0x',
         },
       ],
-      validator: OWNABLE_VALIDATOR_ADDRESS,
+      validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       signUserOpHash: async (userOpHash) => {
         const signer = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
 
@@ -251,7 +250,7 @@ export const testOwnableValidator = async ({
           callData: '0x',
         },
       ],
-      validator: OWNABLE_VALIDATOR_ADDRESS,
+      validator: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       signUserOpHash: async (userOpHash) => {
         const signer1 = privateKeyToAccount(process.env.PRIVATE_KEY as Hex)
         const signer2 = privateKeyToAccount(

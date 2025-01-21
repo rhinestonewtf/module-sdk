@@ -1,8 +1,8 @@
 import { encodeAbiParameters, keccak256, toHex } from 'viem'
 import { Module } from '../types'
-import { WEBAUTHN_VALIDATOR_ADDRESS } from './constants'
 import { parsePublicKey } from './utils'
 import { WebauthnCredential } from './types'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getWebAuthnValidator = (
   webAuthnCredential: WebauthnCredential,
@@ -29,8 +29,8 @@ export const getWebAuthnValidator = (
   }
 
   return {
-    address: WEBAUTHN_VALIDATOR_ADDRESS,
-    module: WEBAUTHN_VALIDATOR_ADDRESS,
+    address: GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
+    module: GLOBAL_CONSTANTS.WEBAUTHN_VALIDATOR_ADDRESS,
     initData: encodeAbiParameters(
       [
         {

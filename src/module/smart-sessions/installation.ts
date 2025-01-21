@@ -1,13 +1,10 @@
 import { Address, encodeAbiParameters, encodePacked } from 'viem'
 import { Module } from '../types'
-import {
-  SMART_SESSIONS_ADDRESS,
-  SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
-} from './constants'
 import { Session } from './types'
 import { installSmartSessionsAbi } from './abi'
 import { SmartSessionMode } from './types'
 import { CallType } from '../../module/types'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   sessions?: Session[]
@@ -21,8 +18,8 @@ export const getSmartSessionsValidator = ({
   hook,
 }: Params): Module => {
   return {
-    address: SMART_SESSIONS_ADDRESS,
-    module: SMART_SESSIONS_ADDRESS,
+    address: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    module: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     initData: sessions?.length
       ? encodePacked(
           ['bytes1', 'bytes'],
@@ -43,8 +40,8 @@ export const getSmartSessionsValidator = ({
 
 export const getSmartSessionsCompatibilityFallback = (): Module => {
   return {
-    address: SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
-    module: SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
+    address: GLOBAL_CONSTANTS.SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
+    module: GLOBAL_CONSTANTS.SMART_SESSIONS_COMPATIBILITY_FALLBACK_ADDRESS,
     initData: '0x',
     deInitData: '0x',
     selector: '0x84b0196e',

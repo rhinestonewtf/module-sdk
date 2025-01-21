@@ -1,5 +1,4 @@
 import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
-import { SOCIAL_RECOVERY_ADDRESS } from 'src/module/social-recovery/constants'
 import { Address } from 'viem'
 import {
   getAddSocialRecoveryGuardianAction,
@@ -11,6 +10,7 @@ import { getClient } from 'src/common/getClient'
 import { MockClient } from '../../../../test/utils/mocks/client'
 import { getAccount } from 'src/account'
 import { MockAccountDeployed } from '../../../../test/utils/mocks/account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 describe('Social Recovery Module', () => {
   // Setup
@@ -28,7 +28,9 @@ describe('Social Recovery Module', () => {
       guardians,
     })
 
-    expect(installSocialRecoveryModule.module).toEqual(SOCIAL_RECOVERY_ADDRESS)
+    expect(installSocialRecoveryModule.module).toEqual(
+      GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    )
     expect(installSocialRecoveryModule.initData).toBeDefined()
     expect(installSocialRecoveryModule.type).toEqual('validator')
   })
@@ -38,7 +40,9 @@ describe('Social Recovery Module', () => {
       threshold: 3,
     })
 
-    expect(setThresholdExecution.target).toEqual(SOCIAL_RECOVERY_ADDRESS)
+    expect(setThresholdExecution.target).toEqual(
+      GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    )
     expect(setThresholdExecution.value).toEqual(BigInt(0))
     expect(setThresholdExecution.callData).toBeDefined()
   })
@@ -48,7 +52,9 @@ describe('Social Recovery Module', () => {
       guardian: guardians[0],
     })
 
-    expect(addGuardianExecution.target).toEqual(SOCIAL_RECOVERY_ADDRESS)
+    expect(addGuardianExecution.target).toEqual(
+      GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    )
     expect(addGuardianExecution.value).toEqual(BigInt(0))
     expect(addGuardianExecution.callData).toBeDefined()
   })

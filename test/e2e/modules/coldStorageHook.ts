@@ -1,8 +1,6 @@
 import { Account, Execution, isModuleInstalled } from 'src/account'
 import { getModule } from 'src/module'
 import {
-  COLD_STORAGE_HOOK_ADDRESS,
-  COLD_STORAGE_FLASHLOAN_ADDRESS,
   getColdStorageSetWaitPeriodAction,
   getRequestTimelockedExecution,
   getRequestTimelockedModuleConfigExecution,
@@ -13,6 +11,7 @@ import {
 import { PublicClient, TestClient } from 'viem'
 import { sendUserOp } from '../infra'
 import { moduleTypeIds } from 'src/module/types'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -30,7 +29,7 @@ export const testColdStorageHook = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: COLD_STORAGE_HOOK_ADDRESS,
+        module: GLOBAL_CONSTANTS.COLD_STORAGE_HOOK_ADDRESS,
       }),
     })
 
@@ -43,7 +42,7 @@ export const testColdStorageHook = async ({
       client: publicClient,
       module: getModule({
         type: 'fallback',
-        module: COLD_STORAGE_FLASHLOAN_ADDRESS,
+        module: GLOBAL_CONSTANTS.COLD_STORAGE_FLASHLOAN_ADDRESS,
         functionSig: '0x00000000',
         selector: '0x00000000',
       }),

@@ -7,8 +7,8 @@ import {
 } from 'viem'
 import { ScheduledTransfer } from './types'
 import { Execution } from '../../account/types'
-import { SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS } from './constants'
 import { abi } from './abi'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   scheduledTransfer: ScheduledTransfer
@@ -62,8 +62,8 @@ export const getCreateScheduledTransferAction = ({
   })
 
   return {
-    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
-    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -84,8 +84,8 @@ export const getExecuteScheduledTransferAction = ({
   })
 
   return {
-    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
-    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -102,8 +102,8 @@ export const getToggleScheduledTransferAction = ({
   })
 
   return {
-    to: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
-    target: SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,

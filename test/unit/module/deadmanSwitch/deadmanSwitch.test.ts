@@ -1,4 +1,4 @@
-import { DEADMAN_SWITCH_ADDRESS, getDeadmanSwitchConfig } from 'src'
+import { getDeadmanSwitchConfig, GLOBAL_CONSTANTS } from 'src'
 import { Address, zeroAddress } from 'viem'
 import { getDeadmanSwitch } from 'src'
 import { getClient } from 'src'
@@ -22,7 +22,7 @@ describe('Deadman switch Module', () => {
     })
 
     expect(installDeadmanSwitchHookModule.module).toEqual(
-      DEADMAN_SWITCH_ADDRESS,
+      GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
     )
     expect(installDeadmanSwitchHookModule.initData).toBeDefined()
     expect(installDeadmanSwitchHookModule.type).toEqual('hook')
@@ -38,7 +38,7 @@ describe('Deadman switch Module', () => {
     })
 
     expect(installDeadmanSwitchValidatorModule.module).toEqual(
-      DEADMAN_SWITCH_ADDRESS,
+      GLOBAL_CONSTANTS.DEADMAN_SWITCH_ADDRESS,
     )
     expect(installDeadmanSwitchValidatorModule.initData).toBeDefined()
     expect(installDeadmanSwitchValidatorModule.type).toEqual('validator')

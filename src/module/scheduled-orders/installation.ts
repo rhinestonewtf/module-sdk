@@ -1,7 +1,7 @@
 import { Address, Hex, encodePacked } from 'viem'
 import { Module } from '../types'
-import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from './constants'
 import { swapRouterAddresses } from '../utils/uniswap'
+import { GLOBAL_CONSTANTS } from '../../constants'
 
 type Params = {
   chainId: number
@@ -26,8 +26,8 @@ export const getScheduledOrdersExecutor = ({
   }
 
   return {
-    address: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
-    module: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    address: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    module: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     type: 'executor',
     initData: encodePacked(
       ['address', 'uint48', 'uint16', 'uint48', 'bytes'],
