@@ -5,7 +5,7 @@ import {
   SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
   SCHEDULED_TRANSFERS_EXECUTOR_ADDRESS,
   SMART_SESSIONS_ADDRESS,
-  UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+  UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
 } from 'src/module'
 import { Account } from 'src/account'
 import { Hex, PublicClient } from 'viem'
@@ -167,7 +167,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     }),
   })
 
