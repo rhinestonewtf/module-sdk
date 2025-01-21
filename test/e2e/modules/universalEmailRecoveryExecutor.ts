@@ -41,7 +41,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+        module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       }),
     })
 

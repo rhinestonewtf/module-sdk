@@ -1,6 +1,6 @@
 import { Address, encodeAbiParameters, Hex } from 'viem'
 import { Module } from '../../types'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from '../../../constants'
 
 export const getUniversalEmailRecoveryExecutor = ({
   validator,
@@ -26,8 +26,8 @@ export const getUniversalEmailRecoveryExecutor = ({
   hook?: Address
 }): Module => {
   return {
-    address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     initData: encodeAbiParameters(
       [
         { name: 'validator', type: 'address' },
