@@ -1,4 +1,3 @@
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from './constants'
 import { Execution } from '../../../account/types'
 import {
   Address,
@@ -10,6 +9,7 @@ import {
 } from 'viem'
 import { Account } from '../../../account/types'
 import { abi } from './abi'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export type EmailAuthMsg = {
   templateId: bigint
@@ -38,7 +38,7 @@ export const getRecoveryConfig = async ({
 }): Promise<{ delay: bigint; expiry: bigint }> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getRecoveryConfig',
       args: [account.address],
@@ -57,7 +57,7 @@ export const getRecoveryRequest = async ({
 }): Promise<readonly [bigint, bigint, bigint, Hex]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getRecoveryRequest',
       args: [account.address],
@@ -79,7 +79,7 @@ export const getPreviousRecoveryRequest = async ({
 }> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getPreviousRecoveryRequest',
       args: [account.address],
@@ -101,7 +101,7 @@ export const isActivated = async ({
 }): Promise<boolean> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'isActivated',
       args: [account.address],
@@ -122,7 +122,7 @@ export const canStartRecoveryRequest = async ({
 }): Promise<boolean> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'canStartRecoveryRequest',
       args: [account.address, validator],
@@ -150,8 +150,8 @@ export const getAllowValidatorRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -176,8 +176,8 @@ export const getDisallowValidatorRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -193,7 +193,7 @@ export const getAllowedValidators = async ({
 }): Promise<readonly Address[]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getAllowedValidators',
       args: [account.address],
@@ -212,7 +212,7 @@ export const getAllowedSelectors = async ({
 }): Promise<readonly Hex[]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getAllowedSelectors',
       args: [account.address],
@@ -229,7 +229,7 @@ export const acceptanceCommandTemplates = async ({
 }): Promise<readonly (readonly string[])[]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'acceptanceCommandTemplates',
     })
@@ -245,7 +245,7 @@ export const recoveryCommandTemplates = async ({
 }): Promise<readonly (readonly string[])[]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'recoveryCommandTemplates',
     })
@@ -265,7 +265,7 @@ export const extractRecoveredAccountFromAcceptanceCommand = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'extractRecoveredAccountFromAcceptanceCommand',
       args: [commandParams, templateIdx],
@@ -286,7 +286,7 @@ export const extractRecoveredAccountFromRecoveryCommand = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'extractRecoveredAccountFromRecoveryCommand',
       args: [commandParams, templateIdx],
@@ -305,7 +305,7 @@ export const computeAcceptanceTemplateId = async ({
 }): Promise<bigint> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'computeAcceptanceTemplateId',
       args: [templateIdx],
@@ -324,7 +324,7 @@ export const computeRecoveryTemplateId = async ({
 }): Promise<bigint> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'computeRecoveryTemplateId',
       args: [templateIdx],
@@ -341,7 +341,7 @@ export const getVerifier = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'verifier',
     })
@@ -357,7 +357,7 @@ export const getDkim = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'dkim',
     })
@@ -373,7 +373,7 @@ export const getEmailAuthImplementation = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'emailAuthImplementation',
     })
@@ -398,8 +398,8 @@ export const getUpdateRecoveryConfigAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -422,8 +422,8 @@ export const getHandleAcceptanceAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -446,8 +446,8 @@ export const getHandleRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -470,8 +470,8 @@ export const getCompleteRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -489,8 +489,8 @@ export const getCancelRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -511,8 +511,8 @@ export const getCancelExpiredRecoveryAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -530,7 +530,7 @@ export const computeEmailAuthAddress = async ({
 }): Promise<Address> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'computeEmailAuthAddress',
       args: [recoveredAccount, accountSalt],
@@ -554,7 +554,7 @@ export const getGuardianConfig = async ({
 }> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getGuardianConfig',
       args: [account.address],
@@ -580,7 +580,7 @@ export const getGuardian = async ({
 }): Promise<{ status: number; weight: bigint }> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getGuardian',
       args: [account.address, guardian],
@@ -599,7 +599,7 @@ export const getAllGuardians = async ({
 }): Promise<readonly Address[]> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getAllGuardians',
       args: [account.address],
@@ -620,7 +620,7 @@ export const hasGuardianVoted = async ({
 }): Promise<boolean> => {
   try {
     return await client.readContract({
-      address: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       abi,
       functionName: 'hasGuardianVoted',
       args: [account.address, guardian],
@@ -646,8 +646,8 @@ export const getAddGuardianAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -668,8 +668,8 @@ export const getRemoveGuardianAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
@@ -690,8 +690,8 @@ export const getChangeThresholdAction = async ({
   })
 
   return {
-    to: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
-    target: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     value: 0n,
     callData: data,
     data,
