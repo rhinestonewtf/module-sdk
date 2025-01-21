@@ -26,7 +26,6 @@ describe('Smart Sessions Polices', () => {
       chain: sepolia,
       transport: http('https://rpc.sepolia.ethpandaops.io'),
     })
-    //client = getPublicClient(sepolia) //default RPC url timeout when testing
   })
 
   // -----------------------
