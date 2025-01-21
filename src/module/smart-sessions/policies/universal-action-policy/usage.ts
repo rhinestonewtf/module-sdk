@@ -2,7 +2,7 @@ import { Address, PublicClient } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
 import { bigIntToBytes32 } from '../utils'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getActionConfig = async ({
   client,

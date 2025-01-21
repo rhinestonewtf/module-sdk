@@ -1,6 +1,6 @@
 import { Policy } from '../types'
 import { encodePacked } from 'viem'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 type Params = {
   validUntil: number
