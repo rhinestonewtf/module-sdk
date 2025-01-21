@@ -1,6 +1,6 @@
 import { Address, encodeAbiParameters, Hex } from 'viem'
 import { Module } from '../../types'
-import { GLOBAL_CONSTANTS } from 'src/constants'
+import { GLOBAL_CONSTANTS } from '../../../constants'
 
 export const getUniversalEmailRecoveryExecutor = ({
   validator,
