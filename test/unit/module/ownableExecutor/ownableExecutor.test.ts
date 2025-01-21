@@ -1,5 +1,4 @@
 import { getOwnableExecutor } from 'src/module'
-import { OWNABLE_EXECUTOR_ADDRESS } from 'src/module'
 import { Address } from 'viem'
 import {
   getAddOwnableExecutorOwnerAction,
@@ -12,6 +11,7 @@ import { getClient } from 'src'
 import { MockClient } from 'test/utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from 'test/utils/mocks/account'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('Ownable Executor Module', () => {
   // Setup
@@ -29,7 +29,7 @@ describe('Ownable Executor Module', () => {
     })
 
     expect(installOwnableExecutorModule.module).toEqual(
-      OWNABLE_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(installOwnableExecutorModule.initData).toBeDefined()
     expect(installOwnableExecutorModule.type).toEqual('executor')
@@ -42,7 +42,9 @@ describe('Ownable Executor Module', () => {
       owner: owners[0],
     })
 
-    expect(addOwnerExecution.target).toEqual(OWNABLE_EXECUTOR_ADDRESS)
+    expect(addOwnerExecution.target).toEqual(
+      GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
+    )
     expect(addOwnerExecution.value).toEqual(BigInt(0))
     expect(addOwnerExecution.callData).toBeDefined()
   })
@@ -71,8 +73,8 @@ describe('Ownable Executor Module', () => {
     const executeOnOwnedAccountExecution = getExecuteOnOwnedAccountAction({
       ownedAccount: owners[1] as Address,
       execution: {
-        to: OWNABLE_EXECUTOR_ADDRESS,
-        target: OWNABLE_EXECUTOR_ADDRESS,
+        to: GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
+        target: GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
         value: BigInt(0),
         callData: '0x',
         data: '0x',
@@ -80,7 +82,7 @@ describe('Ownable Executor Module', () => {
     })
 
     expect(executeOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeOnOwnedAccountExecution.callData).toBeDefined()
@@ -92,8 +94,8 @@ describe('Ownable Executor Module', () => {
         ownedAccount: owners[1] as Address,
         executions: [
           {
-            to: OWNABLE_EXECUTOR_ADDRESS,
-            target: OWNABLE_EXECUTOR_ADDRESS,
+            to: GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
+            target: GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
             value: BigInt(0),
             callData: '0x',
             data: '0x',
@@ -102,7 +104,7 @@ describe('Ownable Executor Module', () => {
       })
 
     expect(executeBatchOnOwnedAccountExecution.target).toEqual(
-      OWNABLE_EXECUTOR_ADDRESS,
+      GLOBAL_CONSTANTS.OWNABLE_EXECUTOR_ADDRESS,
     )
     expect(executeBatchOnOwnedAccountExecution.value).toEqual(BigInt(0))
     expect(executeBatchOnOwnedAccountExecution.callData).toBeDefined()

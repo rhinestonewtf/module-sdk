@@ -9,8 +9,8 @@ import {
 } from 'viem'
 import { abi } from './abi'
 import { Account } from '../../account'
-import { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
 import { Validator } from './types'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getSetMFAThresholdAction = ({
   threshold,
@@ -24,8 +24,8 @@ export const getSetMFAThresholdAction = ({
   })
 
   return {
-    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -48,8 +48,8 @@ export const getSetMFAValidatorAction = ({
   })
 
   return {
-    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -70,8 +70,8 @@ export const getRemoveMFAValidatorAction = ({
   })
 
   return {
-    to: MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -91,7 +91,7 @@ export const isMFASubValidator = async ({
 }): Promise<boolean> => {
   try {
     return (await client.readContract({
-      address: MULTI_FACTOR_VALIDATOR_ADDRESS,
+      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
       abi,
       functionName: 'isSubValidator',
       args: [account.address, subValidator, validatorId],

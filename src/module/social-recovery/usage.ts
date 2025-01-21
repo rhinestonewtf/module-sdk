@@ -1,4 +1,3 @@
-import { SOCIAL_RECOVERY_ADDRESS } from './constants'
 import { SENTINEL_ADDRESS } from '../../common/constants'
 import { Execution } from '../../account/types'
 import {
@@ -11,6 +10,7 @@ import {
 } from 'viem'
 import { Account } from '../../account/types'
 import { abi } from './abi'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getSetSocialRecoveryThresholdAction = ({
   threshold,
@@ -24,8 +24,8 @@ export const getSetSocialRecoveryThresholdAction = ({
   })
 
   return {
-    to: SOCIAL_RECOVERY_ADDRESS,
-    target: SOCIAL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -44,8 +44,8 @@ export const getAddSocialRecoveryGuardianAction = ({
   })
 
   return {
-    to: SOCIAL_RECOVERY_ADDRESS,
-    target: SOCIAL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -81,8 +81,8 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
   })
 
   return {
-    to: SOCIAL_RECOVERY_ADDRESS,
-    target: SOCIAL_RECOVERY_ADDRESS,
+    to: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
+    target: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -98,7 +98,7 @@ export const getSocialRecoveryGuardians = async ({
 }): Promise<Address[]> => {
   try {
     const guardians = (await client.readContract({
-      address: SOCIAL_RECOVERY_ADDRESS,
+      address: GLOBAL_CONSTANTS.SOCIAL_RECOVERY_ADDRESS,
       abi,
       functionName: 'getGuardians',
       args: [account.address],

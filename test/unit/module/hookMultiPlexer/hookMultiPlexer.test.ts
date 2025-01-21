@@ -3,10 +3,11 @@ import { getClient } from 'src'
 import { MockClient } from '../../../utils/mocks/client'
 import { getAccount } from 'src'
 import { MockAccountDeployed } from '../../../utils/mocks/account'
-import { getHookMultiPlexer, HOOK_MULTI_PLEXER_ADDRESS } from 'src/module'
+import { getHookMultiPlexer } from 'src/module'
 import { getAddHookAction, getHooks, getRemoveHookAction } from 'src'
 import { HookType } from 'src'
 import { SigHookInit } from 'src/module'
+import { GLOBAL_CONSTANTS } from 'src'
 
 describe('Hook MultiPlexer Module', () => {
   // Setup
@@ -37,7 +38,7 @@ describe('Hook MultiPlexer Module', () => {
     const installHookMultiPlexerModule = getHookMultiPlexer(hooks)
 
     expect(installHookMultiPlexerModule.module).toEqual(
-      HOOK_MULTI_PLEXER_ADDRESS,
+      GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
     )
     expect(installHookMultiPlexerModule.initData).toBeDefined()
     expect(installHookMultiPlexerModule.type).toEqual('hook')
@@ -58,7 +59,9 @@ describe('Hook MultiPlexer Module', () => {
       hookType: HookType.GLOBAL,
     })
 
-    expect(addHookExecution.target).toEqual(HOOK_MULTI_PLEXER_ADDRESS)
+    expect(addHookExecution.target).toEqual(
+      GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+    )
     expect(addHookExecution.value).toEqual(BigInt(0))
     expect(addHookExecution.callData).toBeDefined()
   })
@@ -70,7 +73,9 @@ describe('Hook MultiPlexer Module', () => {
       hookType: HookType.SIG,
     })
 
-    expect(addSigHookExecution.target).toEqual(HOOK_MULTI_PLEXER_ADDRESS)
+    expect(addSigHookExecution.target).toEqual(
+      GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+    )
     expect(addSigHookExecution.value).toEqual(BigInt(0))
     expect(addSigHookExecution.callData).toBeDefined()
   })
@@ -81,7 +86,9 @@ describe('Hook MultiPlexer Module', () => {
       hookType: HookType.GLOBAL,
     })
 
-    expect(removeHookExecution.target).toEqual(HOOK_MULTI_PLEXER_ADDRESS)
+    expect(removeHookExecution.target).toEqual(
+      GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+    )
     expect(removeHookExecution.value).toEqual(BigInt(0))
     expect(removeHookExecution.callData).toBeDefined()
   })
@@ -93,7 +100,9 @@ describe('Hook MultiPlexer Module', () => {
       hookType: HookType.SIG,
     })
 
-    expect(removeSigHookExecution.target).toEqual(HOOK_MULTI_PLEXER_ADDRESS)
+    expect(removeSigHookExecution.target).toEqual(
+      GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
+    )
     expect(removeSigHookExecution.value).toEqual(BigInt(0))
     expect(removeSigHookExecution.callData).toBeDefined()
   })

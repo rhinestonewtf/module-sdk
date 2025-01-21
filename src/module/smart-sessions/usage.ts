@@ -11,7 +11,6 @@ import {
   decodeAbiParameters,
 } from 'viem'
 import { abi, encodeEnableSessionSignatureAbi } from './abi'
-import { SMART_SESSIONS_ADDRESS } from './constants'
 import {
   ActionData,
   ChainSession,
@@ -25,6 +24,7 @@ import {
 } from './types'
 import { LibZip } from 'solady'
 import { Account, AccountType, Execution, isAccount } from '../../account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getPermissionId = ({ session }: { session: Session }): Hex => {
   return keccak256(
@@ -72,7 +72,7 @@ export const getSessionNonce = async ({
   permissionId: Hex
 }) => {
   return (await client.readContract({
-    address: SMART_SESSIONS_ADDRESS,
+    address: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'getNonce',
     args: [permissionId, isAccount(account) ? account.address : account],
@@ -99,7 +99,7 @@ export const getVerifySignatureResult = async ({
   })
   const { data } = await client.call({
     account: account.address,
-    to: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     data: calldata,
   })
 
@@ -179,7 +179,7 @@ export const isSessionEnabled = async ({
   permissionId: Hex
 }) => {
   return (await client.readContract({
-    address: SMART_SESSIONS_ADDRESS,
+    address: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'isPermissionEnabled',
     args: [permissionId, isAccount(account) ? account.address : account],
@@ -200,7 +200,7 @@ export const getSessionDigest = async ({
   mode: SmartSessionModeType
 }) => {
   return (await client.readContract({
-    address: SMART_SESSIONS_ADDRESS,
+    address: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     abi,
     functionName: 'getSessionDigest',
     args: [permissionId, account.address, session, Number(mode)],
@@ -489,8 +489,8 @@ export const getEnableSessionsAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -509,8 +509,8 @@ export const getRemoveSessionAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -531,8 +531,8 @@ export const getEnableUserOpPoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -553,8 +553,8 @@ export const getDisableUserOpPoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -575,8 +575,8 @@ export const getEnableERC1271PoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -599,8 +599,8 @@ export const getDisableERC1271PoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -621,8 +621,8 @@ export const getEnableActionPoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -645,8 +645,8 @@ export const getDisableActionPoliciesAction = ({
   })
 
   return {
-    to: SMART_SESSIONS_ADDRESS,
-    target: SMART_SESSIONS_ADDRESS,
+    to: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
+    target: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -722,7 +722,7 @@ export const getEnableSessionDetails = async ({
           actions: session.actions,
         },
         account: account.address,
-        smartSession: SMART_SESSIONS_ADDRESS,
+        smartSession: GLOBAL_CONSTANTS.SMART_SESSIONS_ADDRESS,
         nonce: sessionNonce,
       },
     })

@@ -13,8 +13,6 @@ import {
   getRecoveryConfig,
   getRemoveGuardianAction,
   getUpdateRecoveryConfigAction,
-  MULTI_FACTOR_VALIDATOR_ADDRESS,
-  OWNABLE_VALIDATOR_ADDRESS,
 } from 'src/module'
 import {
   getAddress,
@@ -23,9 +21,9 @@ import {
   toFunctionSelector,
   toHex,
 } from 'viem'
-import { UNIVERSAL_EMAIL_RECOVERY_ADDRESS } from 'src/module/zk-email-recovery/universal-email-recovery/constants'
 import { sendUserOp } from '../infra'
 import { SENTINEL_ADDRESS } from 'src/common'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -43,7 +41,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
       client: publicClient,
       module: getModule({
         type: 'executor',
-        module: UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
+        module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
       }),
     })
 
@@ -158,7 +156,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
   }, 20000)
 
   it('should allow validator recovery', async () => {
-    const validator = MULTI_FACTOR_VALIDATOR_ADDRESS
+    const validator = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS
     const isInstalledContext = toHex(0)
     const recoverySelector = toFunctionSelector(
       'function setValidator(address,ValidatorId,bytes)',
@@ -192,7 +190,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
   }, 20000)
 
   it('should disallow validator recovery', async () => {
-    const validator = MULTI_FACTOR_VALIDATOR_ADDRESS
+    const validator = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS
     const prevValidator = SENTINEL_ADDRESS
     const recoverySelector = toFunctionSelector(
       'function setValidator(address,ValidatorId,bytes)',
@@ -221,7 +219,7 @@ export const testUniversalEmailRecoveryExecutor = async ({
 
     expect(validators.length).toBe(1)
     expect(selectors.length).toBe(1)
-    expect(validators[0]).toBe(OWNABLE_VALIDATOR_ADDRESS)
+    expect(validators[0]).toBe(GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS)
     expect(selectors[0]).toBe(
       toFunctionSelector('function addOwner(address owner)'),
     )

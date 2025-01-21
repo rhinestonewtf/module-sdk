@@ -1,6 +1,6 @@
 import { Address, encodeAbiParameters } from 'viem'
 import { Module } from '../types'
-import { OWNABLE_VALIDATOR_ADDRESS } from './constants'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getOwnableValidator = ({
   threshold,
@@ -12,8 +12,8 @@ export const getOwnableValidator = ({
   hook?: Address
 }): Module => {
   return {
-    address: OWNABLE_VALIDATOR_ADDRESS,
-    module: OWNABLE_VALIDATOR_ADDRESS,
+    address: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    module: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     initData: encodeAbiParameters(
       [
         { name: 'threshold', type: 'uint256' },

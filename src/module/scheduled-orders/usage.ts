@@ -5,11 +5,11 @@ import {
   encodeFunctionData,
   encodePacked,
 } from 'viem'
-import { SCHEDULED_ORDERS_EXECUTOR_ADDRESS } from './constants'
 import { RecurringOrder } from './types'
 import { Execution } from '../../account/types'
 import { abi } from './abi'
 import { getSwapDetails } from '../utils/uniswap'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   recurringOrder: RecurringOrder
@@ -35,8 +35,8 @@ export const getCreateScheduledOrderAction = ({
   })
 
   return {
-    to: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
-    target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -78,8 +78,8 @@ export const getExecuteScheduledOrderAction = ({
   })
 
   return {
-    to: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
-    target: SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.SCHEDULED_ORDERS_EXECUTOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,

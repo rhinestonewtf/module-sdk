@@ -1,8 +1,8 @@
 import { Account, isModuleInstalled } from 'src/account'
 import { SafeHookType } from 'src/account/safe/types'
 import { getModule } from 'src/module'
-import { HOOK_MULTI_PLEXER_ADDRESS } from 'src/module/hook-multi-plexer'
 import { PublicClient, TestClient } from 'viem'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 type Params = {
   account: Account
@@ -20,7 +20,7 @@ export const testHookMultiPlexer = async ({
       client: publicClient,
       module: getModule({
         type: 'hook',
-        module: HOOK_MULTI_PLEXER_ADDRESS,
+        module: GLOBAL_CONSTANTS.HOOK_MULTI_PLEXER_ADDRESS,
         hookType: SafeHookType.GLOBAL,
         selector: '0x00000000',
       }),

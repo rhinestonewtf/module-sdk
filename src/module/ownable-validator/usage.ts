@@ -10,8 +10,8 @@ import {
 } from 'viem'
 import { abi } from './abi'
 import { SENTINEL_ADDRESS } from '../../common/constants'
-import { OWNABLE_VALIDATOR_ADDRESS } from './constants'
 import { Account } from '../../account'
+import { GLOBAL_CONSTANTS } from 'src/constants'
 
 export const getSetOwnableValidatorThresholdAction = ({
   threshold,
@@ -25,8 +25,8 @@ export const getSetOwnableValidatorThresholdAction = ({
   })
 
   return {
-    to: OWNABLE_VALIDATOR_ADDRESS,
-    target: OWNABLE_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -57,8 +57,8 @@ export const getAddOwnableValidatorOwnerAction = async ({
   })
 
   return {
-    to: OWNABLE_VALIDATOR_ADDRESS,
-    target: OWNABLE_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -94,8 +94,8 @@ export const getRemoveOwnableValidatorOwnerAction = async ({
   })
 
   return {
-    to: OWNABLE_VALIDATOR_ADDRESS,
-    target: OWNABLE_VALIDATOR_ADDRESS,
+    to: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
+    target: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
     value: BigInt(0),
     callData: data,
     data,
@@ -111,7 +111,7 @@ export const getOwnableValidatorOwners = async ({
 }): Promise<Address[]> => {
   try {
     const owners = (await client.readContract({
-      address: OWNABLE_VALIDATOR_ADDRESS,
+      address: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       abi,
       functionName: 'getOwners',
       args: [account.address],
@@ -133,7 +133,7 @@ export const getOwnableValidatorThreshold = async ({
 }): Promise<number> => {
   try {
     const threshold = (await client.readContract({
-      address: OWNABLE_VALIDATOR_ADDRESS,
+      address: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       abi,
       functionName: 'threshold',
       args: [account.address],
@@ -158,7 +158,7 @@ export const getIsValidSignatureStateless = async ({
 }): Promise<number> => {
   try {
     return (await client.readContract({
-      address: OWNABLE_VALIDATOR_ADDRESS,
+      address: GLOBAL_CONSTANTS.OWNABLE_VALIDATOR_ADDRESS,
       abi,
       functionName: 'validateSignatureWithData',
       args: [hash, signature, data],
