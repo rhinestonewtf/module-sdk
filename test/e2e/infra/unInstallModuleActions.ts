@@ -150,7 +150,7 @@ export const getUnInstallModuleActions = async ({
     account,
     module: getModule({
       type: 'executor',
-      module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS__ETH_SEPOLIA,
+      module: GLOBAL_CONSTANTS.UNIVERSAL_EMAIL_RECOVERY_ADDRESS,
     }),
   })
 
