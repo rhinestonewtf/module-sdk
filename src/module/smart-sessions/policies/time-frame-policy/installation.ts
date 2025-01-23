@@ -1,6 +1,6 @@
-import { TIME_FRAME_POLICY_ADDRESS } from './constants'
 import { Policy } from '../types'
 import { encodePacked } from 'viem'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 type Params = {
   validUntil: number
@@ -9,8 +9,8 @@ type Params = {
 
 export const getTimeFramePolicy = (param: Params): Policy => {
   return {
-    policy: TIME_FRAME_POLICY_ADDRESS,
-    address: TIME_FRAME_POLICY_ADDRESS,
+    policy: GLOBAL_CONSTANTS.TIME_FRAME_POLICY_ADDRESS,
+    address: GLOBAL_CONSTANTS.TIME_FRAME_POLICY_ADDRESS,
     initData: encodePacked(
       ['uint128', 'uint128'],
       [BigInt(param.validUntil), BigInt(param.validAfter)],
