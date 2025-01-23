@@ -1,7 +1,6 @@
-import { Address, PublicClient } from 'viem'
+import { Address, Hex, PublicClient } from 'viem'
 import { abi } from './abi'
 import { ActionConfig } from './types'
-import { bigIntToBytes32 } from '../utils'
 import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getActionConfig = async ({
@@ -11,7 +10,7 @@ export const getActionConfig = async ({
   userOpSender,
 }: {
   client: PublicClient
-  configId: bigint
+  configId: Hex
   multiplexer: Address
   userOpSender: Address
 }) => {
@@ -19,6 +18,6 @@ export const getActionConfig = async ({
     address: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
     abi: abi,
     functionName: 'actionConfigs',
-    args: [bigIntToBytes32(configId), multiplexer, userOpSender],
+    args: [configId, multiplexer, userOpSender],
   })) as ActionConfig
 }

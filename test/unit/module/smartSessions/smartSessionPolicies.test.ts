@@ -15,7 +15,14 @@ import {
 import { getActionConfig } from 'src/module/smart-sessions/policies/universal-action-policy/usage'
 import { getUsageLimitConfig } from 'src/module/smart-sessions/policies/usage-limit-policy/usage'
 import { getValueLimitConfig } from 'src/module/smart-sessions/policies/value-limit-policy/usage'
-import { createPublicClient, http, PublicClient, zeroAddress } from 'viem'
+import {
+  createPublicClient,
+  Hex,
+  http,
+  PublicClient,
+  toHex,
+  zeroAddress,
+} from 'viem'
 import { sepolia } from 'viem/chains'
 import { GLOBAL_CONSTANTS } from 'src/constants'
 
@@ -61,7 +68,7 @@ describe('Smart Sessions Polices', () => {
     it('should get actionConfigs', async () => {
       const result = await getActionConfig({
         client: client,
-        configId: BigInt(1),
+        configId: toHex(1, { size: 32 }) as Hex,
         multiplexer: zeroAddress,
         userOpSender: zeroAddress,
       })
@@ -97,7 +104,7 @@ describe('Smart Sessions Polices', () => {
       // skipping due to invalid token address
       const result = await getPolicyData({
         client: client,
-        configId: BigInt(1),
+        configId: toHex(1, { size: 32 }) as Hex,
         multiplexer: zeroAddress,
         token: zeroAddress,
         userOpSender: zeroAddress,
@@ -123,7 +130,7 @@ describe('Smart Sessions Polices', () => {
     it('getTimeFrameConfig Test', async () => {
       const result = await getTimeFramePolicyData({
         client: client,
-        configId: BigInt(1),
+        configId: toHex(1, { size: 32 }) as Hex,
         multiplexer: zeroAddress,
         smartAccount: zeroAddress,
       })
@@ -147,7 +154,7 @@ describe('Smart Sessions Polices', () => {
     it('getUsageLimit Test', async () => {
       const result = await getUsageLimitConfig({
         client: client,
-        configId: BigInt(1),
+        configId: toHex(1, { size: 32 }) as Hex,
         multiplexer: zeroAddress,
         smartAccount: zeroAddress,
       })
@@ -171,7 +178,7 @@ describe('Smart Sessions Polices', () => {
     it('getValueLimit Test', async () => {
       const result = await getValueLimitConfig({
         client: client,
-        configId: BigInt(1),
+        configId: toHex(1, { size: 32 }) as Hex,
         msgSender: zeroAddress,
         userOpSender: zeroAddress,
       })

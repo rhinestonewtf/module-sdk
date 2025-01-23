@@ -1,7 +1,6 @@
-import { Address, PublicClient } from 'viem'
+import { Address, Hex, PublicClient } from 'viem'
 import { abi } from './abi'
 import { UsageLimitConfig } from './types'
-import { bigIntToBytes32 } from '../utils'
 import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getUsageLimitConfig = async ({
@@ -11,7 +10,7 @@ export const getUsageLimitConfig = async ({
   smartAccount,
 }: {
   client: PublicClient
-  configId: bigint
+  configId: Hex
   multiplexer: Address
   smartAccount: Address
 }) => {
@@ -19,6 +18,6 @@ export const getUsageLimitConfig = async ({
     address: GLOBAL_CONSTANTS.USAGE_LIMIT_POLICY_ADDRESS as Address,
     abi: abi,
     functionName: 'getUsageLimit',
-    args: [bigIntToBytes32(configId), multiplexer, smartAccount],
+    args: [configId, multiplexer, smartAccount],
   })) as UsageLimitConfig
 }

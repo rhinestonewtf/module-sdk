@@ -1,7 +1,6 @@
-import { Address, PublicClient } from 'viem'
+import { Address, Hex, PublicClient } from 'viem'
 import { abi } from './abi'
 import { ValueLimitConfig } from './types'
-import { bigIntToBytes32 } from '../utils'
 import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getValueLimitConfig = async ({
@@ -11,7 +10,7 @@ export const getValueLimitConfig = async ({
   userOpSender,
 }: {
   client: PublicClient
-  configId: bigint
+  configId: Hex
   msgSender: Address
   userOpSender: Address
 }) => {
@@ -19,6 +18,6 @@ export const getValueLimitConfig = async ({
     address: GLOBAL_CONSTANTS.VALUE_LIMIT_POLICY_ADDRESS as Address,
     abi: abi,
     functionName: 'getValueLimit',
-    args: [bigIntToBytes32(configId), msgSender, userOpSender],
+    args: [configId, msgSender, userOpSender],
   })) as ValueLimitConfig
 }
