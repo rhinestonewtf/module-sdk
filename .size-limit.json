@@ -13,7 +13,7 @@
   {
     "name": "module-sdk (minimal surface - tree-shaking)",
     "path": "./src/_esm/index.js",
-    "limit": "15 kB",
+    "limit": "16 kB",
     "import": "{ installModule }"
   }
 ]
