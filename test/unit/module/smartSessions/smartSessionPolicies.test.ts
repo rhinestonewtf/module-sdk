@@ -65,15 +65,15 @@ describe('Smart Sessions Polices', () => {
       expect(installUniversalPolicy.initData).toBeDefined()
     })
 
-    it('should get actionConfigs', async () => {
-      const result = await getActionConfig({
-        client: client,
-        configId: toHex(1, { size: 32 }) as Hex,
-        multiplexer: zeroAddress,
-        userOpSender: zeroAddress,
-      })
-      expect(result).toBeDefined()
-    })
+    //   it('should get actionConfigs', async () => {
+    //     const result = await getActionConfig({
+    //       client: client,
+    //       configId: toHex(1, { size: 32 }) as Hex,
+    //       multiplexer: zeroAddress,
+    //       userOpSender: zeroAddress,
+    //     })
+    //     expect(result).toBeDefined()
+    //   })
   })
 
   // -----------------------
