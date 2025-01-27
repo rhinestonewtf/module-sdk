@@ -1,10 +1,10 @@
-import { SUDO_POLICY_ADDRESS } from './constants'
 import { Policy } from '../types'
+import { GLOBAL_CONSTANTS } from '../../../../constants'
 
 export const getSudoPolicy = (): Policy => {
   return {
-    policy: SUDO_POLICY_ADDRESS,
-    address: SUDO_POLICY_ADDRESS,
+    policy: GLOBAL_CONSTANTS.SUDO_POLICY_ADDRESS,
+    address: GLOBAL_CONSTANTS.SUDO_POLICY_ADDRESS,
     initData: '0x',
   }
 }
