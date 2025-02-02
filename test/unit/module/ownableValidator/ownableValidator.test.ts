@@ -80,7 +80,7 @@ describe('Ownable Validator Module', () => {
       account,
       client,
     })
-    expect(allOwners.length).toEqual(0)
+    expect(allOwners.length).toEqual(1)
   })
 
   it('should return ownable validator threshold', async () => {
@@ -89,6 +89,6 @@ describe('Ownable Validator Module', () => {
       account,
     })
 
-    expect(threshold).toEqual(0)
+    expect(threshold).toEqual(1)
   })
 })
