@@ -17,10 +17,10 @@ function toErc1271PolicyId(permissionId: PermissionId): Erc1271PolicyId {
 }
 
 function toUserOpPolicyId(permissionId: PermissionId): UserOpPolicyId {
-  return keccak256(encodePacked(['string', 'bytes32'], ['UserOp: ', permissionId]));
+  return permissionId as UserOpPolicyId;
 }
 
-function toConfigId(policyId: Hex, account: Address): ConfigId {
+function toConfigId(policyId: ActionPolicyId | Erc1271PolicyId | UserOpPolicyId, account: Address): ConfigId {
   return keccak256(encodePacked(['address', 'bytes32'], [account, policyId]));
 }
 
@@ -32,13 +32,13 @@ export function getConfigId(
 ): ConfigId {
   switch (policyType) {
     case PolicyType.Action:
-      if (!actionId) throw new Error('ActionId is required for Action policy');
-      return toConfigId(toActionPolicyId(permissionId, actionId), account);
+      if (!actionId) throw new Error('ActionId is required for Action Policy');
+      return toConfigId(toActionPolicyId(permissionId, actionId) as ActionPolicyId, account);
     case PolicyType.ERC1271:
-      return toConfigId(toErc1271PolicyId(permissionId), account);
+      return toConfigId(toErc1271PolicyId(permissionId) as Erc1271PolicyId, account);
     case PolicyType.UserOp:
-      return toConfigId(permissionId, account);
+      return toConfigId(toUserOpPolicyId(permissionId) as UserOpPolicyId, account);
     default:
-      throw new Error('Invalid policy type');
+      throw new Error('Unknown Policy Type');
     }
 }
