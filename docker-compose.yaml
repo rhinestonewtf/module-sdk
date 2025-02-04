@@ -19,3 +19,4 @@ services:
     environment:
       - ANVIL_RPC=http://anvil:8545
       - SKIP_DEPLOYMENTS=true
+
