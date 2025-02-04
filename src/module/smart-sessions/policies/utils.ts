@@ -7,6 +7,7 @@ type ActionId = Hex
 type ActionPolicyId = Hex
 type Erc1271PolicyId = Hex
 type UserOpPolicyId = Hex
+type FunctionSelector = Hex
 
 function toActionPolicyId(
   permissionId: PermissionId,
@@ -27,6 +28,15 @@ function toUserOpPolicyId(permissionId: PermissionId): UserOpPolicyId {
   return permissionId as UserOpPolicyId
 }
 
+export function toActionId(
+  target: Address,
+  functionSelector: FunctionSelector,
+): ActionId {
+  return keccak256(
+    encodePacked(['address', 'bytes4'], [target, functionSelector]),
+  )
+}
+
 function toConfigId(
   policyId: ActionPolicyId | Erc1271PolicyId | UserOpPolicyId,
   account: Address,
@@ -41,10 +51,20 @@ export function getConfigId(
   policyType: PolicyType,
   account: Address,
   actionId?: ActionId,
+  actionTarget?: Address,
+  functionSelector?: FunctionSelector,
 ): ConfigId {
   switch (policyType) {
     case PolicyType.Action:
-      if (!actionId) throw new Error('ActionId is required for Action Policy')
+      actionId =
+        actionId ??
+        (actionTarget && functionSelector
+          ? toActionId(actionTarget, functionSelector)
+          : (() => {
+              throw new Error(
+                'Either ActionId or ActionTarget and FunctionSelector are required for Action Policy',
+              )
+            })())
       return toConfigId(
         toActionPolicyId(permissionId, actionId) as ActionPolicyId,
         account,
