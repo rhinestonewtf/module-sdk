@@ -11,6 +11,7 @@ import { getUniversalActionPolicy } from 'src/module/smart-sessions/policies/uni
 import {
   ActionConfig,
   ParamCondition,
+  ParamRule,
 } from 'src/module/smart-sessions/policies/universal-action-policy/types'
 import { getActionConfig } from 'src/module/smart-sessions/policies/universal-action-policy/usage'
 import { getUsageLimitConfig } from 'src/module/smart-sessions/policies/usage-limit-policy/usage'
@@ -39,25 +40,230 @@ describe('Smart Sessions Polices', () => {
   // Universal Action Policy
   // -----------------------
   describe('Universal Action Policy', () => {
-    it.skip('should get install universal action policy', async () => {
+    it('should get install universal action policy with whole array', async () => {
       //skipping as it used the abi for the old contract
       // Setup
       const actionConfigData: ActionConfig = {
-        valueLimitPerUse: BigInt(1000),
+        valueLimitPerUse: 1000000000000000000n, // 1 ETH in wei
         paramRules: {
-          length: 2,
-          rules: new Array(16).fill({
-            condition: ParamCondition.EQUAL,
-            offset: 0,
-            isLimited: true,
-            ref: '0x00000000000000000000000000000000000000000000000000000000000003e8', // 1000 in bytes32
-            usage: {
-              limit: BigInt(1000),
-              used: BigInt(10),
+          length: 3n, // Only using the first 3 rules
+          rules: [
+            // Rule 1: Check if parameter equals a specific address
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 4n,
+              isLimited: true,
+              ref: '0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC address
+              usage: {
+                limit: 5n,
+                used: 2n,
+              },
             },
-          }),
+            // Rule 2: Check if parameter is less than some value
+            {
+              condition: ParamCondition.LESS_THAN,
+              offset: 68n,
+              isLimited: false,
+              ref: '0x00000000000000000000000000000000000000000000005af3107a4000000000', // 100 tokens with 18 decimals
+              usage: {
+                limit: 0n,
+                used: 0n,
+              },
+            },
+            // Rule 3: Check if parameter is in range
+            {
+              condition: ParamCondition.IN_RANGE,
+              offset: 100n,
+              isLimited: true,
+              ref: '0x000000000000000000000000000000000000000000000000000000000000162e', // Some reference value
+              usage: {
+                limit: 10n,
+                used: 3n,
+              },
+            },
+            // Remaining rules are placeholders but still required for the fixed-length array
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+            {
+              condition: ParamCondition.EQUAL,
+              offset: 0n,
+              isLimited: false,
+              ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+              usage: { limit: 0n, used: 0n },
+            },
+          ],
         },
       }
+      const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
+      expect(installUniversalPolicy.address).toEqual(
+        GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
+      )
+      expect(installUniversalPolicy.initData).toBeDefined()
+    })
+
+    it('should get install universal action policy with js fill', async () => {
+      //skipping as it used the abi for the old contract
+      // Setup
+      // Create a default ParamRule for filling unused slots
+      const defaultParamRule: ParamRule = {
+        condition: ParamCondition.EQUAL,
+        offset: 0n,
+        isLimited: false,
+        ref: '0x0000000000000000000000000000000000000000000000000000000000000000',
+        usage: { limit: 0n, used: 0n },
+      }
+
+      // Create active rules
+      const activeRules: ParamRule[] = [
+        // Rule 1: Check if parameter equals a specific address
+        {
+          condition: ParamCondition.EQUAL,
+          offset: 4n,
+          isLimited: true,
+          ref: '0x000000000000000000000000a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC address
+          usage: {
+            limit: 5n,
+            used: 2n,
+          },
+        },
+        // Rule 2: Check if parameter is less than some value
+        {
+          condition: ParamCondition.LESS_THAN,
+          offset: 68n,
+          isLimited: false,
+          ref: '0x00000000000000000000000000000000000000000000005af3107a4000000000', // 100 tokens with 18 decimals
+          usage: {
+            limit: 0n,
+            used: 0n,
+          },
+        },
+        // Rule 3: Check if parameter is in range
+        {
+          condition: ParamCondition.IN_RANGE,
+          offset: 100n,
+          isLimited: true,
+          ref: '0x000000000000000000000000000000000000000000000000000000000000162e', // Some reference value
+          usage: {
+            limit: 10n,
+            used: 3n,
+          },
+        },
+      ]
+
+      // Create a full 16-element array by combining active rules with default rules
+      const allRules = [
+        ...activeRules,
+        ...Array(16 - activeRules.length).fill(defaultParamRule),
+      ] as [
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+        ParamRule,
+      ]
+
+      // Create the full ActionConfig object
+      const actionConfigData: ActionConfig = {
+        valueLimitPerUse: 1000000000000000000n, // 1 ETH in wei
+        paramRules: {
+          length: BigInt(activeRules.length), // Only using the active rules
+          rules: allRules,
+        },
+      }
+
       const installUniversalPolicy = getUniversalActionPolicy(actionConfigData)
       expect(installUniversalPolicy.address).toEqual(
         GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
