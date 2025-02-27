@@ -15,14 +15,66 @@ export const getUniversalActionPolicy = (
   return {
     policy: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
     address: GLOBAL_CONSTANTS.UNIVERSAL_ACTION_POLICY_ADDRESS,
-    initData: encodeAbiParameters(abi, [
-      {
-        valueLimitPerUse: actionConfig.valueLimitPerUse,
-        paramRules: {
-          length: actionConfig.paramRules.length,
-          rules: actionConfig.paramRules.rules,
+    initData: encodeAbiParameters(
+      [
+        {
+          components: [
+            {
+              name: 'valueLimitPerUse',
+              type: 'uint256',
+            },
+            {
+              components: [
+                {
+                  name: 'length',
+                  type: 'uint256',
+                },
+                {
+                  components: [
+                    {
+                      name: 'condition',
+                      type: 'uint8',
+                    },
+                    {
+                      name: 'offset',
+                      type: 'uint64',
+                    },
+                    {
+                      name: 'isLimited',
+                      type: 'bool',
+                    },
+                    {
+                      name: 'ref',
+                      type: 'bytes32',
+                    },
+                    {
+                      components: [
+                        {
+                          name: 'limit',
+                          type: 'uint256',
+                        },
+                        {
+                          name: 'used',
+                          type: 'uint256',
+                        },
+                      ],
+                      name: 'usage',
+                      type: 'tuple',
+                    },
+                  ],
+                  name: 'rules',
+                  type: 'tuple[16]',
+                },
+              ],
+              name: 'paramRules',
+              type: 'tuple',
+            },
+          ],
+          name: 'ActionConfig',
+          type: 'tuple',
         },
-      },
-    ]),
+      ],
+      [actionConfig],
+    ),
   }
 }

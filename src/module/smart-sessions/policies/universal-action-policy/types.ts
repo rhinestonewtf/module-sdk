@@ -1,33 +1,55 @@
 import { Hex } from 'viem'
 
-export type ActionConfig = {
-  valueLimitPerUse: bigint
-  paramRules: ParamRules
+export enum ParamCondition {
+  EQUAL = 0,
+  GREATER_THAN = 1,
+  LESS_THAN = 2,
+  GREATER_THAN_OR_EQUAL = 3,
+  LESS_THAN_OR_EQUAL = 4,
+  NOT_EQUAL = 5,
+  IN_RANGE = 6,
 }
 
-export type ParamRules = {
-  length: number
-  rules: ParamRule[]
+// LimitUsage struct
+export interface LimitUsage {
+  limit: bigint // uint256 in Solidity
+  used: bigint // uint256 in Solidity
 }
 
-export type ParamRule = {
+// ParamRule struct
+export interface ParamRule {
   condition: ParamCondition
-  offset: number
+  offset: bigint
   isLimited: boolean
   ref: Hex
   usage: LimitUsage
 }
 
-export type LimitUsage = {
-  limit: bigint
-  used: bigint
+// ParamRules struct with fixed length array
+export interface ParamRules {
+  length: bigint
+  rules: [
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+    ParamRule,
+  ] // ParamRule[16] in Solidity
 }
 
-export enum ParamCondition {
-  EQUAL,
-  GREATER_THAN,
-  LESS_THAN,
-  GREATER_THAN_OR_EQUAL,
-  LESS_THAN_OR_EQUAL,
-  NOT_EQUAL,
+// ActionConfig struct
+export interface ActionConfig {
+  valueLimitPerUse: bigint // uint256 in Solidity
+  paramRules: ParamRules
 }
