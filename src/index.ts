@@ -192,6 +192,7 @@ export {
   getChangeThresholdAction,
   EmailAuthMsg,
   EmailProof,
+  getSmartSessionsCompatibilityFallback,
 } from './module'
 
 export type { ModuleType, Module, SigHookInit } from './module'
