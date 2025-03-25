@@ -159,6 +159,7 @@ export {
   EnableSessionData,
   ChainDigest,
   ChainSession,
+  getSmartSessionsCompatibilityFallback,
 } from './smart-sessions'
 
 export {
