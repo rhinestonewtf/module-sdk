@@ -20,8 +20,9 @@ describe('Ownable Validator Module', () => {
   const account = getAccount(MockAccountDeployed)
 
   const owners = [
-    '0x0Cb7EAb54EB751579a82D80Fe2683687deb918f3',
-    '0x9FF36a253C70b65122B47c70F2AfaF65F2957118',
+    '0x7F2d5Aa82C34A5F49191A97a6e066a1C24Dbb545',
+    '0xbAA4e1194cd1C9E9837eB0e3C01072973295E183',
+    '0xBFAFDBABe534180d2ee45463c5C4117CED0033fe',
   ] as Address[]
 
   it('should get install ownable validator module', async () => {
@@ -35,6 +36,16 @@ describe('Ownable Validator Module', () => {
     )
     expect(installOwnableValidatorModule.initData).toBeDefined()
     expect(installOwnableValidatorModule.type).toEqual('validator')
+  })
+
+  it('should sort the owners properly', async () => {
+    const installOwnableValidatorModule = getOwnableValidator({
+      threshold: 3,
+      owners,
+    })
+    expect(installOwnableValidatorModule.initData).toEqual(
+      '0x0000000000000000000000000000000000000000000000000000000000000003000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000030000000000000000000000007f2d5aa82c34a5f49191a97a6e066a1c24dbb545000000000000000000000000baa4e1194cd1c9e9837eb0e3c01072973295e183000000000000000000000000bfafdbabe534180d2ee45463c5c4117ced0033fe',
+    )
   })
 
   it('Should get setThresholdExecution action', async () => {
