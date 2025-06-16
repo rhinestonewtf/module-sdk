@@ -663,6 +663,7 @@ export const getEnableSessionDetails = async ({
   permitGenericPolicy = false,
   permitAdminAccess = false,
   ignoreSecurityAttestations = false,
+  sessionNonces,
 }: {
   sessions: Session[]
   sessionIndex?: number
@@ -673,6 +674,7 @@ export const getEnableSessionDetails = async ({
   permitGenericPolicy?: boolean
   permitAdminAccess?: boolean
   ignoreSecurityAttestations?: boolean
+  sessionNonces?: bigint[]
 }) => {
   const chainDigests = []
   const chainSessions: ChainSession[] = []
@@ -689,11 +691,15 @@ export const getEnableSessionDetails = async ({
       throw new Error(`Client not found for chainId ${session.chainId}`)
     }
 
-    const sessionNonce = await getSessionNonce({
-      client,
-      account,
-      permissionId,
-    })
+    const currentIndex = sessions.indexOf(session)
+
+    const sessionNonce =
+      sessionNonces?.[currentIndex] ??
+      (await getSessionNonce({
+        client,
+        account,
+        permissionId,
+      }))
 
     const sessionDigest = await getSessionDigest({
       client,
