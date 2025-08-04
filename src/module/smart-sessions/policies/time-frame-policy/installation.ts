@@ -13,7 +13,7 @@ export const getTimeFramePolicy = (param: Params): Policy => {
     address: GLOBAL_CONSTANTS.TIME_FRAME_POLICY_ADDRESS,
     initData: encodePacked(
       ['uint48', 'uint48'],
-      [BigInt(param.validUntil), BigInt(param.validAfter)],
+      [param.validUntil, param.validAfter],
     ),
   }
 }
