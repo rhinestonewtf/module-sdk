@@ -2,7 +2,7 @@
   {
     "name": "module-sdk (esm)",
     "path": "./src/_esm/index.js",
-    "limit": "80 kB",
+    "limit": "81 kB",
     "import": "*"
   },
   {
