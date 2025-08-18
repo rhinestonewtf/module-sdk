@@ -1,5 +1,11 @@
 # Module SDK
 
+### ⚠️ Migration: This Package is Superseded by `@rhinestone/sdk`
+
+> Heads up! While this package (@rhinestone/module-sdk) is maintained for critical updates, all new feature development has moved to our unified toolkit: [@rhinestone/sdk](https://github.com/rhinestonewtf/sdk/).
+>
+> It includes all the functionality of this library and more. We strongly recommend using the new SDK for all new projects. Explore the new [SDK Documentation](https://docs.rhinestone.dev)
+
 ![Coverage badge lines](https://raw.githubusercontent.com/rhinestonewtf/module-sdk/main/badges/badge-lines.svg)
 ![Coverage badge functions](https://raw.githubusercontent.com/rhinestonewtf/module-sdk/main/badges/badge-functions.svg)
 
