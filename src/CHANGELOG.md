@@ -1,5 +1,11 @@
 # @rhinestone/module-sdk
 
+## 0.4.0
+
+### Minor Changes
+
+- Update WebAuthn validator
+
 ## 0.3.1
 
 ### Patch Changes
