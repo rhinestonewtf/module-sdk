@@ -13,9 +13,7 @@ export function isAccount(obj: unknown): obj is Account {
         typeof account.initCode === 'string' &&
         account.initCode.startsWith('0x'))) &&
     typeof account.type === 'string' &&
-    isAccountType(account.type) &&
-    Array.isArray(account.deployedOnChains) &&
-    account.deployedOnChains.every((chainId) => typeof chainId === 'number')
+    isAccountType(account.type)
   )
 }
 
