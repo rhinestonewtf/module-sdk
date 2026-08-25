@@ -1,4 +1,7 @@
-export { MULTI_FACTOR_VALIDATOR_ADDRESS } from './constants'
+export {
+  MULTI_FACTOR_VALIDATOR_ADDRESS,
+  MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+} from './constants'
 export { getMultiFactorValidator } from './installation'
 export {
   getSetMFAThresholdAction,

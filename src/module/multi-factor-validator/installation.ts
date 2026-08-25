@@ -7,14 +7,18 @@ export const getMultiFactorValidator = ({
   threshold,
   validators,
   hook,
+  address = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
 }: {
   threshold: number
   validators: Validator[]
   hook?: Address
+  // Defaults to the registry-bound MultiFactor. Pass
+  // MULTI_FACTOR_VALIDATOR_V2_ADDRESS for the registry-free module.
+  address?: Address
 }): Module => {
   return {
-    address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
-    module: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    address,
+    module: address,
     initData: encodePacked(
       ['uint8', 'bytes'],
       [

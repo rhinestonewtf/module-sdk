@@ -22,6 +22,10 @@ export const INDEXER_URL =
   'https://indexer.bigdevenergy.link/c03b38d/v1/graphql'
 export const MULTI_FACTOR_VALIDATOR_ADDRESS: Address =
   '0xf6bDf42c9BE18cEcA5C06c42A43DAf7FBbe7896b'
+// Registry-free MultiFactor (core-modules#34). Distinct module, not a drop-in
+// replacement: the address above stays live on the chains that already run it.
+export const MULTI_FACTOR_VALIDATOR_V2_ADDRESS: Address =
+  '0x0000007261E4E2F1a892A58fd0708c9321e76020'
 export const OWNABLE_EXECUTOR_ADDRESS: Address =
   '0x4Fd8d57b94966982B62e9588C27B4171B55E8354'
 export const OWNABLE_VALIDATOR_ADDRESS: Address =
@@ -72,6 +76,7 @@ export const DEFAULT_CONSTANTS = {
   HOOK_MULTI_PLEXER_ADDRESS,
   INDEXER_URL,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
+  MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
   OWNABLE_EXECUTOR_ADDRESS,
   OWNABLE_VALIDATOR_ADDRESS,
   REGISTRY_ADDRESS,
