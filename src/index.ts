@@ -20,6 +20,7 @@ export {
   moduleTypeIds,
   getModule,
   MULTI_FACTOR_VALIDATOR_ADDRESS,
+  MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
   getMultiFactorValidator,
   getSetMFAThresholdAction,
   getSetMFAValidatorAction,

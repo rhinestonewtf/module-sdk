@@ -2,3 +2,6 @@ import { Address } from 'viem'
 
 export const MULTI_FACTOR_VALIDATOR_ADDRESS: Address =
   '0xf6bDf42c9BE18cEcA5C06c42A43DAf7FBbe7896b'
+
+export const MULTI_FACTOR_VALIDATOR_V2_ADDRESS: Address =
+  '0x0000007261E4E2F1a892A58fd0708c9321e76020'
