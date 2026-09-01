@@ -51,8 +51,8 @@ export const getSwapOrderData = ({ recurringOrder }: Params): Hex => {
       { name: 'amountIn', type: 'uint256' },
     ],
     [
-      recurringOrder.buyToken.token_address as Address,
       recurringOrder.sellToken.token_address as Address,
+      recurringOrder.buyToken.token_address as Address,
       BigInt(recurringOrder.amount * 10 ** recurringOrder.sellToken.decimals),
     ],
   )
