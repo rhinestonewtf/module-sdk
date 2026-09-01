@@ -14,8 +14,12 @@ import { GLOBAL_CONSTANTS } from '../../constants'
 
 export const getSetMFAThresholdAction = ({
   threshold,
+  address = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
 }: {
   threshold: number
+  // Defaults to the registry-bound MultiFactor. Pass
+  // MULTI_FACTOR_VALIDATOR_V2_ADDRESS for the registry-free module.
+  address?: Address
 }): Execution => {
   const data = encodeFunctionData({
     functionName: 'setThreshold',
@@ -24,8 +28,8 @@ export const getSetMFAThresholdAction = ({
   })
 
   return {
-    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: address,
+    target: address,
     value: BigInt(0),
     callData: data,
     data,
@@ -36,10 +40,14 @@ export const getSetMFAValidatorAction = ({
   validatorAddress,
   validatorId,
   newValidatorData,
+  address = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
 }: {
   validatorAddress: Address
   validatorId: Hex
   newValidatorData: Hex
+  // Defaults to the registry-bound MultiFactor. Pass
+  // MULTI_FACTOR_VALIDATOR_V2_ADDRESS for the registry-free module.
+  address?: Address
 }): Execution => {
   const data = encodeFunctionData({
     functionName: 'setValidator',
@@ -48,8 +56,8 @@ export const getSetMFAValidatorAction = ({
   })
 
   return {
-    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: address,
+    target: address,
     value: BigInt(0),
     callData: data,
     data,
@@ -59,9 +67,13 @@ export const getSetMFAValidatorAction = ({
 export const getRemoveMFAValidatorAction = ({
   validatorAddress,
   validatorId,
+  address = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
 }: {
   validatorAddress: Address
   validatorId: Hex
+  // Defaults to the registry-bound MultiFactor. Pass
+  // MULTI_FACTOR_VALIDATOR_V2_ADDRESS for the registry-free module.
+  address?: Address
 }): Execution => {
   const data = encodeFunctionData({
     functionName: 'removeValidator',
@@ -70,8 +82,8 @@ export const getRemoveMFAValidatorAction = ({
   })
 
   return {
-    to: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
-    target: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    to: address,
+    target: address,
     value: BigInt(0),
     callData: data,
     data,
@@ -83,15 +95,19 @@ export const isMFASubValidator = async ({
   client,
   subValidator,
   validatorId,
+  address = GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
 }: {
   account: Account
   client: PublicClient
   subValidator: Address
   validatorId: Hex
+  // Defaults to the registry-bound MultiFactor. Pass
+  // MULTI_FACTOR_VALIDATOR_V2_ADDRESS for the registry-free module.
+  address?: Address
 }): Promise<boolean> => {
   try {
     return (await client.readContract({
-      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+      address,
       abi,
       functionName: 'isSubValidator',
       args: [account.address, subValidator, validatorId],
