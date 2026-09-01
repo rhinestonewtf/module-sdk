@@ -9,6 +9,7 @@ import {
   keccak256,
   slice,
   decodeAbiParameters,
+  isAddressEqual,
 } from 'viem'
 import { abi, encodeEnableSessionSignatureAbi } from './abi'
 import {
@@ -653,6 +654,55 @@ export const getDisableActionPoliciesAction = ({
   }
 }
 
+/**
+ * Derives the two `SignedPermissions` flags that `SmartSession` computes
+ * on-chain from a session's own actions, instead of accepting them as free
+ * caller inputs (see `HashLib.hashActionDataArray` / `hashPermissions`).
+ *
+ * A session action opts in to a fallback handler by targeting
+ * `SMART_SESSIONS_FALLBACK_TARGET_FLAG` with one of two magic selectors:
+ * - `SMART_SESSIONS_FALLBACK_TARGET_SELECTOR_FLAG` sets `permitGenericPolicy`
+ * - `SMART_SESSIONS_FALLBACK_TARGET_SELECTOR_FLAG_PERMITTED_TO_CALL_SMARTSESSION`
+ *   sets `permitAdminAccess`
+ *
+ * Any other action leaves both flags untouched. This must be derived, not
+ * supplied, or the resulting `permissionEnableHash` will diverge from the
+ * hash `SmartSession.enableSessions`/`onInstall` actually verify.
+ */
+export const deriveSignedSessionPermissionFlags = (
+  actions: ActionData[],
+): { permitGenericPolicy: boolean; permitAdminAccess: boolean } => {
+  let permitGenericPolicy = false
+  let permitAdminAccess = false
+
+  for (const action of actions) {
+    if (
+      !isAddressEqual(
+        action.actionTarget,
+        GLOBAL_CONSTANTS.SMART_SESSIONS_FALLBACK_TARGET_FLAG,
+      )
+    ) {
+      continue
+    }
+
+    if (
+      action.actionTargetSelector.toLowerCase() ===
+      GLOBAL_CONSTANTS.SMART_SESSIONS_FALLBACK_TARGET_SELECTOR_FLAG.toLowerCase()
+    ) {
+      permitGenericPolicy = true
+    }
+
+    if (
+      action.actionTargetSelector.toLowerCase() ===
+      GLOBAL_CONSTANTS.SMART_SESSIONS_FALLBACK_TARGET_SELECTOR_FLAG_PERMITTED_TO_CALL_SMARTSESSION.toLowerCase()
+    ) {
+      permitAdminAccess = true
+    }
+  }
+
+  return { permitGenericPolicy, permitAdminAccess }
+}
+
 export const getEnableSessionDetails = async ({
   sessions,
   sessionIndex,
@@ -660,9 +710,6 @@ export const getEnableSessionDetails = async ({
   account,
   clients,
   enableValidatorAddress,
-  permitGenericPolicy = false,
-  permitAdminAccess = false,
-  ignoreSecurityAttestations = false,
   sessionNonces,
 }: {
   sessions: Session[]
@@ -671,11 +718,14 @@ export const getEnableSessionDetails = async ({
   account: Account
   clients: PublicClient[]
   enableValidatorAddress?: Address
-  permitGenericPolicy?: boolean
-  permitAdminAccess?: boolean
-  ignoreSecurityAttestations?: boolean
   sessionNonces?: bigint[]
 }) => {
+  const mode = enableMode || SmartSessionMode.ENABLE
+  // SmartSession derives this from the mode itself (HashLib._sessionDigest),
+  // never accepts it as caller input - see deriveSignedSessionPermissionFlags
+  // for the sibling derivation of permitGenericPolicy/permitAdminAccess.
+  const ignoreSecurityAttestations = mode === SmartSessionMode.UNSAFE_ENABLE
+
   const chainDigests = []
   const chainSessions: ChainSession[] = []
   for (const session of sessions) {
@@ -705,7 +755,7 @@ export const getEnableSessionDetails = async ({
       client,
       account,
       session,
-      mode: enableMode || SmartSessionMode.ENABLE,
+      mode,
       permissionId,
     })
 
@@ -714,14 +764,17 @@ export const getEnableSessionDetails = async ({
       sessionDigest,
     })
 
+    const { permitGenericPolicy, permitAdminAccess } =
+      deriveSignedSessionPermissionFlags(session.actions)
+
     chainSessions.push({
       chainId: session.chainId,
       session: {
         ...session,
         permissions: {
-          permitGenericPolicy: permitGenericPolicy,
-          permitAdminAccess: permitAdminAccess,
-          ignoreSecurityAttestations: ignoreSecurityAttestations,
+          permitGenericPolicy,
+          permitAdminAccess,
+          ignoreSecurityAttestations,
           permitERC4337Paymaster: session.permitERC4337Paymaster,
           userOpPolicies: session.userOpPolicies,
           erc7739Policies: session.erc7739Policies,
@@ -743,7 +796,7 @@ export const getEnableSessionDetails = async ({
 
   return {
     permissionEnableHash,
-    mode: enableMode || SmartSessionMode.ENABLE,
+    mode,
     permissionId,
     signature: '0x' as Hex,
     enableSessionData: {
