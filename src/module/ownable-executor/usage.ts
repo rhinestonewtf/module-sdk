@@ -4,6 +4,7 @@ import {
   Address,
   PublicClient,
   getAddress,
+  isAddressEqual,
   encodePacked,
   encodeAbiParameters,
 } from 'viem'
@@ -23,7 +24,9 @@ export const getAddOwnableExecutorOwnerAction = async ({
 }): Promise<Execution> => {
   const owners = await getOwnableExecutorOwners({ account, client })
 
-  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+  const currentOwnerIndex = owners.findIndex((o: Address) =>
+    isAddressEqual(o, owner),
+  )
 
   if (currentOwnerIndex !== -1) {
     throw new Error('Owner already exists')
@@ -56,7 +59,9 @@ export const getRemoveOwnableExecutorOwnerAction = async ({
   const owners = await getOwnableExecutorOwners({ account, client })
   let prevOwner: Address
 
-  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+  const currentOwnerIndex = owners.findIndex((o: Address) =>
+    isAddressEqual(o, owner),
+  )
 
   if (currentOwnerIndex === -1) {
     throw new Error('Owner not found')

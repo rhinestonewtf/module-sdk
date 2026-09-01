@@ -1,4 +1,10 @@
-import { Address, encodeFunctionData, getAddress, PublicClient } from 'viem'
+import {
+  Address,
+  encodeFunctionData,
+  getAddress,
+  isAddressEqual,
+  PublicClient,
+} from 'viem'
 import { GLOBAL_CONSTANTS } from '../../constants'
 import { abi } from './abi'
 import { Execution } from '../../account'
@@ -69,7 +75,9 @@ export const getDeleteAutoSavingConfigAction = async ({
 
     let prevToken: Address
 
-    const currentTokenIndex = allTokens.findIndex((t) => t === token)
+    const currentTokenIndex = allTokens.findIndex((t) =>
+      isAddressEqual(t, token),
+    )
 
     if (currentTokenIndex === -1) {
       throw new Error('Token not found')

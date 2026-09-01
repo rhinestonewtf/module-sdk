@@ -4,6 +4,7 @@ import {
   Address,
   PublicClient,
   getAddress,
+  isAddressEqual,
   Hex,
   encodeAbiParameters,
   encodePacked,
@@ -44,7 +45,9 @@ export const getAddOwnableValidatorOwnerAction = async ({
 }): Promise<Execution> => {
   const owners = await getOwnableValidatorOwners({ account, client })
 
-  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+  const currentOwnerIndex = owners.findIndex((o: Address) =>
+    isAddressEqual(o, owner),
+  )
 
   if (currentOwnerIndex !== -1) {
     throw new Error('Owner already exists')
@@ -77,7 +80,9 @@ export const getRemoveOwnableValidatorOwnerAction = async ({
   const owners = await getOwnableValidatorOwners({ account, client })
   let prevOwner: Address
 
-  const currentOwnerIndex = owners.findIndex((o: Address) => o === owner)
+  const currentOwnerIndex = owners.findIndex((o: Address) =>
+    isAddressEqual(o, owner),
+  )
 
   if (currentOwnerIndex === -1) {
     throw new Error('Owner not found')
