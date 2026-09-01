@@ -62,8 +62,8 @@ const _installModule = async ({
               [
                 module.hook ?? zeroAddress,
                 encodeAbiParameters(
-                  [{ type: 'bytes' }, { type: 'bytes' }],
-                  [module.initData || '0x', '0x'],
+                  [{ type: 'bytes' }, { type: 'bytes' }, { type: 'bytes' }],
+                  [module.initData || '0x', '0x', '0x'],
                 ),
               ],
             )
