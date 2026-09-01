@@ -1,5 +1,5 @@
-import { getOwnableValidator } from 'src/module'
-import { Address } from 'viem'
+import { getOwnableValidator, encodeValidationData } from 'src/module'
+import { Address, decodeAbiParameters } from 'viem'
 import {
   getAddOwnableValidatorOwnerAction,
   getOwnableValidatorOwners,
@@ -101,5 +101,37 @@ describe('Ownable Validator Module', () => {
     })
 
     expect(threshold).toEqual(1)
+  })
+
+  it('should sort owners numerically (case-insensitively) in encodeValidationData, not by checksummed string order', async () => {
+    // Real EIP-55 checksummed addresses where checksummed-string order
+    // genuinely diverges from numeric (uint160) order: '0xF4E6...' sorts
+    // before '0xf0B1...' as raw strings (uppercase F < lowercase f in
+    // ASCII), but 0xf0B1... < 0xF4E6... numerically.
+    const ownerA = '0xf0B1d0A8baaDEE0c06a78d630024b19AE0D9A25c' as Address
+    const ownerB = '0xF4E6277366862046Dc965719AEe2F8AE5B55f0a4' as Address
+    const checksummedOwners = [ownerA, ownerB]
+
+    const initData = encodeValidationData({
+      threshold: 1,
+      owners: checksummedOwners,
+    })
+
+    const [, sortedOwners] = decodeAbiParameters(
+      [{ type: 'uint256' }, { type: 'address[]' }],
+      initData,
+    ) as [bigint, Address[]]
+
+    const asUint160 = sortedOwners.map((o) => BigInt(o))
+    expect(asUint160[0]! < asUint160[1]!).toBe(true)
+    expect(sortedOwners.map((o) => o.toLowerCase())).toEqual([
+      ownerA.toLowerCase(),
+      ownerB.toLowerCase(),
+    ])
+
+    // The input array (already in the correct numeric order) must not be
+    // reordered in place by the sort - a plain `.sort()` on the checksummed
+    // strings above WOULD swap these two elements.
+    expect(checksummedOwners).toEqual([ownerA, ownerB])
   })
 })

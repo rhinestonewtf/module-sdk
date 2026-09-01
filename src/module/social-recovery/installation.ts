@@ -19,7 +19,12 @@ export const getSocialRecoveryValidator = ({
         { name: 'threshold', type: 'uint256' },
         { name: 'guardians', type: 'address[]' },
       ],
-      [BigInt(threshold), guardians.sort()],
+      [
+        BigInt(threshold),
+        [...guardians]
+          .map((guardian) => guardian.toLowerCase() as Address)
+          .sort(),
+      ],
     ),
     deInitData: '0x',
     additionalContext: '0x',

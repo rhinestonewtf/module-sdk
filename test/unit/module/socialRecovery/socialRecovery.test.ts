@@ -1,5 +1,5 @@
 import { getSocialRecoveryValidator } from 'src/module/social-recovery/installation'
-import { Address } from 'viem'
+import { Address, decodeAbiParameters } from 'viem'
 import {
   getAddSocialRecoveryGuardianAction,
   getSocialRecoveryGuardians,
@@ -77,5 +77,37 @@ describe('Social Recovery Module', () => {
       client,
     })
     expect(guardians.length).toEqual(0)
+  })
+
+  it('should sort guardians numerically (case-insensitively), not by checksummed string order', async () => {
+    // Real EIP-55 checksummed addresses where checksummed-string order
+    // genuinely diverges from numeric (uint160) order: '0xF4E6...' sorts
+    // before '0xf0B1...' as raw strings (uppercase F < lowercase f in
+    // ASCII), but 0xf0B1... < 0xF4E6... numerically.
+    const guardianA = '0xf0B1d0A8baaDEE0c06a78d630024b19AE0D9A25c' as Address
+    const guardianB = '0xF4E6277366862046Dc965719AEe2F8AE5B55f0a4' as Address
+    const checksummedGuardians = [guardianA, guardianB]
+
+    const installSocialRecoveryModule = getSocialRecoveryValidator({
+      threshold: 1,
+      guardians: checksummedGuardians,
+    })
+
+    const [, sortedGuardians] = decodeAbiParameters(
+      [{ type: 'uint256' }, { type: 'address[]' }],
+      installSocialRecoveryModule.initData,
+    ) as [bigint, Address[]]
+
+    const asUint160 = sortedGuardians.map((g) => BigInt(g))
+    expect(asUint160[0]! < asUint160[1]!).toBe(true)
+    expect(sortedGuardians.map((g) => g.toLowerCase())).toEqual([
+      guardianA.toLowerCase(),
+      guardianB.toLowerCase(),
+    ])
+
+    // The input array (already in the correct numeric order) must not be
+    // reordered in place by the sort - a plain `.sort()` on the checksummed
+    // strings above WOULD swap these two elements.
+    expect(checksummedGuardians).toEqual([guardianA, guardianB])
   })
 })

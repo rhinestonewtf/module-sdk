@@ -6,6 +6,7 @@ import {
   encodePacked,
   getAddress,
   Hex,
+  isAddressEqual,
   PublicClient,
 } from 'viem'
 import { Account } from '../../account/types'
@@ -64,7 +65,9 @@ export const getRemoveSocialRecoveryGuardianAction = async ({
   const guardians = await getSocialRecoveryGuardians({ account, client })
   let prevGuardian: Address
 
-  const currentGuardianIndex = guardians.findIndex((g) => g === guardian)
+  const currentGuardianIndex = guardians.findIndex((g) =>
+    isAddressEqual(g, guardian),
+  )
 
   if (currentGuardianIndex === -1) {
     throw new Error('Guardian not found')
