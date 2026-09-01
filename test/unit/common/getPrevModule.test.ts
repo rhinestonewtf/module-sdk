@@ -163,5 +163,36 @@ describe('getPreviousModule', () => {
         expect.objectContaining({ functionName: 'getExecutorsPaginated' }),
       )
     })
+
+    it('also falls back on-chain when the indexer succeeds but has no entry for this type yet (indexing lag)', async () => {
+      jest.spyOn(client, 'getChainId').mockResolvedValue(11155111)
+      // Indexer responds successfully, but only knows about the
+      // executor - the validator was installed too recently for it
+      // to have indexed yet.
+      jest.spyOn(global, 'fetch').mockResolvedValue({
+        ok: true,
+        json: async () => ({
+          data: {
+            SmartAccount_ModuleQuery: [
+              { moduleAddress: executorA.module, moduleTypeId: 2 },
+            ],
+          },
+        }),
+      } as Response)
+      jest.spyOn(client, 'readContract').mockImplementation(async ({ functionName }) => {
+        if (functionName === 'getValidatorsPaginated') {
+          return [[validatorA.module], '0x0000000000000000000000000000000000000001']
+        }
+        throw new Error(`unexpected call: ${functionName}`)
+      })
+
+      const prev = await getPreviousModule({
+        client,
+        account,
+        module: validatorA,
+      })
+
+      expect(prev).toEqual('0x0000000000000000000000000000000000000001')
+    })
   })
 })

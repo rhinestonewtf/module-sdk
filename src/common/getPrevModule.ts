@@ -29,29 +29,37 @@ const getInstalledModulesForType = async ({
   client: PublicClient
   moduleType: 'validator' | 'executor'
 }): Promise<Address[]> => {
+  let modules: Address[] = []
   try {
-    const modules = await getInstalledModulesWithType({ account, client })
     const targetTypeId = moduleTypeIds[moduleType]
-    return modules
+    const indexed = await getInstalledModulesWithType({ account, client })
+    modules = indexed
       .filter((module) => module.moduleTypeId === targetTypeId)
       .map((module) => module.moduleAddress)
-  } catch (e) {
-    // Indexer unreachable or errored - fall back to reading the
-    // on-chain paginated list directly, scoped to the same module
-    // type so this can never mix a validator's neighbours with an
-    // executor's (or vice versa).
+  } catch (e) {}
+
+  if (modules.length === 0) {
+    // Indexer unreachable, errored, or (matching the same
+    // length-triggered fallback the safe/erc7579-implementation/nexus
+    // `getInstalledModules.ts` wrappers use) returned nothing for this
+    // type - e.g. indexing lag right after installing a module. Fall
+    // back to reading the on-chain paginated list directly, scoped to
+    // the same module type so this can never mix a validator's
+    // neighbours with an executor's (or vice versa).
     const functionName =
       moduleType === 'validator'
         ? 'getValidatorsPaginated'
         : 'getExecutorsPaginated'
-    const [modules] = await client.readContract({
+    const [onChainModules] = await client.readContract({
       address: account.address,
       abi: paginatedModulesAbi,
       functionName,
       args: [SENTINEL_ADDRESS, 100n],
     })
-    return [...modules]
+    modules = [...onChainModules]
   }
+
+  return modules
 }
 
 export const getPreviousModule = async ({
