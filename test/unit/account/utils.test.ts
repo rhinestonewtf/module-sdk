@@ -9,7 +9,6 @@ describe('isAccount', () => {
     const validAccount: Account = {
       address: testAddress,
       type: 'kernel',
-      deployedOnChains: [1, 2, 3],
     }
     expect(isAccount(validAccount)).toBe(true)
   })
@@ -18,7 +17,6 @@ describe('isAccount', () => {
     const invalidAccount = {
       address: '1234567890abcdef',
       type: 'kernel',
-      deployedOnChains: [1, 2, 3],
     }
     expect(isAccount(invalidAccount)).toBe(false)
   })
@@ -28,15 +26,6 @@ describe('isAccount', () => {
       address: testAddress,
       type: 'invalid-type',
       deployedOnChains: [1, 2, 3],
-    }
-    expect(isAccount(invalidAccount)).toBe(false)
-  })
-
-  test('should return false for an object with an invalid deployedOnChains', () => {
-    const invalidAccount = {
-      address: testAddress,
-      type: 'kernel',
-      deployedOnChains: ['1', '2', '3'],
     }
     expect(isAccount(invalidAccount)).toBe(false)
   })
@@ -52,7 +41,6 @@ describe('isAccount', () => {
     const validAccount: Account = {
       address: testAddress,
       type: 'kernel',
-      deployedOnChains: [1, 2, 3],
       initCode: '0xabcdef',
     }
     expect(isAccount(validAccount)).toBe(true)
@@ -62,7 +50,6 @@ describe('isAccount', () => {
     const invalidAccount = {
       address: testAddress,
       type: 'kernel',
-      deployedOnChains: [1, 2, 3],
       initCode: 'abcdef',
     }
     expect(isAccount(invalidAccount)).toBe(false)
