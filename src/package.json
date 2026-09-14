@@ -4,7 +4,7 @@
   "description": "A TypeScript library for using Smart Account Modules in Applications",
   "author": {
     "name": "Rhinestone",
-    "url": "https://rhinestone.wtf"
+    "url": "https://www.rhinestone.dev"
   },
   "license": "MIT",
   "main": "./_cjs/index.js",
@@ -37,7 +37,7 @@
   "peerDependencies": {
     "viem": "^2.0.0"
   },
-  "homepage": "https://docs.rhinestone.wtf/module-sdk",
+  "homepage": "https://erc7579.com/tooling/module-sdk",
   "bugs": {
     "url": "https://github.com/rhinestonewtf/module-sdk/issues"
   },
