@@ -29,7 +29,7 @@ The Module SDK allows you to:
   - Scheduled Transfers: Transfer funds on a specified schedule
   - Social Recovery: Recover your account using a set of guardians
 
-In-depth documentation is available at [docs.rhinestone.wtf](https://docs.rhinestone.wtf/module-sdk/).
+In-depth documentation is available at [erc7579.com](https://erc7579.com/tooling/module-sdk).
 
 ## Using the ModuleSDK
 
