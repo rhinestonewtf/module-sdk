@@ -17,7 +17,7 @@
     "prettier:write": "prettier --write \"**/*.{json,md,svg,yml,ts}\"",
     "changeset": "changeset",
     "changeset:release": "npm run build && changeset publish",
-    "changeset:version": "changeset version && npm run install --lockfile-only",
+    "changeset:version": "changeset version && pnpm install --lockfile-only",
     "size": "size-limit"
   },
   "devDependencies": {
