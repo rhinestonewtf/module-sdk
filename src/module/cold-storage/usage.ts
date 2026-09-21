@@ -3,6 +3,7 @@ import {
   encodeFunctionData,
   getAddress,
   Hex,
+  isAddressEqual,
   PublicClient,
 } from 'viem'
 import { abi } from './abi'
@@ -157,8 +158,8 @@ export const getFlashloanRemoveAddressAction = async ({
   const whitelistAddresses = await getFlashloanWhitelist({ account, client })
   let prevAddress: Address
 
-  const currentAddressIndex = whitelistAddresses.findIndex(
-    (a) => a === addressToRemove,
+  const currentAddressIndex = whitelistAddresses.findIndex((a) =>
+    isAddressEqual(a, addressToRemove),
   )
 
   if (currentAddressIndex === -1) {
