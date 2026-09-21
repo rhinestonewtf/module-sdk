@@ -13,7 +13,7 @@ export const encodeValidatorNonce = ({
         ['bytes1', 'bytes1', 'address'],
         [
           '0x00',
-          '0x00',
+          '0x01',
           isKernelModule(validator) ? validator.address : validator,
         ],
       ),
