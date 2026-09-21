@@ -1,0 +1,76 @@
+name: Release
+
+# Push to main opens/updates a "Version Packages" PR via changesets when
+# changesets are pending; merging that PR (which lands a version bump with
+# no pending changesets) makes the next run on main publish to npm.
+# Publishing uses OIDC trusted publishing, not a long-lived npm token.
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  # main's branch protection doesn't require a passing status check, so this
+  # release workflow can't assume ci.yaml gated whatever it's about to publish.
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Code style
+        run: pnpm prettier:check
+
+      - name: Build
+        run: pnpm build
+
+  release:
+    name: Release
+    needs: [build-and-test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Use OIDC-capable npm
+        # No sudo: keep this ahead of pnpm/action-setup's node on PATH.
+        run: npm install -g npm@latest
+
+      - name: Create Release Pull Request or Publish
+        uses: changesets/action@v1
+        with:
+          commit: "chore: release"
+          title: "chore: release"
+          version: npm run changeset:version
+          publish: npm run changeset:release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Trusted publishing only auto-attaches provenance under narrow
+          # conditions; request it explicitly so it isn't silently skipped.
+          NPM_CONFIG_PROVENANCE: true
