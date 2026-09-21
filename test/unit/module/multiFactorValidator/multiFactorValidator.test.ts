@@ -70,6 +70,23 @@ describe('MultiFactor Validator Module', () => {
     expect(setThresholdExecution.callData).toBeDefined()
   })
 
+  it('should get setThreshold execution targeting the V2 (registry-free) MultiFactor when an explicit address is passed', async () => {
+    const setThresholdExecution = getSetMFAThresholdAction({
+      threshold: 2,
+      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    })
+
+    expect(setThresholdExecution.target).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(setThresholdExecution.to).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(setThresholdExecution.target).not.toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    )
+  })
+
   it('should get setValidator execution', async () => {
     const setValidatorExecution = getSetMFAValidatorAction({
       validatorAddress,
@@ -82,6 +99,25 @@ describe('MultiFactor Validator Module', () => {
     )
     expect(setValidatorExecution.value).toEqual(BigInt(0))
     expect(setValidatorExecution.callData).toBeDefined()
+  })
+
+  it('should get setValidator execution targeting the V2 (registry-free) MultiFactor when an explicit address is passed', async () => {
+    const setValidatorExecution = getSetMFAValidatorAction({
+      validatorAddress,
+      validatorId,
+      newValidatorData,
+      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    })
+
+    expect(setValidatorExecution.target).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(setValidatorExecution.to).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(setValidatorExecution.target).not.toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    )
   })
 
   it('should get removeValidator execution', async () => {
@@ -97,6 +133,24 @@ describe('MultiFactor Validator Module', () => {
     expect(removeValidatorExecution.callData).toBeDefined()
   })
 
+  it('should get removeValidator execution targeting the V2 (registry-free) MultiFactor when an explicit address is passed', async () => {
+    const removeValidatorExecution = getRemoveMFAValidatorAction({
+      validatorAddress,
+      validatorId,
+      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    })
+
+    expect(removeValidatorExecution.target).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(removeValidatorExecution.to).toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    )
+    expect(removeValidatorExecution.target).not.toEqual(
+      GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_ADDRESS,
+    )
+  })
+
   it('should isSubValidator return false if subValidator is not installed', async () => {
     const isValidator = await isMFASubValidator({
       account,
@@ -106,5 +160,28 @@ describe('MultiFactor Validator Module', () => {
     })
 
     expect(isValidator).toEqual(false)
+  })
+
+  it('should route isMFASubValidator reads to the V2 (registry-free) MultiFactor when an explicit address is passed', async () => {
+    const readContractSpy = jest
+      .spyOn(client, 'readContract')
+      .mockResolvedValue(true)
+
+    const isValidator = await isMFASubValidator({
+      account,
+      client,
+      validatorId,
+      subValidator: validatorAddress,
+      address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+    })
+
+    expect(isValidator).toEqual(true)
+    expect(readContractSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        address: GLOBAL_CONSTANTS.MULTI_FACTOR_VALIDATOR_V2_ADDRESS,
+      }),
+    )
+
+    readContractSpy.mockRestore()
   })
 })
