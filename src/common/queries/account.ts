@@ -11,13 +11,13 @@ const query = `
     }
   `
 
-export const getInstalledModules = async ({
+const queryIndexer = async ({
   account,
   client,
 }: {
   account: Account
   client: PublicClient
-}): Promise<Address[]> => {
+}): Promise<{ moduleAddress: Address; moduleTypeId: number }[]> => {
   const variables = {
     smartAccount: account.address,
     chainId: await client.getChainId(),
@@ -38,7 +38,10 @@ export const getInstalledModules = async ({
 
   if (response.ok) {
     return responseBody.data.SmartAccount_ModuleQuery.map(
-      (module: any) => module.module,
+      (module: any) => ({
+        moduleAddress: module.moduleAddress,
+        moduleTypeId: module.moduleTypeId,
+      }),
     )
   } else {
     throw new Error(
@@ -47,4 +50,29 @@ export const getInstalledModules = async ({
         .join(', ')}`,
     )
   }
+}
+
+export const getInstalledModules = async ({
+  account,
+  client,
+}: {
+  account: Account
+  client: PublicClient
+}): Promise<Address[]> => {
+  const modules = await queryIndexer({ account, client })
+  return modules.map((module) => module.moduleAddress)
+}
+
+// Same indexer query as `getInstalledModules`, but preserves `moduleTypeId`
+// instead of discarding it, so callers that need to distinguish module
+// types (e.g. finding the previous entry in a specific per-type linked
+// list) don't have to re-derive it from an address-only list.
+export const getInstalledModulesWithType = async ({
+  account,
+  client,
+}: {
+  account: Account
+  client: PublicClient
+}): Promise<{ moduleAddress: Address; moduleTypeId: number }[]> => {
+  return queryIndexer({ account, client })
 }

@@ -1,8 +1,66 @@
-import { PublicClient, Address, getAddress } from 'viem'
+import { PublicClient, Address, getAddress, parseAbi } from 'viem'
 import { Module } from '..'
 import { SENTINEL_ADDRESS } from './constants'
-import { getInstalledModules } from './queries'
+import { getInstalledModulesWithType } from './queries/account'
 import { Account } from '../account'
+import { moduleTypeIds } from '../module/types'
+
+// `getValidatorsPaginated`/`getExecutorsPaginated` have the identical
+// signature across the safe / erc7579-implementation / nexus account
+// types (the only three account types that ever call
+// `getPreviousModule` - see `_uninstallModule` in each), so one shared
+// ABI fragment is safe to reuse here rather than importing a
+// per-account-type copy.
+const paginatedModulesAbi = parseAbi([
+  'function getValidatorsPaginated(address cursor, uint256 size) view returns (address[], address)',
+  'function getExecutorsPaginated(address cursor, uint256 size) view returns (address[], address)',
+])
+
+// Only 'validator' and 'executor' modules are linked-list-ordered and
+// ever reach this function; 'hook'/'fallback' uninstalls never call
+// `getPreviousModule` (see `_uninstallModule` in
+// safe/erc7579-implementation/nexus's `uninstallModule.ts`).
+const getInstalledModulesForType = async ({
+  account,
+  client,
+  moduleType,
+}: {
+  account: Account
+  client: PublicClient
+  moduleType: 'validator' | 'executor'
+}): Promise<Address[]> => {
+  let modules: Address[] = []
+  try {
+    const targetTypeId = moduleTypeIds[moduleType]
+    const indexed = await getInstalledModulesWithType({ account, client })
+    modules = indexed
+      .filter((module) => module.moduleTypeId === targetTypeId)
+      .map((module) => module.moduleAddress)
+  } catch (e) {}
+
+  if (modules.length === 0) {
+    // Indexer unreachable, errored, or (matching the same
+    // length-triggered fallback the safe/erc7579-implementation/nexus
+    // `getInstalledModules.ts` wrappers use) returned nothing for this
+    // type - e.g. indexing lag right after installing a module. Fall
+    // back to reading the on-chain paginated list directly, scoped to
+    // the same module type so this can never mix a validator's
+    // neighbours with an executor's (or vice versa).
+    const functionName =
+      moduleType === 'validator'
+        ? 'getValidatorsPaginated'
+        : 'getExecutorsPaginated'
+    const [onChainModules] = await client.readContract({
+      address: account.address,
+      abi: paginatedModulesAbi,
+      functionName,
+      args: [SENTINEL_ADDRESS, 100n],
+    })
+    modules = [...onChainModules]
+  }
+
+  return modules
+}
 
 export const getPreviousModule = async ({
   account,
@@ -13,9 +71,15 @@ export const getPreviousModule = async ({
   account: Account
   module: Module
 }): Promise<Address> => {
-  let installedModules = await getInstalledModules({
-    client,
+  if (module.type !== 'validator' && module.type !== 'executor') {
+    throw new Error(
+      `getPreviousModule only supports 'validator' and 'executor' modules, got '${module.type}'`,
+    )
+  }
+  const installedModules = await getInstalledModulesForType({
     account,
+    client,
+    moduleType: module.type,
   })
   const index = installedModules.indexOf(getAddress(module.module))
   if (index === 0) {
