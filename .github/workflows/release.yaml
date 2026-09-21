@@ -28,9 +28,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      # ci.yaml pins pnpm 8, but pnpm-lock.yaml is lockfileVersion 9.0 (pnpm
+      # >=9); pnpm 8 can't parse that and silently discards + regenerates the
+      # lockfile instead of failing loudly. Pin to match the actual lockfile.
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
           run_install: true
 
       - name: Code style
@@ -53,7 +56,7 @@ jobs:
 
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
           run_install: true
 
       - name: Setup Node.js
